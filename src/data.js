@@ -1,15 +1,17 @@
+import {HUB_LAYOUTS} from './hub-layouts.js?v=19';
 export const WORLD = { width: 1920, height: 1280 };
 export const SPELLS = {
   tide: { name: 'Getijdenwaaier', short: 'GETIJ', color: '#73e2e5', dark: '#126c8b', key: '1', damage: 13, cost: 4, interval: .22, speed: 780, radius: 11, status: 'wet', description: 'Drie waterbogen waaieren uit en maken doelen NAT. Wissel naar storm voor kettingbliksem.' },
   storm: { name: 'Boogbliksem', short: 'STORM', color: '#ceb2ff', dark: '#7958ca', key: '2', damage: 20, cost: 8, interval: .4, speed: 1000, radius: 9, status: 'shock', description: 'Natte doelen geven +70% schade en leiden bliksem door naar twee vijanden.' },
   ember: { name: 'Zonnebom', short: 'ZON', color: '#ffbc66', dark: '#b74c27', key: '3', damage: 30, cost: 12, interval: .7, speed: 620, radius: 15, status: 'burn', description: 'Een gebogen vuurbom ontploft op de grond en laat brandschade achter. NAT + ZON veroorzaakt een stoomgolf.' },
+  prism:{name:'Prismaboog',short:'PRISMA',color:'#ffe49a',dark:'#c18340',damage:44,cost:28,interval:2.8,speed:960,radius:12,unlockLevel:7,shopOnly:true,description:'Richt een vliegende prismalans. Na een treffer springt hij naar maximaal twee andere doelen; iedere sprong doet 25% minder schade. Exclusief bij de Focusmaker vanaf Veldmakers, 650 schroot.'},
   frost: {name:'IJslans',short:'IJS',color:'#a9edff',dark:'#468ca7',damage:28,cost:11,interval:.55,speed:1080,radius:10,unlockLevel:2,status:'slow',description:'Een scherpe lans doorboort de hele rij. Vertraagt; natte doelen bevriezen kort.'},
   gale: {name:'Windboemerang',short:'WIND',color:'#b7f1bd',dark:'#428c75',damage:19,cost:9,interval:.65,speed:590,radius:24,unlockLevel:3,status:'push',description:'Een draaiende windschijf raakt op de heen- én terugweg en duwt vijanden weg.'},
   gravity: {name:'Zwaartekern',short:'KERN',color:'#e3a7ff',dark:'#8652a0',damage:42,cost:20,interval:1.3,speed:240,radius:22,unlockLevel:4,status:'pull',description:'Een trage kern trekt vijanden samen en implodeert. Volg op met een zonnebom.'}
-  ,glacier:{name:'Gletsjerring',short:'VRIES',color:'#a9edff',dark:'#42829b',damage:18,cost:26,interval:4.5,radius:185,unlockLevel:3,element:'frost',area:true,duration:3,description:'Een blijvend ijsveld bij je doel. Raakt elke halve seconde, vertraagt en bevriest natte vijanden.'},
-  cyclone:{name:'Cycloon',short:'CYCL.',color:'#b7f1bd',dark:'#428c75',damage:16,cost:30,interval:5.5,radius:190,unlockLevel:4,element:'gale',area:true,duration:3.5,description:'Een bewegende wervelwind trekt een groep samen en raakt herhaaldelijk. Volgt je gekozen richting.'},
-  tempest:{name:'Stormfront',short:'FRONT',color:'#ceb2ff',dark:'#7958ca',damage:24,cost:34,interval:6,radius:205,unlockLevel:5,element:'storm',area:true,duration:3,description:'Een storm boven je doel slaat meerdere keren toe. Natte groepen geleiden de bliksem.'},
-  orbital:{name:'Zonneval',short:'VAL',color:'#ffbc66',dark:'#b74c27',damage:40,cost:38,interval:7,radius:220,unlockLevel:6,element:'ember',area:true,duration:2.5,description:'Na een waarschuwing vallen drie zonnekernen in het gekozen gebied. Grote explosies, brand en sporenherstel.'}
+  ,glacier:{name:'IJsbarrière',short:'VRIES',color:'#a9edff',dark:'#42829b',damage:18,cost:26,interval:4.5,radius:185,unlockLevel:3,element:'frost',area:true,duration:3,description:'Een smalle, dwars op je richting geplaatste ijsbarrière. Alleen vijanden in de strook worden vertraagd; natte doelen bevriezen.'},
+  cyclone:{name:'Cycloon',short:'CYCL.',color:'#b7f1bd',dark:'#428c75',damage:16,cost:30,interval:5.5,radius:125,unlockLevel:4,element:'gale',area:true,duration:3.5,description:'Een smalle rondtrekkende tornado. Trekt vijanden naar zijn kern en sleept de groep mee in je gekozen richting.'},
+  tempest:{name:'Stormfront',short:'FRONT',color:'#ceb2ff',dark:'#7958ca',damage:24,cost:34,interval:6,radius:205,unlockLevel:5,element:'storm',area:true,duration:3,description:'Een onweerswolk kiest per salvo maximaal drie verschillende doelen. Gerichte blikseminslagen ketenen via natte vijanden.'},
+  orbital:{name:'Zonneval',short:'VAL',color:'#ffbc66',dark:'#b74c27',damage:70,cost:38,interval:7,radius:220,unlockLevel:6,element:'ember',area:true,duration:2.5,description:'Drie afzonderlijk aangekondigde zonne-inslagen, na 0,6 / 1,35 / 2,1 seconden. Elke krater verbrandt vijanden en ruimt sporen op.'}
 };
 export const ZONES = [
   { id:'flood', name:'De Verdronken Ring', subtitle:'Rotterdam · de laatste droge perrons', file:'flood-arena.webp', accent:'#73d7d8', ambient:[21,60,70], core:'Atmosferische lens', story:'De ringweg is een rivier geworden. Herstel de twee meetstations en berg de lens die de stormlaag kan lezen.', rule:'Water vertraagt en maakt iedereen nat. Geleid storm door vijandgroepen.', hazard:'water', enemies:['crawler','drone','raider','sniper','turret'], biomeText:'Een stad op de waterlijn', log:'De lens leest wolken, aerosolen en vocht. Het klimaat sturen begint met begrijpen wat er al beweegt.' },
@@ -852,4 +854,116 @@ export const AREAS = [
   }
 ];
 
+
+// Combat story chapters: each has two groups and its own painted court.
+const expeditionFloor=[[.22,.24],[.68,.18],[.84,.25],[.88,.47],[.87,.55],[.76,.69],[.61,.72],[.52,.76],[.30,.72],[.20,.65],[.15,.50]];
+AREAS.push(
+ {id:'delta',name:'De Rietdelta',file:'reed-delta.webp',zone:0,kind:'hub',side:true,nav:[expeditionFloor],links:['canal'],map:[13,36],unlockCore:0,story:'Herstel een drooggelegd onderhoudseiland. Versla beide groepen en de schrootbewaker.'},
+ {id:'mirrors',name:'De Spiegelvelden',file:'mirror-fields.webp',zone:1,kind:'hub',side:true,nav:[expeditionFloor],links:['highway'],map:[46,15],unlockCore:1,story:'Een verlaten zonnepark herbergt de Breker. Win de twee gevechtsgroepen voor een expeditievondst.'},
+ {id:'glass',name:'Het Kasfront',file:'glass-front.webp',zone:2,kind:'hub',side:true,nav:[expeditionFloor],links:['forest'],map:[77,17],unlockCore:2,story:'Bevrijd de biokoepel van sporendragers en hun elite. De veilige terugweg opent na beide groepen.'},
+ {id:'harbor',name:'De Stormhaven',file:'storm-harbor.webp',zone:3,kind:'hub',side:true,nav:[expeditionFloor],links:['skybridge'],map:[70,83],unlockCore:3,story:'Het laatste onderhoudsplatform wordt bewaakt door stormmachines. Doorsta twee groepen en berg de beloning.'}
+);
+for(const [camp,id,point]of [['canal','delta',[1222/1920,460/1280]],['highway','mirrors',[1222/1920,508/1280]],['forest','glass',[1174/1920,476/1280]],['skybridge','harbor',[1062/1920,828/1280]]]){const area=AREAS.find(a=>a.id===camp);area.links.push(id);area.portalPoints.push(point);}
+
+// Painted stairs and terraces need a connected floor, including the player's radius.
+const quay=AREAS.find(a=>a.id==='canal');
+// Trace in painted world pixels: stairs must include their full visible width,
+// not just a connected strip that a pathfinder happens to squeeze through.
+const quayFloor=points=>points.map(([x,y])=>[x/WORLD.width,y/WORLD.height]);
+quay.nav[1]=quayFloor([[1010,540],[1115,510],[1195,645],[1220,675],[1160,715],[1080,665],[1030,620]]);
+quay.nav[2]=quayFloor([[1080,635],[1200,650],[1280,640],[1425,725],[1420,795],[1300,850],[1210,865],[1080,775],[1025,685],[1035,650]]);
+quay.nav.push(
+ quayFloor([[1438,342],[1568,296],[1605,338],[1640,422],[1630,475],[1585,506],[1510,460],[1465,407]]),
+ quayFloor([[1510,448],[1595,437],[1740,487],[1775,551],[1710,597],[1600,579],[1525,519]]),
+ // The painted arrival square is a side plaza, rather than scenery to walk around.
+ [[.095,.696],[.168,.633],[.237,.635],[.271,.700],[.217,.766],[.146,.790],[.078,.766],[.056,.741]],
+ // The right stairhead continues beyond the old rectangular road cutoff.
+ quayFloor([[1475,300],[1580,240],[1670,225],[1680,255],[1585,342],[1520,380]])
+);
+for(const [id,layout]of Object.entries(HUB_LAYOUTS))AREAS.find(a=>a.id===id).nav.push(...layout.floors.map(quayFloor));
+AREAS.push(
+ {id:'brine',name:'De Zoutcentrale',file:'salt-works.webp',zone:1,kind:'hub',side:true,nav:[expeditionFloor],links:['highway'],map:[56,23],unlockCore:1,enemies:['minecrab','sniper','brinebreaker','sentinel'],guardian:'brinebreaker'},
+ {id:'clouds',name:'Het Wolkenarchief',file:'cloud-archive.webp',zone:3,kind:'hub',side:true,nav:[expeditionFloor],links:['skybridge'],map:[87,15],unlockCore:3,enemies:['resonant','stormling','minecrab','brinebreaker'],guardian:'resonant'}
+);
+Object.assign(ENEMIES,{
+ minecrab:{name:'Magneetkrab',sprite:'minecrab',atlas:'v52',hp:140,damage:16,speed:94,radius:25,size:87,range:440,xp:20,color:'#dfa969',attack:'mines',role:'ranged'},
+ resonant:{name:'Resonant',sprite:'resonant',atlas:'v52',hp:165,damage:15,speed:128,radius:24,size:112,range:580,xp:26,color:'#93dbe2',attack:'echo',role:'orbit'},
+ brinebreaker:{name:'Pekelbreker',sprite:'brinebreaker',atlas:'v52',hp:275,damage:19,speed:77,radius:30,size:127,range:310,xp:30,color:'#e2d4b0',attack:'brinejet',role:'tank'}
+});
+// Introduce the new families gradually and preserve regional character.
+AREAS.find(a=>a.id==='delta').enemies=['crawler','drone','minecrab'];
+AREAS.find(a=>a.id==='mirrors').enemies=['sniper','sentinel','minecrab'];
+AREAS.find(a=>a.id==='glass').enemies=['sporecaster','beast','resonant'];
+AREAS.find(a=>a.id==='harbor').enemies=['siege','stormling','brinebreaker','resonant'];
+
+Object.assign(ENEMIES,{
+ eel:{name:'Boogjager',sprite:'resonant',atlas:'v52',hp:115,damage:12,speed:165,radius:22,size:83,range:340,xp:18,color:'#71e7dc',role:'orbit'},
+ salamander:{name:'Asgraver',sprite:'crawler',atlas:'expedition',hp:170,damage:16,speed:115,radius:23,size:88,range:440,xp:22,color:'#ef9460',role:'ranged'},
+ shieldguard:{name:'Schildrover',sprite:'sentinel',atlas:'expedition',hp:195,damage:18,speed:105,radius:27,size:105,range:155,xp:24,color:'#a2d993',role:'tank'},
+ stormnest:{name:'Stormnest',sprite:'stormling',atlas:'expedition',hp:210,damage:12,speed:60,radius:28,size:112,range:520,xp:28,color:'#caaff1',role:'ranged'},
+ dredger:{name:'De Getijdenmaaier',sprite:'minecrab',atlas:'v52',boss:true,hp:760,damage:20,speed:77,radius:40,size:173,range:530,xp:65,color:'#9de6d5',role:'tank'},
+ solarKnight:{name:'De Spiegelvorst',sprite:'brinebreaker',atlas:'v52',boss:true,hp:860,damage:21,speed:82,radius:39,size:183,range:620,xp:75,color:'#ffd185',role:'tank'},
+ seedheart:{name:'Het Kiemhart',sprite:2,boss:true,hp:1000,damage:20,speed:63,radius:42,size:195,range:540,xp:85,color:'#b9e992',role:'tank'}
+});
+ENEMIES.boss.boss=true;
+ZONES[0].enemies=['crawler','drone','eel','raider','shieldguard','sniper'];
+ZONES[1].enemies=['salamander','sniper','sentinel','minecrab','shieldguard','turret'];
+ZONES[2].enemies=['beast','sporecaster','stormnest','eel','shieldguard','resonant'];
+ZONES[3].enemies=['siege','stormnest','resonant','salamander','brinebreaker','eel'];
+for(const [id,types]of Object.entries({delta:['crawler','drone','eel','shieldguard'],mirrors:['sniper','salamander','minecrab','shieldguard'],brine:['minecrab','brinebreaker','salamander'],glass:['sporecaster','beast','stormnest','eel'],harbor:['siege','stormnest','eel','resonant'],clouds:['resonant','stormnest','brinebreaker','shieldguard']}))AREAS.find(a=>a.id===id).enemies=types;
+AREAS.push(
+ {id:'salvage',name:'De Schrootgetijden',file:'salvage-yard.webp',zone:0,kind:'hub',side:true,optional:true,nav:[expeditionFloor],links:['canal'],map:[8,70],unlockCore:1,enemies:['crawler','eel','toxinbeetle'],guardian:'toxinbeetle',story:'Optionele berging: twee gevechtsgroepen, een schrootbeloning en een willekeurige vondst. Opnieuw betreden start een nieuwe berging.'},
+ {id:'depot',name:'Het Vergeten Depot',file:'forgotten-depot.webp',zone:1,kind:'hub',side:true,optional:true,nav:[expeditionFloor],links:['highway'],map:[55,78],unlockCore:1,enemies:['shieldguard','sniper','chemist','salamander'],guardian:'chemist',story:'Optionele zoektocht: versla twee groepen voor schroot en een vondst. Vijanden schalen mee met je level; je kunt opnieuw terugkomen.'}
+);
+AREAS.push(
+ {id:'bounty-spore',name:'Het Sporenbassin',file:'bounty-spore-v57.webp',zone:2,kind:'hub',side:true,optional:true,bounty:true,nav:[[[.14,.28],[.4,.25],[.6,.25],[.86,.19],[.95,.3],[.9,.54],[.76,.67],[.56,.78],[.4,.77],[.25,.84],[.1,.79],[.06,.63],[.08,.49]]],links:['forest'],map:[70,80],unlockChapter:'forest',story:'Vanaf hoofdstuk 9: één zware gifbaas, zonder helpers. Herhaalbaar; kies uitrusting of schroot als beloning.'},
+ {id:'bounty-solar',name:'De Zonneoven',file:'bounty-solar-v57.webp',zone:3,kind:'hub',side:true,optional:true,bounty:true,nav:[[[.12,.24],[.42,.17],[.69,.17],[.85,.27],[.92,.48],[.89,.66],[.73,.82],[.53,.88],[.25,.85],[.11,.71],[.07,.47]]],links:['skybridge'],map:[88,75],unlockChapter:'harbor',story:'Vanaf hoofdstuk 14: één zware zonnebaas, zonder helpers. Herhaalbaar; kies betere uitrusting of meer schroot.'}
+);
 export const AREA_BY_ID=Object.fromEntries(AREAS.map(a=>[a.id,a]));
+
+Object.assign(ENEMIES,{toxinbeetle:{name:'Spuitkever',sprite:'toxinbeetle',hp:145,damage:10,speed:92,radius:25,size:95,range:390,xp:22,color:'#badb69',role:'ranged'},chemist:{name:'Gifmeester',sprite:'chemist',hp:175,damage:13,speed:110,radius:25,size:116,range:380,xp:27,color:'#c0dc72',role:'ranged'}});
+AREAS.find(a=>a.id==='glass').enemies.push('toxinbeetle');
+ZONES[2].enemies.push('chemist');
+ZONES[3].enemies.push('toxinbeetle');
+
+// The Zonnetuinen stairway continues onto the north terrace and its side cache.
+const roof=AREAS.find(a=>a.id==='rooftops');
+roof.nav.push(...[
+ [[280,190],[405,145],[575,280],[740,390],[795,460],[740,490],[565,360],[435,290],[320,255]],
+ [[950,500],[1140,490],[1180,560],[1150,610],[1080,630],[1010,570]],
+ [[1050,665],[1160,670],[1340,745],[1500,825],[1500,880],[1400,925],[1260,885],[1160,840],[1060,805],[1020,730]],
+ [[285,820],[375,790],[420,880],[545,1045],[710,1215],[670,1260],[580,1170],[465,1055],[350,940]]
+].map(poly=>poly.map(([x,y])=>[x/WORLD.width,y/WORLD.height])));
+
+// Endgame arenas are separate from the sixteen-chapter expedition.
+for(const [id,name,file]of [['trial-tide','Dijkbreker','trial-tide.webp'],['trial-glass','Glasstorm','trial-glass.webp'],['trial-null','Nulfront','trial-null.webp']])AREAS.push({id,name,file,zone:3,kind:'challenge',endgame:true,nav:[expeditionFloor],spawn:[.2,.65],exit:[POSITIONS.exit.x/WORLD.width,POSITIONS.exit.y/WORLD.height],links:['skybridge'],map:[90,90],unlockCore:4,story:'Herhaalbare tijdproef na Aurelia · vier golven · drie moeilijkheidsgraden.'});
+Object.assign(AREA_BY_ID,Object.fromEntries(AREAS.map(a=>[a.id,a])));
+
+// v6: constructiebouw en vijandrollen met eigen geschilderde houdingen.
+SPELLS.summon={name:'Schrootconstructie',short:'DRONE',color:'#8ae5d9',dark:'#326e75',damage:0,cost:42,interval:18,unlockLevel:4,radius:20,description:'Roep tijdelijke constructies op. Kies verkenners of een wachtconstructie via K; T geeft een doel onder je cursor. Iedere oproep vervangt de vorige groep.'};
+Object.assign(ENEMIES,{
+ bulwark:{name:'Bastiondrager',sprite:'bulwark',hp:210,damage:17,speed:88,radius:28,size:125,range:175,xp:25,color:'#e8bd7c',role:'tank',v6row:0},
+ plaguewright:{name:'Sporenmeester',sprite:'plaguewright',hp:165,damage:12,speed:98,radius:25,size:115,range:460,xp:26,color:'#bfdc6e',role:'ranged',v6row:1},
+ hunter:{name:'Dakjager',sprite:'hunter',hp:120,damage:17,speed:160,radius:22,size:105,range:350,xp:22,color:'#dc947d',role:'ranged',v6row:2},
+ repairer:{name:'Herstelautomaat',sprite:'repairer',hp:110,damage:9,speed:105,radius:22,size:90,range:460,xp:22,color:'#eec187',role:'ranged',v6row:3},
+ tideleviathan:{name:'De Sporenregent',sprite:'tideleviathan',hp:960,damage:23,speed:66,radius:43,size:200,range:680,xp:90,color:'#8fe4d6',boss:true,role:'tank',v6boss:0},
+ solararchitect:{name:'De Zonnebeul',sprite:'solararchitect',hp:1060,damage:25,speed:76,radius:42,size:200,range:680,xp:100,color:'#ffcd88',boss:true,role:'tank',v6boss:1}
+});
+for(const [id,list]of Object.entries({mirrors:['sniper','hunter','repairer','bulwark'],brine:['minecrab','brinebreaker','hunter','bulwark'],glass:['sporecaster','beast','plaguewright','repairer'],harbor:['siege','stormnest','hunter','bulwark'],clouds:['resonant','repairer','brinebreaker','plaguewright']}))AREA_BY_ID[id].enemies=list;
+const workshopFloor=AREA_BY_ID.depot;
+AREAS.push({id:'workshop-v6',name:'De Afgesloten Werkplaats',file:workshopFloor.file,zone:1,kind:'hub',side:true,optional:true,nav:workshopFloor.nav,spawn:workshopFloor.spawn,exit:workshopFloor.exit,links:['highway'],unlockCore:1,enemies:['hunter','bulwark','repairer','plaguewright'],map:[33,61],story:'Optionele berging in Vrijhaven · constructieprotocol en schroot.'});
+AREA_BY_ID['workshop-v6']=AREAS.at(-1);
+
+// Vrijhaven: connected plazas traced against the new painted city.
+const cityPixels=[
+ [[443,563],[650,493],[930,515],[990,621],[968,741],[841,787],[651,758],[487,689]],
+ [[103,195],[226,148],[400,169],[538,261],[493,312],[345,285],[269,311],[130,288],[87,242]],
+ [[455,239],[554,271],[645,353],[733,431],[773,497],[690,547],[624,477],[590,390],[521,327],[438,290]],
+ [[1056,258],[1218,224],[1370,270],[1412,363],[1301,462],[1189,476],[1111,409],[1023,377]],
+ [[720,482],[946,365],[1028,368],[1128,327],[1199,392],[968,548],[873,613]],
+ [[908,687],[1029,675],[1520,900],[1535,957],[1464,985],[1241,850],[989,748]],
+ [[180,545],[358,515],[512,556],[603,559],[590,663],[458,681],[375,665],[265,630],[180,600]],
+ [[20,515],[110,505],[260,550],[285,580],[260,615],[144,595],[18,575]]
+];
+const cityArea=AREA_BY_ID.highway;cityArea.name='Vrijhaven · Het Transportnet';cityArea.file='city-v6.webp';cityArea.nav=cityPixels.map(poly=>poly.map(([x,y])=>[x/1536,y/1024]));cityArea.spawn=[.46,.64];cityArea.exit=[.77,.79];
+Object.assign(HUB_LAYOUTS.highway,{portals:{mirrors:[430,255],brine:[580,790],kilometer:[1850,1150],forest:[1550,1000],depot:[1140,720],'workshop-v6':[1575,360]},services:{smith:[335,700],outfitter:[1040,880],workshop:[1390,400]},cache:[1030,680],supply:[190,280]});

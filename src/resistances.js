@@ -1,0 +1,4 @@
+export const RESISTANCES={poisonResist:{name:'Gifweerstand',element:'toxin',art:'seed-heart',color:'#6b8d46'},fireResist:{name:'Vuurweerstand',element:'fire',art:'ash-boots',color:'#a56437'},stormResist:{name:'Bliksemweerstand',element:'storm',art:'copper-gauntlets',color:'#775a99'},waterResist:{name:'Waterweerstand',element:'water',art:'tide-coat',color:'#3b7e91'}};
+export const RESISTANCE_CAP=.6;
+export const resistance=(stats,key)=>Math.max(0,Math.min(RESISTANCE_CAP,Number(stats[key])||0));
+export function damageResistance(stats,type){const key={venom:'poisonResist',venomHit:'poisonResist',poison:'poisonResist',toxin:'poisonResist',fire:'fireResist',solar:'fireResist',heat:'fireResist',storm:'stormResist',electric:'stormResist',water:'waterResist'}[type];return key?resistance(stats,key):0;}

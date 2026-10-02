@@ -29,8 +29,8 @@ test('Vertical dash stays vertical; it spends charges and prevents damage',()=>{
 test('Beam warning locks its direction; moving out avoids the attack',()=>{
  const g=quiet(),p=g.state.player;p.x=700;p.y=650;const e=target(g,'turret',1000,650);g.planAttack(e);const dir=copy(e.windup.dir);p.y=480;g.executeEnemyAttack(e);assert.equal(p.hp,100);assert.deepEqual(e.windup.dir,dir);p.y=650;p.invincible=0;g.executeEnemyAttack(e);assert(p.hp<100);
 });
-test('Climate water wets enemies; poison deals periodic damage after leaving',()=>{
- const g=quiet(),p=g.state.player,e=target(g,'turret',p.x+30,p.y);g.state.world.hazards=[{x:p.x,y:p.y,r:90,type:'water'}];g.update(.1);assert(p.wet>0&&e.wet>0);g.state.world.hazards=[{x:p.x,y:p.y,r:90,type:'spore'}];advance(g,1.1);assert(p.hp<=96&&p.hp>=95);g.state.world.hazards=[];advance(g,1.1);assert(p.hp<=92);
+test('Climate water wets enemies; spore infection deals delayed fifty-percent poison',()=>{
+ const g=quiet(),p=g.state.player,e=target(g,'turret',p.x+30,p.y);g.state.world.hazards=[{x:p.x,y:p.y,r:90,type:'water'}];g.update(.1);assert(p.wet>0&&e.wet>0);p.invincible=0;g.state.world.hazards=[{x:p.x,y:p.y,r:90,type:'spore'}];advance(g,1.1);assert.equal(p.hp,93.75);assert(p.venom>7);g.state.world.hazards=[];advance(g,1.1);assert.equal(p.hp,87.5);
 });
 test('A sun projectile clears spores even when there is no enemy to hit',()=>{
  const g=quiet(),p=g.state.player;p.x=550;p.y=600;g.state.world.hazards=[{x:700,y:580,r:60,type:'spore'}];g.selectSpell('ember');g.aimAt(700,600);g.cast();advance(g,1);assert(g.state.world.hazards[0].cleared);
@@ -57,26 +57,26 @@ test('Ultimate damage cannot recharge itself into an infinite loop',()=>{
 test('Boss phases summon adds and victory requires the console interaction',()=>{
  const g=new Engine('storm',304);g.state.cores=[0,1,2];g.enterZone(3);const boss=g.state.world.enemies.find(e=>e.type==='boss');boss.awake=true;boss.hp=boss.maxHp*.6;g.update(.01);assert.equal(boss.phase,2);const n=g.state.world.enemies.length;boss.hp=boss.maxHp*.3;g.update(.01);assert.equal(boss.phase,3);assert.equal(g.state.world.enemies.length,n+2);g.killEnemy(boss);assert.equal(g.arenaCleared(),false);for(const e of g.state.world.enemies.filter(e=>!e.dead))g.killEnemy(e);assert(g.state.world.coreAvailable);assert.equal(g.state.mode,'playing');g.state.player.x=POSITIONS.exit.x;g.state.player.y=POSITIONS.exit.y;g.interact();assert.equal(g.state.mode,'won');assert.equal(g.state.cores.length,4);assert(g.state.score>=1000);
 });
-test('Ten painted areas have reachable portals and side caches',()=>{
- for(const area of AREAS){const g=new Engine('tide',1);g.state.cores=[0,1,2];g.enterArea(area.id);const start=g.state.player;
+test('All painted areas have reachable portals and side caches',()=>{
+ for(const area of AREAS){const g=new Engine('tide',1);g.state.cores=[0,1,2,3];g.enterArea(area.id);const start=g.state.player;
   for(const point of [...g.state.world.portals,...g.state.world.loot]){assert(canStand(point.x,point.y,18,area.id),area.id+' marker floor');const path=findPath(start,point,area.id);assert(path.length,area.id+' reachable '+point.to);let previous=start;for(const step of path){assert(clearLine(previous,step,area.id),area.id+' continuous floor');previous=step;}}
   for(const e of g.state.world.enemies)assert(canStand(e.x,e.y,e.radius,area.id),area.id+' enemy spawn');
  }
 });
 test('Backtracking and save preserve defeated enemies, caches and calibrations without free healing',()=>{
- const g=new Engine('tide',20),w=g.state.world;g.killEnemy(w.enemies[0]);w.loot=[];g.state.player.hp=72;g.enterArea('ring','canal');g.enterArea('canal','ring');assert.equal(g.state.world,w);assert(w.enemies[0].dead);assert.equal(w.loot.length,0);assert.equal(g.state.player.hp,72);const restored=Engine.restore(g.serialize());assert.equal(restored.state.area,'canal');assert(restored.state.areas.canal.enemies[0].dead);assert.equal(restored.state.world,restored.state.areas.canal);
+ const g=new Engine('tide',20);g.enterArea('ring');const w=g.state.world;g.killEnemy(w.enemies[0]);w.loot=[];g.state.player.hp=72;g.enterArea('canal','ring');g.enterArea('ring','canal');assert.equal(g.state.world,w);assert(w.enemies[0].dead);assert.equal(w.loot.length,0);assert.equal(g.state.player.hp,72);const restored=Engine.restore(g.serialize());assert.equal(restored.state.area,'ring');assert(restored.state.areas.ring.enemies[0].dead);assert.equal(restored.state.world,restored.state.areas.ring);
 });
 test('Level-up gives a choice, unlocks a selected skill, and permits deferring points',()=>{
  const g=quiet(),p=g.state.player;p.xp=p.nextXp;g.update(.01);assert.equal(p.level,2);assert.equal(p.skillPoints,1);const i=g.state.pending.choices.findIndex(c=>c.id==='frost');assert(i>=0);assert(g.chooseUpgrade(i));assert(p.skills.includes('frost'));assert.equal(p.hotbar[3],'frost');assert.equal(p.skillPoints,0);assert(!g.purchaseUpgrade({id:'gravity',skill:true}));p.xp=p.nextXp;g.update(.01);g.deferUpgrade();assert.equal(p.skillPoints,1);const speed=g.stats().moveSpeed;assert(g.purchaseUpgrade({id:'move'}));assert(g.stats().moveSpeed>speed*1.11);assert.equal(p.perks.move,1);
 });
-test('Hotbar casts immediately, uses per-skill cooldowns and swaps learned assignments',()=>{
- const g=quiet(),p=g.state.player;assert(g.castSlot(0,{x:900,y:650}));assert.equal(g.state.projectiles.length,3);assert(!g.castSlot(0));assert(g.castSlot(1));assert(g.state.effects.some(e=>e.type==='chain'));assert(!g.castSlot(5));assert(g.assignSkill('storm',0));assert.equal(p.hotbar[0],'storm');assert.equal(p.hotbar[1],'tide');assert(!g.assignSkill('gravity',4));
+test('Hotbar casts immediately, uses per-skill cooldowns and changes only the chosen slot',()=>{
+ const g=quiet(),p=g.state.player;assert(g.castSlot(0,{x:900,y:650}));assert.equal(g.state.projectiles.length,3);assert(!g.castSlot(0));assert(g.castSlot(1));assert(g.state.effects.some(e=>e.type==='chain'));assert(!g.castSlot(5));assert(g.assignSkill('storm',0));assert.equal(p.hotbar[0],'storm');assert.equal(p.hotbar[1],'storm');assert(!g.assignSkill('gravity',4));
 });
 test('Each unlocked attack has distinct mechanics: piercing ice, returning wind and pulling core',()=>{
  const g=quiet(),p=g.state.player;p.skills.push('frost','gale','gravity');p.x=500;p.y=600;p.mana=100;const a=target(g,'turret',690,600),b=target(g,'turret',830,600);a.hp=b.hp=500;a.wet=4;g.aimAt(1100,600);assert(g.cast('frost'));advance(g,.4);assert(a.hp<500&&b.hp<500);assert(a.slow>0);g.state.projectiles=[];p.mana=100;g.aimAt(1000,600);g.cast('gale');advance(g,.7);assert(g.state.projectiles.some(b=>b.type==='gale'&&b.returning));g.state.projectiles=[];p.mana=100;g.aimAt(900,600);g.cast('gravity');const e=target(g,'raider',720,650),before=e.x;e.stun=3;advance(g,.5);assert(e.x<before);advance(g,1.2);assert(g.state.effects.some(e=>e.type==='nova'));
 });
-test('Aurelia is locked until all three cores; the atlas route finds connected exits',()=>{
- const g=new Engine();assert(!g.enterArea('skybridge'));assert(!g.enterArea('aurelia'));assert.equal(g.state.area,'canal');g.state.destination='vault';assert(g.routeTo().includes('forest'));g.state.cores=[0,1,2];assert(g.enterArea('aurelia','skybridge'));assert.equal(g.state.zone,3);
+test('Aurelia is locked until all three cores; future chapters cannot bypass the story',()=>{
+ const g=new Engine();assert(!g.enterArea('skybridge'));assert(!g.enterArea('aurelia'));assert.equal(g.state.area,'canal');assert(!g.selectDestination('vault'));assert.deepEqual(g.routeTo(),['canal','delta']);g.state.cores=[0,1,2];assert(g.enterArea('aurelia','skybridge'));assert.equal(g.state.zone,3);
 });
 test('Legacy v3 saves migrate gear and grant retrospective skill choices',()=>{
  const g=quiet(),p=g.state.player;p.level=4;const s=copy(g.state);s.version=3;delete s.area;delete s.areas;delete s.visited;delete p.skillPoints;const migrated=Engine.restore(JSON.stringify({state:s,idCounter:500,rngState:99}));assert.equal(migrated.state.version,5);assert.equal(migrated.state.area,'ring');assert.equal(migrated.state.player.skillPoints,3);assert.equal(migrated.state.player.hotbar.length,6);assert(migrated.state.world.portals.length);

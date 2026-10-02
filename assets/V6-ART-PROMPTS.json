@@ -1,0 +1,520 @@
+{
+  "version": "6.0.0",
+  "tool": "built-in image_gen",
+  "prompts": {
+    "tool": "built-in image_gen.imagegen",
+    "created": "2026-10-02",
+    "referenceStyleFiles": [
+      "assets/painted/hero-eight-directions.webp",
+      "assets/expedition/enemy-v54.webp"
+    ],
+    "prompts": {
+      "v6-enemies": "Use case: stylized-concept. Asset type: production transparent animation sprite atlas for an isometric action RPG.\nRich original hand-painted 2.5D action RPG game art: chunky readable adventure-game proportions, refined painterly edges, dimensional warm ochre brass and weathered teal metal, crisp cyan energy, environmental climate-apocalypse technology. Torchlight-like readability and lighting, but original character and equipment designs. No pixel art, no text, no logo, no watermark, no labels, no UI.\nCreate a portrait 1024 x 1536 RGBA PNG with genuine transparent background, exactly 3 equal columns and 4 equal rows. Each cell contains ONE full-body enemy sprite, isolated, feet/ground anchor aligned at the same location and same character scale across that row. Wide transparent gutters around and between cells. All 12 sprites face diagonally down-right with a consistent elevated three-quarter camera. Keep every weapon, limb, glow and effect entirely inside its cell. No floor, no shadow ellipse, no grid lines, no backdrop.\nAcross every row: column 1 neutral idle; column 2 clearly readable attack windup; column 3 clearly readable attack release. Maintain identical design, proportions, and facing direction across the three poses.\nRow 1: massive armored shield sentinel, broad ochre brass plate armor, worn teal cloth, enormous rectangular shield, short industrial shock mace; poses brace, raise mace behind shield, forceful downward mace strike.\nRow 2: toxic human alchemist, hooded protective coat, filter mask, backpack spore tanks, shoulder-carried spore launcher; poses idle, aim and charge luminous green spores, fire a compact green spore burst.\nRow 3: agile masked hunter, lean athletic dark teal coat, ochre mask, two hooked blades; poses idle, coil backward, decisive forward blade slash with compact cyan trail.\nRow 4: enemy repair drone, squat armored hovering robot with folded articulated arms and a red-orange repair lens, compact mechanical chassis; poses folded arms idle, arms unfold charging orange tool energy, focused orange repair beam release. Enemy drone silhouette must be threatening and blocky.\nTransparent background is mandatory. Atlas has exactly 12 isolated sprites, no additional art.",
+      "v6-summons": "Use case: stylized-concept. Asset type: production transparent companion animation sprite atlas for an isometric action RPG.\nRich original hand-painted 2.5D action RPG game art: chunky readable adventure-game proportions, refined painterly edges, dimensional warm ochre brass and weathered teal metal, crisp cyan energy, environmental climate-apocalypse technology. Torchlight-like readability and lighting, but original character and equipment designs. No pixel art, no text, no logo, no watermark, no labels, no UI.\nCreate a square 1536 x 1536 RGBA PNG with genuine transparent background, exactly 3 equal columns and 3 equal rows. Each cell contains ONE full companion, with generous transparent gutters. Consistent elevated three-quarter camera facing diagonally down-right. Identical design, scale and ground anchor across each row. Keep every part and effect within its cell. No floor, no shadows, no grids, no background.\nColumns in every row: idle, clear anticipation, clear attack or tool release.\nRow 1: friendly player scout drone with a cyan crystal cannon, compact streamlined spherical brass body, two small teal wings and bright cyan eye; idle hover, cannon recoil preparation, short cyan cannon pulse.\nRow 2: brass guardian crawler, low sturdy four-legged friendly machine with teal shield emitter and broad rounded back plates; idle, emitter coils charging, projected compact teal energy shield at its front.\nRow 3: repair companion drone with elegant leaf-shaped fins, ivory and ochre body, green-teal repair crystal and friendly round lens; idle hover, fins spread and crystal charging, compact green-teal repair energy release.\nDistinct friendly silhouettes; repair companion must look visually distinct from blocky orange enemy repair drones. Exactly 9 isolated companion sprites. No text.",
+      "v6-uniques": "Use case: stylized-concept. Asset type: transparent high-value equipment icon atlas for an action RPG.\nRich original hand-painted 2.5D action RPG game art: chunky readable adventure-game proportions, refined painterly edges, dimensional warm ochre brass and weathered teal metal, crisp cyan energy, environmental climate-apocalypse technology. Torchlight-like readability and lighting, but original character and equipment designs. No pixel art, no text, no logo, no watermark, no labels, no UI.\nCreate a landscape 1536 x 1024 RGBA PNG with genuine transparent background, exactly 4 equal columns and 2 equal rows. Exactly 8 standalone unique equipment items, one per cell. Uniform icon scale, each fills about 70% of its cell with wide transparent gutters and every component entirely inside its cell. Elevated three-quarter view, richly detailed polished painterly equipment. No frame, floor, grid, decoration outside the item, text or labels.\nTop row left to right: 1 waterlens staff: elegant brass staff with circular transparent water lens and suspended cyan orb; 2 solar furnace gloves: a paired set of heavy ochre brass gloves with orange furnace vents and teal insulation; 3 storm capacitor relic: compact storm battery with brass rings and visible cyan lightning crystal; 4 drone command gauntlet: single brass and teal engineering gauntlet with a command crystal and small antenna.\nBottom row left to right: 5 toxic-filter coat: complete hanging dark teal protective coat with brass filter collar, green capsules and reinforced seams; 6 tidal boots: pair of brass-plated blue weather boots with cyan water-coil accents; 7 magnetic engineering belt: wide practical dark leather belt with brass magnetic tools and teal mechanical buckle; 8 crystal focus staff: ornate split-pronged brass staff holding a tall bright cyan crystal, visibly distinct from the circular waterlens staff.\nExactly eight fully separated equipment cutouts, no characters.",
+      "v6-bosses": "Use case: stylized-concept. Asset type: transparent boss animation sprite atlas for an isometric action RPG.\nRich original hand-painted 2.5D action RPG game art: chunky readable adventure-game proportions, refined painterly edges, dimensional warm ochre brass and weathered teal metal, crisp cyan energy, environmental climate-apocalypse technology. Torchlight-like readability and lighting, but original character and equipment designs. No pixel art, no text, no logo, no watermark, no labels, no UI.\nCreate a landscape 1536 x 1024 RGBA PNG with genuine transparent background, exactly 3 equal columns and 2 equal rows. Each cell contains ONE entire large boss. Keep generous transparent gutters, every claw, cannon, mirror arm, energy glow and effect inside its own cell. No floor or backdrop, no shadow ellipse, no grid or text. All bosses face diagonally down-right, consistent elevated three-quarter camera. Same design, scale and ground anchor throughout each row.\nAcross each row: column 1 idle; column 2 clear attack windup; column 3 clear attack release.\nTop row: huge pump/leviathan crab machine, six stout articulated legs, broad ochre brass armored carapace with teal pump pipes, heavy crab claws and two cyan tidal cannons. Idle grounded defensive stance; windup tidal cannons charge and claws raise; release short powerful cyan tidal blasts and one claw slams forward.\nBottom row: skeletal solar engineer in a brass exosuit, lean humanoid dark mechanical skeleton surrounded by exactly three rotating mirror arms on articulated brass mounts, amber solar core, tattered teal cloth. Idle mirrors folded around shoulders; windup three mirrors align with bright orange solar charge; release a compact focused orange solar lance. Keep three mirror arms visibly readable in every pose.\nExactly six isolated full boss sprites, no smaller enemies.",
+      "v6-city": "Use case: stylized-concept. Asset type: full playable city hub background for a hand-painted isometric action RPG.\nRich original hand-painted 2.5D action RPG game art: chunky readable adventure-game proportions, refined painterly edges, dimensional warm ochre brass and weathered teal metal, crisp cyan energy, environmental climate-apocalypse technology. Torchlight-like readability and lighting, but original character and equipment designs. No pixel art, no text, no logo, no watermark, no labels, no UI.\nCreate a landscape 1536 x 1024 painted elevated three-quarter view of an entire traversable post-apocalyptic coastal city hub. Use a high fixed game camera, enough overhead angle to read the floor clearly. Entire walkable network fills the central 80% of the image: broad uninterrupted ochre stone paving, large open plazas and very broad connected bridges at least 120 pixels wide. The player must visually see continuous clear walkable paving connecting all three districts without narrow bottlenecks or obstructions.\nThree distinct connected districts: central harbor market and a broad open square in the center/lower-middle; brass mechanical workshop courtyard at right; lush rooftop garden at north-west. Put all buildings and structures along the perimeter. Main square and paths have no stalls, NPCs, enemies, furniture or props obstructing their surfaces. Market shelters can stand ONLY along the outer edge, around the wide open harbor square. Workshop machinery sits only against courtyard edges. Garden planters border an open broad paved garden plaza.\nOne damaged industrial building at the upper right with a clearly visible dark entrance opening directly onto the broad path. No other emphasized doors. Calm golden daylight, atmospheric teal water and distant hazy ruined skyline only beyond the perimeter. Weathered brass pumps, tiled roofs, repaired stone walls, subtle climate-apocalypse ruin details. Strong painterly depth but readable broad flat walkable stone surfaces. No portals, no writing, no characters, no enemies, no UI, no grid, no tiny paths, no decorative nonwalkable-looking floor. Avoid central buildings and don't divide the paths with water channels.",
+      "v6-npcs": "Use case: stylized-concept. Asset type: transparent full-body NPC portrait sprite atlas for an isometric action RPG.\nRich original hand-painted 2.5D action RPG game art: chunky readable adventure-game proportions, refined painterly edges, dimensional warm ochre brass and weathered teal metal, crisp cyan energy, environmental climate-apocalypse technology. Torchlight-like readability and lighting, but original character and equipment designs. No pixel art, no text, no logo, no watermark, no labels, no UI.\nCreate a wide landscape 1536 x 512 RGBA PNG with genuine transparent background, exactly 3 equal columns and 1 row, one standing character per cell. Full figures visible head to feet, same scale and foot baseline, facing diagonally down-right with consistent elevated three-quarter camera. Relaxed neutral standing poses. Wide transparent gutters. Every accessory within the character's own cell. No floor, no ground shadows, no scenery, no grid, no text.\nLeft: older female drone engineer, short silver hair, goggles on forehead, dark teal work apron over ochre shirt, brass toolkit held at her side, warm practical face.\nCenter: young male cartographer, auburn hair, teal travel jacket with ochre scarf, rolled chart under one arm, handheld brass radio, adventurous calm expression.\nRight: woman expedition captain, dark hair tied back, long blue weather coat with brass shoulder details and heavy boots, holding a brass navigation instrument, confident composed posture.\nOriginal distinct faces and silhouettes, exactly three characters."
+    }
+  },
+  "spriteAnchors": {
+    "enemies": [
+      {
+        "id": "shield-sentinel-idle",
+        "bounds": [
+          0,
+          0,
+          342,
+          462
+        ],
+        "anchor": [
+          0.5847953216374269,
+          0.9004329004329005
+        ],
+        "bodyHeight": 299,
+        "row": 0,
+        "column": 0
+      },
+      {
+        "id": "shield-sentinel-windup",
+        "bounds": [
+          342,
+          0,
+          337,
+          462
+        ],
+        "anchor": [
+          0.6083086053412463,
+          0.9177489177489178
+        ],
+        "bodyHeight": 410,
+        "row": 0,
+        "column": 1
+      },
+      {
+        "id": "shield-sentinel-release",
+        "bounds": [
+          679,
+          0,
+          345,
+          462
+        ],
+        "anchor": [
+          0.4260869565217391,
+          0.9177489177489178
+        ],
+        "bodyHeight": 306,
+        "row": 0,
+        "column": 2
+      },
+      {
+        "id": "toxic-alchemist-idle",
+        "bounds": [
+          0,
+          462,
+          342,
+          354
+        ],
+        "anchor": [
+          0.47368421052631576,
+          0.9774011299435028
+        ],
+        "bodyHeight": 342,
+        "row": 1,
+        "column": 0
+      },
+      {
+        "id": "toxic-alchemist-windup",
+        "bounds": [
+          342,
+          462,
+          337,
+          354
+        ],
+        "anchor": [
+          0.44510385756676557,
+          0.940677966101695
+        ],
+        "bodyHeight": 302,
+        "row": 1,
+        "column": 1
+      },
+      {
+        "id": "toxic-alchemist-release",
+        "bounds": [
+          679,
+          462,
+          345,
+          354
+        ],
+        "anchor": [
+          0.3855072463768116,
+          0.9548022598870056
+        ],
+        "bodyHeight": 307,
+        "row": 1,
+        "column": 2
+      },
+      {
+        "id": "masked-hunter-idle",
+        "bounds": [
+          0,
+          816,
+          342,
+          364
+        ],
+        "anchor": [
+          0.45614035087719296,
+          0.9285714285714286
+        ],
+        "bodyHeight": 294,
+        "row": 2,
+        "column": 0
+      },
+      {
+        "id": "masked-hunter-windup",
+        "bounds": [
+          342,
+          816,
+          337,
+          364
+        ],
+        "anchor": [
+          0.5074183976261127,
+          0.9368131868131868
+        ],
+        "bodyHeight": 336,
+        "row": 2,
+        "column": 1
+      },
+      {
+        "id": "masked-hunter-release",
+        "bounds": [
+          679,
+          816,
+          345,
+          364
+        ],
+        "anchor": [
+          0.42318840579710143,
+          0.9285714285714286
+        ],
+        "bodyHeight": 270,
+        "row": 2,
+        "column": 2
+      },
+      {
+        "id": "enemy-repair-drone-idle",
+        "bounds": [
+          0,
+          1180,
+          342,
+          356
+        ],
+        "anchor": [
+          0.5146198830409356,
+          0.8202247191011236
+        ],
+        "bodyHeight": 271,
+        "row": 3,
+        "column": 0
+      },
+      {
+        "id": "enemy-repair-drone-windup",
+        "bounds": [
+          342,
+          1180,
+          337,
+          356
+        ],
+        "anchor": [
+          0.47774480712166173,
+          0.8202247191011236
+        ],
+        "bodyHeight": 274,
+        "row": 3,
+        "column": 1
+      },
+      {
+        "id": "enemy-repair-drone-release",
+        "bounds": [
+          679,
+          1180,
+          345,
+          356
+        ],
+        "anchor": [
+          0.4260869565217391,
+          0.8764044943820225
+        ],
+        "bodyHeight": 274,
+        "row": 3,
+        "column": 2
+      }
+    ],
+    "summons": [
+      {
+        "id": "scout-drone-idle",
+        "bounds": [
+          0,
+          0,
+          425,
+          395
+        ],
+        "anchor": [
+          0.5035294117647059,
+          0.8683544303797468
+        ],
+        "bodyHeight": 265,
+        "row": 0,
+        "column": 0
+      },
+      {
+        "id": "scout-drone-windup",
+        "bounds": [
+          425,
+          0,
+          416,
+          395
+        ],
+        "anchor": [
+          0.49278846153846156,
+          0.8683544303797468
+        ],
+        "bodyHeight": 298,
+        "row": 0,
+        "column": 1
+      },
+      {
+        "id": "scout-drone-release",
+        "bounds": [
+          841,
+          0,
+          413,
+          395
+        ],
+        "anchor": [
+          0.4939467312348668,
+          0.8683544303797468
+        ],
+        "bodyHeight": 296,
+        "row": 0,
+        "column": 2
+      },
+      {
+        "id": "guardian-crawler-idle",
+        "bounds": [
+          0,
+          395,
+          425,
+          378
+        ],
+        "anchor": [
+          0.5035294117647059,
+          0.955026455026455
+        ],
+        "bodyHeight": 346,
+        "row": 1,
+        "column": 0
+      },
+      {
+        "id": "guardian-crawler-windup",
+        "bounds": [
+          425,
+          395,
+          416,
+          378
+        ],
+        "anchor": [
+          0.49278846153846156,
+          0.955026455026455
+        ],
+        "bodyHeight": 345,
+        "row": 1,
+        "column": 1
+      },
+      {
+        "id": "guardian-crawler-release",
+        "bounds": [
+          841,
+          395,
+          413,
+          378
+        ],
+        "anchor": [
+          0.4963680387409201,
+          0.955026455026455
+        ],
+        "bodyHeight": 339,
+        "row": 1,
+        "column": 2
+      },
+      {
+        "id": "repair-companion-idle",
+        "bounds": [
+          0,
+          773,
+          425,
+          481
+        ],
+        "anchor": [
+          0.49411764705882355,
+          0.8773388773388774
+        ],
+        "bodyHeight": 349,
+        "row": 2,
+        "column": 0
+      },
+      {
+        "id": "repair-companion-windup",
+        "bounds": [
+          425,
+          773,
+          416,
+          481
+        ],
+        "anchor": [
+          0.4807692307692308,
+          0.8773388773388774
+        ],
+        "bodyHeight": 392,
+        "row": 2,
+        "column": 1
+      },
+      {
+        "id": "repair-companion-release",
+        "bounds": [
+          841,
+          773,
+          413,
+          481
+        ],
+        "anchor": [
+          0.48184019370460046,
+          0.8773388773388774
+        ],
+        "bodyHeight": 410,
+        "row": 2,
+        "column": 2
+      }
+    ],
+    "bosses": [
+      {
+        "id": "pump-leviathan-idle",
+        "bounds": [
+          0,
+          0,
+          516,
+          481
+        ],
+        "anchor": [
+          0.5348837209302325,
+          0.9625779625779626
+        ],
+        "bodyHeight": 467,
+        "row": 0,
+        "column": 0
+      },
+      {
+        "id": "pump-leviathan-windup",
+        "bounds": [
+          516,
+          0,
+          492,
+          481
+        ],
+        "anchor": [
+          0.5203252032520326,
+          0.9625779625779626
+        ],
+        "bodyHeight": 431,
+        "row": 0,
+        "column": 1
+      },
+      {
+        "id": "pump-leviathan-release",
+        "bounds": [
+          1008,
+          0,
+          528,
+          481
+        ],
+        "anchor": [
+          0.5246212121212122,
+          0.9854469854469855
+        ],
+        "bodyHeight": 456,
+        "row": 0,
+        "column": 2
+      },
+      {
+        "id": "solar-engineer-idle",
+        "bounds": [
+          0,
+          481,
+          516,
+          543
+        ],
+        "anchor": [
+          0.4786821705426357,
+          0.9650092081031307
+        ],
+        "bodyHeight": 525,
+        "row": 1,
+        "column": 0
+      },
+      {
+        "id": "solar-engineer-windup",
+        "bounds": [
+          516,
+          481,
+          492,
+          543
+        ],
+        "anchor": [
+          0.5020325203252033,
+          0.9650092081031307
+        ],
+        "bodyHeight": 516,
+        "row": 1,
+        "column": 1
+      },
+      {
+        "id": "solar-engineer-release",
+        "bounds": [
+          1008,
+          481,
+          528,
+          543
+        ],
+        "anchor": [
+          0.4375,
+          0.9650092081031307
+        ],
+        "bodyHeight": 522,
+        "row": 1,
+        "column": 2
+      }
+    ],
+    "npcs": [
+      {
+        "id": "drone-engineer",
+        "bounds": [
+          0,
+          0,
+          724,
+          724
+        ],
+        "anchor": [
+          0.5925414364640884,
+          0.9930939226519337
+        ],
+        "bodyHeight": 708,
+        "row": 0,
+        "column": 0
+      },
+      {
+        "id": "cartographer",
+        "bounds": [
+          724,
+          0,
+          724,
+          724
+        ],
+        "anchor": [
+          0.46685082872928174,
+          0.9930939226519337
+        ],
+        "bodyHeight": 715,
+        "row": 1,
+        "column": 0
+      },
+      {
+        "id": "expedition-captain",
+        "bounds": [
+          1448,
+          0,
+          724,
+          724
+        ],
+        "anchor": [
+          0.3715469613259669,
+          0.9930939226519337
+        ],
+        "bodyHeight": 716,
+        "row": 2,
+        "column": 0
+      }
+    ]
+  },
+  "sourceArt": [
+    "waterlens-staff",
+    "solar-furnace-gloves",
+    "storm-capacitor-relic",
+    "drone-command-gauntlet",
+    "toxic-filter-coat",
+    "tidal-boots",
+    "magnetic-engineering-belt",
+    "crystal-focus-staff"
+  ]
+}

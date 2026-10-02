@@ -1,0 +1,96 @@
+import fs from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import {resolve} from 'node:path';
+import {tmpdir} from 'node:os';
+import {fileURLToPath} from 'node:url';
+const createCanvas=()=>({getContext:()=>({})});
+const root=fileURLToPath(new URL('../',import.meta.url));
+const decode=s=>s.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&amp;/g,'&');
+class Element{
+ constructor(tag,attrs={}){this.tagName=tag.toUpperCase();this.attrs=attrs;this.children=[];this.events={};this.style={setProperty(k,v){this[k]=v;}};this.hidden='hidden'in attrs;this.disabled='disabled'in attrs;this.value=attrs.value||'';this.className=attrs.class||'';this.dataset=new Proxy({}, {get:(_,k)=>this.attrs['data-'+String(k).replace(/[A-Z]/g,c=>'-'+c.toLowerCase())],set:(_,k,v)=>(this.attrs['data-'+String(k).replace(/[A-Z]/g,c=>'-'+c.toLowerCase())]=String(v),true)});this.classList={add:n=>{this.className+=' '+n;},remove:n=>{this.className=this.className.split(' ').filter(x=>x!==n).join(' ');},toggle:(n,state)=>{const yes=state??!this.className.split(' ').includes(n);yes?this.classList.add(n):this.classList.remove(n);return yes;},contains:n=>this.className.split(' ').includes(n)};if(tag==='canvas'){this.backing=createCanvas(Number(attrs.width)||1280,Number(attrs.height)||800);}}
+ set textContent(t){this.children=[];this.text=String(t);}get textContent(){return (this.text||'')+this.children.map(c=>c.textContent).join('');}
+ set innerHTML(s){this.raw=String(s);this.text='';this.children=parse(this.raw);this.children.forEach(c=>c.parent=this);}get innerHTML(){return this.raw||'';}
+ append(c){c.parent=this;this.children.push(c);}prepend(c){c.parent=this;this.children.unshift(c);}replaceChildren(...nodes){this.children=nodes;this.text='';this.raw='';}
+ setAttribute(k,v){this.attrs[k]=String(v);}getAttribute(k){return this.attrs[k]??null;}
+ addEventListener(k,fn){(this.events[k]??=[]).push(fn);}click(){if(this.disabled)return;for(const fn of this.events.click||[])fn({target:this,currentTarget:this,preventDefault(){}});}
+ get type(){return this.attrs.type||'';} get id(){return this.attrs.id||'';}set id(v){this.attrs.id=v;}
+ focus(options={}){document.activeElement=this;if(!options.preventScroll){let parent=this.parent;while(parent){if(parent.classList?.contains('modal'))parent.scrollTop=0;parent=parent.parent;}}}setPointerCapture(){}getBoundingClientRect(){return {left:0,top:0,width:this.tagName==='CANVAS'&&this.attrs.id==='minimap'?190:1280,height:this.tagName==='CANVAS'&&this.attrs.id==='minimap'?125:800};}
+ getContext(type){return this.backing.getContext(type);}set width(v){if(this.backing)this.backing.width=v;else this.attrs.width=v;}get width(){return this.backing?.width||Number(this.attrs.width)||0;}set height(v){if(this.backing)this.backing.height=v;else this.attrs.height=v;}get height(){return this.backing?.height||Number(this.attrs.height)||0;}
+ querySelectorAll(selector){const found=[];const walk=n=>{for(const c of n.children){if(matches(c,selector))found.push(c);walk(c);}};walk(this);return found;}querySelector(s){return this.querySelectorAll(s)[0]||null;}
+}
+function matches(n,selector){return selector.split(',').some(part=>{const seq=part.trim().split(/\s+/);let at=n;if(!simple(at,seq.pop()))return false;while(seq.length){const sel=seq.pop();at=at.parent;while(at&&!simple(at,sel))at=at.parent;if(!at)return false;}return true;});}
+function simple(n,s){if(!s)return false;if(s.includes(':not(:disabled)')){if(n.disabled)return false;s=s.replace(':not(:disabled)','');}if(s.startsWith('#'))return n.attrs.id===s.slice(1);if(s.startsWith('.'))return n.className.split(' ').includes(s.slice(1));if(s.startsWith('[')){const parts=[...s.matchAll(/\[([^=\]]+)(?:=["']?([^"'\]]*)["']?)?\]/g)];return parts.length>0&&parts.every(m=>m[1]in n.attrs&&(m[2]===undefined||n.attrs[m[1]]===m[2]));}return n.tagName===s.toUpperCase();}
+function parse(html){const holder=new Element('root'),stack=[holder],re=/<\/?([\w-]+)([^>]*)>|([^<]+)/g;let m;while((m=re.exec(html))){if(m[3]){const n=new Element('#text');n.text=decode(m[3]);stack.at(-1).append(n);continue;}if(m[0].startsWith('</')){if(stack.length>1)stack.pop();continue;}const attrs={};for(const a of m[2].matchAll(/([\w:-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+)))?/g))attrs[a[1]]=decode(a[2]??a[3]??a[4]??'');const n=new Element(m[1],attrs);stack.at(-1).append(n);if(!['meta','link','img','input','br','hr'].includes(m[1])&&!m[0].endsWith('/>'))stack.push(n);}return holder.children;}
+const doc=new Element('document');doc.children=parse(await fs.readFile(root+'/index.html','utf8'));doc.children.forEach(c=>c.parent=doc);doc.getElementById=id=>doc.querySelector('#'+id);doc.createElement=tag=>new Element(tag);doc.hidden=false;doc.activeElement=null;doc.documentElement=doc.querySelector('html');
+const windowEvents={};globalThis.document=doc;globalThis.window={devicePixelRatio:1,matchMedia:()=>({matches:false}),addEventListener(name,fn){(windowEvents[name]??=[]).push(fn);}};const press=key=>{for(const fn of windowEvents.keydown||[])fn({key,repeat:false,target:{tagName:'BODY'},preventDefault(){}});for(const fn of windowEvents.keyup||[])fn({key});};globalThis.innerWidth=1280;globalThis.innerHeight=800;globalThis.requestAnimationFrame=()=>0;globalThis.localStorage={data:new Map(),getItem(k){return this.data.get(k)||null;},setItem(k,v){this.data.set(k,v);},removeItem(k){this.data.delete(k);}};
+Object.defineProperty(globalThis,'navigator',{value:{clipboard:{async writeText(s){globalThis.copiedResult=s;}}},configurable:true});
+
+const temp=await fs.mkdtemp(resolve(tmpdir(),'gouden-horizon-ui-'));
+try{
+ await fs.writeFile(resolve(temp,'mocks.mjs'),`export class Renderer{load(){return Promise.resolve();}resize(){}reset(){}render(){}noteFrame(){}kick(){}}
+export class Soundscape{setVolumes(){}start(){}pause(){}setZone(){}setTension(){}event(){}toggle(){return false;}}`);
+ const source=(await fs.readFile(resolve(root,'src/main.js'),'utf8')).replace(/from '(\.\/[^']+)'/g,(_,path)=>"from '"+new URL(path.includes('render.js')||path.includes('sound.js')?'file://'+resolve(temp,'mocks.mjs'):path,new URL('src/main.js','file://'+root)).href+"'")+"\nexport {start,hideModal,engine,showShop,showEquipment,showSkills,showAtlas,showSettings,pendingModal,updateHUD,closeJournal};\n";
+ await fs.writeFile(resolve(temp,'main.mjs'),source);
+ const ui=await import('file://'+resolve(temp,'main.mjs'));
+ await new Promise(r=>setTimeout(r,0));ui.start('tide');ui.hideModal();
+ const {makeItem,sellValue}=await import(new URL('../src/loot.js',import.meta.url));
+ const g=ui.engine,p=g.state.player,trader=g.state.world.camp.services.find(m=>m.id==='outfitter');Object.assign(p,{x:trader.x,y:trader.y,scrap:600});
+ for(let i=0;i<40;i++)p.inventory.push(makeItem({rng:g.rng,slot:['weapon','boots','suit','relic','gloves','belt'][i%6],rarity:['common','uncommon','rare','epic'][i%4],level:i%8+1,uid:++g.idCounter}));
+ const $=id=>doc.getElementById(id),flush=()=>new Promise(r=>queueMicrotask(r));
+ let n=0;const test=async(name,run)=>{await run();n++;console.log('PASS '+name);};
+ $('shop-button').focus();ui.showShop('sell');await flush();
+ const modal=$('modal-layer').querySelector('.modal');
+ await test('Selling selections keep the same rows, scroll position and keyboard focus',async()=>{
+  const rows=$('modal-body').querySelectorAll('[data-shop-item]');assert.equal(rows.length,40);
+  const row=rows[32];row.focus({preventScroll:true});modal.scrollTop=2400;row.click();await flush();
+  assert.equal($('modal-body').querySelectorAll('[data-shop-item]')[32],row);assert.equal(modal.scrollTop,2400);assert.equal(doc.activeElement,row);assert.equal(row.getAttribute('aria-pressed'),'true');assert(row.classList.contains('selected'));assert.equal(row.querySelector('.sell-check').textContent,'✓');
+  const value=sellValue(p.inventory.find(i=>i.uid===Number(row.dataset.shopItem)));assert($('sell-selected').textContent.includes('+'+value+' schroot'));assert($('modal-body').querySelector('[data-sell-summary]').textContent.includes('1 geselecteerd'));assert(!$('sell-selected').disabled);
+  row.click();await flush();assert.equal(modal.scrollTop,2400);assert.equal(doc.activeElement,row);assert.equal(row.getAttribute('aria-pressed'),'false');assert($('sell-selected').disabled);
+ });
+ await test('Select visible and clear update in place without losing the current control',async()=>{
+  const all=$('modal-body').querySelector('[data-sell-all]');all.focus({preventScroll:true});modal.scrollTop=600;all.click();await flush();assert.equal(modal.scrollTop,600);assert.equal(doc.activeElement,all);assert.equal($('modal-body').querySelectorAll('[aria-pressed="true"]').length,40);assert($('sell-selected').textContent.includes('(40)'));
+  const clear=$('modal-body').querySelector('[data-sell-clear]');clear.focus({preventScroll:true});clear.click();await flush();assert.equal(modal.scrollTop,600);assert.equal(doc.activeElement,clear);assert($('sell-selected').disabled);
+ });
+ await test('Filters preserve selected hidden items and selection totals match the exact sale',async()=>{
+  const rows=$('modal-body').querySelectorAll('[data-shop-item]'),first=rows[30];first.click();const chosen=Number(first.dataset.shopItem);
+  const filter=$('modal-body').querySelector('[data-sell-filter="rarity"]');filter.value='common';filter.focus({preventScroll:true});modal.scrollTop=450;for(const fn of filter.events.change)fn({target:filter});await flush();assert.equal(modal.scrollTop,450);assert.equal(doc.activeElement,$('modal-body').querySelector('[data-sell-filter="rarity"]'));
+  const visible=$('modal-body').querySelectorAll('[data-shop-item]').map(b=>Number(b.dataset.shopItem)),ids=new Set([chosen,...visible]),items=p.inventory.filter(i=>ids.has(i.uid)),total=items.reduce((n,i)=>n+sellValue(i),0),cash=p.scrap,count=p.inventory.length,worn=JSON.stringify(p.equipment);
+  $('modal-body').querySelector('[data-sell-all]').click();assert($('sell-selected').textContent.includes('('+ids.size+')'));
+  $('sell-selected').focus({preventScroll:true});modal.scrollTop=450;$('sell-selected').click();await flush();assert.equal(p.scrap,cash+total);assert.equal(p.inventory.length,count-ids.size);assert.equal(JSON.stringify(p.equipment),worn);assert(!p.inventory.some(i=>ids.has(i.uid)));assert.equal(modal.scrollTop,450);assert($('sell-selected').disabled);assert(localStorage.getItem('gouden-horizon-action-v3'));
+ });
+ await test('Closing a refreshed shop restores the original outside focus and movement mode',async()=>{
+  ui.closeJournal();await flush();assert($('modal-layer').hidden);assert.equal(g.state.mode,'playing');assert.equal(doc.activeElement,$('shop-button'));
+ });
+ await test('A new tab starts at the top, but choosing a purchase keeps the shop view',async()=>{
+  ui.showShop('buy');await flush();assert.equal(modal.scrollTop,0);const row=$('modal-body').querySelector('[data-shop-item]');row.focus({preventScroll:true});modal.scrollTop=300;row.click();await flush();assert.equal(modal.scrollTop,300);assert.equal(doc.activeElement,$('modal-body').querySelector('[data-shop-item="'+row.dataset.shopItem+'"]'));assert($('modal-body').querySelector('.equipment-comparison'));$('modal-body').querySelector('[data-shop-tab="sell"]').click();await flush();assert.equal(modal.scrollTop,0);ui.closeJournal();
+ });
+ await test('Favoriting a selected shop item clears it from sale and preserves marker focus and scroll',async()=>{
+  ui.showShop('sell');await flush();const row=$('modal-body').querySelectorAll('[data-shop-item]').at(-1),id=row.dataset.shopItem;row.click();const star=$('modal-body').querySelector('[data-item-mark="favorite"][data-mark-item="'+id+'"]');assert(star);star.focus({preventScroll:true});modal.scrollTop=1700;star.click();await flush();assert.equal(modal.scrollTop,1700);const current=$('modal-body').querySelector('[data-item-mark="favorite"][data-mark-item="'+id+'"]');assert.equal(doc.activeElement,current);assert.equal(current.getAttribute('aria-pressed'),'true');assert($('modal-body').querySelector('[data-shop-item="'+id+'"]').disabled);assert($('sell-selected').disabled);$('modal-body').querySelector('[data-sell-all]').click();assert($('sell-selected').textContent.includes('('+(p.inventory.length-1)+')'));$('modal-body').querySelector('[data-sell-clear]').click();
+ });
+ await test('Sale goods select only marked items, and status filtering keeps the active filter',async()=>{
+  const junk=$('modal-body').querySelectorAll('[data-item-mark="junk"]').find(b=>!b.disabled);junk.click();await flush();$('modal-body').querySelector('[data-sell-junk]').click();assert($('sell-selected').textContent.includes('(1)'));const filter=$('modal-body').querySelector('[data-sell-filter="status"]');filter.value='junk';filter.focus({preventScroll:true});modal.scrollTop=900;for(const fn of filter.events.change)fn({target:filter});await flush();assert.equal(modal.scrollTop,900);assert.equal($('modal-body').querySelectorAll('[data-shop-item]').length,1);assert.equal(doc.activeElement,$('modal-body').querySelector('[data-sell-filter="status"]'));ui.closeJournal();
+ });
+ await test('Bag protection prevents recycling and marking retains the comparison and scroll',async()=>{
+  const selected=p.inventory.find(i=>i.mark!=='favorite');ui.showEquipment(selected.uid);await flush();const star=$('modal-body').querySelector('[data-item-mark="favorite"][data-mark-item="'+selected.uid+'"]');star.focus({preventScroll:true});modal.scrollTop=800;star.click();await flush();assert.equal(modal.scrollTop,800);assert.equal(doc.activeElement,$('modal-body').querySelector('[data-item-mark="favorite"][data-mark-item="'+selected.uid+'"]'));assert($('modal-actions').children.some(b=>b.textContent==='★ Bewaard · beschermd'&&b.disabled));ui.hideModal();
+ });
+ await test('Variant selection learns once without moving bindings, cooldown or scroll',async()=>{
+  const {SPELLS}=await import(new URL('../src/data.js',import.meta.url));Object.assign(p,{level:10,skillPoints:5,skills:Object.keys(SPELLS),mainAttack:'tide'});p.spellCd.tide=.8;const bindings=JSON.stringify(p.hotbar);ui.showSkills('main');await flush();assert.equal($('modal-body').querySelectorAll('[data-variant]').length,3);const card=$('modal-body').querySelector('[data-variant="surf"]');card.focus({preventScroll:true});modal.scrollTop=1400;card.click();await flush();assert.equal(p.spellVariants.tide,'surf');assert.equal(p.skillPoints,4);assert.equal(p.spellCd.tide,.8);assert.equal(JSON.stringify(p.hotbar),bindings);assert.equal(modal.scrollTop,1400);assert.equal(doc.activeElement,$('modal-body').querySelector('[data-variant="surf"]'));$('modal-body').querySelector('[data-variant=""]').click();await flush();assert(!p.spellVariants.tide);assert.equal(p.skillPoints,4);for(const img of $('modal-body').querySelectorAll('img'))await fs.access(resolve(root,img.getAttribute('src')));ui.hideModal();
+ });
+ await test('Workshop choice changes the paid reinforcement and keeps forge view',async()=>{
+  const m=g.state.world.camp.services.find(m=>m.id==='workshop');Object.assign(p,{x:m.x,y:m.y,scrap:1000});ui.showShop('forge',p.equipment.suit.uid);await flush();assert.equal($('modal-body').querySelectorAll('[data-forge-mode]').length,5);const option=$('modal-body').querySelector('[data-forge-mode="poisonResist"]');option.focus({preventScroll:true});modal.scrollTop=450;option.click();await flush();assert.equal(modal.scrollTop,450);const buy=$('modal-actions').children.find(b=>b.textContent.startsWith('Gifweerstand'));assert(buy&&!buy.disabled);buy.click();await flush();assert.equal(p.equipment.suit.stats.poisonResist,.08);assert.equal(p.equipment.suit.enhance,1);ui.closeJournal();
+ });
+ await test('Boss contracts remain locked until their chapter and launch through the actual atlas button',async()=>{
+  ui.showAtlas();await flush();assert.equal($('modal-body').querySelectorAll('[data-bounty]').length,4);assert($('modal-body').querySelectorAll('[data-bounty]').every(b=>b.disabled));ui.hideModal();g.state.completed=true;ui.showAtlas();await flush();const start=$('modal-body').querySelector('[data-bounty="bounty-spore"][data-bounty-mode="scrap"]');assert(!start.disabled);start.click();await flush();assert.equal(g.state.area,'bounty-spore');assert.equal(g.state.world.bounty.mode,'scrap');assert.equal(g.state.world.enemies.length,1);assert($('modal-layer').hidden);assert.equal(g.state.mode,'playing');
+ });
+
+ await test('World contract NPC launches the chosen risk and equipment slot through F',async()=>{
+  const {CONTRACT_NPCS}=await import(new URL('../src/city.js',import.meta.url));const npc=CONTRACT_NPCS.forest;g.enterArea('forest');Object.assign(p,{x:npc.x,y:npc.y});press('f');ui.pendingModal();await flush();assert.equal($('modal-layer').dataset.kind,'quest');assert.equal($('modal-title').textContent,'De Sporenregent');$('contract-risk').checked=true;$('contract-slot').value='gloves';const hp=p.hp,mana=p.mana;$('modal-actions').querySelector('button').click();assert.equal(g.state.area,'bounty-spore');assert.equal(g.state.world.bounty.risk,true);assert.equal(g.state.world.bounty.slot,'gloves');assert.equal(p.hp,hp);assert.equal(p.mana,mana);assert($('modal-layer').hidden);
+ });
+ await test('Constructie configuration preserves bindings and leaves the locked healer unavailable',async()=>{
+  ui.showSkills('right');await flush();const main=p.mainAttack,bar=JSON.stringify(p.hotbar);assert.equal($('modal-body').querySelectorAll('[data-companion]').length,3);assert($('modal-body').querySelector('[data-companion="mender"]').disabled);$('modal-body').querySelector('[data-companion="guardian"]').click();assert.equal(p.companionProfile,'guardian');assert.equal(p.mainAttack,main);assert.equal(JSON.stringify(p.hotbar),bar);for(const img of $('modal-body').querySelectorAll('img'))await fs.access(resolve(root,img.getAttribute('src')));ui.closeJournal();
+ });
+ await test('Settings sliders and selectors save immediately; Escape closes from a focused control',async()=>{
+  const {SETTINGS_KEY}=await import(new URL('../src/settings.js',import.meta.url));ui.showSettings();await flush();const range=$('modal-body').querySelector('[data-setting="music"]');range.value='30';for(const fn of range.events.input)fn({target:range});assert.equal($('setting-value-music').textContent,'30%');const cursor=$('modal-body').querySelector('[data-setting="cursor"]');cursor.value='1.4';for(const fn of cursor.events.change)fn({target:cursor});assert.equal(doc.documentElement.style['--aim-scale'],1.4);const stored=JSON.parse(localStorage.getItem(SETTINGS_KEY));assert.equal(stored.music,.3);assert.equal(stored.cursor,1.4);for(const fn of windowEvents.keydown)fn({key:'Escape',repeat:false,target:range,preventDefault(){}});assert($('modal-layer').hidden);assert.equal(g.state.mode,'playing');
+ });
+ console.log(`\n${n} actual shop-entrypoint interaction checks passed (DOM model; browser layout is not measured).`);
+}finally{await fs.rm(temp,{recursive:true,force:true});}
