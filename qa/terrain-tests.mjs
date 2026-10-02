@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
 import {Engine,canStand,findPath,distance,clearLine} from '../src/engine.js';
+import {STORY_ORDER} from '../src/story.js';
 import {SAFE_HUBS} from '../src/hubs.js';
 import {ARENA_LAYOUTS,arenaObstacles,coverHit} from '../src/arena-layouts.js';
 let n=0;const test=(name,fn)=>{fn();n++;console.log('PASS '+name);};
 function walk(g,points){for(const point of points){let frames=0;while(distance(g.state.player,point)>5&&frames++<1200){const p=g.state.player,a=Math.round(Math.atan2((point.y-p.y)/.78,point.x-p.x)/(Math.PI/4))*Math.PI/4;g.update(1/60,{x:Math.round(Math.cos(a)),y:Math.round(Math.sin(a))});}assert(frames<1200,g.state.area+' blocked keyboard lane');}}
 test('Every hub service, gate, crate and quest NPC has a route with extra body clearance',()=>{
- for(const id of SAFE_HUBS){const g=new Engine();g.state.cores=[0,1,2,3];g.enterArea(id);for(const t of [...g.state.world.portals,...g.state.world.camp.services,...g.state.world.loot,...g.questNPCs()])assert(findPath(g.state.player,t,id,35).length,id+' narrow access '+(t.to||t.id));}
+ for(const id of SAFE_HUBS){const g=new Engine();g.state.cores=[0,1,2,3];g.state.storyPassed=[...STORY_ORDER];assert(g.enterArea(id));for(const t of [...g.state.world.portals,...g.state.world.camp.services,...g.state.world.loot,...g.questNPCs()])assert(findPath(g.state.player,t,id,35).length,id+' narrow access '+(t.to||t.id));}
 });
 test('Vrijhaven depot gate accepts three approaches across its broad forecourt, both directions',()=>{
  for(const offset of [-18,0,18]){const g=new Engine();g.state.cores=[0,1,2,3];g.enterArea('highway');const p=g.state.player;Object.assign(p,{x:1060,y:750+offset,velocity:{x:0,y:0}});assert(canStand(p.x,p.y,35,'highway'));
@@ -13,13 +14,13 @@ test('Vrijhaven depot gate accepts three approaches across its broad forecourt, 
  }
 });
 test('Arena obstacles leave a connected floor and all wave spawns and return gates reachable',()=>{
- for(const id of Object.keys(ARENA_LAYOUTS)){const g=new Engine();g.state.cores=[0,1,2,3];g.enterArea(id);const p=g.state.player;
+ for(const id of Object.keys(ARENA_LAYOUTS)){const g=new Engine();g.state.cores=[0,1,2,3];g.state.storyPassed=[...STORY_ORDER];assert(g.enterArea(id));const p=g.state.player;
   const cells=new Map();for(let y=240;y<1040;y+=48)for(let x=240;x<1740;x+=48)if(canStand(x,y,35,id))cells.set(x+','+y,{x,y});
   const first=cells.keys().next().value,seen=new Set([first]),queue=[first];while(queue.length){const key=queue.shift(),a=cells.get(key);for(const [dx,dy]of [[48,0],[-48,0],[0,48],[0,-48]]){const next=(a.x+dx)+','+(a.y+dy);if(cells.has(next)&&!seen.has(next)&&clearLine(a,cells.get(next),id,35)){seen.add(next);queue.push(next);}}}
   assert.equal(seen.size,cells.size,id+' has disconnected combat floor');
   for(const e of g.state.world.enemies){assert(canStand(e.x,e.y,e.radius,id),id+' invalid spawn');assert(findPath(p,e,id).length);}
   assert(findPath(p,g.state.world.portals[0],id,35).length,id+' blocked return');
-  for(const o of arenaObstacles(id)){assert(!canStand(o.x,o.y,18,id));const left={x:o.x-o.rx-60,y:o.y},right={x:o.x+o.rx+60,y:o.y};assert(!clearLine(left,right,id));const path=findPath(left,right,id,26);assert(path.length,id+' no detour');}
+  for(const o of arenaObstacles(id).filter(o=>!o.paintedOnly)){assert(!canStand(o.x,o.y,18,id));const left={x:o.x-o.rx-60,y:o.y},right={x:o.x+o.rx+60,y:o.y};assert(!clearLine(left,right,id));const path=findPath(left,right,id,26);assert(path.length,id+' no detour');}
   g.state.world.enemies=[];walk(g,findPath(p,{x:1500,y:400},id,35));
  }
 });

@@ -1,8 +1,10 @@
-import {EQUIPMENT,START_EQUIPMENT,RARITIES,SPELLS} from './data.js?v=19';
-import {LEGENDARY_EFFECTS,effectText,effectForSlot} from './legendary.js?v=19';
+import {EQUIPMENT,START_EQUIPMENT,RARITIES,SPELLS} from './data.js?v=22';
+import {LEGENDARY_EFFECTS,effectText,effectForSlot} from './legendary.js?v=22';
 
-import {UNIQUE_ITEMS,uniqueForSlot} from './unique-items.js?v=19';
-import {normalizeVariants} from './spell-variants.js?v=19';
+import {UNIQUE_ITEMS,uniqueForSlot} from './unique-items.js?v=22';
+import {normalizeVariants} from './spell-variants.js?v=22';
+import {V8_ITEMS} from './v8-content.js?v=22';
+import {emptyHead,emptyRelic} from './equipment-slots.js?v=22';
 export const EXTRA_EQUIPMENT=[
  {id:'tidal-fork',slot:'weapon',name:'Getijdenstemvork',stats:{power:.07,tide:.10}},
  {id:'amber-prism',slot:'weapon',name:'Amberprisma',stats:{power:.08,ember:.11}},
@@ -29,8 +31,11 @@ export const EXTRA_EQUIPMENT=[
  {id:'storm-gloves',slot:'gloves',name:'Geleidershandschoenen',stats:{crit:.06,power:.05}},
  {id:'solar-belt',slot:'belt',name:'Zonneweefgordel',stats:{armor:.05,mana:15}}
 ];
-export const ITEM_BASES=[...EQUIPMENT,...EXTRA_EQUIPMENT];
+export const ITEM_BASES=[...EQUIPMENT,...EXTRA_EQUIPMENT,...V8_ITEMS];
 export const DROP_TABLES={
+ pressurediver:{chance:.22,weights:[0,18,56,24,2],slots:['suit','head','weapon']},
+ rimedrone:{chance:.18,weights:[0,25,56,18,1],slots:['boots','relic','head']},
+ furnacegunner:{chance:.24,weights:[0,12,58,27,3],slots:['gloves','suit','head']},
  eel:{chance:.14,weights:[28,43,25,4,0],slots:['gloves','relic','boots']},
  salamander:{chance:.17,weights:[14,38,36,11,1],slots:['weapon','suit','belt']},
  shieldguard:{chance:.19,weights:[13,35,39,12,1],slots:['suit','gloves','boots']},
@@ -60,6 +65,7 @@ for(const id of ['crawler','drone','raider','sniper','turret','beast','sporecast
 DROP_TABLES.elite.chance=.60;
 const qualities=['common','uncommon','rare','epic','legendary'];
 const traits={
+ head:[['Veldconditie','hp',6],['Pantser','armor',.02],['Reserves','mana',8]],
  weapon:[['Afstemming','power',.035],['Precisie','crit',.025],['Getij','tide',.07],['Storm','storm',.07],['Zon','ember',.08]],
  suit:[['Veldconditie','hp',8],['Isolatie','heatGuard',.12],['Pantser','armor',.035]],
  relic:[['Reserves','mana',10],['Stroming','regen',1.2],['Terugkoppeling','comboCharge',.12]],
@@ -68,7 +74,7 @@ const traits={
  belt:[['Reserves','mana',10],['Veldconditie','hp',7],['Pantser','armor',.03]]
 };
 export function weighted(weights,rng){let x=rng()*weights.reduce((a,b)=>a+b,0);for(let i=0;i<weights.length;i++){x-=weights[i];if(x<0)return i;}return weights.length-1;}
-export function dropProfile(enemy){return ['boss','dredger','solarKnight','seedheart'].includes(enemy.type)?'boss':enemy.guardian?'guardian':enemy.elite?'elite':enemy.type;}
+export function dropProfile(enemy){return ['deepwarden','towerwarden'].includes(enemy.type)?'boss':['boss','dredger','solarKnight','seedheart'].includes(enemy.type)?'boss':enemy.guardian?'guardian':enemy.elite?'elite':enemy.type;}
 export function sellValue(item){return Math.max(2,Math.floor((item.price||((30+(item.level||1)*6)*(RARITIES[item.rarity]?.value||.7)))*.30)+(item.enhance||0)*5);}
 export function salvageValue(item){return Math.max(1,Math.floor(sellValue(item)*.55));}
 export function makeItem({rng,level=1,profile='cache',rarity=null,slot=null,baseId=null,uid}){
@@ -76,14 +82,14 @@ export function makeItem({rng,level=1,profile='cache',rarity=null,slot=null,base
  const weights=[...table.weights];if(level>=5&&!['elite','guardian','boss','prototype'].includes(profile)){const shift=Math.min(weights[0],level*2);weights[0]-=shift;weights[2]+=shift;}
  rarity=rarity||qualities[weighted(weights,rng)];
  const quality=RARITIES[rarity];const favored=slot||(table.slots&&rng()<.75?table.slots[Math.floor(rng()*table.slots.length)]:null);
- const pool=ITEM_BASES.filter(i=>!favored||i.slot===favored),base=baseId?ITEM_BASES.find(i=>i.id===baseId):pool[Math.floor(rng()*pool.length)];
+ const pool=ITEM_BASES.filter(i=>(!favored||i.slot===favored)&&(!i.minLevel||level>=i.minLevel)),base=baseId?ITEM_BASES.find(i=>i.id===baseId):pool[Math.floor(rng()*pool.length)];
  const factor=quality.factor*(1+(level-1)*.12),stats={};
  for(const [key,value]of Object.entries(base.stats))stats[key]=['waterproof','chain'].includes(key)?value:Number((value*factor).toFixed(key==='hp'||key==='mana'?0:3));
- const options=[...traits[base.slot]],affixes=[];if(['suit','boots','belt','relic','gloves'].includes(base.slot))options.push(['Gifwerend','poisonResist',.055],['Vuurwerend','fireResist',.055],['Bliksemwerend','stormResist',.055],['Waterwerend','waterResist',.055]);
+ const options=[...traits[base.slot]],affixes=[];if(['head','suit','boots','belt','relic','gloves'].includes(base.slot))options.push(['Gifwerend','poisonResist',.055],['Vuurwerend','fireResist',.055],['Bliksemwerend','stormResist',.055],['Waterwerend','waterResist',.055]);
  const count=quality.rank===0?0:quality.rank<3?1:2;
  for(let i=0;i<count;i++){const trait=options.splice(Math.floor(rng()*options.length),1)[0];if(!trait)break;affixes.push(trait[0]);stats[trait[1]]=Number(((stats[trait[1]]||0)+trait[2]*(trait[1].endsWith('Resist')?quality.factor*(1+Math.min(8,level-1)*.03):factor)*(.85+rng()*.3)).toFixed(trait[1]==='hp'||trait[1]==='mana'?0:3));}
  const price=Math.round((30+level*6)*quality.value);
- const item={id:base.id,art:base.id,uid,slot:base.slot,name:base.name+(affixes.length?' · '+affixes.join(' & '):''),rarity,level,requiredLevel:Math.max(1,level-2),enhance:0,affixes,stats,price};
+ const item={id:base.id,art:base.id,...(base.appearance?{appearance:base.appearance}:{}),uid,slot:base.slot,name:base.name+(affixes.length?' · '+affixes.join(' & '):''),rarity,level,requiredLevel:Math.max(1,level-(level>=18?4:level>=15?3:2)),enhance:0,affixes,stats,price};
  if(rarity==='legendary'){item.effect=effectForSlot(base.slot);item.name=LEGENDARY_EFFECTS[item.effect].title;if(level>=5&&rng()<.55){const id=uniqueForSlot(base.slot,rng);if(id)Object.assign(item,makeUniqueItem(id,level,uid));}}
  item.text=statsText(item);return item;
 }
@@ -103,12 +109,14 @@ export function normalizePlayer(p,nextId){
  p.mainAttack=p.mainAttack||p.spell||p.discipline||'tide';if(!SPELLS[p.mainAttack]||!p.skills.includes(p.mainAttack))p.mainAttack=p.skills.includes(p.discipline)?p.discipline:'tide';p.spell=p.mainAttack;
  if(!SPELLS[p.rightAbility]||!p.skills.includes(p.rightAbility))p.rightAbility=p.mainAttack==='storm'?'ember':'storm';p.spellCd=p.spellCd||{};p.stats=p.stats||{};p.inventory=p.inventory||[];
  for(const [slot,initial]of Object.entries(START_EQUIPMENT)){if(!p.equipment[slot])p.equipment[slot]=JSON.parse(JSON.stringify(initial));normalizeItem(p.equipment[slot]);p.equipment[slot].uid=p.equipment[slot].uid||nextId();}
+ p.equipment.head=p.equipment.head?normalizeItem(p.equipment.head):emptyHead();
+ p.equipment.relic2=p.equipment.relic2?normalizeItem(p.equipment.relic2):emptyRelic();
  p.inventory.forEach(i=>{normalizeItem(i);i.uid=i.uid||nextId();});
 }
 
 DROP_TABLES.toxinbeetle={chance:.16,weights:[20,40,32,8,0],slots:['suit','belt','boots']};
 DROP_TABLES.chemist={chance:.18,weights:[10,35,40,14,1],slots:['relic','gloves','belt']};
 
-export function makeUniqueItem(id,level,uid){const u=UNIQUE_ITEMS[id];if(!u)return null;const f=1+(Math.min(14,level)-1)*.09,stats={};for(const [key,v]of Object.entries(u.stats))stats[key]=Number((v*(key.endsWith('Resist')?1:f)).toFixed(3));const i={id:u.art,art:u.art,uid,slot:u.slot,name:u.name,rarity:'legendary',level,requiredLevel:Math.max(1,level-2),enhance:0,affixes:['Uniek'],stats,price:340+level*10,effect:id};i.text=statsText(i);return i;}
+export function makeUniqueItem(id,level,uid){const u=UNIQUE_ITEMS[id];if(!u)return null;const f=1+(Math.min(14,level)-1)*.09,stats={};for(const [key,v]of Object.entries(u.stats))stats[key]=Number((v*(key.endsWith('Resist')?1:f)).toFixed(3));const i={id:u.art,art:u.art,uid,slot:u.slot,name:u.name,rarity:'legendary',level,requiredLevel:Math.max(1,level-(level>=18?4:level>=15?3:2)),enhance:0,affixes:['Uniek'],stats,price:340+level*10,effect:id};i.text=statsText(i);return i;}
 
 Object.assign(DROP_TABLES,{bulwark:{chance:.14,weights:[35,40,20,5,0],slots:['suit','belt']},plaguewright:{chance:.16,weights:[20,43,29,8,0],slots:['suit','relic']},hunter:{chance:.12,weights:[35,40,20,5,0],slots:['boots','weapon']},repairer:{chance:.10,weights:[38,40,18,4,0],slots:['gloves','relic']}});

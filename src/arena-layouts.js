@@ -15,6 +15,15 @@ export const ARENA_LAYOUTS={
   {id:'lower-roots',art:'roots',frame:1,x:1030,y:865,rx:70,ry:45,height:150}
  ]
 };
+// These props are already painted into the environment, so only their bases
+// participate in collision. A walking character never passes through a pump.
+for(const id of ['heatworks','condensers','tower'])ARENA_LAYOUTS[id]=[
+ {id:'west-exchanger',paintedOnly:true,x:250,y:603,rx:130,ry:85,height:180},
+ {id:'east-exchanger',paintedOnly:true,x:1630,y:654,rx:156,ry:95,height:180},
+ {id:'north-exchanger',paintedOnly:true,x:978,y:343,rx:140,ry:75,height:160}
+];
+// The second visit to the rail complex uses two salvage barriers and lanes.
+ARENA_LAYOUTS.railworks=[{id:'rail-pump',art:'pump',frame:1,x:955,y:640,rx:73,ry:45,height:155},{id:'rail-valve',art:'pump',frame:0,x:1175,y:820,rx:85,ry:50,height:190}];
 export const arenaObstacles=area=>ARENA_LAYOUTS[area]||[];
 export function blockedByObstacle(x,y,radius=0,area){return arenaObstacles(area).some(o=>((x-o.x)/(o.rx+radius))**2+((y-o.y)/(o.ry+radius))**2<=1);}
 // Swept ellipse collision stops fast bolts at the front face, never after

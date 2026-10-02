@@ -1,4 +1,5 @@
-import {freezeSurface} from './render-cache.js?v=19';
+import {equipmentAppearance} from './appearance.js?v=22';
+import {freezeSurface} from './render-cache.js?v=22';
 // Painted bind poses retain the eight camera directions. Both legs are driven
 // by opposite foot contacts. Traced cloth masks remove the bind-pose legs,
 // while preserving the coat. Short, forward knee paths avoid lateral IK bends.
@@ -12,10 +13,10 @@ const spec={
 const directions=['south','southwest','west','northwest','north','northeast','east','southeast'];
 const rasterCache=new WeakMap();
 function inside(x,y,poly){let yes=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){const a=poly[i],b=poly[j];if((a[1]>y)!==(b[1]>y)&&x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])yes=!yes;}return yes;}
-function rasterParts(r,name,frame,leg,other){
- let cache=rasterCache.get(r.assets.heroDirectional);if(!cache){cache=new Map();rasterCache.set(r.assets.heroDirectional,cache);}if(cache.has(name))return cache.get(name);
+function rasterParts(r,name,frame,leg,other,image=r.assets.heroDirectional,rig=spec[name]){
+ let cache=rasterCache.get(image);if(!cache){cache=new Map();rasterCache.set(image,cache);}if(cache.has(name))return cache.get(name);
  const [sx,sy,w,h]=frame.bounds,make=()=>{const c=typeof OffscreenCanvas!=='undefined'?new OffscreenCanvas(w,h):document.createElement('canvas');c.width=w;c.height=h;return c.backing||c;},body=make(),lower=make(),c=body.getContext('2d');
- if(frame.clip?.length){c.beginPath();polygon(c,frame.clip);c.clip();}c.drawImage(r.assets.heroDirectional,sx,sy,w,h,0,0,w,h);
+ if(frame.clip?.length){c.beginPath();polygon(c,frame.clip);c.clip();}c.drawImage(image,sx,sy,w,h,0,0,w,h);
  const pixels=c.getImageData(0,0,w,h),coat=new Uint8Array(w*h),horizontal=new Uint8Array(w*h),coatMask=new Uint8Array(w*h),boots=lower.getContext('2d').createImageData(w,h);
  for(let i=0;i<w*h;i++){const at=i*4;coat[i]=pixels.data[at+3]>0&&pixels.data[at+1]>pixels.data[at]*1.15&&pixels.data[at+2]>pixels.data[at]*1.08?1:0;}
  // Separable dilation preserves the cloth mask with ten checks instead of 25.
@@ -24,8 +25,10 @@ function rasterParts(r,name,frame,leg,other){
  for(let y=0;y<h;y++)for(let x=0;x<w;x++){const i=(y*w+x)*4,cloth=!coatMask[y*w+x];
   if(cloth&&inside(x,y,leg)){boots.data.set(pixels.data.subarray(i,i+4),i);pixels.data[i+3]=0;}else if(cloth&&(inside(x,y,other)||y>h*.83))pixels.data[i+3]=0;
  }
+ // Material shading is cached with the body; it never runs per frame.
+ if(['heavy','filter'].includes(frame.clothStyle)){const rgb=frame.clothStyle==='heavy'?[157,123,66]:[105,132,73];for(let i=0;i<w*h;i++){const at=i*4;if(!coat[i]||!pixels.data[at+3])continue;const light=(pixels.data[at]+pixels.data[at+1]+pixels.data[at+2])/3/110;for(let k=0;k<3;k++)pixels.data[at+k]=Math.min(255,rgb[k]*light);}}
  c.putImageData(pixels,0,0);lower.getContext('2d').putImageData(boots,0,0);
- const split=spec[name].k[1]*h,thigh=make(),calf=make();
+ const split=rig.k[1]*h,thigh=make(),calf=make();
  for(const [canvas,rect]of [[thigh,[0,0,w,split+5]],[calf,[0,split-5,w,h]]]){const ctx=canvas.getContext('2d');ctx.beginPath();ctx.rect(...rect);ctx.clip();ctx.drawImage(lower,0,0);}
  const result={body:freezeSurface(body),thigh:freezeSurface(thigh),calf:freezeSurface(calf)};cache.set(name,result);return result;
 }
@@ -34,14 +37,20 @@ export const WALK_CYCLE_DISTANCE=96;
 export const WALK_STRIDE=18;
 export const FOOT_STANCE=.375;
 export function footCycle(phase){return [0,1].map(i=>{const t=((phase+i*.5)%1+1)%1;if(t<FOOT_STANCE)return {advance:1-t*2/FOOT_STANCE,lift:0,planted:true};const u=(t-FOOT_STANCE)/(1-FOOT_STANCE),s=u*u*(3-2*u);return {advance:-1+2*s,lift:Math.sin(u*Math.PI),planted:false};});}
-export function heroRigPose(r,direction){const mirrored=direction>=5,index=mirrored?8-direction:direction,name=directions[index],rig=spec[name],frame=r.heroDirectionalCrop.directions[name][2];return {mirrored,index,name,rig,frame};}
-export function prepareHeroRig(r){for(let d=0;d<5;d++){const {name,rig,frame}=heroRigPose(r,d),[,,w,h]=frame.bounds,px=q=>[q[0]*w,q[1]*h];rasterParts(r,name,frame,rig.leg.map(px),rig.other.map(px));}}
+export function heroRigPose(r,direction,p={}){const mirrored=direction>=5,index=mirrored?8-direction:direction,name=directions[index],appearance=equipmentAppearance(p),gear=r.heroGearCrop?.styles[appearance.armor],frame=gear?gear[index]:r.heroDirectionalCrop.directions[name][2],rig=frame.rig||spec[name];return {mirrored,index,name,rig,frame,appearance,scale:gear?r.heroGearCrop.scale:r.heroDirectionalCrop.scale,image:gear?r.assets['hero-'+appearance.armor]:r.assets.heroDirectional};}
+export function prepareHeroRig(r){for(let d=0;d<5;d++){const {name,rig,frame,image}=heroRigPose(r,d),[,,w,h]=frame.bounds,px=q=>[q[0]*w,q[1]*h];rasterParts(r,name,frame,frame.leg||rig.leg.map(px),frame.other||rig.other.map(px),image,rig);}}
 export function heroBodyMotion(p,index){const phase=(p.walkDistance||0)/WALK_CYCLE_DISTANCE,blend=p.moving?(p.walkBlend??1):0,dirX=Math.cos(index*Math.PI/4+Math.PI/2);return {x:(Math.sin(phase*Math.PI*2)*.8+dirX*1.4)*blend,y:-Math.abs(Math.sin(phase*Math.PI*2))*1.2*blend,rotation:blend*(.04*dirX+Math.sin(phase*Math.PI*2)*.025)+Math.sin(Math.min(1,(p.cast||0)/.18)*Math.PI)*.035};}
 export function drawRiggedHero(r,p,direction,alpha=1){
- const {mirrored,index,name,rig,frame}=heroRigPose(r,direction),c=r.ctx,[sx,sy,w,h]=frame.bounds,scale=r.heroDirectionalCrop.scale,px=q=>[q[0]*w,q[1]*h],H=px(rig.h),K=px(rig.k),F=px(rig.f),leg=rig.leg.map(px),other=rig.other.map(px),parts=rasterParts(r,name,frame,leg,other);
+ const {mirrored,index,name,rig,frame,scale,image,appearance}=heroRigPose(r,direction,p),c=r.ctx,[sx,sy,w,h]=frame.bounds,px=q=>[q[0]*w,q[1]*h],H=px(rig.h),K=px(rig.k),F=px(rig.f),leg=frame.leg||rig.leg.map(px),other=frame.other||rig.other.map(px),parts=rasterParts(r,name,frame,leg,other,image,rig);
  const phase=(p.walkDistance||0)/WALK_CYCLE_DISTANCE,cycle=footCycle(phase),angle=index*Math.PI/4+Math.PI/2,dir=[Math.cos(angle),Math.sin(angle)*.78],blend=p.moving?(p.walkBlend??1):0,bodyMotion=heroBodyMotion(p,index),bob=bodyMotion.y;
  const segment=(a,b,A,B,image)=>{c.save();c.translate(...A);c.rotate(Math.atan2(B[1]-A[1],B[0]-A[0]));c.scale(Math.hypot(B[0]-A[0],B[1]-A[1])/Math.hypot(b[0]-a[0],b[1]-a[1]),1);c.rotate(-Math.atan2(b[1]-a[1],b[0]-a[0]));c.translate(-a[0],-a[1]);c.drawImage(image,0,0);c.restore();};
  c.save();c.globalAlpha=alpha;c.translate(p.x,p.y);c.scale(mirrored?-scale:scale,scale);c.translate(-H[0],-frame.anchor[1]*h);
  for(const i of [1,0]){const side=(i?-1:1)*5/scale,contact=cycle[i],hip=[H[0]+side,H[1]+bob/scale],foot=[H[0]+side+(F[0]-H[0])*.28+dir[0]*contact.advance*WALK_STRIDE/scale*blend,frame.anchor[1]*h+dir[1]*contact.advance*WALK_STRIDE/scale*blend-contact.lift*4/scale*blend],joint=[hip[0]+(foot[0]-hip[0])*.48+dir[0]*contact.lift*3/scale*blend,hip[1]+(foot[1]-hip[1])*.48-contact.lift*1.5/scale*blend];c.save();if(i)c.globalAlpha*=.88;segment(H,K,hip,joint,parts.thigh);segment(K,F,joint,foot,parts.calf);c.restore();}
- c.save();c.translate(bodyMotion.x/scale,bodyMotion.y/scale);c.translate(...H);c.rotate(bodyMotion.rotation);c.translate(-H[0],-H[1]);c.drawImage(parts.body,0,0);c.restore();c.restore();
+ c.save();c.translate(bodyMotion.x/scale,bodyMotion.y/scale);c.translate(...H);c.rotate(bodyMotion.rotation);c.translate(-H[0],-H[1]);if(frame.grip)drawEquipmentParts(r,p,index,frame,appearance,'weapon');c.drawImage(parts.body,0,0);if(frame.head)drawEquipmentParts(r,p,index,frame,appearance,'helmet');c.restore();c.restore();
 }
+
+function drawEquipmentParts(r,p,index,frame,a,layer){
+ const c=r.ctx;if(layer==='weapon'){const f=r.focusV8Crop?.[a.focus]?.[index];if(!f)return;const [x,y,w,h]=f.bounds,s=310/h;c.save();c.translate(...frame.grip);c.scale(s*.6,s);c.drawImage(r.assets.focusV8,x,y,w,h,-w*f.anchor[0],-h*f.anchor[1],w,h);if(a.legendary){c.strokeStyle='#f6d891';c.lineWidth=1.3/s;c.beginPath();c.ellipse(0,-h*.45,w*.34,7,0,0,Math.PI*2);c.stroke();}c.restore();
+ }else if(a.helmet){const f=r.helmetV8Crop?.[a.helmet]?.[index];if(!f)return;const[x,y,w,h]=f.bounds,s=frame.headWidth/w;c.drawImage(r.assets.helmetsV8,x,y,w,h,frame.head[0]-w*f.anchor[0]*s,frame.head[1]-h*f.anchor[1]*s,w*s,h*s);}
+}
+export function gearFocusPoint(r,p,direction){const pose=heroRigPose(r,direction,p),f=r.focusV8Crop?.[pose.appearance.focus]?.[pose.index];if(!pose.frame.grip||!f)return pose.frame.focus;const [,,w,h]=f.bounds,scale=310/h;return [pose.frame.grip[0]+(f.tip[0]-w*f.anchor[0])*scale*.6,pose.frame.grip[1]+(f.tip[1]-h*f.anchor[1])*scale];}

@@ -1,0 +1,104 @@
+{
+  "version": "8.0.0",
+  "generation": "Original artwork generated for this game. One attempt per planned asset; no external assets.",
+  "assets": [
+    {
+      "id": "light-hero",
+      "prompt": "Transparent 5-column 1-row character sprite sheet, five equally spaced isolated FULL BODY figures in order: front SOUTH, front-left SOUTHWEST, left profile WEST, back-left NORTHWEST, back NORTH. Match the reference young auburn-haired male explorer identity and painted premium Torchlight/Nine Parchments style exactly. Modern climate-apocalypse salvage expedition, mustard scarf, brown backpack, dark shorts, brown boots. Relaxed symmetrical standing legs directly under hips, NOT walking. Same scale and top-down-ish 2.5D camera, feet exactly one horizontal baseline. Arms relaxed, right hand slightly outward with an EMPTY grip. Absolutely NO staff, weapons, particles, floor, labels, text, overlap. Five correct camera angles. Generous transparent margins, each figure approx450px tall, high detail. Light cyan expedition coat with leather straps.",
+      "transparent": true,
+      "referencedHero": true,
+      "productionFiles": [
+        "assets/painted/hero-light-v8.webp"
+      ]
+    },
+    {
+      "id": "heavy-hero",
+      "prompt": "Transparent 5-column 1-row character sprite sheet, five equally spaced isolated FULL BODY figures in order: front SOUTH, front-left SOUTHWEST, left profile WEST, back-left NORTHWEST, back NORTH. Match the reference young auburn-haired male explorer identity and painted premium Torchlight/Nine Parchments style exactly. Modern climate-apocalypse salvage expedition, mustard scarf, brown backpack, dark shorts, brown boots. Relaxed symmetrical standing legs directly under hips, NOT walking. Same scale and top-down-ish 2.5D camera, feet exactly one horizontal baseline. Arms relaxed, right hand slightly outward with an EMPTY grip. Absolutely NO staff, weapons, particles, floor, labels, text, overlap. Five correct camera angles. Generous transparent margins, each figure approx450px tall, high detail. Brass and charcoal layered chestplate, large shoulder armor, short armored coat. Same face and body proportions.",
+      "transparent": true,
+      "referencedHero": true,
+      "productionFiles": [
+        "assets/painted/hero-heavy-v8.webp"
+      ]
+    },
+    {
+      "id": "filter-hero",
+      "prompt": "Transparent 5-column 1-row character sprite sheet, five equally spaced isolated FULL BODY figures in order: front SOUTH, front-left SOUTHWEST, left profile WEST, back-left NORTHWEST, back NORTH. Match the reference young auburn-haired male explorer identity and painted premium Torchlight/Nine Parchments style exactly. Modern climate-apocalypse salvage expedition, mustard scarf, brown backpack, dark shorts, brown boots. Relaxed symmetrical standing legs directly under hips, NOT walking. Same scale and top-down-ish 2.5D camera, feet exactly one horizontal baseline. Arms relaxed, right hand slightly outward with an EMPTY grip. Absolutely NO staff, weapons, particles, floor, labels, text, overlap. Five correct camera angles. Generous transparent margins, each figure approx450px tall, high detail. Olive and ivory protective filter coat with canisters, hoses, raised collar protection. Visible same face, no full face mask.",
+      "transparent": true,
+      "referencedHero": true,
+      "productionFiles": [
+        "assets/painted/hero-filter-v8.webp"
+      ]
+    },
+    {
+      "id": "storm-hero",
+      "prompt": "Transparent 5-column 1-row character sprite sheet, five equally spaced isolated FULL BODY figures in order: front SOUTH, front-left SOUTHWEST, left profile WEST, back-left NORTHWEST, back NORTH. Match the reference young auburn-haired male explorer identity and painted premium Torchlight/Nine Parchments style exactly. Modern climate-apocalypse salvage expedition, mustard scarf, brown backpack, dark shorts, brown boots. Relaxed symmetrical standing legs directly under hips, NOT walking. Same scale and top-down-ish 2.5D camera, feet exactly one horizontal baseline. Arms relaxed, right hand slightly outward with an EMPTY grip. Absolutely NO staff, weapons, particles, floor, labels, text, overlap. Five correct camera angles. Generous transparent margins, each figure approx450px tall, high detail. Deep navy and silver storm coat with violet cyan circuitry and angular shoulder guards. Same face and body proportions.",
+      "transparent": true,
+      "referencedHero": true,
+      "productionFiles": [
+        "assets/painted/hero-storm-v8.webp"
+      ]
+    },
+    {
+      "id": "focus-sheet",
+      "prompt": "Transparent 4 rows x5 columns atlas of20 distinct standalone magical technological staff sprites in premium painterly2.5D style. No hands or characters. Five rotational views S,SW,W,NW,N in each row. All long straight vertical staffs centered and equal full length, grip at60% down shaft, all feet one baseline per row, generous gaps. Row1 aged brass tidal fork with two cyan water crystal prongs. Row2 solar prism amber diamond in circular brass sun cage. Row3 silver storm tuning fork with violet coil. Row4 carbon ivory crystal focus angular suspended blue crystal. Modern salvage engineering intricate quality, clean restrained light, no labels/UI/background/shadows. Each staff full length isolated, separate visual rotations of the head. Exact4x5 grid.",
+      "transparent": true,
+      "referencedHero": false
+    },
+    {
+      "id": "enemies-v8",
+      "prompt": "Transparent 5 rows x4 columns sprite atlas20isolated fullbody premium painterly2.5D modern climate apocalypse RPG enemies, no text. Each row same creature with4 visibly different poses IDLE, STEP, WINDUP, RELEASE. Same baseline and proportions per row, ample transparent gaps. Row1 corroded blue heavy pressure diver with water cannon; row2 angular hovering frost robot with ice lance; row3 charcoal/maroon furnace marauder with flame nozzle; row4 giant crab-legged deepwater sentinel machine with broad water cannon; row5 massive ivory/black cooling tower automaton with red turbine core and steam shoulders. Strong thoughtful silhouettes. Windups deliberately raise and aim weapons, release restrained elemental jets within own cell, step legs alternate. No floor or background.",
+      "transparent": true,
+      "referencedHero": false
+    },
+    {
+      "id": "items-v8",
+      "prompt": "Transparent4columns x3rows inventory icon atlas12distinct premium painted modern salvage RPG loot items, no text/UI. Row1 brass cyan water fork staff, amber solar prism staff, reinforced pressure armor, black cooling jacket. Row2 frost boots, heat boots, silver pressure gauntlets, copper thermal gauntlets. Row3 blue turbine relic, amber cooling core relic, reinforced blue waterline utility belt, red valve utility belt. Centered isolated fullitems equalcells generous margins. Rich intricate materials clear silhouettes, high quality Torchlight/Nine Parchments2.5D illustration, no floor/shadows.",
+      "transparent": true,
+      "referencedHero": false
+    },
+    {
+      "id": "metro-hub",
+      "prompt": "Landscape3:2 premium handpainted2.5D game environment elevated view of abandoned flooded Dutch metro station converted into safe trading refuge. Broad large central pale tiled walkable court around middle, clearly connected wide paths to NW merchant alcove, NE workbench terrace, SE supply court, SW arrival platform. Paths must wide enough for2people, no narrow bottlenecks. Three trade structures spread at perimeter not on walkable paths;3empty gateway plinths spread along edges. Dark floodwater and tracks beyond ground edges, cool teal copper warm lamps, visible upper architecture. Walkable floor crisp and generous for gameplay. No NPCs/heroes/enemies/portals/UI/text/signs, no props center. Premium painterly fantasy-adventure warmth in modern disaster setting.",
+      "transparent": false,
+      "referencedHero": false
+    },
+    {
+      "id": "cooling-hub",
+      "prompt": "Landscape3:2 premium handpainted2.5D elevated gameplay view, safe abandoned cooling tower forecourt and trading camp. Large broad ivory concrete central terrace connected by wide paths to NWequipment stall, NEworkshop court, SEsupply court, SWarrival. Three empty gateway plinths separated at perimeter, each accessible by generous2people wide floor. Overgrown cooling towers and copper sunset beyond edges, corroded machinery and warm lamps only at outside floor edges. Pale terrain reads clearly, no narrow paths. No actors, portals, UI, text. Rich paint and real depth, modern climate apocalypse RPG Torchlight-quality mood.",
+      "transparent": false,
+      "referencedHero": false
+    },
+    {
+      "id": "flood-tunnel",
+      "prompt": "Landscape3:2 premium painterly2.5D RPG battle environment elevated gameplay camera: abandoned flooded metro service yard with flanking rail lines and corroded vault doors. Broad roughly octagonal dry concrete combat arena filling central60%image, teal floodwater outside edges, only small machinery islands at perimeter with wide room around. Central floor very open playable, varied stone materials and stains, cool teal/blue with warm amber lamps, rich environmental art modern climate apocalypse. No actors/enemies/portals/UI/text.",
+      "transparent": false,
+      "referencedHero": false
+    },
+    {
+      "id": "metro-boss",
+      "prompt": "Landscape3:2 premium painterly2.5D RPG battle environment elevated gameplay camera: dramatic deep submerged metro pumping chamber. Very large open oval weathered tiled arena over dark seawater. Massive pipe arches and blue pressure windows around outer edges, navy/cyan luminous water, copper maintenance lamps. Arena fills central70%image, broad dry clean playable floor, no blocking floor props center. Memorable boss fight location. No actors/enemies/portals/UI/text.",
+      "transparent": false,
+      "referencedHero": false
+    },
+    {
+      "id": "cooling-battle",
+      "prompt": "Landscape3:2 premium painterly2.5D RPG battle environment elevated gameplay camera: abandoned cooling tower heat-exchange yard. Broad hexagonal pale cracked concrete battle arena centered, corroded red heat pipes at outer edges and three modest black equipment islands away from center. Tower silhouettes, copper sunset and steam beyond arena edges, readable playable generous floor. Rich paint depth modern climate apocalypse premium game aesthetic. No actors/enemies/portals/UI/text.",
+      "transparent": false,
+      "referencedHero": false
+    },
+    {
+      "id": "helmets",
+      "description": "Additional headgear atlas after the head-slot request: field cap, brass helm, filter hood, storm diadem; five corresponding directions. Original transparent painted cutouts; independent crops in helmets-v8.json.",
+      "transparent": true,
+      "productionFiles": [
+        "assets/expedition/helmets-v8.webp",
+        "assets/expedition/helmets-v8.json",
+        "assets/items/field-cap.webp",
+        "assets/items/sentinel-helm.webp",
+        "assets/items/filter-hood.webp",
+        "assets/items/storm-crown.webp"
+      ]
+    }
+  ],
+  "preparation": "Transparent atlases cropped into aligned cells with shared foot anchors. Equipment layers selected independently from stats. Back views mirrored for the opposite three directions. Heavy brass and filter-green cloth shading cached by outfit. Leg cutouts use the existing gait. Environment floors traced in source coordinates; collision footprints cover painted machinery."
+}

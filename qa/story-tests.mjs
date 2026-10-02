@@ -10,8 +10,8 @@ import {ITEM_BASES,makeItem,DROP_TABLES} from '../src/loot.js';
 let passed=0;
 function test(name,fn){fn();passed++;console.log('PASS '+name);}
 function arena(){const g=new Engine('tide',106);g.enterArea('ring');g.state.world.enemies=[];g.state.world.hazards=[];Object.assign(g.state.player,{x:850,y:640,invincible:0});return g;}
-test('Sixteen chapters retain one combat return gate and fixed distinct transit destinations',()=>{
- assert.equal(STORY_ORDER.length,AREAS.filter(a=>!a.optional&&!a.endgame).length);assert.equal(new Set(STORY_ORDER).size,16);
+test('Twenty-four chapters retain one combat return gate and fixed distinct transit destinations',()=>{
+ assert.equal(STORY_ORDER.length,AREAS.filter(a=>!a.optional&&!a.endgame).length);assert.equal(new Set(STORY_ORDER).size,24);
  const g=new Engine();g.state.cores=[0,1,2];for(const a of AREAS){g.enterArea(a.id);const portals=g.portalDefinitions(a.id);if(SAFE_HUBS.includes(a.id)){assert(portals.length>=3);assert.equal(new Set(portals.map(p=>p.to)).size,portals.length);}else assert.equal(portals.length,1,a.id);}
 });
 test('The first camp leads to the pump chapter before the first core arena',()=>{
@@ -56,8 +56,8 @@ test('Salt walls leave a safe central corridor and sweeping beams use a narrow r
  const g=arena(),e=g.makeEnemy('brinebreaker',1100,640);g.planAttack(e);g.planAttack(e);g.executeEnemyAttack(e);const hp=g.state.player.hp;updateNewThreats(g,.5);assert.equal(g.state.player.hp,hp);const wall=g.state.world.threats[0];Object.assign(g.state.player,{x:wall.x,y:wall.y});updateNewThreats(g,.7);assert(g.state.player.hp<hp);
  const b=arena(),drone=b.makeEnemy('resonant',650,640);b.planAttack(drone);b.planAttack(drone);b.executeEnemyAttack(drone);assert(b.state.world.threats.some(t=>t.type==='sweep'));b.state.player.y=840;updateNewThreats(b,.1);assert.equal(b.state.player.hp,100);
 });
-test('Thirty-six loot templates include twelve new illustrated archetypes across six slots',()=>{
- assert.equal(ITEM_BASES.length,36);const ids=new Set(ITEM_BASES.map(i=>i.id));assert.equal(ids.size,36);const rng=new Engine().rng,seen=new Set();for(let i=0;i<2500;i++)seen.add(makeItem({rng,level:3,uid:i}).id);assert.equal(seen.size,36);
+test('Fifty-two illustrated templates gate late-act equipment out of early drops',()=>{
+ assert.equal(ITEM_BASES.length,52);const ids=new Set(ITEM_BASES.map(i=>i.id));assert.equal(ids.size,52);const rng=new Engine().rng,seen=new Set();for(let i=0;i<2500;i++)seen.add(makeItem({rng,level:3,uid:i}).id);assert.equal(seen.size,40);const late=new Set();for(let i=0;i<4000;i++)late.add(makeItem({rng,level:20,uid:i}).id);assert.equal(late.size,52);
 });
 test('Whole-body gait counter-swings shoulders and arms, and eases to a stable pose',()=>{
  const a=heroGait(.1),b=heroGait(.1+1/3.1);assert(a.torso*b.torso<0);assert(a.arm*b.arm<0);assert(a.arm*a.torso<0);assert(a.weight*b.weight<0);assert(a.bob<0);assert.deepEqual(heroGait(.1,0),{cycle:.1*Math.PI*3.1,weight:0,bob:-0,torso:0,arm:-0});

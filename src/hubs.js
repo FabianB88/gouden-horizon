@@ -1,10 +1,10 @@
-import {AREAS,AREA_BY_ID,WORLD} from './data.js?v=19';
-import {regionalService} from './markets.js?v=19';
-import {HUB_LAYOUTS} from './hub-layouts.js?v=19';
-export const SAFE_HUBS=['canal','highway','forest','skybridge'];
+import {AREAS,AREA_BY_ID,WORLD} from './data.js?v=22';
+import {regionalService} from './markets.js?v=22';
+import {HUB_LAYOUTS} from './hub-layouts.js?v=22';
+export const SAFE_HUBS=['canal','highway','forest','skybridge','metro-refuge','cooling-refuge'];
 export const SERVICE_INFO={
  smith:{name:'Mara · Focusmaker',title:'Focusmaker',slots:['weapon','relic','gloves'],text:'Precisie of elementkracht? Kies een focus die bij je spreuken past.',file:'smith'},
- outfitter:{name:'Jules · Veldhandel',title:'Veldhandel',slots:['suit','boots','belt'],text:'Snel bewegen helpt. Bescherming geeft je tijd om een fout te herstellen.',file:'outfitter'},
+ outfitter:{name:'Jules · Veldhandel',title:'Veldhandel',slots:['suit','head','boots','belt'],text:'Snel bewegen helpt. Bescherming geeft je tijd om een fout te herstellen.',file:'outfitter'},
  workshop:{name:'Inez · Werkplaats',title:'Werkplaats',slots:[],text:'Ik versterk wat je al draagt. Een vertrouwde vondst hoeft niet meteen vervangen te worden.',file:'workshop'}
 };
 const routeCache=new Map();
@@ -28,7 +28,7 @@ export const hubPortals=fixedHubPortals;
 export const HubRules={
  prepareHub(w,area){
   if(area.id==='rooftops'&&!w.roofExplorationVersion){w.roofExplorationVersion=1;if(!w.loot.some(i=>i.exploration))w.loot.push({id:++this.idCounter,x:425,y:250,type:'loot',exploration:true,profile:'cache'});}
-  if(w.shop&&w.shop.marketVersion!==1){w.shop.stock=this.makeStock(area.zone,area.id);w.shop.marketVersion=1;}
+  if(w.shop&&w.shop.marketVersion!==2){w.shop.stock=this.makeStock(area.zone,area.id).filter(i=>!w.shop.purchasedSpecials?.includes(i.investment));w.shop.marketVersion=2;}
   if(w.shop&&w.shop.antidoteStock===undefined)w.shop.antidoteStock=2;
   if(!SAFE_HUBS.includes(area.id))return;
   w.safeHub=true;w.enemies=w.enemies.filter(e=>e.dead);w.hazards=[];w.threats=[];w.camp.services=hubMerchants(area.id);

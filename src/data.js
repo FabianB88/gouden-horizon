@@ -1,10 +1,12 @@
-import {HUB_LAYOUTS} from './hub-layouts.js?v=19';
+import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=22';
+import {V8_AREAS,V8_ZONES,V8_ENEMIES} from './v8-content.js?v=22';
+import {HUB_LAYOUTS} from './hub-layouts.js?v=22';
 export const WORLD = { width: 1920, height: 1280 };
 export const SPELLS = {
   tide: { name: 'Getijdenwaaier', short: 'GETIJ', color: '#73e2e5', dark: '#126c8b', key: '1', damage: 13, cost: 4, interval: .22, speed: 780, radius: 11, status: 'wet', description: 'Drie waterbogen waaieren uit en maken doelen NAT. Wissel naar storm voor kettingbliksem.' },
   storm: { name: 'Boogbliksem', short: 'STORM', color: '#ceb2ff', dark: '#7958ca', key: '2', damage: 20, cost: 8, interval: .4, speed: 1000, radius: 9, status: 'shock', description: 'Natte doelen geven +70% schade en leiden bliksem door naar twee vijanden.' },
   ember: { name: 'Zonnebom', short: 'ZON', color: '#ffbc66', dark: '#b74c27', key: '3', damage: 30, cost: 12, interval: .7, speed: 620, radius: 15, status: 'burn', description: 'Een gebogen vuurbom ontploft op de grond en laat brandschade achter. NAT + ZON veroorzaakt een stoomgolf.' },
-  prism:{name:'Prismaboog',short:'PRISMA',color:'#ffe49a',dark:'#c18340',damage:44,cost:28,interval:2.8,speed:960,radius:12,unlockLevel:7,shopOnly:true,description:'Richt een vliegende prismalans. Na een treffer springt hij naar maximaal twee andere doelen; iedere sprong doet 25% minder schade. Exclusief bij de Focusmaker vanaf Veldmakers, 650 schroot.'},
+  prism:{name:'Prismaboog',short:'PRISMA',color:'#ffe49a',dark:'#c18340',damage:70,cost:18,interval:1.2,speed:960,radius:12,unlockLevel:5,shopOnly:true,description:'Een gerichte prismalans springt na een treffer naar drie andere doelen. Sprongen behouden 88% schade. 70 beginschade, 18 mana, 1,2s. Bij Mara vanaf Vrijhaven · 650 schroot.'},
   frost: {name:'IJslans',short:'IJS',color:'#a9edff',dark:'#468ca7',damage:28,cost:11,interval:.55,speed:1080,radius:10,unlockLevel:2,status:'slow',description:'Een scherpe lans doorboort de hele rij. Vertraagt; natte doelen bevriezen kort.'},
   gale: {name:'Windboemerang',short:'WIND',color:'#b7f1bd',dark:'#428c75',damage:19,cost:9,interval:.65,speed:590,radius:24,unlockLevel:3,status:'push',description:'Een draaiende windschijf raakt op de heen- én terugweg en duwt vijanden weg.'},
   gravity: {name:'Zwaartekern',short:'KERN',color:'#e3a7ff',dark:'#8652a0',damage:42,cost:20,interval:1.3,speed:240,radius:22,unlockLevel:4,status:'pull',description:'Een trage kern trekt vijanden samen en implodeert. Volg op met een zonnebom.'}
@@ -70,7 +72,7 @@ export const DISCIPLINES = [
   {id:'ember',name:'Zonnewever',text:'Meer leven · explosies & terreinbeheer',stats:{hp:20,ember:.12},relic:'Vuur is ook een vorm van herstel.'}
 ];
 export const RARITIES = {common:{name:'COMMON',color:'#677171',rank:0,factor:.55,value:.7},uncommon:{name:'UNCOMMON',color:'#39734c',rank:1,factor:.8,value:1.1},rare:{name:'RARE',color:'#276f94',rank:2,factor:1,value:1.8},epic:{name:'EPIC',color:'#754a8b',rank:3,factor:1.25,value:2.8},legendary:{name:'LEGENDARY',color:'#9b6020',rank:4,factor:1.6,value:4.3},field:{name:'COMMON',color:'#677171',rank:0,factor:.55,value:.7}};
-export const SLOT_NAMES={weapon:'Focus',suit:'Mantel',relic:'Relikwie',boots:'Laarzen',gloves:'Handschoenen',belt:'Gordel'};
+export const SLOT_NAMES={weapon:'Focus',suit:'Mantel',relic:'Relikwie',boots:'Laarzen',gloves:'Handschoenen',belt:'Gordel',head:'Hoofd'};
 export const POSITIONS = {start:{x:490,y:815},relayA:{x:538,y:384},relayB:{x:1382,y:794},exit:{x:1536,y:346},boss:{x:1080,y:550},archive:{x:840,y:905}};
 
 // Each route has a traced union of walkable floors; portals are actual exits, not teleports on the atlas.
@@ -880,7 +882,7 @@ quay.nav.push(
  // The right stairhead continues beyond the old rectangular road cutoff.
  quayFloor([[1475,300],[1580,240],[1670,225],[1680,255],[1585,342],[1520,380]])
 );
-for(const [id,layout]of Object.entries(HUB_LAYOUTS))AREAS.find(a=>a.id===id).nav.push(...layout.floors.map(quayFloor));
+for(const [id,layout]of Object.entries(HUB_LAYOUTS))AREAS.find(a=>a.id===id)?.nav.push(...layout.floors.map(quayFloor));
 AREAS.push(
  {id:'brine',name:'De Zoutcentrale',file:'salt-works.webp',zone:1,kind:'hub',side:true,nav:[expeditionFloor],links:['highway'],map:[56,23],unlockCore:1,enemies:['minecrab','sniper','brinebreaker','sentinel'],guardian:'brinebreaker'},
  {id:'clouds',name:'Het Wolkenarchief',file:'cloud-archive.webp',zone:3,kind:'hub',side:true,nav:[expeditionFloor],links:['skybridge'],map:[87,15],unlockCore:3,enemies:['resonant','stormling','minecrab','brinebreaker'],guardian:'resonant'}
@@ -967,3 +969,20 @@ const cityPixels=[
 ];
 const cityArea=AREA_BY_ID.highway;cityArea.name='Vrijhaven · Het Transportnet';cityArea.file='city-v6.webp';cityArea.nav=cityPixels.map(poly=>poly.map(([x,y])=>[x/1536,y/1024]));cityArea.spawn=[.46,.64];cityArea.exit=[.77,.79];
 Object.assign(HUB_LAYOUTS.highway,{portals:{mirrors:[430,255],brine:[580,790],kilometer:[1850,1150],forest:[1550,1000],depot:[1140,720],'workshop-v6':[1575,360]},services:{smith:[335,700],outfitter:[1040,880],workshop:[1390,400]},cache:[1030,680],supply:[190,280]});
+
+SPELLS.volt={name:'Donderlans',short:'LANS',color:'#d5c4ff',dark:'#7860bb',damage:90,cost:24,interval:1.65,speed:1250,radius:12,element:'storm',shopOnly:true,unlockLevel:8,description:'Een snelle, gerichte bliksemlans door drie doelen. 90 schade; natte doelen krijgen de stormcombinatie. 24 mana, 1,65s. Bij Mara vanaf de Groene Corridor · 1200 schroot.'};
+SPELLS.cryo={name:'Winterkroon',short:'KROON',color:'#c1f1ff',dark:'#498eac',damage:95,cost:30,interval:5.5,radius:155,area:true,duration:1.8,element:'frost',shopOnly:true,unlockLevel:11,description:'Plaats een vorstexplosie: 95 schade plus twee nasplinterpulsen van 16. Vertraagt en bevriest natte doelen kort. 30 mana, 5,5s. Bij Mara in Horizonpost · 1800 schroot.'};
+
+// Short, repeatable adventures leave the sixteen main arenas untouched.
+const adventureAreas=[
+ {id:'adventure-metro',name:'De Metrowerkplaats',file:'adventure-metro-v7.webp',zone:0,unlockChapter:'delta',returnHub:'canal',nav:[[[.08,.45],[.27,.30],[.56,.25],[.85,.36],[.92,.54],[.84,.71],[.5,.84],[.26,.79],[.09,.66]]],spawn:[.26,.65],exit:[.3,.68],objectives:[[680,680],[1270,690],[1060,440]],story:'Berg drie pomponderdelen in de verlaten metrohof. Ranged bewakers en mijnen vragen om een andere aanloop.'},
+ {id:'adventure-caravan',name:'De Verloren Karavaan',file:'adventure-caravan-v7.webp',zone:1,unlockChapter:'highway',returnHub:'highway',nav:[[[.12,.4],[.36,.28],[.64,.33],[.86,.43],[.91,.63],[.73,.8],[.46,.86],[.28,.75],[.12,.62]]],spawn:[.27,.64],exit:[.3,.68],objectives:[[680,650],[1180,880],[1330,570]],story:'Zoek de voorraad van een gestrande karavaan. Reparateurs en bastions bewaken verschillende ladingen.'},
+ {id:'adventure-bio',name:'Het Stille Laboratorium',file:'adventure-bio-v7.webp',zone:2,unlockChapter:'forest',returnHub:'forest',nav:[[[.19,.41],[.38,.29],[.63,.28],[.81,.43],[.86,.58],[.69,.77],[.46,.83],[.28,.73],[.16,.58]]],spawn:[.29,.63],exit:[.32,.66],objectives:[[690,650],[1140,820],[1170,480]],story:'Haal filters en een archiefkopie uit de overwoekerde onderzoekshof. Schakel gifdragers eerst uit.'},
+ {id:'adventure-radar',name:'De Hoogteradar',file:'adventure-radar-v7.webp',zone:3,unlockChapter:'skybridge',returnHub:'skybridge',nav:[[[.12,.43],[.31,.31],[.64,.30],[.85,.39],[.91,.58],[.76,.76],[.44,.83],[.26,.75],[.1,.61]]],spawn:[.26,.62],exit:[.3,.65],objectives:[[720,650],[1150,870],[1260,520]],story:'Een verre hoogterelaispost bewaart de laatste reserveonderdelen. Stormmachines hebben het buitenterrein overgenomen.'}
+];
+for(const a of adventureAreas){Object.assign(a,{kind:'hub',side:true,optional:true,adventure:true,links:[a.returnHub],map:[5+a.zone*23,92]});AREAS.push(a);AREA_BY_ID[a.id]=a;}
+
+// Two further regional acts, after the Aurelia milestone.
+AREAS.push(...V8_AREAS);ZONES.push(...V8_ZONES);Object.assign(ENEMIES,V8_ENEMIES);Object.assign(AREA_BY_ID,Object.fromEntries(V8_AREAS.map(a=>[a.id,a])));
+
+Object.assign(HUB_LAYOUTS,V8_HUB_LAYOUTS);for(const [id,layout]of Object.entries(V8_HUB_LAYOUTS)){AREA_BY_ID[id].nav=layout.nav.map(poly=>poly.map(([x,y])=>[x/1536,y/1024]));AREA_BY_ID[id].spawn=layout.spawn;AREA_BY_ID[id].pocket=layout.cache.map((v,i)=>v/(i?1280:1920));}

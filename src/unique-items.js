@@ -1,4 +1,4 @@
-import {ENEMIES} from './data.js?v=19';
+import {ENEMIES} from './data.js?v=22';
 export const UNIQUE_ITEMS={
  waterlens:{slot:'weapon',name:'Lens van het Stille Water',art:'unique-waterlens',text:'Een getijtreffer laat een waterlens achter. Storm ontlaadt lenzen binnen 250 voor 18 schade. Maximaal drie; geen kettingprocs.',stats:{tide:.12,mana:8}},
  furnace:{slot:'gloves',name:'Handen van de Zonneoven',art:'unique-furnace',text:'Elke derde zonnetreffer veroorzaakt een extra kleine uitbarsting voor 20 schade. Herlaadt in 5 seconden.',stats:{ember:.1,fireResist:.08}},

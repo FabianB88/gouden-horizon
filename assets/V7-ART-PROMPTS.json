@@ -1,0 +1,100 @@
+{
+  "generator": "built-in image_gen",
+  "generation_calls": 6,
+  "assets": [
+    {
+      "filename": "v7-metro-courtyard.png",
+      "source_path": "/workspace/scratch/19cb526127e1/generated_images/exec-58ae7cc3-b908-4d64-b074-2f1cb99b41b0.png",
+      "destination_path": "/workspace/scratch/19cb526127e1/v7-art/v7-metro-courtyard.png",
+      "requested_transparent": false,
+      "reference_images": [],
+      "prompt": "Use case: stylized-concept.\nAsset type: original background for Gouden Horizon, a painted 2.5D climate-postapocalypse action RPG.\nCreate a premium hand-painted modern-technology ruin environment with production game art polish comparable to Torchlight and Nine Parchments, clear material detail, deliberate silhouettes, rich but controlled atmospheric color, brushwork and believable depth, no pixel art.\nOutput landscape 1536 by 1024 pixels, 3:2.\nCamera: fixed raised three-quarter gameplay view, looking down about 45 degrees, wide scene. No dramatic cinematic low angle. Continuous walkable open ground must span x=18% to 84%, y=24% to 78% of the picture. This central ground is an unobstructed broad courtyard allowing circular player exploration. Buildings, machinery, fences and large props stay on the perimeter. Only tiny unobtrusive crates at the far edge, never busy obstacles in the central floor. Ground textures and seams may add interest while keeping that ground continuously readable.\nNo people, no creatures, no characters, no loot, no portals, no UI, no lettering, no signage, no text, no watermark. Do not divide into panels.\nScene: an abandoned Rotterdam metro service courtyard after catastrophic climate flooding. A broad wet concrete maintenance yard with rain-polished reflections and drainage seams fills the playable center. Low modern metro service buildings, an industrial tunnel entrance, fenced maintenance bays and pipe runs border the upper and side edges. Corroded steel, rough concrete, broken roof panes and peripheral cables. Deep teal emergency work lights under peripheral awnings; restrained amber accent from an old electrical cabinet. Damp blue-grey atmosphere, subtle mist behind buildings, wet concrete with coherent reflections. The architecture frames a very clear open floor, with foreground concrete continuing the same walkable plane.",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "image_mode": "RGB"
+    },
+    {
+      "filename": "v7-caravan-layby.png",
+      "source_path": "/workspace/scratch/19cb526127e1/generated_images/exec-56a301a3-5069-4fe0-82d6-24157903b6c0.png",
+      "destination_path": "/workspace/scratch/19cb526127e1/v7-art/v7-caravan-layby.png",
+      "requested_transparent": false,
+      "reference_images": [],
+      "prompt": "Use case: stylized-concept.\nAsset type: original background for Gouden Horizon, a painted 2.5D climate-postapocalypse action RPG.\nCreate a premium hand-painted modern-technology ruin environment with production game art polish comparable to Torchlight and Nine Parchments, clear material detail, deliberate silhouettes, rich but controlled atmospheric color, brushwork and believable depth, no pixel art.\nOutput landscape 1536 by 1024 pixels, 3:2.\nCamera: fixed raised three-quarter gameplay view, looking down about 45 degrees, wide scene. No dramatic cinematic low angle. Continuous walkable open ground must span x=18% to 84%, y=24% to 78% of the picture. This central ground is an unobstructed broad courtyard allowing circular player exploration. Buildings, machinery, fences and large props stay on the perimeter. Only tiny unobtrusive crates at the far edge, never busy obstacles in the central floor. Ground textures and seams may add interest while keeping that ground continuously readable.\nNo people, no creatures, no characters, no loot, no portals, no UI, no lettering, no signage, no text, no watermark. Do not divide into panels.\nScene: a crashed supply caravan at a warm, dry motorway layby in a climate-ravaged Netherlands. A wide sun-baked worn concrete and asphalt rest-area apron is the continuous open central playable floor. The wrecked supply trucks and collapsed trailer are confined along the back and outer side margins, alongside low roadside service structures, rusted guardrails, solar-panel debris and dry grasses. No truck, wall or pile crosses the central movement area. Warm ochre sunlight, terracotta dust, pale sandy concrete, dark chipped asphalt, muted teal truck paint and copper rust. Distant elevated motorway structure along the upper edge. Premium detailed materials, painterly afternoon haze, a peaceful but dangerous abandoned industrial refuge. No readable marks on trucks.",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "image_mode": "RGB"
+    },
+    {
+      "filename": "v7-bio-courtyard.png",
+      "source_path": "/workspace/scratch/19cb526127e1/generated_images/exec-1bce8880-e808-45e2-9a4f-d04f0f11d25a.png",
+      "destination_path": "/workspace/scratch/19cb526127e1/v7-art/v7-bio-courtyard.png",
+      "requested_transparent": false,
+      "reference_images": [],
+      "prompt": "Use case: stylized-concept.\nAsset type: original background for Gouden Horizon, a painted 2.5D climate-postapocalypse action RPG.\nCreate a premium hand-painted modern-technology ruin environment with production game art polish comparable to Torchlight and Nine Parchments, clear material detail, deliberate silhouettes, rich but controlled atmospheric color, brushwork and believable depth, no pixel art.\nOutput landscape 1536 by 1024 pixels, 3:2.\nCamera: fixed raised three-quarter gameplay view, looking down about 45 degrees, wide scene. No dramatic cinematic low angle. Continuous walkable open ground must span x=18% to 84%, y=24% to 78% of the picture. This central ground is an unobstructed broad courtyard allowing circular player exploration. Buildings, machinery, fences and large props stay on the perimeter. Only tiny unobtrusive crates at the far edge, never busy obstacles in the central floor. Ground textures and seams may add interest while keeping that ground continuously readable.\nNo people, no creatures, no characters, no loot, no portals, no UI, no lettering, no signage, no text, no watermark. Do not divide into panels.\nScene: an overgrown bio-research courtyard. The central broad open concrete research service court stays walkable and largely clear, with understated moss in cracks and very low patches of grass. On perimeter only, derelict modern laboratory wings with large green glass windows, a broken greenhouse facade, rusting stainless-steel ventilation machinery, vines and fern beds swallowing the edges. Glass has luminous emerald and celadon translucency, believable reflections and cracked pane detail. Dappled green and pale gold light, humid atmosphere, deep teal shadow, small amber lamps among peripheral architecture. Strong readable ground plane; exuberant vegetation is contained at borders, never blocking a circular exploration route.",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "image_mode": "RGB"
+    },
+    {
+      "filename": "v7-radar-courtyard.png",
+      "source_path": "/workspace/scratch/19cb526127e1/generated_images/exec-161f25d5-6cab-46d5-94b6-abbe1bcc942c.png",
+      "destination_path": "/workspace/scratch/19cb526127e1/v7-art/v7-radar-courtyard.png",
+      "requested_transparent": false,
+      "reference_images": [],
+      "prompt": "Use case: stylized-concept.\nAsset type: original background for Gouden Horizon, a painted 2.5D climate-postapocalypse action RPG.\nCreate a premium hand-painted modern-technology ruin environment with production game art polish comparable to Torchlight and Nine Parchments, clear material detail, deliberate silhouettes, rich but controlled atmospheric color, brushwork and believable depth, no pixel art.\nOutput landscape 1536 by 1024 pixels, 3:2.\nCamera: fixed raised three-quarter gameplay view, looking down about 45 degrees, wide scene. No dramatic cinematic low angle. Continuous walkable open ground must span x=18% to 84%, y=24% to 78% of the picture. This central ground is an unobstructed broad courtyard allowing circular player exploration. Buildings, machinery, fences and large props stay on the perimeter. Only tiny unobtrusive crates at the far edge, never busy obstacles in the central floor. Ground textures and seams may add interest while keeping that ground continuously readable.\nNo people, no creatures, no characters, no loot, no portals, no UI, no lettering, no signage, no text, no watermark. Do not divide into panels.\nScene: a frozen radar maintenance courtyard at an abandoned climate-monitoring station. An expansive open blue-grey concrete maintenance apron, lightly frosted but clearly walkable, fills the center. Radar installation foundations, a large weathered radar dish and low insulated modern service buildings are placed at upper edge; perimeter fences, crates and conduit stay at sides. Frosted steel, gold brass fittings, iced window panes, shallow snow against walls, subtle tire scars and fine cracks on central ground. Cold crystalline blue atmosphere balanced with warm golden maintenance lights from the perimeter structures. Premium painterly materials, strong silhouettes, gentle golden low sun touching upper metalwork, no heavy snow pile or machine obstructing central floor.",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "image_mode": "RGB"
+    },
+    {
+      "filename": "v7-enemies-walk-atlas.png",
+      "source_path": "/workspace/scratch/19cb526127e1/generated_images/exec-64b6be91-6499-4262-87f4-3901501a4118.png",
+      "destination_path": "/workspace/scratch/19cb526127e1/v7-art/v7-enemies-walk-atlas.png",
+      "requested_transparent": true,
+      "reference_images": [
+        "/workspace/scratch/19cb526127e1/.sites-checkout/assets/expedition/v6-enemies.webp"
+      ],
+      "prompt": "Use case: stylized-concept.\nAsset type: production walking-sprite atlas for Gouden Horizon, painted 2.5D action RPG.\nGenerate a NEW original atlas. The supplied image is a character identity / material style reference ONLY, not an edit target or a layout to preserve. Retain the bronze metal, teal cloth, masked faces, glowing colored machinery and highly polished painterly game rendering, adapted to the exact roles below.\nOutput square 2048 by 2048 PNG on ACTUAL fully transparent alpha. Exactly FOUR ROWS and FOUR COLUMNS in a uniform invisible grid, sixteen complete separate full-body sprites total. Equal 512\u00d7512 cells. Do not draw the grid.\nWithin every cell, the character is centered horizontally, occupies roughly 280\u00d7380 pixels, with feet anchored around 83% down its cell. Large transparent separation between sprites, generous transparent gutters on every side. No sprite or effect extends into another cell. Equal apparent body height and exact consistent foot-anchor position across all four poses of each character row.\nCamera for ALL sixteen: raised three-quarter gameplay view looking down, facing toward screen RIGHT with a slight visible front. Never rotate or mirror the facing direction.\nRows from top to bottom:\nROW 1: a heavy bronze armored mechanical BASTION, teal accents, round bronze-and-teal shield in left hand, mace in right hand, enclosed helmet with cyan slotted visor, sturdy armored legs. Recognizable bronze/teal bastion identity from reference but round shield.\nROW 2: a green poison backpack SCIENTIST, teal hooded research coat, gasmask with green lenses, paired glowing green backpack tanks, metal launcher carried in both hands. Recognizable reference scientist identity.\nROW 3: a slim masked HUNTER with bronze birdlike face mask and teal coat, a distinctive RED SCARF, compact crossbow held plausibly in both hands, slim walking legs. Adapt reference hunter silhouette to this crossbow role.\nROW 4: an orange-lit mechanical REPAIRWORKER ROBOT, round bronze-and-teal torso and bright orange core eye, articulated arms and two functional articulated mechanical legs, small welding tool held in right hand. Recognizable round repair robot design from reference but supported walking legs, not hovering.\nAll four columns in EACH row show the EXACT SAME character, clothes, pack, proportions, shield/weapon/tool and material colors across a coherent four-frame walk cycle:\nCOLUMN 1: left foot forward planted contact, right foot back, weight on left.\nCOLUMN 2: passing pose, planted leg under center of mass and other leg stepping forward.\nCOLUMN 3: right foot forward planted contact, left foot back, inverse limb gait of column 1 while keeping same RIGHT-facing orientation.\nCOLUMN 4: second passing pose with opposite leg under center of mass.\nWalking toward right: feet stay underneath the body's center of mass rather than sliding outwards; natural bent knees, coherent weight shift, slightly bobbing torso, plausible counter-swinging arms, coat/scarf/pack also shift subtly. The crossbow/launcher carriers use restrained elbow/shoulder and torso movement rather than frozen upper bodies. No attacks, no spell effects, no hovering, no moonwalk, no weapon trails.\nPremium detailed painterly nonpixel sprites, modern tech scavenger fantasy, crisp readable silhouettes, small brushwork. No cast shadows, no drop shadows, no ground, no backdrop, no labels, no text, no borders, no UI.",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "image_mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "fully_transparent_pixels": 830693,
+      "fully_transparent_fraction": 0.5283
+    },
+    {
+      "filename": "v7-spells-atlas.png",
+      "source_path": "/workspace/scratch/19cb526127e1/generated_images/exec-9b08a842-36ae-45e5-9668-fdd80006a62f.png",
+      "destination_path": "/workspace/scratch/19cb526127e1/v7-art/v7-spells-atlas.png",
+      "requested_transparent": true,
+      "reference_images": [
+        "/workspace/scratch/19cb526127e1/.sites-checkout/assets/items/skill-prism.webp"
+      ],
+      "prompt": "Use case: stylized-concept.\nAsset type: four original painted item/spell icons for Gouden Horizon.\nGenerate a NEW square 2048 by 2048 PNG atlas on ACTUAL fully transparent alpha. Supplied image is a painting/material/lighting style reference ONLY, not an edit target. Match its premium painterly polished amber metal, faceted glass and contained radiant highlights.\nExactly TWO ROWS by TWO COLUMNS, four equal 1024\u00d71024 cells. No visible grid. Each cell contains one standalone distinct icon centered, with a transparent generous gutter between all cells and outside margin. Each object fits entirely within its cell, including its magical effect; no overlap across cells.\nTOP LEFT: a triangular GOLDEN PRISM in a crafted brass setting, faceted amber glass. One vivid cyan-and-gold light ray visibly ricochets through and around it in a contained curved arc, visually readable as prism ricochet.\nTOP RIGHT: a COPPER LIGHTNING JAVELIN, single distinct slender copper spear arranged diagonally, angular electrified prongs, blue-white lightning wrapping just around the shaft. Clearly a thrown spear silhouette, not a prism.\nBOTTOM LEFT: a radiant AMBER SOLAR CORE, round luminous amber orb with exactly THREE distinct orbiting metallic rings, a sunlike controlled corona. Clearly spherical and ringed, no prism or spear.\nBOTTOM RIGHT: a pale ICY CRYSTAL CROWN, crystalline crown points in pale blue white ice, framed by a contained ice burst of shards and frost wisps. Clearly a crown silhouette, icy rather than gold.\nPremium painterly RPG item art with carved copper/gold hardware, believable glass and crystal, strong distinct silhouettes and carefully contained glow. High detail, crisp readable object edges, no pixels. The empty background must be transparent not black, not white, not a checkerboard painted into the picture. No words, no numbers, no lettering, no UI, no labels, no cell borders, no drop shadows, no ground.",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "image_mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "fully_transparent_pixels": 747203,
+      "fully_transparent_fraction": 0.4752
+    }
+  ]
+}

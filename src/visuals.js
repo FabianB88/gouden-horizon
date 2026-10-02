@@ -1,5 +1,5 @@
-import {SPELLS,AREA_BY_ID,RARITIES} from './data.js?v=19';
-import {EncounterVisuals} from './encounter-visuals.js?v=19';
+import {SPELLS,AREA_BY_ID,RARITIES} from './data.js?v=22';
+import {EncounterVisuals} from './encounter-visuals.js?v=22';
 const centered=source=>({...source,anchor:[.5,.5]});
 const distance=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 export const ExpeditionVisuals={
@@ -58,7 +58,7 @@ export const ExpeditionVisuals={
  drawAreaField(f){
   const c=this.ctx,spell=SPELLS[f.type],fade=Math.min(1,f.life*2,f.age*4+.25);
   c.save();c.globalAlpha=fade;
-  if(f.type==='glacier'){
+  if(f.type==='cryo'){this.ellipse(f.x,f.y,f.r,f.r/1.15,'#a7e7ff12','#bceeff99',2);const count=f.detonated?6:3;for(let i=0;i<count;i++){const a=i*Math.PI*2/count+f.age*.3,x=f.x+Math.cos(a)*f.r*.64,y=f.y+Math.sin(a)*f.r*.64/1.15;this.sprite(this.assets.abilities,this.expedition.abilities.glacier,x,y,60,false,0,fade*.75);}}else if(f.type==='glacier'){
    // A crosswise strip of crystals matches the narrow collision footprint.
    const side={x:-f.dir.y,y:f.dir.x/1.15};
    for(let i=-3;i<=3;i++){const x=f.x+side.x*i*(f.r/3.5),y=f.y+side.y*i*(f.r/3.5);

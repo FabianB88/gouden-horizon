@@ -34,7 +34,7 @@ export function simulateTrial(g,id,tier,maxSeconds=360){
   }
   // Read the same warnings a human sees, then step out before impact.
   let danger=false;
-  for(const e of nearby){const a=e.windup;if(!a)continue;
+  for(const e of nearby){const a=e.windup;if(!a||a.quick)continue;
    if(['venomJet','beam','snipe','charge','crossfire','echo','sweep','solarSweep','clawRush','arcDash','huntDash','harpoonVolley','huntShots','tether'].includes(a.mode)){const dx=p.x-e.x,dy=(p.y-e.y)*1.15,along=dx*a.dir.x+dy*a.dir.y,cross=dx*a.dir.y-dy*a.dir.x;if(along>0&&along<750&&Math.abs(cross)<85){const sign=cross<0?-1:1;move={x:a.dir.y*sign,y:-a.dir.x*sign};danger=a.timer<.35;}}
    if(a.mode==='floodLanes')for(const y of a.lanes)if(Math.abs(p.y-y)*1.15<80){move={x:0,y:p.y<y?-1:1};danger=a.timer<.35;}
    if(a.mode==='mirrorCross')for(const target of a.targets)if(Math.abs(p.x-target.x)<75){move={x:p.x<target.x?-1:1,y:0};danger=a.timer<.35;}
@@ -69,7 +69,7 @@ export function simulateTrial(g,id,tier,maxSeconds=360){
  }
  const t=g.state.world.trial;return {id,tier,mode:g.state.mode,done:t.done,waves:t.round,time:trialTime(Math.round(t.elapsed*1000)),elapsedMs:Math.round(t.elapsed*1000),hp:Math.round(g.state.player.hp),kills:t.kills,heals,dashes,attacks,hits,loot:g.state.world.loot.length,potions:g.state.player.potions,antidotes:g.state.player.antidotes,reward:t.rewardPaid};
 }
-const campaign=simulate(48,'tide',1200,{includeEngine:true}),g=campaign.engine;assert.equal(campaign.mode,'won');console.log(JSON.stringify({campaign:{mode:campaign.mode,seconds:campaign.seconds,level:campaign.level,scrap:campaign.scrap,retries:campaign.retries}},null,2));
+const campaign=simulate(48,'tide',1800,{includeEngine:true}),g=campaign.engine;assert.equal(campaign.mode,'won');console.log(JSON.stringify({campaign:{mode:campaign.mode,seconds:campaign.seconds,level:campaign.level,scrap:campaign.scrap,retries:campaign.retries}},null,2));
 const results=[];for(const spec of TRIALS){const result=simulateTrial(g,spec.id,1);results.push(result);console.log(JSON.stringify(result));assert(result.done,spec.name+' did not complete');assert(result.attacks>0&&result.loot===0);}
 for(const tier of [2,3]){const result=simulateTrial(g,TRIALS[0].id,tier);results.push(result);console.log(JSON.stringify(result));if(!result.done)break;}
 assert(results.filter(r=>r.done).length===5,'all five tested arena/tier combinations must clear');assert(results.reduce((sum,r)=>sum+r.hits,0)>0,'trial attacks must actually be able to hit');

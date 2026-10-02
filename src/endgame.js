@@ -1,7 +1,7 @@
-import {activeVariant} from './spell-variants.js?v=19';
-import {AREA_BY_ID,ENEMIES,POSITIONS} from './data.js?v=19';
-import {SAFE_HUBS} from './hubs.js?v=19';
-import {makeItem} from './loot.js?v=19';
+import {activeVariant} from './spell-variants.js?v=22';
+import {AREA_BY_ID,ENEMIES,POSITIONS} from './data.js?v=22';
+import {SAFE_HUBS} from './hubs.js?v=22';
+import {makeItem} from './loot.js?v=22';
 const clone=v=>JSON.parse(JSON.stringify(v));
 export const TRIALS=[
  {id:'trial-tide',name:'Dijkbreker',theme:'Water, gif en zware dijkmachines',boss:'dredger',bossName:'De Dijkwachter',roster:['eel','minecrab','toxinbeetle','bulwark','brinebreaker'],rewardSlot:'boots'},
@@ -10,7 +10,7 @@ export const TRIALS=[
 ];
 export const TRIAL_TIERS=[{name:'Veteraan',hp:1,damage:1,scrap:70,xp:120},{name:'Expert',hp:1.32,damage:1.14,scrap:105,xp:180},{name:'Meester',hp:1.68,damage:1.28,scrap:150,xp:240}];
 export function trialTime(ms){const whole=Math.floor(ms/1000);return Math.floor(whole/60)+':'+String(whole%60).padStart(2,'0')+'.'+String(Math.floor(ms%1000/10)).padStart(2,'0');}
-export function recordText(record){return `Gouden Horizon v6.0.0 · ${record.arenaName} · ${TRIAL_TIERS[record.tier-1].name}\n${trialTime(record.elapsedMs)} · niveau ${record.level} · ${record.kills} vijanden\n${record.spells.join(' / ')}\n${record.gear.join(' · ')}\nPersoonlijk lokaal tijdrecord · https://gouden-horizon-rpg.fb12.chatgpt.site`;}
+export function recordText(record){return `Gouden Horizon v8.0.0 · ${record.arenaName} · ${TRIAL_TIERS[record.tier-1].name}\n${trialTime(record.elapsedMs)} · niveau ${record.level} · ${record.kills} vijanden\n${record.spells.join(' / ')}\n${record.gear.join(' · ')}\nPersoonlijk lokaal tijdrecord · https://gouden-horizon-rpg.fb12.chatgpt.site`;}
 export const EndgameRules={
  challengeBuildLocked(){return Boolean(this.state.world?.trial&&!this.state.world.trial.done);},
  endgameUnlocked(){return Boolean(this.state.completed||this.state.cores.includes(3));},
@@ -24,7 +24,7 @@ export const EndgameRules={
  createChallengeWorld(w,area){
   const s=this.state,p=s.player,request=s.challengeRequest,tier=request?.id===area.id?request.tier:1;s.challengeRequest=null;
   const spec=TRIALS.find(t=>t.id===area.id),stats=this.stats();
-  w.coreCollected=true;w.gate={...POSITIONS.exit,open:false,eliteSpawned:true};w.trial={id:area.id,tier,round:0,rounds:4,elapsed:0,countdown:3,breakTime:0,kills:0,done:false,rewardPaid:false,startingLevel:Math.max(12,p.level),build:{level:p.level,spells:[p.mainAttack,p.rightAbility,...p.hotbar.filter(Boolean)].map(id=>id+(activeVariant(p,id)?' ['+activeVariant(p,id).name+']':'')),gear:Object.values(p.equipment).map(i=>i.name+(i.enhance?' +'+i.enhance:''))}};
+  w.coreCollected=true;w.gate={...POSITIONS.exit,open:false,eliteSpawned:true};w.trial={id:area.id,tier,round:0,rounds:4,elapsed:0,countdown:3,breakTime:0,kills:0,done:false,rewardPaid:false,startingLevel:Math.max(12,p.level),build:{specialization:p.specialization||null,talents:[...(p.specializationTalents||[])],level:p.level,spells:[p.mainAttack,p.rightAbility,...p.hotbar.filter(Boolean)].map(id=>id+(activeVariant(p,id)?' ['+activeVariant(p,id).name+']':'')),gear:Object.values(p.equipment).filter(i=>!i.empty).map(i=>i.name+(i.enhance?' +'+i.enhance:''))}};
   // Every attempt uses the same restored body and ability resources. Consumable
   // counts are earned stock: starting a trial never refills them.
   p.hp=stats.maxHp;p.mana=stats.maxMana;p.spellCd={};p.ultimate=0;p.ultimateCooldown=0;p.healCooldown=0;p.antidoteCooldown=0;p.venom=0;p.venomDamage=0;p.venomTick=0;p.venomGuard=0;p.wet=0;p.poison=0;p.heat=0;p.dashCharges=2;p.dashRecharge=0;p.ward=0;p.wardTime=0;p.rootSlow=0;p.echoCount=0;p.effectCooldowns={};

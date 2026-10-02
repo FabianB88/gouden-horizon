@@ -1,9 +1,9 @@
-import {ENEMIES} from './data.js?v=19';
+import {ENEMIES} from './data.js?v=22';
 
 // Snapshot strength when an enemy enters the encounter. Equipment changes and
 // later level-ups never refill or repeatedly enlarge a living enemy's health.
 export function scaleEnemy(enemy,zone,playerLevel){
- if(enemy.balanceVersion===1)return enemy;
+ if(enemy.balanceVersion>=1)return enemy;
  const base=ENEMIES[enemy.type],level=Math.max(1,1+zone*2,playerLevel||1),growth=Math.min(10,level-1);
  const fraction=enemy.maxHp?Math.max(0,Math.min(1,enemy.hp/enemy.maxHp)):1;
  enemy.level=level+(enemy.elite?2:0);

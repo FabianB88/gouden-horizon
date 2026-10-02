@@ -1,6 +1,7 @@
-import {variantBody} from './variant-ui.js?v=19';
-import {spellProfile,activeVariant} from './spell-variants.js?v=19';
-import {SPELLS,UPGRADES} from './data.js?v=19';
+import {SPELL_OFFERS} from './markets.js?v=22';
+import {variantBody} from './variant-ui.js?v=22';
+import {spellProfile,activeVariant} from './spell-variants.js?v=22';
+import {SPELLS,UPGRADES} from './data.js?v=22';
 const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const art=id=>`<img class="painted-spell" src="assets/items/skill-${id}.webp" alt="" draggable="false">`;
 export function bindingLabel(key){return key==='main'?'Linkermuisknop':key==='right'?'Rechtermuisknop / Q':'Slot '+(Number(key)+1);}
@@ -14,7 +15,7 @@ export function loadoutBody(p,target,icon){
  html+=Object.entries(SPELLS).map(([id,base])=>{const spell=spellProfile(p,id);
   const learned=p.skills.includes(id),available=p.level>=(spell.unlockLevel||1),canLearn=!spell.shopOnly&&available&&p.skillPoints>0;
   const places=slots.filter(s=>s.id===id).map(s=>s.label).join(' · ');
-  return `<button data-loadout-skill="${id}" class="loadout-spell ${chosen.id===id?'selected':''} ${learned?'learned':'locked'}" ${!learned&&!canLearn?'disabled':''} aria-pressed="${chosen.id===id}" title="${escape(spell.description)}"><span>${art(id)}</span><div><strong>${spell.name}</strong><p>${spell.cost} mana · ${spell.interval}s herladen</p><small>${learned?(chosen.id===id?'GEPLAATST':places?'OOK OP '+places:'KLIK OM TE PLAATSEN'):spell.shopOnly?'TE KOOP BIJ VELDMAKERS · 650 SCHROOT':canLearn?'LEREN & PLAATSEN · 1 PUNT':!available?'VRIJ VANAF LEVEL '+spell.unlockLevel:'LEREN · 1 LEVELPUNT NODIG'}</small></div></button>`;
+  return `<button data-loadout-skill="${id}" class="loadout-spell ${chosen.id===id?'selected':''} ${learned?'learned':'locked'}" ${!learned&&!canLearn?'disabled':''} aria-pressed="${chosen.id===id}" title="${escape(spell.description)}"><span>${art(id)}</span><div><strong>${spell.name}</strong><p>${spell.cost} mana · ${spell.interval}s herladen</p><small>${learned?(chosen.id===id?'GEPLAATST':places?'OOK OP '+places:'KLIK OM TE PLAATSEN'):spell.shopOnly?'TE KOOP BIJ MARA · '+SPELL_OFFERS[id]?.price+' SCHROOT':canLearn?'LEREN & PLAATSEN · 1 PUNT':!available?'VRIJ VANAF LEVEL '+spell.unlockLevel:'LEREN · 1 LEVELPUNT NODIG'}</small></div></button>`;
  }).join('')+'</div><p class="binding-note">Links, rechts en cijfers blijven afzonderlijk ingesteld. Plaats je dezelfde aanval op meerdere knoppen, dan delen die de herlaadtijd. In de veilige handelszone kun je geen aanvallen uitvoeren.</p>';
  html+=variantBody(p,chosen.id);
  html+=`<h3 class="perk-heading">Permanente verbeteringen <small>${p.skillPoints} punten beschikbaar</small></h3><div class="perk-grid">${UPGRADES.map(u=>`<button data-perk="${u.id}" ${p.skillPoints?'':'disabled'}><span>${icon(u.icon)}</span><strong>${u.name} ${p.perks[u.id]?'· '+p.perks[u.id]+'×':''}</strong><p>${u.text}</p></button>`).join('')}</div>`;

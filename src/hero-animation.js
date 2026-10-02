@@ -1,11 +1,11 @@
-import {drawRiggedHero,heroRigPose,heroBodyMotion} from './hero-rig.js?v=19';
+import {drawRiggedHero,heroRigPose,heroBodyMotion,gearFocusPoint} from './hero-rig.js?v=22';
 
 export function heroFocus(renderer,p,time=0){
  const atlas=renderer.heroDirectionalCrop;
  if(!atlas)return null;
  const point=index=>{
-  const {mirrored,rig,frame,index:bindIndex}=heroRigPose(renderer,index),motion=heroBodyMotion(p,bindIndex),dx=frame.focus[0]-rig.h[0]*frame.bounds[2],dy=frame.focus[1]-rig.h[1]*frame.bounds[3],a=motion.rotation;
-  return {x:p.x+((dx*Math.cos(a)-dy*Math.sin(a))*atlas.scale+motion.x)*(mirrored?-1:1),y:p.y+(rig.h[1]-frame.anchor[1])*frame.bounds[3]*atlas.scale+(dx*Math.sin(a)+dy*Math.cos(a))*atlas.scale+motion.y};
+  const {mirrored,rig,frame,scale,index:bindIndex}=heroRigPose(renderer,index,p),focus=gearFocusPoint(renderer,p,index),motion=heroBodyMotion(p,bindIndex),dx=focus[0]-rig.h[0]*frame.bounds[2],dy=focus[1]-rig.h[1]*frame.bounds[3],a=motion.rotation;
+  return {x:p.x+((dx*Math.cos(a)-dy*Math.sin(a))*scale+motion.x)*(mirrored?-1:1),y:p.y+(rig.h[1]-frame.anchor[1])*frame.bounds[3]*scale+(dx*Math.sin(a)+dy*Math.cos(a))*scale+motion.y};
  };
  const current=point(p.poseDirection??0);
  if(p.poseTurn>0&&p.previousPoseDirection!==p.poseDirection){const previous=point(p.previousPoseDirection);return {x:current.x+(previous.x-current.x)*p.poseTurn,y:current.y+(previous.y-current.y)*p.poseTurn};}

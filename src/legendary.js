@@ -1,7 +1,8 @@
 // Effects have separate cooldowns, use the original cast's damage, and never
 // trigger themselves. A legendary changes a build without an unlimited chain.
-import {UNIQUE_ITEMS} from './unique-items.js?v=19';
+import {UNIQUE_ITEMS} from './unique-items.js?v=22';
 export const LEGENDARY_EFFECTS={
+ resolve:{name:'Veldvast',slot:'head',title:'Kroon van de Drukgrens',text:'Na een treffer krijg je 12 schild voor 2 seconden. Herlaadt in 12 seconden.'},
  echo:{name:'Prismatische echo',slot:'weapon',title:'Echo van de Waterlijn',text:'Elke vierde directe spreuk vuurt een extra doorborende ijsstraal af voor 35% spreukschade.'},
  ward:{name:'Noodmantel',slot:'suit',title:'Mantel van de Laatste Wacht',text:'Na ontwijken absorbeer je tot 16 schade gedurende 2 seconden. Herlaadt in 9 seconden.'},
  conductor:{name:'Stormlus',slot:'relic',title:'Hart van de Stormlus',text:'Een stormtreffer springt naar één extra doel voor 30% schade. Herlaadt in 3 seconden.'},
@@ -24,6 +25,7 @@ export function triggerLegendary(g,trigger,data={}){
   const id=item.effect;if(!id||(cool[id]||0)>0)continue;
   let fired=false;
   if(id==='echo'&&trigger==='cast'&&!data.area){p.echoCount=(p.echoCount||0)+1;if(p.echoCount%4===0){const dir=p.aim;s.projectiles.push({id:++g.idCounter,group:++g.idCounter,team:'player',type:'frost',x:p.x+dir.x*32,y:p.y-18+dir.y*24,vx:dir.x*900,vy:dir.y*900/1.15,damage:data.damage*.35,radius:8,life:.8,age:0,trail:[],hitIds:[],legendary:true});cool[id]=1;fired=true;}}
+  if(id==='resolve'&&trigger==='hurt'){p.ward=Math.max(p.ward||0,12);p.wardTime=2;cool[id]=12;fired=true;}
   if(id==='ward'&&trigger==='dash'){p.ward=16;p.wardTime=2;cool[id]=9;fired=true;}
   if(id==='wake'&&trigger==='dash'){(s.world.threats||=[]).push({id:++g.idCounter,type:'frostwake',x:p.x,y:p.y,dir:p.dashDir,length:185,r:45,age:0,life:2,color:'#a9edff'});cool[id]=6;fired=true;}
   if(id==='reserve'&&trigger==='hurt'){p.mana=Math.min(g.stats().maxMana,p.mana+12);cool[id]=8;fired=true;}

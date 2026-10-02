@@ -1,29 +1,34 @@
-import {V6Visuals} from './v6-visuals.js?v=19';
-import {UNIQUE_ITEMS} from './unique-items.js?v=19';
-import {WORLD,ZONES,AREAS,AREA_BY_ID,SPELLS,ENEMIES,POSITIONS,START_EQUIPMENT} from './data.js?v=19';
-import {clamp,distance} from './engine.js?v=19';
-import {ITEM_BASES} from './loot.js?v=19';
-import {ExpeditionVisuals} from './visuals.js?v=19';
-import {drawAnimatedEnemy} from './enemy-motion.js?v=19';
-import {drawWalkingHero,drawDirectionalHero,heroFocus} from './hero-animation.js?v=19';
-import {EnemyCombatVisuals,enemyAttackMotion} from './enemy-combat.js?v=19';
-import {QuestVisuals,NORA} from './quests.js?v=19';
-import {arenaObstacles} from './arena-layouts.js?v=19';
-import {EnemyAreaVisuals} from './enemy-area-visuals.js?v=19';
-import {prepareHeroRig} from './hero-rig.js?v=19';
-import {RenderCache,renderRatio,surface,freezeSurface} from './render-cache.js?v=19';
+import {drawRiggedHero} from './hero-rig.js?v=22';
+import {equipmentAppearance} from './appearance.js?v=22';
+import {V6Visuals} from './v6-visuals.js?v=22';
+import {UNIQUE_ITEMS} from './unique-items.js?v=22';
+import {WORLD,ZONES,AREAS,AREA_BY_ID,SPELLS,ENEMIES,POSITIONS,START_EQUIPMENT} from './data.js?v=22';
+import {clamp,distance} from './engine.js?v=22';
+import {ITEM_BASES} from './loot.js?v=22';
+import {ExpeditionVisuals} from './visuals.js?v=22';
+import {drawAnimatedEnemy} from './enemy-motion.js?v=22';
+import {drawWalkingHero,drawDirectionalHero,heroFocus} from './hero-animation.js?v=22';
+import {EnemyCombatVisuals,enemyAttackMotion} from './enemy-combat.js?v=22';
+import {QuestVisuals,NORA} from './quests.js?v=22';
+import {arenaObstacles} from './arena-layouts.js?v=22';
+import {EnemyAreaVisuals} from './enemy-area-visuals.js?v=22';
+import {prepareHeroRig} from './hero-rig.js?v=22';
+import {RenderCache,renderRatio,surface,freezeSurface} from './render-cache.js?v=22';
 const TAU=Math.PI*2;
 export class Renderer {
   constructor(canvas,minimap){this.canvas=canvas;this.ctx=canvas.getContext('2d');this.minimap=minimap;this.mctx=minimap.getContext('2d');this.assets={};this.camera={x:0,y:0};this.shake=0;this.flash=0;this.ready=false;this.crop=null;this.time=0;this.quality=1;this.cache=new RenderCache();}
   async load(){
     const files={...Object.fromEntries(AREAS.map(z=>[z.id,'assets/painted/'+z.file])),items:'assets/items/item-atlas.webp',travel:'assets/expedition/travel-camp-atlas.webp',mineArt:'assets/expedition/magnet-mine.webp',combatEffects:'assets/expedition/combat-effects-v551.webp',nora:'assets/expedition/nora-v551.webp',enemyAnimation:'assets/expedition/enemy-animation-v55.webp',rolesV54:'assets/expedition/enemy-v54.webp',bossesV54:'assets/expedition/boss-v54.webp',newEnemies:'assets/expedition/enemy-v52.webp',extraEnemies:'assets/expedition/enemy-atlas.webp',abilities:'assets/expedition/ability-atlas.webp',...Object.fromEntries([...new Set([...ITEM_BASES,...Object.values(START_EQUIPMENT)].map(i=>i.art||i.id))].map(id=>['item-'+id,'assets/items/'+id+'.webp'])),heroDirectional:'assets/painted/hero-eight-directions.webp',heroAnimation:'assets/painted/hero-animation.webp',atlas:'assets/painted/enemy-atlas.webp'};
     for(const id of ['enemies','bosses','summons','npcs'])files['v6-'+id]='assets/expedition/v6-'+id+'.webp';for(const u of Object.values(UNIQUE_ITEMS))files['item-'+u.art]='assets/items/'+u.art+'.webp';
-    files.enemyAOE='assets/expedition/enemy-aoe-v561.webp';files.arenaProps='assets/expedition/arena-obstacles-v561.webp';
-    await Promise.all(Object.entries(files).map(async([id,file])=>{this.assets[id]=await new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(new Error('Asset ontbreekt: '+file));image.src=file;});}));
+    for(const style of ['light','heavy','filter','storm'])files['hero-'+style]='assets/painted/hero-'+style+'-v8.webp';files.focusV8='assets/expedition/focus-v8.webp';files.helmetsV8='assets/expedition/helmets-v8.webp';files.enemiesV8='assets/expedition/enemies-v8.webp';
+    files.enemyWalkV7='assets/expedition/enemy-walk-v7.webp';files.enemyAOE='assets/expedition/enemy-aoe-v561.webp';files.arenaProps='assets/expedition/arena-obstacles-v561.webp';
+    const decoded=new Map();await Promise.all(Object.entries(files).map(async([id,file])=>{if(!decoded.has(file))decoded.set(file,new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(new Error('Asset ontbreekt: '+file));image.src=file;}));this.assets[id]=await decoded.get(file);}));
     [this.enemyAOECrop,this.arenaPropsCrop]=await Promise.all(['enemy-aoe-v561','arena-obstacles-v561'].map(name=>fetch('assets/expedition/'+name+'.json').then(r=>r.json())));
+    this.enemyWalkV7Crop=await fetch('assets/expedition/enemy-walk-v7.json').then(r=>r.json());
     this.v6Crop=await fetch('assets/expedition/v6-sprites.json').then(r=>r.json());
-    this.combatEffectsCrop=await fetch('assets/expedition/combat-effects-v551.json').then(r=>r.json());this.noraCrop=await fetch('assets/expedition/nora-v551.json').then(r=>r.json());this.enemyAnimationCrop=await fetch('assets/expedition/enemy-animation-v55.json').then(r=>r.json());this.v54Crop=await fetch('assets/expedition/v54-sprites.json').then(r=>r.json());this.newEnemyCrop=await fetch('assets/expedition/enemy-v52.json').then(r=>r.json());this.expedition=await fetch('assets/expedition/sprites.json').then(r=>r.json());this.itemCrop=await fetch('assets/items/items.json').then(r=>r.json());this.crop=await fetch('assets/painted/sprites.json').then(r=>r.json());this.heroDirectionalCrop=await fetch('assets/painted/hero-eight-directions.json').then(r=>r.json());prepareHeroRig(this);this.ready=true;
+    this.combatEffectsCrop=await fetch('assets/expedition/combat-effects-v551.json').then(r=>r.json());this.noraCrop=await fetch('assets/expedition/nora-v551.json').then(r=>r.json());this.enemyAnimationCrop=await fetch('assets/expedition/enemy-animation-v55.json').then(r=>r.json());this.v54Crop=await fetch('assets/expedition/v54-sprites.json').then(r=>r.json());this.newEnemyCrop=await fetch('assets/expedition/enemy-v52.json').then(r=>r.json());this.expedition=await fetch('assets/expedition/sprites.json').then(r=>r.json());this.itemCrop=await fetch('assets/items/items.json').then(r=>r.json());this.crop=await fetch('assets/painted/sprites.json').then(r=>r.json());[this.heroGearCrop,this.focusV8Crop,this.helmetV8Crop,this.v8EnemyCrop]=await Promise.all(['assets/painted/hero-gear-v8.json','assets/expedition/focus-v8.json','assets/expedition/helmets-v8.json','assets/expedition/enemies-v8.json'].map(file=>fetch(file).then(r=>r.json())));this.heroDirectionalCrop=await fetch('assets/painted/hero-eight-directions.json').then(r=>r.json());prepareHeroRig(this);this.ready=true;
   }
+  drawEquipmentPortrait(canvas,p){if(!canvas||!this.ready)return;const key=equipmentAppearance(p).key;this.portraits||=new Map();let tile=this.portraits.get(key);if(!tile){tile=typeof OffscreenCanvas!=='undefined'?new OffscreenCanvas(320,420):document.createElement('canvas');tile.width=320;tile.height=420;const ctx=tile.getContext('2d'),old=this.ctx;this.ctx=ctx;ctx.save();ctx.translate(160,375);ctx.scale(2.6,2.6);drawRiggedHero(this,{...p,x:0,y:0,moving:false,walkBlend:0,cast:0,poseTurn:0},0);ctx.restore();this.ctx=old;this.portraits.set(key,tile);while(this.portraits.size>12)this.portraits.delete(this.portraits.keys().next().value);}const ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(tile,0,0,canvas.width,canvas.height);}
   resize(){const rect=this.canvas.getBoundingClientRect(),ratio=renderRatio(rect.width,rect.height,window.devicePixelRatio||1)*(this.performanceScale||1);this.canvas.width=Math.round(rect.width*ratio);this.canvas.height=Math.round(rect.height*ratio);this.width=rect.width;this.height=rect.height;this.pixelRatio=ratio;this.zoom=Math.max(rect.width<=720?.78:1,rect.width/WORLD.width,rect.height/WORLD.height);this.viewWidth=this.width/this.zoom;this.viewHeight=this.height/this.zoom;this.ctx.imageSmoothingEnabled=true;this.ctx.imageSmoothingQuality='medium';this.cache.clearViewport();}
   noteFrame(delta){if(this.settings?.quality&&this.settings.quality!=='auto')return;if(!Number.isFinite(delta)||delta<.004||delta>.1)return;this.frameSamples||=[];this.frameSamples.push(delta);if(this.frameSamples.length<90)return;const samples=this.frameSamples;this.frameSamples=[];const slow=samples.filter(d=>d>.023).length,fast=samples.filter(d=>d<.014).length,scale=this.performanceScale||1;const next=slow>67?Math.max(.65,scale*.88):fast>80?Math.min(1,scale/.95):scale;if(Math.abs(next-scale)>.01){this.performanceScale=next;this.resize();}}
   reset(player){this.camera.x=clamp(player.x-this.viewWidth/2,0,Math.max(0,WORLD.width-this.viewWidth));this.camera.y=clamp(player.y-this.viewHeight*.57,0,Math.max(0,WORLD.height-this.viewHeight));}
@@ -97,7 +102,7 @@ export class Renderer {
       else if(h.type==='heat'||h.type==='friendlyFire'){for(let i=0;i<6;i++){const a=i*2.8;const r=i*13;this.glow(h.x+Math.cos(a)*r,h.y+Math.sin(a)*r*.6-14,25,color,.18);}}
       else if(h.type==='polarity'){this.ellipse(h.x,h.y,h.r*.7,h.r*.42,null,hot?'#ffeab5b0':'#8cbbba77',hot?2:1);this.text(hot?'−':'+',h.x,h.y+6,hot?'#f7d682':'#b2e8de',22);}
     }}
-  drawTelegraphs(s){const c=this.ctx;for(const e of s.world.enemies){if(e.dead||!e.windup)continue;const w=e.windup,progress=1-w.timer/w.total,color='#ef805f';c.save();
+  drawTelegraphs(s){const c=this.ctx;for(const e of s.world.enemies){if(e.dead||!e.windup||e.windup.quick)continue;const w=e.windup,progress=1-w.timer/w.total,color='#ef805f';c.save();
     if(this.drawV6Warning(e,w,progress)){c.restore();continue;}
     if(this.drawEnemyAreaWarning(e,w,progress)){c.restore();continue;}
     if(this.drawNewTelegraph(e,w,progress)){c.restore();continue;}
@@ -108,7 +113,7 @@ export class Renderer {
     else if(w.mode==='swing'||w.mode==='bite'){c.translate(e.x,e.y);c.scale(1,.75);c.rotate(Math.atan2(w.dir.y,w.dir.x));c.beginPath();c.moveTo(0,0);c.arc(0,0,125,-1.15,1.15);c.closePath();c.fillStyle=color+'38';c.fill();c.strokeStyle='#ffc88d';c.lineWidth=2;c.stroke();}
     else{this.ellipse(e.x,e.y,e.type==='boss'?125:w.mode==='slam'?150:47,e.type==='boss'?76:w.mode==='slam'?95:28,color+'25','#f7b88d',2);this.ellipse(e.x,e.y,(e.type==='boss'?125:w.mode==='slam'?150:47)*progress,(e.type==='boss'?76:w.mode==='slam'?95:28)*progress,null,'#ffe8a8',2);}
     c.restore();}}
-  drawProjectile(bolt){if(this.drawEnemyProjectile(bolt))return;if(bolt.type==='prism'){for(let i=1;i<bolt.trail.length;i++)this.line(bolt.trail[i-1],bolt.trail[i],i%2?'#8ef2ec90':'#ffe4a990',3);this.combatSprite('solar',Math.floor(bolt.age*16)%2,bolt.x,bolt.y,48,Math.atan2(bolt.vy,bolt.vx));return;}const c=this.ctx,color=bolt.team==='enemy'?(bolt.color||'#ffc092'):SPELLS[bolt.type].color,y=bolt.y-(bolt.flightHeight||0);
+  drawProjectile(bolt){if(this.drawEnemyProjectile(bolt))return;if(bolt.type==='volt'){for(let i=1;i<bolt.trail.length;i++)this.line(bolt.trail[i-1],bolt.trail[i],'#bca6ff88',3);this.combatSprite('storm',Math.floor(bolt.age*16)%2,bolt.x,bolt.y,68,Math.atan2(bolt.vy,bolt.vx));return;}if(bolt.type==='prism'){for(let i=1;i<bolt.trail.length;i++)this.line(bolt.trail[i-1],bolt.trail[i],i%2?'#8ef2ec90':'#ffe4a990',3);this.combatSprite('solar',Math.floor(bolt.age*16)%2,bolt.x,bolt.y,48,Math.atan2(bolt.vy,bolt.vx));return;}const c=this.ctx,color=bolt.team==='enemy'?(bolt.color||'#ffc092'):SPELLS[bolt.type].color,y=bolt.y-(bolt.flightHeight||0);
     if(bolt.trail.length)for(let i=1;i<bolt.trail.length;i++)this.line(bolt.trail[i-1],bolt.trail[i],color+Math.round(i/bolt.trail.length*150).toString(16).padStart(2,'0'),bolt.type==='frost'?4:bolt.radius*.65*i/bolt.trail.length);
     this.glow(bolt.x,y,bolt.type==='gravity'?65:bolt.radius*3,color,.55);c.save();c.translate(bolt.x,y);
     if(bolt.type==='tide'){c.rotate(Math.atan2(bolt.vy,bolt.vx));c.beginPath();c.arc(-9,0,23,-1.2,1.2);c.strokeStyle='#c5ffff';c.lineWidth=5;c.stroke();c.beginPath();c.arc(-13,0,28,-1.3,1.3);c.strokeStyle=color+'aa';c.lineWidth=8;c.stroke();}

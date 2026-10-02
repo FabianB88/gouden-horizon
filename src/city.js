@@ -1,5 +1,5 @@
-import {AREA_BY_ID} from './data.js?v=19';
-import {makeItem,makeUniqueItem} from './loot.js?v=19';
+import {AREA_BY_ID} from './data.js?v=22';
+import {makeItem,makeUniqueItem} from './loot.js?v=22';
 export const CITY_NPCS=[
  {id:'ilya',name:'Ilya · Constructiebouwer',title:'Een tweede paar handen',x:1560,y:540,art:0},
  {id:'milo',name:'Milo · Cartograaf',title:'Kaarten van Vrijhaven',x:350,y:290,art:1},

@@ -1,13 +1,13 @@
-import {ENEMIES} from './data.js?v=19';
-import {coverHit} from './arena-layouts.js?v=19';
+import {ENEMIES} from './data.js?v=22';
+import {coverHit} from './arena-layouts.js?v=22';
 
 export const ELEMENT_COLORS={water:'#6be6ee',fire:'#ff994c',storm:'#c5a0ff',toxin:'#bbdf49',solar:'#ffd371',metal:'#e9b77d'};
-const elements={bulwark:'solar',plaguewright:'toxin',hunter:'metal',repairer:'metal',tideleviathan:'water',solararchitect:'solar',drone:'metal',raider:'fire',beast:'toxin',turret:'storm',boss:'solar',crawler:'metal',sniper:'metal',sentinel:'fire',sporecaster:'toxin',stormling:'storm',siege:'fire',minecrab:'metal',resonant:'storm',brinebreaker:'water',eel:'water',salamander:'fire',shieldguard:'solar',stormnest:'storm',dredger:'water',solarKnight:'solar',seedheart:'toxin',toxinbeetle:'toxin',chemist:'toxin'};
+const elements={pressurediver:'water',rimedrone:'water',furnacegunner:'fire',deepwarden:'water',towerwarden:'fire',bulwark:'solar',plaguewright:'toxin',hunter:'metal',repairer:'metal',tideleviathan:'water',solararchitect:'solar',drone:'metal',raider:'fire',beast:'toxin',turret:'storm',boss:'solar',crawler:'metal',sniper:'metal',sentinel:'fire',sporecaster:'toxin',stormling:'storm',siege:'fire',minecrab:'metal',resonant:'storm',brinebreaker:'water',eel:'water',salamander:'fire',shieldguard:'solar',stormnest:'storm',dredger:'water',solarKnight:'solar',seedheart:'toxin',toxinbeetle:'toxin',chemist:'toxin'};
 const melee=new Set(['bite','swing','slam','charge','shockwave','arcDash','clawRush','shieldBash','huntDash','burrow','leap']);
 const radial=new Set(['radial','chainburst','sunWheel']);
 export function attackProfile(e,mode=e.windup?.mode||e.lastAttack){const element=elements[e.type]||'metal';return {element,color:ELEMENT_COLORS[element],melee:melee.has(mode),radial:radial.has(mode),mode};}
 export function enemyMuzzle(e,dir=e.windup?.dir||e.attackDirection||{x:Math.cos(e.angle||0),y:Math.sin(e.angle||0)}){
- const base=ENEMIES[e.type],mount=['sniper','chemist','shieldguard','raider'].includes(e.type)?.46:['stormnest','stormling'].includes(e.type)?.58:.36,reach=e.type==='stormnest'?0:base.radius*.95;
+ const base=ENEMIES[e.type],mount=['pressurediver','furnacegunner'].includes(e.type)?.38:['deepwarden','towerwarden'].includes(e.type)?.5:e.type==='rimedrone'?.58:['sniper','chemist','shieldguard','raider'].includes(e.type)?.46:['stormnest','stormling'].includes(e.type)?.58:.36,reach=base.v8row!==undefined?base.size*(base.boss?.5:.42):e.type==='stormnest'?0:base.radius*.95;
  return {x:e.x+dir.x*reach,y:e.y-base.size*mount+dir.y*reach/1.15};
 }
 export function enemyAttackMotion(e){
@@ -22,7 +22,7 @@ export function launchEnemyLob(g,e,target,{duration=.55,damage=0,radius=70,poiso
 export function presentEnemyAttack(g,e,firstProjectile,firstThreat,firstEffect){
  if(g.inCamp()||!e.windup)return;const w=e.windup,profile=attackProfile(e),muzzle=enemyMuzzle(e);e.attackDirection={...w.dir};
  for(const b of g.state.projectiles.slice(firstProjectile)){
-  if(b.team!=='enemy')continue;b.source=e.id;b.element=profile.element;b.color=profile.color;b.damageType=b.venom?'venomHit':profile.element==='storm'?'electric':profile.element;
+  if(b.team!=='enemy')continue;b.source=e.id;if(e.type==='rimedrone')b.chill=true;b.element=profile.element;b.color=profile.color;b.damageType=b.venom?'venomHit':profile.element==='storm'?'electric':profile.element;
   if(['enemy-lob','enemy-carrier'].includes(b.type))continue;
   const speed=Math.hypot(b.vx,b.vy*1.15),spread=Math.atan2(b.vy*1.15,b.vx)-Math.atan2(w.dir.y,w.dir.x),a=profile.radial?Math.atan2(b.vy*1.15,b.vx):Math.atan2((w.target.y-20-muzzle.y)*1.15,w.target.x-muzzle.x)+spread;
   b.x=profile.radial?e.x:muzzle.x;b.y=profile.radial?e.y-ENEMIES[e.type].size*.45:muzzle.y;b.vx=Math.cos(a)*speed;b.vy=Math.sin(a)*speed/1.15;

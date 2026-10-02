@@ -1,4 +1,4 @@
-import {attackProfile,ELEMENT_COLORS} from './enemy-combat.js?v=19';
+import {attackProfile,ELEMENT_COLORS} from './enemy-combat.js?v=22';
 const TAU=Math.PI*2;
 const clamp=n=>Math.max(0,Math.min(1,n));
 const alpha=n=>Math.round(clamp(n)*255).toString(16).padStart(2,'0');
@@ -9,6 +9,7 @@ export const EnemyAreaVisuals={
   this.sprite(this.assets.enemyAOE,source,x,y,height,false,0,opacity);c.restore();
  },
  drawArenaObstacle(o,p){
+  if(o.paintedOnly)return;
   const c=this.ctx;c.save();c.filter='blur(4px)';this.ellipse(o.x,o.y+5,o.rx*.96,o.ry*.62,'#14282924');c.restore();
   // Fade only when the player stands behind the opaque upper silhouette.
   const behind=p.y<o.y&&p.y>o.y-o.height&&Math.abs(p.x-o.x)<o.rx+25;
