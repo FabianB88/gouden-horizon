@@ -1,10 +1,10 @@
-import {EQUIPMENT,START_EQUIPMENT,RARITIES,SPELLS} from './data.js?v=22';
-import {LEGENDARY_EFFECTS,effectText,effectForSlot} from './legendary.js?v=22';
+import {EQUIPMENT,START_EQUIPMENT,RARITIES,SPELLS} from './data.js?v=27';
+import {LEGENDARY_EFFECTS,effectText,effectForSlot} from './legendary.js?v=27';
 
-import {UNIQUE_ITEMS,uniqueForSlot} from './unique-items.js?v=22';
-import {normalizeVariants} from './spell-variants.js?v=22';
-import {V8_ITEMS} from './v8-content.js?v=22';
-import {emptyHead,emptyRelic} from './equipment-slots.js?v=22';
+import {UNIQUE_ITEMS,uniqueForSlot} from './unique-items.js?v=27';
+import {normalizeVariants} from './spell-variants.js?v=27';
+import {V8_ITEMS} from './v8-content.js?v=27';
+import {emptyHead,emptyRelic} from './equipment-slots.js?v=27';
 export const EXTRA_EQUIPMENT=[
  {id:'tidal-fork',slot:'weapon',name:'Getijdenstemvork',stats:{power:.07,tide:.10}},
  {id:'amber-prism',slot:'weapon',name:'Amberprisma',stats:{power:.08,ember:.11}},
@@ -33,6 +33,16 @@ export const EXTRA_EQUIPMENT=[
 ];
 export const ITEM_BASES=[...EQUIPMENT,...EXTRA_EQUIPMENT,...V8_ITEMS];
 export const DROP_TABLES={
+ mossback:{chance:.20,weights:[0,25,53,20,2],slots:['suit','head','belt']},
+ sunnewt:{chance:.18,weights:[0,20,55,23,2],slots:['weapon','gloves','belt']},
+ windowl:{chance:.17,weights:[0,25,54,19,2],slots:['boots','relic','gloves']},
+ prismhorn:{chance:.18,weights:[15,38,35,11,1],slots:['suit','head','relic']},
+ mistprowler:{chance:.16,weights:[20,42,30,7,1],slots:['boots','weapon','gloves']},
+ stormtoad:{chance:.17,weights:[15,38,35,11,1],slots:['relic','gloves','belt']},
+ ritual:{chance:1,weights:[0,20,60,19,1]},
+ glassscorpion:{chance:.17,weights:[0,25,56,18,1],slots:['head','boots','belt']},
+ dustskirmisher:{chance:.18,weights:[0,22,56,20,2],slots:['weapon','gloves','relic']},
+ slagcarrier:{chance:.23,weights:[0,15,56,26,3],slots:['suit','head','belt']},
  pressurediver:{chance:.22,weights:[0,18,56,24,2],slots:['suit','head','weapon']},
  rimedrone:{chance:.18,weights:[0,25,56,18,1],slots:['boots','relic','head']},
  furnacegunner:{chance:.24,weights:[0,12,58,27,3],slots:['gloves','suit','head']},
@@ -74,7 +84,7 @@ const traits={
  belt:[['Reserves','mana',10],['Veldconditie','hp',7],['Pantser','armor',.03]]
 };
 export function weighted(weights,rng){let x=rng()*weights.reduce((a,b)=>a+b,0);for(let i=0;i<weights.length;i++){x-=weights[i];if(x<0)return i;}return weights.length-1;}
-export function dropProfile(enemy){return ['deepwarden','towerwarden'].includes(enemy.type)?'boss':['boss','dredger','solarKnight','seedheart'].includes(enemy.type)?'boss':enemy.guardian?'guardian':enemy.elite?'elite':enemy.type;}
+export function dropProfile(enemy){return ['crownbear','dunebreaker','deepwarden','towerwarden'].includes(enemy.type)?'boss':['boss','dredger','solarKnight','seedheart'].includes(enemy.type)?'boss':enemy.guardian?'guardian':enemy.elite?'elite':enemy.type;}
 export function sellValue(item){return Math.max(2,Math.floor((item.price||((30+(item.level||1)*6)*(RARITIES[item.rarity]?.value||.7)))*.30)+(item.enhance||0)*5);}
 export function salvageValue(item){return Math.max(1,Math.floor(sellValue(item)*.55));}
 export function makeItem({rng,level=1,profile='cache',rarity=null,slot=null,baseId=null,uid}){
@@ -117,6 +127,6 @@ export function normalizePlayer(p,nextId){
 DROP_TABLES.toxinbeetle={chance:.16,weights:[20,40,32,8,0],slots:['suit','belt','boots']};
 DROP_TABLES.chemist={chance:.18,weights:[10,35,40,14,1],slots:['relic','gloves','belt']};
 
-export function makeUniqueItem(id,level,uid){const u=UNIQUE_ITEMS[id];if(!u)return null;const f=1+(Math.min(14,level)-1)*.09,stats={};for(const [key,v]of Object.entries(u.stats))stats[key]=Number((v*(key.endsWith('Resist')?1:f)).toFixed(3));const i={id:u.art,art:u.art,uid,slot:u.slot,name:u.name,rarity:'legendary',level,requiredLevel:Math.max(1,level-(level>=18?4:level>=15?3:2)),enhance:0,affixes:['Uniek'],stats,price:340+level*10,effect:id};i.text=statsText(i);return i;}
+export function makeUniqueItem(id,level,uid){const u=UNIQUE_ITEMS[id];if(!u)return null;const f=1+(Math.min(14,level)-1)*.09,stats={};for(const [key,v]of Object.entries(u.stats))stats[key]=Number((v*(key.endsWith('Resist')?1:f)).toFixed(3));const i={id:u.art,art:u.art,uid,slot:u.slot,name:u.name,rarity:'legendary',level,requiredLevel:Math.max(1,level-(level>=18?4:level>=15?3:2)),enhance:0,affixes:['Uniek'],stats,price:340+level*10,effect:id,...(id==='duneBeacon'?{appearance:'crystal'}:id==='glassMantle'?{appearance:'filter'}:id==='horizonDiadem'?{appearance:'storm'}:{})};i.text=statsText(i);return i;}
 
 Object.assign(DROP_TABLES,{bulwark:{chance:.14,weights:[35,40,20,5,0],slots:['suit','belt']},plaguewright:{chance:.16,weights:[20,43,29,8,0],slots:['suit','relic']},hunter:{chance:.12,weights:[35,40,20,5,0],slots:['boots','weapon']},repairer:{chance:.10,weights:[38,40,18,4,0],slots:['gloves','relic']}});

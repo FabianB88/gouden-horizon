@@ -16,6 +16,6 @@ export const BossTerrainRules={
   }
   this.notice(w.mode==='firePatches'?'VUURZONES · verlaat de oranje cirkels':w.mode==='icePatches'?'VORSTZONES · ijs doet schade en vertraagt':'ENERGIEBLOKKADES · blijf tussen de pijlers bewegen',element==='fire'?'#ffd49b':'#b8efff');return true;
  },
- updateBossTerrain(dt){const s=this.state,p=s.player;for(const t of s.world.threats){if(t.type!=='bossPatch'||t.age<t.arm||t.life<=0)continue;t.tick-=dt;if(t.tick<=0){t.tick=.7;if(distance(p,t)<t.r){this.hurtPlayer(t.damage,t.element);if(t.element==='water')p.rootSlow=Math.max(p.rootSlow||0,.8);}}}},
+ updateBossTerrain(dt){const s=this.state,p=s.player;for(const t of s.world.threats){if(t.type!=='bossPatch'||t.age<t.arm||t.life<=0)continue;t.tick-=dt;if(t.tick<=0){t.tick=.7;this.hurtCompanions(t,t.r,t.damage);if(distance(p,t)<t.r){this.hurtPlayer(t.damage,t.element);if(t.element==='water')p.rootSlow=Math.max(p.rootSlow||0,.8);}}}},
  blockedByBossTerrain(x,y,radius=18,entity=null){return this.state.world?.threats.some(t=>t.type==='bossBarrier'&&t.life>0&&t.age>=t.arm&&Math.hypot(x-t.x,(y-t.y)*1.15)<t.r+radius&&(!entity||Math.hypot(x-t.x,(y-t.y)*1.15)<Math.hypot(entity.x-t.x,(entity.y-t.y)*1.15)));}
 };

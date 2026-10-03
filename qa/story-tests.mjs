@@ -12,7 +12,7 @@ function test(name,fn){fn();passed++;console.log('PASS '+name);}
 function arena(){const g=new Engine('tide',106);g.enterArea('ring');g.state.world.enemies=[];g.state.world.hazards=[];Object.assign(g.state.player,{x:850,y:640,invincible:0});return g;}
 test('Twenty-four chapters retain one combat return gate and fixed distinct transit destinations',()=>{
  assert.equal(STORY_ORDER.length,AREAS.filter(a=>!a.optional&&!a.endgame).length);assert.equal(new Set(STORY_ORDER).size,24);
- const g=new Engine();g.state.cores=[0,1,2];for(const a of AREAS){g.enterArea(a.id);const portals=g.portalDefinitions(a.id);if(SAFE_HUBS.includes(a.id)){assert(portals.length>=3);assert.equal(new Set(portals.map(p=>p.to)).size,portals.length);}else assert.equal(portals.length,1,a.id);}
+ const g=new Engine();g.state.cores=[0,1,2];for(const a of AREAS){g.enterArea(a.id);const portals=g.portalDefinitions(a.id);if(SAFE_HUBS.includes(a.id)){assert(portals.length>=(a.biomeRegion?2:3));assert.equal(new Set(portals.map(p=>p.to)).size,portals.length);}else if(a.safeExplore){assert.equal(portals.length,a.links.length,a.id);assert(portals.some(p=>p.to==='highway'));}else assert.equal(portals.length,1,a.id);}
 });
 test('The first camp leads to the pump chapter before the first core arena',()=>{
  const g=new Engine();assert.equal(g.recommendedArea(),'delta');assert.equal(g.portalDefinitions('canal')[0].to,'delta');assert(!g.selectDestination('ring'));assert(!g.selectDestination('mirrors'));

@@ -18,6 +18,7 @@ export function simulateTrial(g,id,tier,maxSeconds=360){
  prepare(g);assert(g.startChallenge(id,tier));let heals=0,dashes=0,attacks=0,hits=0,step=0;
  for(;step<maxSeconds*60;step++){
   const s=g.state,p=s.player,w=s.world;if(w.trial.done||s.mode==='dead')break;
+  if(p.skills.includes('summon')&&!s.summons?.length&&!g.inCamp())g.cast('summon');
   if(p.venom>0)g.useAntidote();if(p.hp<g.stats().maxHp*.52&&g.heal())heals++;
   const nearby=w.enemies.filter(e=>!e.dead&&e.awake).sort((a,b)=>distance(p,a)-distance(p,b));
   const enemy=nearby[0];let goal=null,move={x:0,y:0};

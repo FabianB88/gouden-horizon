@@ -1,0 +1,451 @@
+{
+  "tool": "built-in image_gen",
+  "generation_calls": 4,
+  "retries": 0,
+  "assets": [
+    {
+      "name": "desert environment",
+      "requested_dimensions": [
+        1536,
+        1024
+      ],
+      "observed_dimensions": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: stylized-concept\nAsset type: original production environment background for Gouden Horizon, a painted 2.5D browser action RPG.\nPrimary request: Generate one landscape image, exactly 1536x1024 pixels. An elevated 2.5D camera at approximately 45 degrees looks down on a windswept sand and salt-dried Dutch delta transformed by a modern climate apocalypse. The entire canvas is terrain; absolutely no sky or horizon.\nStyle/medium: premium hand-painted fantasy action-RPG art with the richly textured, sculpted forms and readable silhouettes of Torchlight 2 and Nine Parchments. Painterly shaded surfaces, subtle brush texture, believable stylized depth. Warm light from upper left. No pixel art, flat art, vector art or photorealism.\nScene/backdrop: ochre sand, pale salt crust, glassified rocks, half-buried modern drainage infrastructure and rusted pylons; restrained muted turquoise salvage details and ember accents. Rocky dunes frame only the perimeter.\nComposition/framing: A very broad, connected, mostly clear traversable combat arena occupies x=15% through 87% and y=20% through 89%. Keep its ground open and readable with no narrow paths. Exactly three isolated small cover masses inside this arena, with distinct silhouettes and each a base less than 8% of image width: roughly at x35% y47%, x65% y40%, and x60% y72%. Clear entrance terrain at lower-left x25% y75%, and a clear return spot at upper-right x80% y28%; both are natural open ground with no symbols or portal. Large infrastructure and dunes stay near the perimeter. View is appropriate for characters walking down-left or up-right across the image.\nConstraints: NO characters, creatures, signs, pickups, portal, text, lettering, logos, watermarks, borders, frames, grid or UI. No long shadow crossing the entire arena. No aerial map graphic. Preserve the broad connected sand arena.",
+      "mode": "RGB",
+      "genuine_transparency": false
+    },
+    {
+      "name": "desert enemies atlas",
+      "requested_dimensions": [
+        2048,
+        1536
+      ],
+      "observed_dimensions": [
+        1448,
+        1086
+      ],
+      "grid": [
+        4,
+        3
+      ],
+      "cell_dimensions": [
+        362,
+        362
+      ],
+      "prompt": "Use case: stylized-concept\nAsset type: original enemy animation sprite atlas for Gouden Horizon, a painted 2.5D browser action RPG.\nPrimary request: Create one image exactly 2048x1536 pixels with a genuinely transparent alpha background. Arrange EXACTLY 4 equal columns by 3 equal rows, twelve sprites total. Each invisible cell is exactly 512x512 pixels. No visible cell grid, labels, separators or background. Each row shows one creature repeated across four distinct animation poses.\nStyle/medium: premium hand-painted fantasy action-RPG art with rich sculpted forms, textured painted surfaces and exceptionally readable silhouettes, in the feel of Torchlight 2 and Nine Parchments. Modern climate apocalypse Netherlands salvage theme. Warm upper-left light. No pixel art, flat art, vector art or photorealism.\nRow 1, all four cells: a glass scorpion, a low squat giant desert scorpion with glassy amber armor, dark iron pincers, a raised venom tail glowing acid green and eight readable articulated legs. Entirely scorpion anatomy, NO humanoid elements.\nRow 2, all four cells: a dust skirmisher, a lean hooded scavenger with a long sand-colored cloak, wrapped face, turquoise cracked goggles and a salvaged compact nail launcher. Aerodynamic fabric, tall narrow silhouette.\nRow 3, all four cells: a slag carrier, a hulking FOUR-LEGGED furnace salvage beast with rusted industrial tank plating, kiln-orange vents, huge shovel-like forelimbs and a squat wide armored creature silhouette. NO human form.\nColumns from left to right in EVERY row:\n1. idle;\n2. walking with a clear whole-body weight shift and changed leg pose;\n3. clearly charged attack pose: scorpion raises its tail high, skirmisher aims the nail launcher, carrier lifts a rock;\n4. clearly released attack pose: scorpion lunges, skirmisher shows launcher recoil, carrier throws a molten rock within its own cell.\nComposition/framing: All sprites are full-body, same front three-quarter camera facing down-left. Same creature identity, size, materials and orientation across each row. Each sprite centered in its cell with feet or ground contact approximately 85% down that cell. Generous empty margins so every leg, pincer, tail, weapon, rock, fabric and protrusion remains inside its own cell; zero neighboring-cell overlap. Keep creatures large enough to be readable. No ground plane and NO ground shadows.\nConstraints: genuine transparent alpha in all empty space, NOT a painted checkerboard or colored backdrop. NO text, letters, labels, numbers, logos, watermarks, UI, borders or cell lines. Exactly twelve sprites in the exact 4-column by 3-row atlas layout.",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "transparent_pixel_count": 783152,
+      "nonzero_alpha_pixel_count": 789376,
+      "genuine_transparency": true,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alpha_count_at_least_128": 569144,
+      "alpha_count_at_least_240": 527710,
+      "cell_visible_bounds_alpha_gt_32": [
+        [
+          19,
+          59,
+          348,
+          349
+        ],
+        [
+          19,
+          73,
+          351,
+          355
+        ],
+        [
+          30,
+          13,
+          339,
+          351
+        ],
+        [
+          14,
+          60,
+          354,
+          351
+        ],
+        [
+          80,
+          45,
+          356,
+          326
+        ],
+        [
+          62,
+          44,
+          343,
+          362
+        ],
+        [
+          24,
+          30,
+          343,
+          362
+        ],
+        [
+          7,
+          54,
+          349,
+          334
+        ],
+        [
+          11,
+          13,
+          355,
+          337
+        ],
+        [
+          18,
+          0,
+          362,
+          319
+        ],
+        [
+          0,
+          0,
+          346,
+          348
+        ],
+        [
+          10,
+          18,
+          351,
+          305
+        ]
+      ]
+    },
+    {
+      "name": "Dune Breaker boss atlas",
+      "requested_dimensions": [
+        1536,
+        1024
+      ],
+      "observed_dimensions": [
+        1536,
+        1024
+      ],
+      "grid": [
+        2,
+        2
+      ],
+      "cell_dimensions": [
+        768,
+        512
+      ],
+      "prompt": "Use case: stylized-concept\nAsset type: original boss animation sprite atlas for Gouden Horizon, a painted 2.5D browser action RPG.\nPrimary request: Create one image exactly 1536x1024 pixels with a genuinely transparent alpha background. EXACTLY 2 equal columns by 2 equal rows, four full-body sprites total; each invisible cell is exactly 768x512 pixels. No visible grid, labels, separators or background.\nSubject: The same enormous Dune Breaker in all four cells: an autonomous burrowing excavation machine with massive broad drill claws, a curved steel and sandstone carapace, a bright turquoise broken reactor, SIX mechanical legs, amber hazard lamps, and asymmetrical salvage horns. No human face or human body. Gigantic, broad, weighty, distinct and highly readable silhouette.\nStyle/medium: premium hand-painted fantasy action-RPG art with the richly textured, sculpted forms and readable silhouettes of Torchlight 2 and Nine Parchments, in modern climate apocalypse Netherlands. Warm light from upper left; rusted steel, baked sandstone and luminous turquoise reactor. No pixel art, flat art, vector art or photorealism.\nCell poses in reading order: upper-left idle planted; upper-right heavy forward stride with clear shifted weight and changed legs; lower-left attack windup with raised massive drill claws and visibly charged turquoise reactor; lower-right released downward ground smash with drill claws driven down and heavy body compressed. Each pose is clearly different while preserving the same machine identity, materials and scale.\nComposition/framing: Same front three-quarter view facing down-left in all four cells. Full-body, centered in each cell at the same scale and position, feet or ground contact approximately 85% down each cell. Generous transparent margins around claws, horns and legs. Every silhouette entirely contained inside its cell, no neighboring-cell overlap. No ground plane, no ground shadows and no separate impact cloud covering the machine.\nConstraints: genuine transparent alpha in all empty space, NOT a painted checkerboard or colored backdrop. NO text, lettering, labels, numbers, logos, watermarks, UI, borders or grid lines. Exactly four sprites in the exact 2-column by 2-row layout.",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_pixel_count": 700356,
+      "nonzero_alpha_pixel_count": 872508,
+      "genuine_transparency": true,
+      "corner_alpha": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "alpha_count_at_least_128": 753574,
+      "alpha_count_at_least_240": 724451,
+      "cell_visible_bounds_alpha_gt_32": [
+        [
+          66,
+          4,
+          768,
+          512
+        ],
+        [
+          0,
+          3,
+          748,
+          498
+        ],
+        [
+          29,
+          0,
+          747,
+          499
+        ],
+        [
+          31,
+          27,
+          762,
+          503
+        ]
+      ]
+    },
+    {
+      "name": "Groenkloof safe transit environment",
+      "requested_dimensions": [
+        1536,
+        1024
+      ],
+      "observed_dimensions": [
+        1536,
+        1024
+      ],
+      "prompt": "Use case: stylized-concept\nAsset type: original safe transit environment background for Gouden Horizon, a painted 2.5D browser action RPG.\nPrimary request: Generate one landscape image exactly 1536x1024 pixels. Groenkloof is a lush, ancient-looking but clearly modern overgrown Dutch cooling-water canyon. Elevated 2.5D camera at approximately 45 degrees looking down. Entire image is terrain, with NO sky or horizon.\nStyle/medium: premium hand-painted fantasy action-RPG environment with rich textured sculpted forms, painterly depth and readable terrain, in the feel of Torchlight 2 and Nine Parchments. No flat art, vector art, pixel art or photorealism.\nScene/backdrop: brilliant clear turquoise stream runs along the lower and right PERIMETER. Emerald ferns, flowering plants, willow arches, verdant industrial ruin terraces being reclaimed by nature, warm sun shafts. Waterfalls at the outer left and top margin only. Calm magical adventure mood with gorgeous layered natural forms and recognizably modern cooling-water infrastructure beneath the overgrowth.\nComposition/framing: Broad connected traversable stone-and-grass floor spans x18%..86% and y25%..87%. Open central court connects by broad branches to three dispersed clearings at x32% y38%, x75% y43%, and x56% y75%. Open entrances at x25% y76% and x78% y34%. The main floor remains connected, readable and completely walkable; vegetation and water frame it without blocking it. Water NEVER crosses the main floor. Dense ferns, willow arches, flowers and lush canopy remain along the edges of the open routes and court. One small salvaged open-sided shelter ONLY near the outer upper-right at x83% y20%. Do not put inaccessible raised stairs anywhere in the main floor.\nLighting/mood: warm upper-left light, luminous turquoise perimeter water, emerald growth, relaxed adventurous calm with premium painted depth.\nConstraints: NO characters, creatures, UI, signs, text, lettering, logos, watermarks, portal or pickups. No sky or horizon. No vegetation or water blocking the connected walkable floor. No narrow cramped paths.",
+      "mode": "RGB",
+      "genuine_transparency": false
+    }
+  ],
+  "production": {
+    "enemyAtlas": [
+      2048,
+      1440
+    ],
+    "cell": [
+      512,
+      360
+    ],
+    "footBaseline": 338,
+    "rows": [
+      {
+        "id": "glassscorpion",
+        "bodyHeight": 266,
+        "frames": [
+          {
+            "bounds": [
+              0,
+              0,
+              512,
+              360
+            ],
+            "anchor": [
+              0.5,
+              0.9388888888888889
+            ]
+          },
+          {
+            "bounds": [
+              512,
+              0,
+              512,
+              360
+            ],
+            "anchor": [
+              0.5,
+              0.9388888888888889
+            ]
+          },
+          {
+            "bounds": [
+              1024,
+              0,
+              512,
+              360
+            ],
+            "anchor": [
+              0.5,
+              0.9388888888888889
+            ]
+          },
+          {
+            "bounds": [
+              1536,
+              0,
+              512,
+              360
+            ],
+            "anchor": [
+              0.5,
+              0.9388888888888889
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dustskirmisher",
+        "bodyHeight": 285,
+        "frames": [
+          {
+            "bounds": [
+              0,
+              360,
+              512,
+              360
+            ],
+            "anchor": [
+              0.5,
+              0.9388888888888889
+            ]
+          },
+          {
+            "bounds": [
+              512,
+              360,
+              512,
+              360
+            ],
+            "anchor": [
+              0.5,
+              0.9388888888888889
+            ]
+          },
+          {
+            "bounds": [
+              1024,
+              360,
+              512,
+              360
+            ],
+            "anchor": [
+              0.5,
+              0.9388888888888889
+            ]
+          },
+          {
+            "bounds": [
+              1536,
+              360,
+              512,
+              360
+            ],
+            "anchor": [
+              0.5,
+              0.9388888888888889
+            ]
+          }
+        ]
+      },
+      {
+        "id": "slagcarrier",
+        "bodyHeight": 289,
+        "frames": [
+          {
+            "bounds": [
+              0,
+              720,
+              512,
+              360
+            ],
+            "anchor": [
+              0.5,
+              0.9388888888888889
+            ]
+          },
+          {
+            "bounds": [
+              512,
+              720,
+              512,
+              360
+            ],
+            "anchor": [
+              0.5,
+              0.9388888888888889
+            ]
+          },
+          {
+            "bounds": [
+              1024,
+              720,
+              512,
+              360
+            ],
+            "anchor": [
+              0.5,
+              0.9388888888888889
+            ]
+          },
+          {
+            "bounds": [
+              1536,
+              720,
+              512,
+              360
+            ],
+            "anchor": [
+              0.5,
+              0.9388888888888889
+            ]
+          }
+        ]
+      },
+      {
+        "id": "dunebreaker",
+        "bodyHeight": 296,
+        "frames": [
+          {
+            "bounds": [
+              0,
+              1080,
+              512,
+              360
+            ],
+            "anchor": [
+              0.5,
+              0.9388888888888889
+            ]
+          },
+          {
+            "bounds": [
+              512,
+              1080,
+              512,
+              360
+            ],
+            "anchor": [
+              0.5,
+              0.9388888888888889
+            ]
+          },
+          {
+            "bounds": [
+              1024,
+              1080,
+              512,
+              360
+            ],
+            "anchor": [
+              0.5,
+              0.9388888888888889
+            ]
+          },
+          {
+            "bounds": [
+              1536,
+              1080,
+              512,
+              360
+            ],
+            "anchor": [
+              0.5,
+              0.9388888888888889
+            ]
+          }
+        ]
+      }
+    ],
+    "operations": "Grid extraction, alpha bounding-box crop, disconnected neighbour spill cleanup, common scale per creature, foot alignment, WebP encoding. Original boss used; empty space already has genuine alpha."
+  },
+  "chaseItems": {
+    "tool": "built-in image_gen",
+    "generation_calls": 1,
+    "observed_dimensions": [
+      1254,
+      1254
+    ],
+    "grid": [
+      2,
+      2
+    ],
+    "production": "Extract 4 grid cells, alpha trim, scale within232px, center on256px transparent canvas, WebP encode.",
+    "prompt": "Create one original 1024x1024 RGBA genuinely transparent production loot-icon atlas, exactly 2 columns x 2 rows, four separate large objects centered within invisible 512x512 cells. Premium painterly fantasy RPG loot rendering, sculpted rich materials, warm upper-left light, luminous restrained accents, sophisticated Torchlight 2/Nine Parchments feel. Modern post-apocalyptic climate-engineering salvage technology. Top left: Baken van de Duinbreker, an extraordinary brass/sandstone spell staff with twin drill-shaped fins and luminous turquoise reactor crystal. Top right: Mantel van de Glasschorpioen, a wearable coat of translucent amber scorpion plates with a green poison filtration collar and dark cloth. Bottom left: Hart van de Slakoven, a hand-sized ornate industrial furnace-heart relic, ancient copper cage, molten orange core, cooling turquoise pipes. Bottom right: Diadeem van de Horizon, extraordinarily luxurious salvaged gold/copper head crown with three prismatic blue lenses and tiny green cooling filigree. Objects entirely separate, each full object fully inside its own cell with at least 40px empty margin, consistent scale. NO characters, ground shadows, UI, lettering, symbols, labels, frames, grids, logos, watermarks, checkerboard or backdrop. All empty space truly alpha transparent. Crisp readable silhouettes suitable for 88px game inventory icons. Exact four objects only."
+  }
+}

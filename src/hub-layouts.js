@@ -1,4 +1,6 @@
-import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=22';
+import {BIOME_HUB_LAYOUTS} from './biome-content.js?v=27';
+import {NATURE_HUB_LAYOUT} from './nature-content.js?v=27';
+import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=27';
 // World-pixel placements on the painted floors. Gates keep their destinations
 // while the story controls their locks; no hub uses a single portal queue.
 export const HUB_LAYOUTS={
@@ -70,4 +72,6 @@ export const HUB_LAYOUTS={
  }
 };
 
-Object.assign(HUB_LAYOUTS,V8_HUB_LAYOUTS);
+Object.assign(HUB_LAYOUTS,V8_HUB_LAYOUTS,BIOME_HUB_LAYOUTS);
+HUB_LAYOUTS.lanternwood=NATURE_HUB_LAYOUT;
+HUB_LAYOUTS['cooling-refuge'].portals.lanternwood=[1030,725];

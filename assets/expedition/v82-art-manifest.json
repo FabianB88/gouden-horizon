@@ -1,0 +1,56 @@
+{
+  "mode": "built-in imagegen",
+  "transparent_background_requested": true,
+  "generation_calls": 3,
+  "variants": 0,
+  "retries": 0,
+  "assets": [
+    {
+      "key": "companions",
+      "filename": "companion-atlas-v82.png",
+      "path": "/workspace/scratch/19cb526127e1/output/v82-art/companion-atlas-v82.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "layout": {
+        "columns": 4,
+        "rows": 3
+      },
+      "prompt": "Use case: stylized-concept\nAsset type: production companion animation sprite atlas for a painted 2.5D Canvas action RPG.\nCreate ONE 1536x1024 landscape PNG with a genuinely transparent alpha background. Exactly 12 isolated companion sprites arranged in an invisible, regular 4-column by 3-row atlas. No visible grid, separators, labels, background, floor, or decoration outside the sprites. Each cell is the same size. Give every sprite generous transparent gutters and never allow neighboring cells to overlap. Within each row keep the creature's anatomy, proportions, scale, colors, materials, camera and foot plane consistent across all four poses. Fixed three-quarter isometric camera; every creature faces down-right. Ground contact in each cell is at the same relative baseline.\nStyle: premium hand-painted fantasy action RPG art in the visual spirit of Torchlight 2 and Nine Parchments: convincing sculpted 3D volume, rich painted material texture, dramatic warm highlights and cool shadows, saturated but nuanced color, beautifully readable silhouettes even reduced to 80 pixels, soft painterly edges without line-art outlines.\nROW 1: a small graceful turquoise water/spirit fox, one flowing rippling watery tail, elegant pointed ears, four delicate legs, readable fox anatomy.\nROW 2: a broad powerful protective boar, organic moss-covered hide with leafy moss tufts, luminous amber tusks, stocky shoulder mass, four sturdy grounded legs.\nROW 3: a glowing gold-and-teal healing moth, one consistent moth body, delicate legs, broad translucent opalescent wings with readable pearly painted wing texture, serene magical presence.\nCOLUMN 1: idle neutral pose.\nCOLUMN 2: walking pose with the left legs forward; for the moth, wings shifted slightly forward/down as the equivalent moving pose.\nCOLUMN 3: walking pose with the right legs forward; for the moth, wings shifted slightly backward/up as the alternate moving pose.\nCOLUMN 4: a clear magical attack gesture with restrained glow: fox lifts its forequarters and gathers a small water shimmer at its mouth, boar braces with lowered amber tusks and a small protective amber pulse, moth lifts its wings and releases a small healing gold-teal shimmer.\nAll 12 sprites must be complete, fully contained within their cells, isolated with actual alpha transparency, and use the same consistent camera and lighting. No extra tails or extra limbs. No pixel art, black outlines, robots, drones, skeletons, text, numbers, watermarks, sheet grid lines, scenery, opaque shadows or checkerboard painted into the image."
+    },
+    {
+      "key": "enemies",
+      "filename": "enemy-atlas-v82.png",
+      "path": "/workspace/scratch/19cb526127e1/output/v82-art/enemy-atlas-v82.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "layout": {
+        "columns": 4,
+        "rows": 3
+      },
+      "prompt": "Use case: stylized-concept\nAsset type: production enemy animation sprite atlas for a painted 2.5D Canvas action RPG.\nCreate ONE 1536x1024 landscape PNG with a genuinely transparent alpha background. Exactly 12 isolated enemy creature sprites in an invisible, regular 4-column by 3-row atlas. No visible grid, separators, labels, background, floor, or decoration outside the sprites. Cells are equal size with generous transparent gutters, no overlap, no cropped appendages. Within each row preserve the same creature anatomy, proportions, scale, colors, materials, camera and foot plane across all poses. Fixed three-quarter isometric view; creatures consistently face down-right. All grounded feet rest on the same relative baseline in their cells.\nStyle: premium hand-painted fantasy action RPG like Torchlight 2 and Nine Parchments; rich organic material texture, convincing sculpted 3D volume, dramatic warm highlights/cool shadows, nuanced vivid color, strong silhouettes readable at 80 pixels, painterly edges with no drawn outlines.\nROW 1: an imposing crystal-antler stag, clearly organic dark violet hide, four muscular deer legs, branching faceted crystal antlers, ornate golden/prismatic protective chest shield integrated with its organic body. Same antlers and shield in every pose.\nROW 2: a sleek dark mist panther river-creature, feline organic anatomy, four legs, long single flowing tail, dark blue-black hide with subtle watery mist edges and luminous turquoise eyes.\nROW 3: a fat electric frog, rounded organic body and four frog limbs, vivid indigo skin, glowing storm sacs on its cheeks and shoulders.\nCOLUMN 1: idle neutral pose.\nCOLUMN 2: clear walk pose, left and right legs offset in motion.\nCOLUMN 3: distinctly expressive windup pose: stag lowers its antlers toward down-right; panther crouches low with bent rear legs and poised shoulders; frog inflates its luminous storm sacs.\nCOLUMN 4: attack release: stag projects a restrained bright antler flash ahead of its head, panther makes a low down-right lunging attack with the same body scale, frog opens its mouth wide to spit a short restrained lightning arc down-right. Attack effects remain compact and fully inside the respective cells.\nKeep every sprite complete, separated, consistent in species identity, and isolated against actual alpha transparency. No extra creatures, extra limbs, pixel art, line-art outlines, robots, drones, skeletons, text, numbers, watermark, grid lines, scenery, solid background, opaque floor shadows or checkerboard painted into the image."
+    },
+    {
+      "key": "objects",
+      "filename": "object-atlas-v82.png",
+      "path": "/workspace/scratch/19cb526127e1/output/v82-art/object-atlas-v82.png",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "requested_dimensions": [
+        1024,
+        1024
+      ],
+      "layout": {
+        "columns": 2,
+        "rows": 2
+      },
+      "prompt": "Use case: stylized-concept\nAsset type: production iconic magical item and encounter object atlas for a painted 2.5D Canvas action RPG.\nCreate ONE 1024x1024 square PNG with a genuinely transparent alpha background. Exactly four complete isolated objects, one per equal cell of an invisible 2-column by 2-row arrangement. Generous transparent gutters, no overlap and no cropping. No grid, labels, backdrop, floor, text, numbers, watermark or checkerboard painted into the image.\nStyle: premium hand-painted fantasy action RPG art in the visual spirit of Torchlight 2 and Nine Parchments, sculpted 3D volume, rich material texture, dramatic warm highlights and cool shadows, nuanced saturated color, readable iconic silhouettes at 80 pixels. Painterly edges, no line-art outlines.\nTOP LEFT: an ornate magical staff with a beautifully radiant solar orb held in an elegant gold-and-teal carved setting; a clear falling golden star motif incorporated into its ornamentation. Show the entire staff, with its shaft angled gently within the cell.\nTOP RIGHT: a rare living amber pendant, precious translucent warm honey amber with a delicately sculpted tiny fox spirit visibly contained inside; refined ornamental gold bail and a small attached loop, pendant clearly readable as a single iconic item.\nBOTTOM LEFT: an unopened ancient stone-and-nature treasure chest, heavy age-worn carved stone, moss and vine detail, securely sealed by living vines and one softly glowing nonverbal rune emblem. The chest is an optional arena encounter object. Three-quarter isometric camera, facing down-right.\nBOTTOM RIGHT: the opened version of THE EXACT SAME stone-and-nature chest, same width, body dimensions, material details, camera angle and relative baseline, lid raised, vines loosened, soft internal golden light. Preserve the same chest design and size between bottom-left and bottom-right.\nAll objects are isolated cutouts with actual alpha transparency. Only compact restrained glow immediately belonging to the objects. No extra objects, pixel art, black outlines, robots, drones, skeletons, readable text, sheet grid lines, scenery, opaque shadows or backgrounds."
+    }
+  ],
+  "production": "Original alpha retained; measured row/pose source rectangles, foot anchors, WEBP resizing and icon crops only. No painted edits."
+}

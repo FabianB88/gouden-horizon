@@ -1,5 +1,5 @@
-import {SPELLS,AREA_BY_ID} from './data.js?v=22';
-import {makeItem,makeUniqueItem,statsText} from './loot.js?v=22';
+import {SPELLS,AREA_BY_ID} from './data.js?v=27';
+import {makeItem,makeUniqueItem,statsText} from './loot.js?v=27';
 export const MARKET_REGIONS=[
  {name:'Waterlijnhandel',specialty:'Getijdenfoci, waterbestendige veldpakken en snelle laarzen.',level:1,bases:['tidal-fork','tide-coat','reservoir','runner-boots','field-gloves','field-belt','storm-staff','cobalt-coat'],qualities:['common','common','uncommon','uncommon','uncommon','uncommon','rare','rare']},
  {name:'Schrootstation',specialty:'Zonnefoci, hittewerende kleding en condensortechniek.',level:4,bases:['amber-prism','cinder-coat','sun-compass','ash-boots','copper-gauntlets','solar-belt','prism','brass-jacket'],qualities:['uncommon','uncommon','uncommon','uncommon','uncommon','uncommon','rare','rare']},
@@ -32,6 +32,7 @@ export function marketStock(g,zone,areaId){
  for(const spec of INVESTMENTS[zone]){const item={id:spec.base,art:spec.base,uid:++g.idCounter,slot:spec.slot,name:spec.name,rarity:'epic',level:spec.level,requiredLevel:Math.max(2,spec.level-(spec.level>=18?4:spec.level>=15?3:2)),stats:{...spec.stats},price:spec.price,enhance:0,affixes:['Handelsmeesterwerk'],signature:true,investment:spec.id};item.text=statsText(item);stock.push(item);}
  const headSpec={base:['field-cap','sentinel-helm','filter-hood','storm-crown','sentinel-helm','storm-crown'][zone],price:[280,580,900,1250,1950,2600][zone],level:[4,7,10,13,17,20][zone]},premiumHead=makeItem({rng:g.rng,baseId:headSpec.base,level:headSpec.level,rarity:'epic',uid:++g.idCounter});premiumHead.price=headSpec.price;premiumHead.signature=true;premiumHead.investment='head-'+zone;premiumHead.name=['Kap van de Hoge Kade','Helm van de Hittekoepel','Kap van de Biosfeer','Diadeem van de Stormgrens','Helm van de Diepte','Kroon van het Koelnet'][zone];premiumHead.stats={hp:14+zone*11,armor:.025+zone*.008,[zone>=4?(zone===4?'waterResist':'fireResist'):zone===2?'poisonResist':'stormResist']:.06+zone*.02};if(zone>=4)premiumHead.stats={hp:zone===4?72:90,armor:zone===4?.14:.17,[zone===4?'waterResist':'fireResist']:zone===4?.24:.26};premiumHead.text=statsText(premiumHead);stock.push(premiumHead);
  if(zone>=2){const id=zone===2?'filter':'crystal',item=makeUniqueItem(id,zone===2?10:zone===3?13:zone===4?17:20,++g.idCounter);item.price=zone===2?1550:zone===3?2300:zone===4?3400:4400;item.signature=true;item.investment='unique-'+id;stock.push(item);}
+ if(areaId==='groenkloof'){const item=makeUniqueItem('horizonDiadem',20,++g.idCounter);item.price=8500;item.chase=true;item.signature=true;item.investment='horizon-diadem';stock.push(item);}
  return stock;
 }
 export function regionalService(areaId,service){const area=AREA_BY_ID[areaId],r=MARKET_REGIONS[area.zone];return {region:r.name,text:r.specialty+' '+service.text};}

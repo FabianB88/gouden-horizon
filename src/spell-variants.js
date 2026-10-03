@@ -1,5 +1,6 @@
-import {specializeSpell} from './specializations.js?v=22';
-import {SPELLS} from './data.js?v=22';
+import {summonSpell} from './summon-progression.js?v=27';
+import {specializeSpell} from './specializations.js?v=27';
+import {SPELLS} from './data.js?v=27';
 const v=(id,name,level,text,mod)=>({id,name,level,text,...mod});
 export const SPELL_VARIANTS={
  tide:[v('surf','Brede branding',8,'Vijf waterbogen, één doel per boog. Minder schade en langer herladen.',{fan:5,spread:.2,damage:.8,interval:1.15,cost:1.15,pierce:1}),v('lance','Getijdenlans',10,'Eén snelle lans door vier doelen. Smal raakvlak; geen waaier.',{fan:1,spread:0,damage:1.15,interval:1.2,cost:1.1,pierce:4,speed:1.25,radius:.8})],
@@ -16,7 +17,7 @@ export const SPELL_VARIANTS={
 };
 export const variantKey=(spell,id)=>spell+':'+id;
 export function activeVariant(p,id){return p.learnedVariants?.includes(variantKey(id,p.spellVariants?.[id]))?(SPELL_VARIANTS[id]||[]).find(v=>v.id===p.spellVariants[id]&&p.level>=v.level):null;}
-export function spellProfile(p,id){const base=SPELLS[id],v=activeVariant(p,id);if(!base)return base;if(!v)return specializeSpell(p,id,base);return specializeSpell(p,id,{...base,variant:v,damage:base.damage*v.damage,cost:Math.ceil(base.cost*v.cost),interval:Number((base.interval*v.interval).toFixed(3)),speed:base.speed===undefined?undefined:base.speed*(v.speed||1),radius:base.radius*(v.radius||1),description:v.text});}
+export function spellProfile(p,id){const base=id==='summon'?summonSpell(p,SPELLS[id]):SPELLS[id],v=activeVariant(p,id);if(!base)return base;if(!v)return specializeSpell(p,id,base);return specializeSpell(p,id,{...base,variant:v,damage:base.damage*v.damage,cost:Math.ceil(base.cost*v.cost),interval:Number((base.interval*v.interval).toFixed(3)),speed:base.speed===undefined?undefined:base.speed*(v.speed||1),radius:base.radius*(v.radius||1),description:v.text});}
 export function normalizeVariants(p){p.learnedVariants=[...new Set((Array.isArray(p.learnedVariants)?p.learnedVariants:[]).filter(key=>{const [spell,id]=String(key).split(':');return p.skills.includes(spell)&&(SPELL_VARIANTS[spell]||[]).some(v=>v.id===id&&p.level>=v.level);} ))];const old=p.spellVariants&&typeof p.spellVariants==='object'?p.spellVariants:{};p.spellVariants={};for(const [spell,id] of Object.entries(old))if(p.learnedVariants.includes(variantKey(spell,id)))p.spellVariants[spell]=id;}
 export function variantChoices(p){return Object.entries(SPELL_VARIANTS).flatMap(([spell,list])=>p.skills.includes(spell)?list.filter(v=>p.level>=v.level&&!p.learnedVariants.includes(variantKey(spell,v.id))).map(v=>({id:variantKey(spell,v.id),variant:true,spell,variantId:v.id,name:v.name,icon:spell,text:SPELLS[spell].name+' · '+v.text})):[]);}
 export const VariantRules={

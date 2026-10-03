@@ -1,5 +1,5 @@
-import {SPELLS,AREA_BY_ID,RARITIES} from './data.js?v=22';
-import {EncounterVisuals} from './encounter-visuals.js?v=22';
+import {SPELLS,AREA_BY_ID,RARITIES} from './data.js?v=27';
+import {EncounterVisuals} from './encounter-visuals.js?v=27';
 const centered=source=>({...source,anchor:[.5,.5]});
 const distance=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 export const ExpeditionVisuals={
@@ -27,12 +27,12 @@ export const ExpeditionVisuals={
   const locked=Boolean(portal.locked);
   const kind=['arena','bonus'].includes(portal.category)?'maritime':portal.category==='generator'?'industrial':AREA_BY_ID[portal.to].zone===2?'grove':'brass';
   this.ellipse(portal.x,portal.y+3,44,16,'#16353155');
-  this.sprite(this.assets.travel,this.expedition.travel[kind],portal.x,portal.y,130,false,0,locked?.48:1);
-  if(portal.category)this.text(portal.category==='bonus'?'OPTIONELE BERGING':portal.category==='arena'?'ARENA':portal.category==='generator'?'MEETSTATIONS':'DOORREIS',portal.x,portal.y-144,locked?'#c9ccb9':portal.category==='arena'?'#a5efed':'#f8d991',13);
+  this.sprite(this.assets.travel,this.expedition.travel[kind],portal.x,portal.y,portal.category==='explore'?95:130,false,0,locked?.48:1);
+  if(portal.category)this.text(portal.category==='explore'?'VERKENNING':portal.category==='bonus'?'OPTIONELE BERGING':portal.category==='arena'?'ARENA':portal.category==='generator'?'MEETSTATIONS':'DOORREIS',portal.x,portal.y-(portal.category==='explore'?106:144),locked?'#c9ccb9':portal.category==='arena'?'#a5efed':'#f8d991',13);
   const hub=Boolean(s.world.safeHub);
-  if(hub||distance(s.player,portal)<235){
+  if(portal.category==='explore'?distance(s.player,portal)<235:hub||distance(s.player,portal)<235){
    const label=AREA_BY_ID[s.area].kind==='hub'?'TERUG NAAR HANDELSKAMP':AREA_BY_ID[portal.to].name;
-   this.text(label,portal.x,portal.y-164,locked?'#c9ccb9':'#f7e4ae',14);
+   this.text(label,portal.x,portal.y-(portal.category==='explore'?126:164),locked?'#c9ccb9':'#f7e4ae',14);
    if(distance(s.player,portal)<235)this.text(locked?'GEBLOKKEERD':'F · VOLG DE ROUTE',portal.x,portal.y+26,locked?'#d3b19a':'#d9ead5',11);
   }
  },

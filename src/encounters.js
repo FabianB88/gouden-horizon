@@ -1,4 +1,4 @@
-import {ENEMIES} from './data.js?v=22';
+import {ENEMIES} from './data.js?v=27';
 const distance=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 const normal=(x,y)=>{const n=Math.hypot(x,y)||1;return {x:x/n,y:y/n};};
 export const NEW_ROLES=['eel','salamander','shieldguard','stormnest'];
@@ -54,8 +54,9 @@ export function updateEncounterThreat(g,t,dt){
   for(const e of g.state.world.enemies.filter(e=>!e.dead&&!bossEnemy(e))){const dx=e.x-t.x,dy=(e.y-t.y)*1.15,along=dx*t.dir.x+dy*t.dir.y,cross=Math.abs(dx*t.dir.y-dy*t.dir.x);if(along>=-20&&along<t.length&&cross<t.r)e.slow=Math.max(e.slow||0,.4);}return;
  }
  if(g.inCamp())return;
+ if(t.type==='ring'){t.animalHits||=[];for(const u of g.state.summons||[]){if(u.hp<=0||t.animalHits.includes(u.id)||Math.abs(distance(u,t)-(t.r+t.age*t.speed))>=t.width+u.radius)continue;g.companionDamage(u,t.damage);t.animalHits.push(u.id);}}
  if(t.type==='ring'&&!t.hit&&Math.abs(distance(p,t)-(t.r+t.age*t.speed))<t.width){t.hit=true;g.hurtPlayer(t.damage,t.venom?'venomHit':t.element||'physical');}
- if(t.type==='eruption'&&!t.hit&&t.age>=t.arm){t.hit=true;if(distance(p,t)<t.r)g.hurtPlayer(t.damage,t.element||'physical');g.effect('eruption',t.x,t.y,{radius:t.r,color:t.color,element:t.element,life:.5});}
+ if(t.type==='eruption'&&!t.hit&&t.age>=t.arm){t.hit=true;g.hurtCompanions(t,t.r,t.damage);if(distance(p,t)<t.r)g.hurtPlayer(t.damage,t.element||'physical');g.effect('eruption',t.x,t.y,{radius:t.r,color:t.color,element:t.element,life:.5});}
  if(t.type==='tether'&&t.age>=t.arm&&!t.hit){const dx=p.x-t.x,dy=(p.y-t.y)*1.15,length=distance(t,t.target),along=dx*t.dir.x+dy*t.dir.y,cross=Math.abs(dx*t.dir.y-dy*t.dir.x);if(along>0&&along<length+40&&cross<23){t.hit=true;g.hurtPlayer(t.damage,t.element||'physical');g.moveEntity(p,-t.dir.x*75,-t.dir.y*60);}}
 }
 export function updateBossPhase(g,e){

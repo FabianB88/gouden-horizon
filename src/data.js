@@ -1,6 +1,10 @@
-import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=22';
-import {V8_AREAS,V8_ZONES,V8_ENEMIES} from './v8-content.js?v=22';
-import {HUB_LAYOUTS} from './hub-layouts.js?v=22';
+import {QUARTER_AREAS,QUARTER_GATES} from './safe-exploration-content.js?v=27';
+import {NATURE_AREAS,NATURE_ENEMIES} from './nature-content.js?v=27';
+import {CREATURE_ENEMIES} from './creature-content.js?v=27';
+import {BIOME_AREAS,BIOME_ENEMIES,BIOME_HUB_LAYOUTS} from './biome-content.js?v=27';
+import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=27';
+import {V8_AREAS,V8_ZONES,V8_ENEMIES} from './v8-content.js?v=27';
+import {HUB_LAYOUTS} from './hub-layouts.js?v=27';
 export const WORLD = { width: 1920, height: 1280 };
 export const SPELLS = {
   tide: { name: 'Getijdenwaaier', short: 'GETIJ', color: '#73e2e5', dark: '#126c8b', key: '1', damage: 13, cost: 4, interval: .22, speed: 780, radius: 11, status: 'wet', description: 'Drie waterbogen waaieren uit en maken doelen NAT. Wissel naar storm voor kettingbliksem.' },
@@ -942,7 +946,7 @@ for(const [id,name,file]of [['trial-tide','Dijkbreker','trial-tide.webp'],['tria
 Object.assign(AREA_BY_ID,Object.fromEntries(AREAS.map(a=>[a.id,a])));
 
 // v6: constructiebouw en vijandrollen met eigen geschilderde houdingen.
-SPELLS.summon={name:'Schrootconstructie',short:'DRONE',color:'#8ae5d9',dark:'#326e75',damage:0,cost:42,interval:18,unlockLevel:4,radius:20,description:'Roep tijdelijke constructies op. Kies verkenners of een wachtconstructie via K; T geeft een doel onder je cursor. Iedere oproep vervangt de vorige groep.'};
+SPELLS.summon={name:'Dierenverbond',short:'ROEP',color:'#8ae5d9',dark:'#326e75',damage:0,cost:42,interval:18,unlockLevel:10,radius:20,description:'Roep getijvossen, een moszwijn of een lichtmot op. Volledig verbond vanaf niveau 10. De Natuurhoeder kan vanaf niveau 4 één eenvoudige getijvos leren. Kies via K; T wijst een doel aan.'};
 Object.assign(ENEMIES,{
  bulwark:{name:'Bastiondrager',sprite:'bulwark',hp:210,damage:17,speed:88,radius:28,size:125,range:175,xp:25,color:'#e8bd7c',role:'tank',v6row:0},
  plaguewright:{name:'Sporenmeester',sprite:'plaguewright',hp:165,damage:12,speed:98,radius:25,size:115,range:460,xp:26,color:'#bfdc6e',role:'ranged',v6row:1},
@@ -953,7 +957,7 @@ Object.assign(ENEMIES,{
 });
 for(const [id,list]of Object.entries({mirrors:['sniper','hunter','repairer','bulwark'],brine:['minecrab','brinebreaker','hunter','bulwark'],glass:['sporecaster','beast','plaguewright','repairer'],harbor:['siege','stormnest','hunter','bulwark'],clouds:['resonant','repairer','brinebreaker','plaguewright']}))AREA_BY_ID[id].enemies=list;
 const workshopFloor=AREA_BY_ID.depot;
-AREAS.push({id:'workshop-v6',name:'De Afgesloten Werkplaats',file:workshopFloor.file,zone:1,kind:'hub',side:true,optional:true,nav:workshopFloor.nav,spawn:workshopFloor.spawn,exit:workshopFloor.exit,links:['highway'],unlockCore:1,enemies:['hunter','bulwark','repairer','plaguewright'],map:[33,61],story:'Optionele berging in Vrijhaven · constructieprotocol en schroot.'});
+AREAS.push({id:'workshop-v6',name:'De Afgesloten Werkplaats',file:workshopFloor.file,zone:1,kind:'hub',side:true,optional:true,nav:workshopFloor.nav,spawn:workshopFloor.spawn,exit:workshopFloor.exit,links:['highway'],unlockCore:1,enemies:['hunter','bulwark','repairer','plaguewright'],map:[33,61],story:'Optionele berging in Vrijhaven · verbondsarchief en schroot.'});
 AREA_BY_ID['workshop-v6']=AREAS.at(-1);
 
 // Vrijhaven: connected plazas traced against the new painted city.
@@ -983,6 +987,14 @@ const adventureAreas=[
 for(const a of adventureAreas){Object.assign(a,{kind:'hub',side:true,optional:true,adventure:true,links:[a.returnHub],map:[5+a.zone*23,92]});AREAS.push(a);AREA_BY_ID[a.id]=a;}
 
 // Two further regional acts, after the Aurelia milestone.
+AREAS.push(...BIOME_AREAS);Object.assign(ENEMIES,BIOME_ENEMIES);Object.assign(AREA_BY_ID,Object.fromEntries(BIOME_AREAS.map(a=>[a.id,a])));Object.assign(HUB_LAYOUTS,BIOME_HUB_LAYOUTS);
 AREAS.push(...V8_AREAS);ZONES.push(...V8_ZONES);Object.assign(ENEMIES,V8_ENEMIES);Object.assign(AREA_BY_ID,Object.fromEntries(V8_AREAS.map(a=>[a.id,a])));
 
 Object.assign(HUB_LAYOUTS,V8_HUB_LAYOUTS);for(const [id,layout]of Object.entries(V8_HUB_LAYOUTS)){AREA_BY_ID[id].nav=layout.nav.map(poly=>poly.map(([x,y])=>[x/1536,y/1024]));AREA_BY_ID[id].spawn=layout.spawn;AREA_BY_ID[id].pocket=layout.cache.map((v,i)=>v/(i?1280:1920));}
+
+Object.assign(ENEMIES,CREATURE_ENEMIES);
+
+AREAS.push(...NATURE_AREAS);Object.assign(ENEMIES,NATURE_ENEMIES);Object.assign(AREA_BY_ID,Object.fromEntries(NATURE_AREAS.map(a=>[a.id,a])));
+
+AREAS.push(...QUARTER_AREAS);Object.assign(AREA_BY_ID,Object.fromEntries(QUARTER_AREAS.map(a=>[a.id,a])));
+Object.assign(HUB_LAYOUTS.highway.portals,QUARTER_GATES.highway);

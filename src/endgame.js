@@ -1,7 +1,7 @@
-import {activeVariant} from './spell-variants.js?v=22';
-import {AREA_BY_ID,ENEMIES,POSITIONS} from './data.js?v=22';
-import {SAFE_HUBS} from './hubs.js?v=22';
-import {makeItem} from './loot.js?v=22';
+import {activeVariant} from './spell-variants.js?v=27';
+import {AREA_BY_ID,ENEMIES,POSITIONS} from './data.js?v=27';
+import {SAFE_HUBS} from './hubs.js?v=27';
+import {makeItem} from './loot.js?v=27';
 const clone=v=>JSON.parse(JSON.stringify(v));
 export const TRIALS=[
  {id:'trial-tide',name:'Dijkbreker',theme:'Water, gif en zware dijkmachines',boss:'dredger',bossName:'De Dijkwachter',roster:['eel','minecrab','toxinbeetle','bulwark','brinebreaker'],rewardSlot:'boots'},
@@ -10,7 +10,7 @@ export const TRIALS=[
 ];
 export const TRIAL_TIERS=[{name:'Veteraan',hp:1,damage:1,scrap:70,xp:120},{name:'Expert',hp:1.32,damage:1.14,scrap:105,xp:180},{name:'Meester',hp:1.68,damage:1.28,scrap:150,xp:240}];
 export function trialTime(ms){const whole=Math.floor(ms/1000);return Math.floor(whole/60)+':'+String(whole%60).padStart(2,'0')+'.'+String(Math.floor(ms%1000/10)).padStart(2,'0');}
-export function recordText(record){return `Gouden Horizon v8.0.0 · ${record.arenaName} · ${TRIAL_TIERS[record.tier-1].name}\n${trialTime(record.elapsedMs)} · niveau ${record.level} · ${record.kills} vijanden\n${record.spells.join(' / ')}\n${record.gear.join(' · ')}\nPersoonlijk lokaal tijdrecord · https://gouden-horizon-rpg.fb12.chatgpt.site`;}
+export function recordText(record){return `Gouden Horizon v8.1.0 · ${record.arenaName} · ${TRIAL_TIERS[record.tier-1].name}\n${trialTime(record.elapsedMs)} · niveau ${record.level} · ${record.kills} vijanden\n${record.spells.join(' / ')}\n${record.gear.join(' · ')}\nPersoonlijk lokaal tijdrecord · https://gouden-horizon-rpg.fb12.chatgpt.site`;}
 export const EndgameRules={
  challengeBuildLocked(){return Boolean(this.state.world?.trial&&!this.state.world.trial.done);},
  endgameUnlocked(){return Boolean(this.state.completed||this.state.cores.includes(3));},

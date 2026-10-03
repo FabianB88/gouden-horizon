@@ -1,0 +1,363 @@
+{
+  "mode": "built-in imagegen",
+  "generation_calls": 4,
+  "variants": 0,
+  "retries": 0,
+  "saved_originals_without_pixel_modification": true,
+  "assets": [
+    {
+      "asset": "lantaarnwoud",
+      "filename": "lantaarnwoud-v83.png",
+      "path": "/workspace/scratch/19cb526127e1/output/v83-art/lantaarnwoud-v83.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "sha256": "81a11b9269b1211b0e2a4c05d94c09c6fb11b4cef1905032464c12c163943555",
+      "original_bytes_preserved": true,
+      "requested_dimensions": [
+        1536,
+        1024
+      ],
+      "transparent_background_requested": false,
+      "prompt": "Use case: stylized-concept\nAsset type: production full-level environment background for a painted 2.5D Canvas action RPG.\nCreate one 1536x1024 landscape image of Lantaarnwoud, a safe region: a beautiful lush overgrown abandoned ecological city beside a turquoise lagoon at warm evening. Fixed elevated three-quarter isometric game camera, a readable explorable level environment with believable hand-painted 3D volume. Premium original fantasy action RPG art in the visual spirit of Torchlight 2 and Nine Parchments: rich painted natural materials, dramatic warm highlights and cool shadows, beautiful atmospheric depth, no outlines and no pixel art.\nThe lagoon and flowering vegetation border the upper and outer edges of the city. Include old brick homes, weathered greenhouse ruins, flowering trees, cascading ferns and softly luminous golden plants, with textured roots and moss concentrated beside buildings and around the outskirts. Broad connected pale stone courtyards and winding dry paths occupy MOST of the image, especially its lower and central area. Five distinct roomy plazas or overlooks are distributed across the level and connected by broad continuous dry paths. Every major side path connects back into this traversable network. Wide level stone bridges WITHOUT RAILS cross only tiny narrow stream channels. Make the level's connected paving and dry walking routes visually obvious and generous. Keep paving bright and clear with minimal clutter; architecture and dense plants stay beside the traversable network instead of blocking it.\nLighting: warm golden evening light from upper left, cool teal shadows, soft golden botanical luminescence, tranquil welcoming atmosphere. Rich turquoise water, warm weathered brick, pale stone, lush varied greens and restrained flower color.\nNo characters, enemies, merchants, chests, collectible items, readable text, labels, logos, UI, HUD, border, portal graphics, visible grid, robots or skeletons. Do not create deep channels that divide the scene or dead-end major pathways. The image is the painted environment itself, with no game interface."
+    },
+    {
+      "asset": "kristalwaterval",
+      "filename": "kristalwaterval-v83.png",
+      "path": "/workspace/scratch/19cb526127e1/output/v83-art/kristalwaterval-v83.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "sha256": "c47c94f5ee8bea0fb7422479a64fa6b4a676e2fae0dda850c4b0e97b9a2e6de6",
+      "original_bytes_preserved": true,
+      "requested_dimensions": [
+        1536,
+        1024
+      ],
+      "transparent_background_requested": false,
+      "prompt": "Use case: stylized-concept\nAsset type: production combat arena environment background for a painted 2.5D Canvas action RPG.\nCreate one 1536x1024 landscape image of Kristalwaterval: a breathtaking forest waterfall flowing over dark basalt into a luminous blue pool, with a broad crescent-shaped stone-and-sand fighting arena wrapping around the pool and old ruined hydro masonry at the edges. Fixed elevated three-quarter isometric game camera. Premium original fantasy action RPG art in the visual spirit of Torchlight 2 and Nine Parchments: richly textured hand-painted materials, convincing 3D volume, dramatic warm highlights and cool shadows, no outlines or pixel art.\nThe waterfall, forest canopy and blue pool form a spectacular scenic backdrop mainly toward the upper edge and upper-center. Preserve a bright readable stone-and-sand arena across the lower and central 80 percent of the composition. Several broad interconnected traversable lanes curve around the water and connect smoothly with one another. Keep the walking and fighting space broad, open, continuous and dry. Place exactly two large natural rock cover islands, one toward the left and one toward the right of the central area, separated by a generous clear central fighting lane; these rock islands must not divide or choke off the arena. Ruined hydro masonry, ferns, moss and small plants frame the perimeter. Keep clutter out of the playable lanes.\nColor and light: beautiful luminous teal-blue water and deep basalt, pale warm stone and sand for high ground readability, warm upper-left sunlight, cool forest shadows. Detailed premium painterly environment and atmospheric waterfall spray restricted near the water.\nNo characters, creatures, enemies, merchants, chests, weapons, item pickups, readable text, labels, logos, UI, HUD, portal graphics, borders, visible grids, robots or skeletons. The image is the painted environment itself."
+    },
+    {
+      "asset": "koperen_kroon",
+      "filename": "koperen-kroon-v83.png",
+      "path": "/workspace/scratch/19cb526127e1/output/v83-art/koperen-kroon-v83.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "sha256": "36f1d9e18d8921ccbd8a171ef7ee97586fe05d0bb3af60c7d638d8b750f25653",
+      "original_bytes_preserved": true,
+      "requested_dimensions": [
+        1536,
+        1024
+      ],
+      "transparent_background_requested": false,
+      "prompt": "Use case: stylized-concept\nAsset type: production boss arena environment background for a painted 2.5D Canvas action RPG.\nCreate one 1536x1024 landscape image of Koperen Kroon: an ancient moss-overgrown circular climate observatory deep within an amber autumn forest at sunset. An enormous warm copper and gold-leaf canopy crowns the TOP EDGE of the environment. Fixed elevated three-quarter isometric game camera, with premium original hand-painted fantasy action RPG art in the visual spirit of Torchlight 2 and Nine Parchments: rich stone, copper, leaf, bark and moss textures, convincing sculpted 3D volume, dramatic warm highlights and cool shadows, painterly edges, no outlines and no pixel art.\nThe central and lower 75 percent of the image is a broad open circular stone-and-earth battle floor with generous continuous fighting room. The floor is bright and clearly readable, patterned subtly by ancient masonry and earth. A broken fountain at the center is decorative and FLAT, with only shallow low remnants that do not block walking or obscure actors. Place exactly three clearly isolated cover islands of boulders or old broken pillars around the edge of the battle floor; substantial clear lanes connect all areas around them and through the central arena. Keep the floor mostly uncluttered. Place observatory ruins, dense amber forest, hanging moss and huge warm copper/golden canopy forms along the upper and outer boundaries.\nLighting: luminous warm sunset from upper left, rich amber and copper highlights, golden autumn leaves, cool blue-green moss shadows, majestic ancient atmosphere.\nNo characters, creatures, enemies, merchants, chests, weapons, item pickups, readable text, labels, logos, UI, HUD, borders, portal graphics, robots, skeletons or visible grid. The image is the painted environment itself."
+    },
+    {
+      "asset": "creatures",
+      "filename": "creature-atlas-v83.png",
+      "path": "/workspace/scratch/19cb526127e1/output/v83-art/creature-atlas-v83.png",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "sha256": "e130cd666b91444efc15bdc79ffab3e5009e4114fcca7b869951f4c9fe2c8387",
+      "original_bytes_preserved": true,
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_zero_pixels": 800502,
+      "transparent_percent": 50.91,
+      "alpha_bbox": [
+        0,
+        9,
+        1254,
+        1254
+      ],
+      "nominal_cell_dimensions": [
+        313.5,
+        313.5
+      ],
+      "cell_checks": [
+        {
+          "row": 0,
+          "column": 0,
+          "cell": [
+            0,
+            0,
+            314,
+            314
+          ],
+          "alpha_gt64_bbox": [
+            36,
+            60,
+            286,
+            313
+          ]
+        },
+        {
+          "row": 0,
+          "column": 1,
+          "cell": [
+            314,
+            0,
+            627,
+            314
+          ],
+          "alpha_gt64_bbox": [
+            39,
+            63,
+            281,
+            306
+          ]
+        },
+        {
+          "row": 0,
+          "column": 2,
+          "cell": [
+            627,
+            0,
+            940,
+            314
+          ],
+          "alpha_gt64_bbox": [
+            22,
+            92,
+            287,
+            313
+          ]
+        },
+        {
+          "row": 0,
+          "column": 3,
+          "cell": [
+            940,
+            0,
+            1254,
+            314
+          ],
+          "alpha_gt64_bbox": [
+            22,
+            80,
+            299,
+            314
+          ]
+        },
+        {
+          "row": 1,
+          "column": 0,
+          "cell": [
+            0,
+            314,
+            314,
+            627
+          ],
+          "alpha_gt64_bbox": [
+            34,
+            65,
+            290,
+            287
+          ]
+        },
+        {
+          "row": 1,
+          "column": 1,
+          "cell": [
+            314,
+            314,
+            627,
+            627
+          ],
+          "alpha_gt64_bbox": [
+            26,
+            66,
+            288,
+            281
+          ]
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "cell": [
+            627,
+            314,
+            940,
+            627
+          ],
+          "alpha_gt64_bbox": [
+            12,
+            74,
+            313,
+            313
+          ]
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "cell": [
+            940,
+            314,
+            1254,
+            627
+          ],
+          "alpha_gt64_bbox": [
+            0,
+            0,
+            303,
+            313
+          ]
+        },
+        {
+          "row": 2,
+          "column": 0,
+          "cell": [
+            0,
+            627,
+            314,
+            940
+          ],
+          "alpha_gt64_bbox": [
+            23,
+            15,
+            295,
+            313
+          ]
+        },
+        {
+          "row": 2,
+          "column": 1,
+          "cell": [
+            314,
+            627,
+            627,
+            940
+          ],
+          "alpha_gt64_bbox": [
+            9,
+            9,
+            282,
+            313
+          ]
+        },
+        {
+          "row": 2,
+          "column": 2,
+          "cell": [
+            627,
+            627,
+            940,
+            940
+          ],
+          "alpha_gt64_bbox": [
+            25,
+            0,
+            313,
+            313
+          ]
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "cell": [
+            940,
+            627,
+            1254,
+            940
+          ],
+          "alpha_gt64_bbox": [
+            0,
+            0,
+            306,
+            313
+          ]
+        },
+        {
+          "row": 3,
+          "column": 0,
+          "cell": [
+            0,
+            940,
+            314,
+            1254
+          ],
+          "alpha_gt64_bbox": [
+            20,
+            0,
+            308,
+            264
+          ]
+        },
+        {
+          "row": 3,
+          "column": 1,
+          "cell": [
+            314,
+            940,
+            627,
+            1254
+          ],
+          "alpha_gt64_bbox": [
+            14,
+            0,
+            296,
+            263
+          ]
+        },
+        {
+          "row": 3,
+          "column": 2,
+          "cell": [
+            627,
+            940,
+            940,
+            1254
+          ],
+          "alpha_gt64_bbox": [
+            4,
+            0,
+            302,
+            252
+          ]
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "cell": [
+            940,
+            940,
+            1254,
+            1254
+          ],
+          "alpha_gt64_bbox": [
+            4,
+            0,
+            300,
+            270
+          ]
+        }
+      ],
+      "requested_dimensions": [
+        1536,
+        1536
+      ],
+      "transparent_background_requested": true,
+      "prompt": "Use case: stylized-concept\nAsset type: production creature animation sprite atlas for a painted 2.5D Canvas action RPG.\nCreate ONE 1536x1536 square PNG with a genuinely transparent alpha background. Exactly sixteen whole-body creature sprites arranged in an invisible regular 4-COLUMN BY 4-ROW atlas. Equal 384x384 cells with generous clear transparent gutters on EVERY side. Put each sprite fully inside the central 75 percent of its cell: no appendage, glow, feather, antler or effect may touch or cross a cell boundary. No visible grid, separators, floor, background, labels or decoration outside the sprites.\nFixed elevated three-quarter isometric camera, every creature facing down-right. Preserve each row's creature identity, anatomy, proportions, body scale, colors, materials, camera and foot-plane baseline in ALL FOUR poses. Whole bodies, naturally grounded feet, same relative ground plane in each cell. Original premium nonpixel detailed hand-painted fantasy action RPG art in the visual spirit of Torchlight 2 and Nine Parchments: convincing living sculpted 3D volume, richly painted material texture, dramatic warm highlights and cool shadows, beautifully readable silhouettes at 80 pixels, no drawn outlines.\nROW 1: a moss-and-crystal shellback turtle with a heavy organic shell, moss tufts, clear crystal growths and four broad strong legs. Same turtle and shell in every pose.\nROW 2: an elegant red-and-amber sun newt, clearly living amphibian with four legs and one graceful tail, glowing furnace throat, textured organic skin, no armor machinery.\nROW 3: a graceful mint-and-ivory wind owl creature with an expressive living owl face, two feathered sweeping wings, two sturdy bird feet, lush layered painted feathers.\nROW 4: an imposing antlered forest-bear boss, massive organic forelimbs, amber and golden fur, moss on its back, luminous branching antlers and a richly expressive living face. Its entire body and antlers fit comfortably inside every cell. Same impressive boss size across its four poses.\nCOLUMN 1: idle neutral pose.\nCOLUMN 2: walk pose, with clearly offset moving legs; the owl steps with slightly shifted wings.\nCOLUMN 3: expressive windup: turtle crouches and braces all legs, newt arches and expands its glowing furnace throat, owl draws both wings inward in preparation, bear raises one massive front paw in preparation.\nCOLUMN 4: attack release: turtle performs a grounded shell/body slam with a compact restrained impact shimmer, newt spits a SHORT compact fire burst down-right, owl extends both wings and directs a compact forward gust down-right, bear delivers a powerful front-paw ground slam with a small restrained amber impact. Keep ALL attack effects entirely within generous cell gutters.\nUse actual alpha transparency, no painted checkerboard. All sixteen isolated sprites must be complete and equally registered. No extra creatures, extra limbs, robots, drones, skeletons, weapons, text, numbers, labels, sheet grid lines, visible borders, opaque shadows, scenery or solid backdrop."
+    }
+  ],
+  "inspection_notes": [
+    "All requested creature species and four pose columns are present.",
+    "The atlas has real alpha transparency; its delivered square size differs from the requested preferred size.",
+    "A few atlas subjects or effects cross nominal cell boundaries, so source rectangle measurement or normalization is needed for uniform slicing.",
+    "Lantaarnwoud includes low bridge parapets despite the request for bridges without rails.",
+    "The two arena backgrounds have open fighting floors and the requested two and three major cover islands respectively."
+  ],
+  "production": "Original alpha retained; resized WEBP, connected-component source rectangle measurements and ground anchors only."
+}

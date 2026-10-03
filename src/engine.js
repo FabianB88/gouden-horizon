@@ -1,36 +1,43 @@
-import {V8ExpeditionRules,tuneV8Enemy} from './v8-expedition.js?v=22';
-import {tacticalMovement,smoothEnemyVelocity} from './enemy-ai.js?v=22';
-import {AdventureRules} from './adventures.js?v=22';
-import {itemFitsSlot} from './equipment-slots.js?v=22';
-import {BossTerrainRules} from './boss-terrain.js?v=22';
-import {SpecializationRules,specializationStats} from './specializations.js?v=22';
-import {PremiumSpellRules} from './premium-spells.js?v=22';
-import {damageResistance} from './resistances.js?v=22';
-import {ItemMarkRules,protectedItem} from './item-marks.js?v=22';
-import {VariantRules,spellProfile,variantChoices} from './spell-variants.js?v=22';
-import {SummonRules} from './summons.js?v=22';
-import {UniqueRules} from './unique-items.js?v=22';
-import {V6EnemyRules} from './v6-enemies.js?v=22';
-import {CityRules} from './city.js?v=22';
-import {BountyRules} from './bounties.js?v=22';
-import { WORLD, SPELLS, ZONES, ENEMIES, EQUIPMENT, START_EQUIPMENT, UPGRADES, DISCIPLINES, POSITIONS, AREAS, AREA_BY_ID, HUB_IDS } from './data.js?v=22';
-import {StoryRules} from './story.js?v=22';
-import {planNewAttack,executeNewAttack,updateNewThreats} from './enemy-variety.js?v=22';
-import {scaleEnemy} from './balance.js?v=22';
-import {ExpeditionRules,REGION_CAMPS} from './expedition.js?v=22';
-import {makeItem,normalizePlayer,DROP_TABLES,dropProfile,salvageValue} from './loot.js?v=22';
-import {HubRules,SAFE_HUBS} from './hubs.js?v=22';
-import {REGIONAL_BOSSES,updateBossPhase,updateEncounterState} from './encounters.js?v=22';
-import {legendaryCast,legendaryDash,legendaryHit,legendaryKill,triggerLegendary,updateLegendary} from './legendary.js?v=22';
-import {updateHeroMotion,heroDirection,heroFrame} from './hero-motion.js?v=22';
-import {SurvivalRules,HEAL_COOLDOWN} from './survival.js?v=22';
-import {updateEnemyMotion} from './enemy-motion.js?v=22';
-import {GambleRules} from './gamble.js?v=22';
-import {presentEnemyAttack,launchEnemyLob,updateEnemyLob} from './enemy-combat.js?v=22';
-import {EndgameRules} from './endgame.js?v=22';
-import {MarketRules} from './markets.js?v=22';
-import {QuestRules} from './quests.js?v=22';
-import {arenaObstacles,blockedByObstacle,coverHit} from './arena-layouts.js?v=22';
+import {QuarterRules} from './safe-exploration.js?v=27';
+import {NatureRules,tuneNatureEnemy} from './nature-region.js?v=27';
+import {CompanionUpgradeRules} from './companion-upgrades.js?v=27';
+import {summonAvailable,summonUnlockLevel} from './summon-progression.js?v=27';
+import {CreatureRules} from './creatures.js?v=27';
+import {V8ExpeditionRules,tuneV8Enemy} from './v8-expedition.js?v=27';
+import {tacticalMovement,smoothEnemyVelocity} from './enemy-ai.js?v=27';
+import {BiomeRules,tuneBiomeEnemy} from './biomes.js?v=27';
+import {rollChaseItem,chaseRandom} from './chase-loot.js?v=27';
+import {AdventureRules} from './adventures.js?v=27';
+import {itemFitsSlot} from './equipment-slots.js?v=27';
+import {BossTerrainRules} from './boss-terrain.js?v=27';
+import {SpecializationRules,specializationStats} from './specializations.js?v=27';
+import {PremiumSpellRules} from './premium-spells.js?v=27';
+import {damageResistance} from './resistances.js?v=27';
+import {ItemMarkRules,protectedItem} from './item-marks.js?v=27';
+import {VariantRules,spellProfile,variantChoices} from './spell-variants.js?v=27';
+import {SummonRules} from './summons.js?v=27';
+import {UniqueRules} from './unique-items.js?v=27';
+import {V6EnemyRules} from './v6-enemies.js?v=27';
+import {CityRules} from './city.js?v=27';
+import {BountyRules} from './bounties.js?v=27';
+import { WORLD, SPELLS, ZONES, ENEMIES, EQUIPMENT, START_EQUIPMENT, UPGRADES, DISCIPLINES, POSITIONS, AREAS, AREA_BY_ID, HUB_IDS } from './data.js?v=27';
+import {StoryRules} from './story.js?v=27';
+import {planNewAttack,executeNewAttack,updateNewThreats} from './enemy-variety.js?v=27';
+import {scaleEnemy} from './balance.js?v=27';
+import {ExpeditionRules,REGION_CAMPS} from './expedition.js?v=27';
+import {makeItem,normalizePlayer,DROP_TABLES,dropProfile,salvageValue} from './loot.js?v=27';
+import {HubRules,SAFE_HUBS} from './hubs.js?v=27';
+import {REGIONAL_BOSSES,updateBossPhase,updateEncounterState} from './encounters.js?v=27';
+import {legendaryCast,legendaryDash,legendaryHit,legendaryKill,triggerLegendary,updateLegendary} from './legendary.js?v=27';
+import {updateHeroMotion,heroDirection,heroFrame} from './hero-motion.js?v=27';
+import {SurvivalRules,HEAL_COOLDOWN} from './survival.js?v=27';
+import {updateEnemyMotion} from './enemy-motion.js?v=27';
+import {GambleRules} from './gamble.js?v=27';
+import {presentEnemyAttack,launchEnemyLob,updateEnemyLob} from './enemy-combat.js?v=27';
+import {EndgameRules} from './endgame.js?v=27';
+import {MarketRules} from './markets.js?v=27';
+import {QuestRules} from './quests.js?v=27';
+import {arenaObstacles,blockedByObstacle,coverHit} from './arena-layouts.js?v=27';
 export const clamp = (n,a,b) => Math.max(a,Math.min(b,n));
 export const distance = (a,b) => Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 export const normal = (x,y) => { const d=Math.hypot(x,y)||1;return {x:x/d,y:y/d}; };
@@ -83,13 +90,17 @@ export class Engine {
   makeEnemy(type,x,y,elite=false,awake=false) {
     const base=ENEMIES[type],scale=1+this.state.zone*.16;
     const hp=Math.round(base.hp*scale*(elite?1.7:1));
-    return tuneV8Enemy(scaleEnemy({id:++this.idCounter,level:1+this.state.zone*2+(elite?2:0),home:{x,y},type,x,y,hp,maxHp:hp,radius:base.radius,elite,awake,dead:false,cd:1.1+this.rng(),windup:null,wet:0,burn:0,stun:0,hurt:0,poison:0,phase:1,prevPhase:1,angle:0,anim:this.rng()*6,move:false},this.state.zone,this.state.player.level),AREA_BY_ID[this.state.area]);
+    return tuneNatureEnemy(tuneBiomeEnemy(tuneV8Enemy(scaleEnemy({id:++this.idCounter,level:1+this.state.zone*2+(elite?2:0),home:{x,y},type,x,y,hp,maxHp:hp,radius:base.radius,elite,awake,dead:false,cd:1.1+this.rng(),windup:null,wet:0,burn:0,stun:0,hurt:0,poison:0,phase:1,prevPhase:1,angle:0,anim:this.rng()*6,move:false},this.state.zone,this.state.player.level),AREA_BY_ID[this.state.area]),AREA_BY_ID[this.state.area],this.state.player.level),AREA_BY_ID[this.state.area],this.state.player.level);
   }
   placeSummon(e){if(canStand(e.x,e.y,e.radius,this.state.area))return e;const wanted={x:e.x,y:e.y};for(let r=24;r<700;r+=24)for(let i=0;i<16;i++){const x=wanted.x+Math.cos(i*Math.PI/8)*r,y=wanted.y+Math.sin(i*Math.PI/8)*r;if(canStand(x,y,e.radius,this.state.area)){Object.assign(e,{x,y,home:{x,y}});return e;}}Object.assign(e,{x:960,y:640,home:{x:960,y:640}});return e;}
   createWorld(area) {
     const s=this.state,w={relays:[],enemies:[],loot:[],pickups:[],threats:[],gate:null,archive:null,hazards:[],portals:this.portalDefinitions(area.id),bossDefeated:false,coreAvailable:false,coreCollected:s.cores.includes(area.zone)};
     const z=ZONES[area.zone];w.camp=this.campFor(area);if(w.camp)w.shop={stock:this.makeStock(area.zone,area.id),marketVersion:2};
-    if(area.extension&&!area.safe){this.createV8World(w,area);
+    if(area.safeExplore){w.coreCollected=true;w.safeHub=true;
+    }else if(area.natureArena){this.createNatureWorld(w,area);
+    }else if(area.biomeArena){this.createBiomeWorld(w,area);
+    }else if(area.biomeRegion&&area.safe){w.coreCollected=true;w.enemies=[];w.hazards=[];w.loot=[{id:++this.idCounter,x:1575,y:588,type:'loot',exploration:true,profile:'cache'}];
+    }else if(area.extension&&!area.safe){this.createV8World(w,area);
     }else if(area.adventure){this.createAdventureWorld(w,area);
     }else if(area.bounty){this.createBountyWorld(w,area);
     }else if(area.endgame){this.createChallengeWorld(w,area);
@@ -112,20 +123,21 @@ export class Engine {
       // Hazards sit along the route rather than decorating unreachable scenery.
       w.hazards=[.48,.72].map((t,i)=>({id:'terrain-'+i,x:(a[0]+(b[0]-a[0])*t)*WORLD.width,y:(a[1]+(b[1]-a[1])*t)*WORLD.height,r:46,type:z.hazard,phase:i,cleared:false}));
     }
-    this.prepareHub(w,area);return w;
+    this.prepareHub(w,area);this.prepareCreatureWorld(w,area);return w;
   }
-  checkpoint() {const s=this.state;s.checkpoint={area:s.area,zone:s.zone,player:copy(s.player),areas:copy(s.areas),visited:copy(s.visited),kills:s.kills,combos:s.combos,cores:copy(s.cores),codex:copy(s.codex),storyPassed:copy(s.storyPassed||[]),quests:copy(s.quests||{}),campaignVersion:s.campaignVersion};}
+  checkpoint() {const s=this.state;s.checkpoint={area:s.area,zone:s.zone,player:copy(s.player),areas:copy(s.areas),visited:copy(s.visited),kills:s.kills,combos:s.combos,cores:copy(s.cores),codex:copy(s.codex),storyPassed:copy(s.storyPassed||[]),quests:copy(s.quests||{}),natureVictories:copy(s.natureVictories||{}),natureDiscoveries:copy(s.natureDiscoveries||[]),biomeVictories:copy(s.biomeVictories||{}),natureAnnounced:s.natureAnnounced,campaignVersion:s.campaignVersion};}
   enterZone(zone) {return this.enterArea(HUB_IDS[zone]);}
   enterArea(id,from=null) {
     const area=AREA_BY_ID[id];if(!area)return false;if(!this.isUnlocked(id)){this.notice('Deze route komt vrij na de volgende kalibratiekern');return false;}
     const s=this.state,p=s.player;if(s.world)s.areas[s.area]=s.world;if(area.endgame||area.optional&&s.areas[id]?.sideDone)delete s.areas[id];s.area=id;s.zone=area.zone;s.mode='playing';s.pending=null;s.projectiles=[];s.fields=[];s.ultimateWave=null;s.effects=[];s.numbers=[];s.summons=[];
     s.world=s.areas[id]||this.createWorld(area);s.world.portals=this.portalDefinitions(id);s.world.camp=this.campFor(area);if(s.world.camp&&!s.world.shop)s.world.shop={stock:this.makeStock(area.zone,area.id),marketVersion:2};s.areas[id]=s.world;if(!s.visited.includes(id))s.visited.push(id);
     this.prepareHub(s.world,area);s.world.threats||=[];this.syncStoryPortals();
-    const spawn=area.adventure||area.extension&&!area.safe?{x:area.spawn[0]*WORLD.width,y:area.spawn[1]*WORLD.height}:area.kind==='route'?s.world.camp:POSITIONS.start;
-    p.x=spawn.x;p.y=spawn.y;p.velocity={x:0,y:0};p.walkBlend=0;p.moving=false;p.poseTurn=0;p.dashTimer=0;p.invincible=1.2;p.trail=[];p.lastHurt=s.time;
+    const spawn=area.safeExplore||area.natureArena||area.biomeArena||area.adventure||area.extension&&!area.safe?{x:area.spawn[0]*WORLD.width,y:area.spawn[1]*WORLD.height}:area.kind==='route'?s.world.camp:POSITIONS.start;
+    p.x=spawn.x;p.y=spawn.y;p.velocity={x:0,y:0};p.walkBlend=0;p.visualMotionBlend=0;p.moving=false;p.poseTurn=0;p.dashTimer=0;p.invincible=1.2;p.trail=[];p.lastHurt=s.time;
     this.reconcileArena();
     if(s.destination===id)s.destination=null;
-    this.checkpoint();this.notice(area.name+(s.world.camp?' · veilige handelspost':''),ZONES[area.zone].accent);this.emit('zone',{zone:area.zone,area:id});return true;
+    const announceNature=id==='cooling-refuge'&&this.isUnlocked('lanternwood')&&!s.natureAnnounced;if(announceNature)s.natureAnnounced=true;
+    this.checkpoint();this.notice(area.name+(s.world.camp?' · veilige handelspost':''),ZONES[area.zone].accent);this.emit('zone',{zone:area.zone,area:id});if(announceNature)this.emit('natureregion');return true;
   }
   notice(text,color='#ead8a5') {this.state.notices.unshift({text,color,life:4.5});this.state.notices=this.state.notices.slice(0,4);}
   selectSpell(spell) {return this.setMainAttack(spell);}
@@ -135,6 +147,7 @@ export class Engine {
   clearSkillSlot(slot){if(this.challengeBuildLocked())return false;if(!Number.isInteger(slot)||slot<0||slot>5)return false;this.state.player.hotbar[slot]=null;return true;}
   cast(id=this.state.player.mainAttack,target=null) {
     const s=this.state,p=s.player,spell=spellProfile(p,id),v=spell?.variant||{};
+    if(id==='summon'&&!summonAvailable(p))return false;
     if(!spell||s.mode!=='playing'||this.inCamp()||!p.skills.includes(id)||(p.spellCd[id]||0)>0||p.mana<spell.cost||p.dashTimer>0)return false;
     if(target)this.aimAt(target.x,target.y);p.lastAbility=id;p.spellCd[id]=spell.interval;p.attackCd=spell.interval;p.mana-=spell.cost;p.cast=.18;
     if(this.castPremium(id,spell))return true;
@@ -147,7 +160,7 @@ export class Engine {
       const struck=new Set();fan(v.fan||1,v.spread||0,(dx,dy)=>{const end={x:origin.x+dx*(v.beamRange||650),y:origin.y+dy*(v.beamRange||650)/1.15},hits=s.world.enemies.filter(e=>!e.dead&&segmentDistance(origin,end,{x:e.x,y:e.y-22})<e.radius+(v.beamWidth||16)).sort((a,b)=>distance(p,a)-distance(p,b)).slice(0,v.beamHits||1),last=hits.at(-1);this.effect('chain',origin.x,origin.y,{end:last?{x:last.x,y:last.y-22}:end,color:spell.color,life:.28});for(const hit of hits)if(!struck.has(hit.id)){struck.add(hit.id);this.hitEnemy(hit,damage,'storm');}});
     }else if(id==='prism')s.projectiles.push({...bolt(id,dir.x,dir.y),bounces:v.bounces??3,bounceFalloff:v.bounceFalloff??.88,projectileSpeed:spell.speed,life:v.boltLife||1.4});
     else if(id==='tide'){fan(v.fan||3,v.spread??.19,(dx,dy)=>s.projectiles.push({...bolt(id,dx,dy),pierce:v.pierce||2}));p.heat=Math.max(0,p.heat-.55);}
-    else if(id==='ember'){fan(v.fan||1,v.spread||0,(dx,dy)=>{const length=clamp(p.aimRange||350,90,590),end={x:p.x+dx*length,y:p.y+dy*length/1.15-18};s.projectiles.push({...bolt(id,dx,dy),origin,end,duration:(.48+length/1600)*(v.flight||1),life:1.2,flightHeight:0});});}
+    else if(id==='ember'){fan(v.fan||1,v.spread||0,(dx,dy)=>{const length=clamp(p.aimRange||350,90,590),end={x:p.x+dx*length,y:p.y+dy*length/1.15-18};s.projectiles.push({...bolt(id,dx,dy),origin,end,duration:(.48+length/1600)*(v.flight||1),life:1.2,flightHeight:0,meteor:v.id==='meteor'});});}
     else fan(v.fan||1,v.spread||0,(dx,dy)=>{const shot={...bolt(id,dx,dy),pierce:v.pierce,onePerGroup:!!v.fan,life:v.boltLife||(id==='gravity'?1.65:id==='gale'?1.6:1.1)};if(v.stationary){const length=clamp(p.aimRange||300,80,440);Object.assign(shot,{x:p.x+dx*length,y:p.y+dy*length/1.15-18,vx:0,vy:0});}s.projectiles.push(shot);});
     legendaryCast(this,id,damage);this.emit('cast',{spell:id});return true;
   }
@@ -195,13 +208,21 @@ export class Engine {
     if(canStand(nx,entity.y,entity.radius||18,this.state.area)&&!this.blockedByBossTerrain(nx,entity.y,entity.radius||18,entity))entity.x=nx;
     if(canStand(entity.x,ny,entity.radius||18,this.state.area)&&!this.blockedByBossTerrain(entity.x,ny,entity.radius||18,entity))entity.y=ny;
   }
+  moveCompanionToward(u,desired,dt) {
+    u.pathCd=Math.max(0,(u.pathCd||0)-dt);
+    if(u.pathCd<=0){const goal=this.placeSummon({x:desired.x,y:desired.y,radius:u.radius});u.routeGoal={x:goal.x,y:goal.y};u.path=clearLine(u,goal,this.state.area,u.radius)?[u.routeGoal]:findPath(u,goal,this.state.area,u.radius);u.pathCd=.7;}
+    while(u.path?.length&&distance(u,u.path[0])<12)u.path.shift();
+    const goal=u.path?.[0]||u.routeGoal||desired,d=distance(u,desired);if(d<36&&u.path?.length<=1)return;
+    const n=Math.hypot(goal.x-u.x,goal.y-u.y)||1,speed=Math.min(245,d*3,n/Math.max(.001,dt));this.moveEntity(u,(goal.x-u.x)/n*speed*dt,(goal.y-u.y)/n*speed*dt);
+  }
   interaction() {
     const s=this.state,p=s.player,w=s.world;
-    if(s.mode!=='playing')return null;this.syncStoryPortals();const expeditionAction=this.adventureInteraction();if(expeditionAction)return expeditionAction;
+    if(s.mode!=='playing')return null;this.syncStoryPortals();const explorationAction=this.quarterInteraction();if(explorationAction)return explorationAction;const expeditionAction=this.adventureInteraction();if(expeditionAction)return expeditionAction;
     const npc=this.nearbyQuestNPC(),otherTargets=[...(this.portalReady()?w.portals.filter(t=>distance(p,t)<85):[]),...(w.camp?.services||[]).filter(t=>distance(p,t)<115),...w.loot.filter(t=>distance(p,t)<100&&(!t.guarded||!w.enemies.some(e=>!e.dead&&e.cacheGuard)))];if(npc&&!otherTargets.some(t=>distance(p,t)<distance(p,npc)))return {type:'quest',entity:npc,label:npc.name+' · '+(npc.title||'Noodstroom'),key:'F'};
     const service=this.nearbyService(),nearLoot=w.loot.find(item=>distance(p,item)<100&&(!item.guarded||!w.enemies.some(e=>!e.dead&&e.cacheGuard)));if(service&&(!nearLoot||distance(p,service)<distance(p,nearLoot)))return {type:'shop',entity:service,label:service.name+' · '+service.title,key:'F'};
     if(w.camp&&!w.camp.services&&distance(p,w.camp.merchant)<115)return {type:'shop',entity:w.camp,label:'Handelen & versterken',key:'F'};
-    const loot=w.loot.find(item=>distance(p,item)<100&&(!item.guarded||!w.enemies.some(e=>!e.dead&&e.cacheGuard)));if(loot)return {type:'loot',entity:loot,label:loot.quest?(loot.quest==='ilya'?'Berg Ilya’s constructieprotocol':'Berg Nora’s meetspoel'):loot.item?'Pak '+loot.item.name:loot.prototype?'Open prototypekist':'Open veldkist',key:'F'};
+    const loot=w.loot.find(item=>distance(p,item)<100&&(!item.guarded||!w.enemies.some(e=>!e.dead&&e.cacheGuard)));if(loot)return {type:'loot',entity:loot,label:loot.quest?(loot.quest==='ilya'?'Berg Ilya’s verbondsarchief':'Berg Nora’s meetspoel'):loot.item?'Pak '+loot.item.name:loot.prototype?'Open prototypekist':'Open veldkist',key:'F'};
+    const ritualAction=this.creatureInteraction();if(ritualAction)return ritualAction;
     const relay=w.relays.find(r=>r.status==='dormant'&&distance(p,r)<105);if(relay&&s.zone<3)return {type:'relay',entity:relay,label:'Start kalibratie '+relay.id,key:'F'};
     const guarded=w.loot.find(i=>i.guarded&&distance(p,i)<100&&w.enemies.some(e=>!e.dead&&e.cacheGuard));if(guarded)return {type:'guardedLoot',entity:guarded,label:'Versla eerst de kistbewaker',key:'F'};
     const ready=w.relays.find(r=>r.status==='online'&&distance(p,r)<100);if(ready&&p.hp<this.stats().maxHp&&!ready.used)return {type:'restore',entity:ready,label:'Herstel bij de bron',key:'F'};
@@ -212,6 +233,8 @@ export class Engine {
   }
   interact() {
     const s=this.state,action=this.interaction();if(!action)return false;
+    if(action.type==='quarterDiscovery')return this.inspectQuarterPoint(action.entity.id);
+    if(action.type==='ritual')return this.startCreatureRitual();
     if(action.type==='adventureGuard'){this.notice('Versla eerst de bewakers bij dit bergingspunt');return false;}
     if(action.type==='adventureObjective')return this.collectAdventureObjective(action.entity.id);
     if(action.type==='guardedLoot'){this.notice('Deze kist is bewaakt · versla de elite ernaast');return false;}
@@ -237,10 +260,12 @@ export class Engine {
     const types=area.enemies||ZONES[area.zone].enemies,total=area.extension?6+(area.stage>=3?1:0):5+area.zone;
     for(let i=0;i<total;i++){const angle=i*Math.PI*2/total+(.25*w.sideRound),point={x:990+Math.cos(angle)*360,y:660+Math.sin(angle)*220};const type=types[(i+w.sideRound-1)%types.length];w.enemies.push(this.placeSummon(this.makeEnemy(type,point.x,point.y,false,w.sideRound>1)));}
     if(w.sideRound===2){const guard=this.placeSummon(this.makeEnemy(area.guardian||['sentinel','siege','sporecaster','siege'][area.zone],1330,570,true,true));guard.guardian=!area.optional;w.enemies.push(guard);}
+    this.addCreatureEncounter(w,area,w.enemies.filter(e=>!e.dead));
   }
   spawnRelayWave(relay) {
     const s=this.state,r=relay,total=3+s.zone;
     for(let i=0;i<total;i++){let point;for(let attempt=0;attempt<30;attempt++){const angle=this.rng()*Math.PI*2;point={x:r.x+Math.cos(angle)*240,y:r.y+Math.sin(angle)*185};if(canStand(point.x,point.y,30,s.area))break;}if(!canStand(point.x,point.y,30,s.area))point={x:960+i*45,y:640};const e=this.makeEnemy(ZONES[s.zone].enemies[(i+r.wave-1)%ZONES[s.zone].enemies.length],point.x,point.y,i===total-1&&r.wave===2&&s.zone>0,true);e.relayId=r.id;e.cd=.75+this.rng()*.4;s.world.enemies.push(e);this.effect('spawn',e.x,e.y,{color:'#e39b7b',radius:50,life:.7});}
+    this.addCreatureEncounter(s.world,AREA_BY_ID[s.area],s.world.enemies.filter(e=>e.relayId===r.id&&!e.dead));
     this.notice('Station '+r.id+' · kalibratiegolf '+r.wave+' / 2');
   }
   lootChoices(prototype=false,profile='cache') {return Array.from({length:3},()=>makeItem({rng:this.rng,level:AREA_BY_ID[this.state.area].itemLevel||1+this.state.zone*2,profile:prototype?'prototype':profile||'cache',uid:++this.idCounter}));}
@@ -251,24 +276,24 @@ export class Engine {
   equipItem(uid,targetSlot=null){if(this.challengeBuildLocked())return false;const p=this.state.player,index=p.inventory.findIndex(i=>i.uid===uid);if(index<0)return false;const item=p.inventory[index],slot=targetSlot||item.slot;if(p.level<(item.requiredLevel||1)||!itemFitsSlot(item,slot))return false;const old=p.equipment[slot],stats=this.stats(),hpFraction=p.hp/stats.maxHp,manaFraction=p.mana/stats.maxMana;p.inventory.splice(index,1);if(old&&!old.empty)p.inventory.push({...old,uid:old.uid||++this.idCounter});if(item.mark==='junk')item.mark='';p.equipment[slot]=item;p.hp=Math.min(this.stats().maxHp,this.stats().maxHp*hpFraction);p.mana=Math.min(this.stats().maxMana,this.stats().maxMana*manaFraction);this.notice(item.name+' uitgerust');return true;}
   recycleItem(uid){const p=this.state.player,index=p.inventory.findIndex(i=>i.uid===uid);if(index<0||protectedItem(p.inventory[index]))return false;const item=p.inventory.splice(index,1)[0];p.scrap+=salvageValue(item);return true;}
   recycleLoot() {const s=this.state;if(s.pending?.type!=='loot')return;s.player.scrap+=14;this.markStoryCache(s.pending.item);s.world.loot=s.world.loot.filter(item=>item.id!==s.pending.item.id);s.pending=null;s.mode='playing';this.notice('+14 schroot');}
-  upgradeChoices(){const p=this.state.player;return [...Object.entries(SPELLS).filter(([id,spell])=>!p.skills.includes(id)&&!spell.shopOnly&&p.level>=spell.unlockLevel).map(([id,spell])=>({id,skill:true,name:spell.name,icon:id,text:spell.description})),...copy(UPGRADES),...variantChoices(p)];}
+  upgradeChoices(){const p=this.state.player;return [...Object.entries(SPELLS).filter(([id,spell])=>!p.skills.includes(id)&&!spell.shopOnly&&p.level>=(id==='summon'?summonUnlockLevel(p):spell.unlockLevel)).map(([id,spell])=>({id,skill:true,name:spell.name,icon:id,text:spell.description})),...copy(UPGRADES),...variantChoices(p)];}
   purchaseUpgrade(upgrade){if(upgrade?.variant)return this.learnSpellVariant(upgrade.spell,upgrade.variantId);if(this.challengeBuildLocked())return false;const p=this.state.player;if(!upgrade||p.skillPoints<1)return false;
-    if(upgrade.skill){const spell=SPELLS[upgrade.id];if(!spell||spell.shopOnly||p.skills.includes(upgrade.id)||p.level<spell.unlockLevel)return false;p.skills.push(upgrade.id);const slot=p.hotbar.indexOf(null);if(slot>=0)p.hotbar[slot]=upgrade.id;this.notice(spell.name+' geleerd'+(slot>=0?' · slot '+(slot+1):' · plaats via K'),spell.color);}
+    if(upgrade.skill){const spell=SPELLS[upgrade.id];if(!spell||spell.shopOnly||p.skills.includes(upgrade.id)||p.level<(upgrade.id==='summon'?summonUnlockLevel(p):spell.unlockLevel))return false;p.skills.push(upgrade.id);const slot=p.hotbar.indexOf(null);if(slot>=0)p.hotbar[slot]=upgrade.id;this.notice(spell.name+' geleerd'+(slot>=0?' · slot '+(slot+1):' · plaats via K'),spell.color);}
     else{const entry=UPGRADES.find(u=>u.id===upgrade.id);if(!entry)return false;for(const [key,val]of Object.entries(entry.stats))p.stats[key]=(p.stats[key]||0)+val;p.perks[entry.id]=(p.perks[entry.id]||0)+1;p.hp=Math.min(this.stats().maxHp,p.hp+(entry.heal||10));}
     p.skillPoints--;p.mana=this.stats().maxMana;this.emit('level');return true;
   }
   chooseUpgrade(index) {const s=this.state,upgrade=s.pending?.type==='upgrade'&&s.pending.choices?.[index];if(!this.purchaseUpgrade(upgrade))return false;s.pending=null;s.mode='playing';return true;}
   deferUpgrade(){if(this.state.pending?.type==='upgrade'){this.state.pending=null;this.state.mode='playing';}}
-  closeModal() {if(this.state.mode==='modal'&&['archive','shop','quest','trialResult'].includes(this.state.pending?.type)){this.state.pending=null;this.state.mode='playing';}}
+  closeModal() {if(this.state.mode==='modal'&&['archive','shop','quest','trialResult','exploration'].includes(this.state.pending?.type)){this.state.pending=null;this.state.mode='playing';}}
   retry() {
     const s=this.state;if(s.world?.trial)return this.restartChallenge();const c=s.checkpoint;if(!c)return;
-    s.player=copy(c.player);s.kills=c.kills;s.combos=c.combos;s.cores=copy(c.cores);s.codex=copy(c.codex);s.areas=copy(c.areas);s.visited=copy(c.visited);s.storyPassed=copy(c.storyPassed||[]);s.quests=copy(c.quests||{});s.campaignVersion=c.campaignVersion;s.area=c.area;s.world=null;s.player.hp=this.stats().maxHp;s.player.potions=Math.max(2,s.player.potions);this.enterArea(c.area);this.emit('checkpoint');
+    s.player=copy(c.player);s.kills=c.kills;s.combos=c.combos;s.cores=copy(c.cores);s.codex=copy(c.codex);s.areas=copy(c.areas);s.visited=copy(c.visited);s.storyPassed=copy(c.storyPassed||[]);s.quests=copy(c.quests||{});s.natureVictories=copy(c.natureVictories||{});s.natureDiscoveries=copy(c.natureDiscoveries||[]);s.biomeVictories=copy(c.biomeVictories||{});s.natureAnnounced=c.natureAnnounced;s.campaignVersion=c.campaignVersion;s.area=c.area;s.world=null;s.player.hp=this.stats().maxHp;s.player.potions=Math.max(2,s.player.potions);this.enterArea(c.area);this.emit('checkpoint');
   }
   number(x,y,text,color='#fff1c1',size=18) {this.state.numbers.push({x,y:y-38,text:String(text),color,size,life:.85});}
   effect(type,x,y,props={}) {this.state.effects.push({type,x,y,age:0,life:props.life||.6,...props});}
   hitEnemy(enemy,damage,element,secondary=false) {
     if(enemy.dead||enemy.hidden)return;
-    const s=this.state,p=s.player,stats=this.stats();damage=this.protectedDamage(enemy,this.uniqueHit(enemy,damage,element,secondary));if(enemy.dead)return;let multiplier=1,combo=null;
+    const s=this.state,p=s.player,stats=this.stats();damage=this.creatureProtection(enemy,this.protectedDamage(enemy,this.uniqueHit(enemy,damage,element,secondary)),secondary);if(enemy.dead)return;let multiplier=1,combo=null;
     if(element==='storm'&&enemy.wet>0){multiplier=1.7;if(!enemy.resolve){enemy.stun=ENEMIES[enemy.type].boss?.12:.25;enemy.resolve=1.6;}if(!secondary&&!enemy.comboCd)combo='GELEIDING';}
     if(element==='ember'&&enemy.wet>0){multiplier=1.35;enemy.wet=0;enemy.stun=ENEMIES[enemy.type].boss?.18:.65;if(!secondary&&!enemy.comboCd)combo='STOOMGOLF';this.effect('steam',enemy.x,enemy.y,{radius:100,color:'#e1f3eb',life:.8});if(!secondary)for(const nearby of s.world.enemies.filter(e=>e!==enemy&&!e.dead&&distance(e,enemy)<110))this.hitEnemy(nearby,12,'physical',true);}
     if(element==='frost'&&enemy.wet>0)multiplier=1.2;
@@ -287,11 +312,11 @@ export class Engine {
   }
   killEnemy(enemy) {
     if(enemy.dead)return;enemy.dead=true;const s=this.state,p=s.player,base=ENEMIES[enemy.type];if(!enemy.noReward){s.kills++;p.xp+=base.xp*(enemy.elite?2:1);p.scrap+=AREA_BY_ID[s.area].extension?(base.boss?45:enemy.elite?16:5):base.boss?22:enemy.elite?9:2;if(!this.executingUltimate)p.ultimate=Math.min(100,p.ultimate+2);p.hp=Math.min(this.stats().maxHp,p.hp+this.stats().leech);}this.effect('death',enemy.x,enemy.y,{color:base.color,radius:75,life:.65});
-    legendaryKill(this,enemy);this.uniqueKill(enemy);if(enemy.noReward){if(s.world.trial){s.world.trial.kills++;if(enemy.trialEnemy)p.hp=Math.min(this.stats().maxHp,p.hp+this.stats().leech);}this.emit('kill');return;}
+    this.creatureDeath(enemy);legendaryKill(this,enemy);this.uniqueKill(enemy);if(enemy.noReward){if(s.world.trial){s.world.trial.kills++;if(enemy.trialEnemy)p.hp=Math.min(this.stats().maxHp,p.hp+this.stats().leech);}this.emit('kill');return;}
     const drop=this.dropGround(enemy);
     if(this.rng()<.10)s.world.pickups.push({id:++this.idCounter,x:drop.x,y:drop.y,type:'health',amount:15});
-    const profile=dropProfile(enemy),table=DROP_TABLES[profile]||DROP_TABLES.raider;const loose=s.world.loot.filter(i=>i.item).length,major=['guardian','boss'].includes(profile),chance=major?table.chance:loose>=7?0:table.chance*Math.max(.35,1-loose*.1);if(this.rng()<chance){const item=makeItem({rng:this.rng,level:enemy.level||1+s.zone*2,profile,rarity:major&&(p.majorDryStreak||0)>=7?'legendary':null,uid:++this.idCounter});if(major)p.majorDryStreak=item.rarity==='legendary'?0:(p.majorDryStreak||0)+1;s.world.loot.push({id:++this.idCounter,x:drop.x,y:drop.y,type:'loot',item,source:enemy.type});if(['rare','epic','legendary'].includes(item.rarity)){this.effect('loot-reveal',drop.x,drop.y,{rarity:item.rarity,radius:85,life:1.1});this.emit('discovery',{item,found:true});}}
-    if(base.boss&&enemy.type!=='boss'){this.notice(base.name+' verslagen · de kern ligt klaar','#ffe4a0');this.emit('bossdead');}
+    const profile=dropProfile(enemy),table=DROP_TABLES[profile]||DROP_TABLES.raider;const loose=s.world.loot.filter(i=>i.item).length,major=['guardian','boss'].includes(profile),chance=major?table.chance:loose>=7?0:table.chance*Math.max(.35,1-loose*.1);if(this.rng()<chance){const uid=++this.idCounter,item=rollChaseItem(enemy,chaseRandom(s.seed,uid),enemy.level||1+s.zone*2,uid)||makeItem({rng:this.rng,level:enemy.level||1+s.zone*2,profile,rarity:major&&(p.majorDryStreak||0)>=7?'legendary':null,uid});if(major)p.majorDryStreak=item.rarity==='legendary'?0:(p.majorDryStreak||0)+1;s.world.loot.push({id:++this.idCounter,x:drop.x,y:drop.y,type:'loot',item,source:enemy.type});if(['rare','epic','legendary'].includes(item.rarity)){this.effect('loot-reveal',drop.x,drop.y,{rarity:item.rarity,radius:85,life:1.1});if(item.chase)this.notice('UITZONDERLIJKE VONDST · '+item.name,'#ffdc8c');this.emit('discovery',{item,found:true});}}
+    if(base.boss&&enemy.type!=='boss'){this.notice(base.name+(AREA_BY_ID[this.state.area].biomeArena?' verslagen · de terugpoort opent':' verslagen · de kern ligt klaar'),'#ffe4a0');this.emit('bossdead');}
     if(enemy.type==='boss'){s.world.bossDefeated=true;s.world.gate.open=true;s.world.coreAvailable=true;this.notice('De Gouden Kern is vrij · activeer de hoofdconsole','#ffe4a0');this.emit('bossdead');}
     this.emit('kill');
   }
@@ -338,9 +363,10 @@ export class Engine {
     else if(p.moving){const old={x:p.x,y:p.y};this.moveEntity(p,velocity.x*dt,velocity.y*dt);if(p.x===old.x)velocity.x=0;if(p.y===old.y)velocity.y=0;if(!input.shoot)p.facing=velocity.x<-10?-1:velocity.x>10?1:p.facing;}
     p.trail.forEach(t=>t.life-=dt);p.trail=p.trail.filter(t=>t.life>0);
     if(input.aim)this.aimAt(input.aim.x,input.aim.y);
-    updateHeroMotion(p,p.x-walkFrom.x,p.y-walkFrom.y,dt,stats.moveSpeed,wasDashing);
+    const footBefore=Math.floor((p.walkDistance||0)/48);updateHeroMotion(p,p.x-walkFrom.x,p.y-walkFrom.y,dt,stats.moveSpeed,wasDashing);
+    if(!wasDashing&&p.moving&&Math.floor((p.walkDistance||0)/48)!==footBefore)this.emit('footstep',{material:s.area==='glass-dunes'?'sand':s.area==='groenkloof'||s.zone===2?'grass':'stone'});
     if(input.shoot)this.cast();for(const slot of input.slots||[])this.castSlot(slot,input.aim);if(input.right)this.castRight(input.aim);
-    this.updateFields(dt);updateNewThreats(this,dt);this.updateV6Threats(dt);this.updateBossTerrain(dt);this.updateHazards(dt);this.updateCompanions(dt);
+    this.updateFields(dt);updateNewThreats(this,dt);this.updateV6Threats(dt);this.updateCreatureThreats(dt);this.updateBossTerrain(dt);this.updateHazards(dt);this.updateCompanions(dt);
     const enemyPositions=new Map(s.world.enemies.map(e=>[e.id,{x:e.x,y:e.y}]));this.updateEnemies(dt);
     for(const e of s.world.enemies){const old=enemyPositions.get(e.id)||e;updateEnemyMotion(e,e.x-old.x,e.y-old.y,dt);}
     this.updateProjectiles(dt);
@@ -349,14 +375,14 @@ export class Engine {
     for(const r of s.world.relays){if(r.status==='defending'&&!s.world.enemies.some(e=>!e.dead&&e.relayId===r.id)){if(r.wave<2){r.wave++;this.spawnRelayWave(r);continue;}r.status='online';this.effect('relay',r.x,r.y,{color:'#96eedc',radius:180,life:1.4});this.notice('Station '+r.id+' online · bron hersteld','#a2ebd9');this.emit('relaydone');s.world.loot.push({id:++this.idCounter,x:r.x+75,y:r.y+65,type:'loot',profile:'station'});
       const local=s.world.hazards.filter(h=>h.life===undefined&&!h.cleared).sort((a,b)=>distance(a,r)-distance(b,r))[0];if(local){local.cleared=true;this.effect('relay',local.x,local.y,{color:'#96eedc',radius:local.r,life:1.2});}
     }}
-    this.updateBounty();this.updateAdventure();this.completeV8Arena();if(AREA_BY_ID[s.area].side&&!AREA_BY_ID[s.area].bounty&&!AREA_BY_ID[s.area].adventure&&!AREA_BY_ID[s.area].extension&&!s.world.sideDone&&!s.world.enemies.some(e=>!e.dead)){
+    this.updateCreatureRitual();this.updateBounty();this.updateAdventure();this.completeV8Arena();this.completeBiomeArena();this.completeNatureArena();this.updateNatureExploration();if(AREA_BY_ID[s.area].side&&!AREA_BY_ID[s.area].bounty&&!AREA_BY_ID[s.area].adventure&&!AREA_BY_ID[s.area].extension&&!AREA_BY_ID[s.area].biomeArena&&!AREA_BY_ID[s.area].natureArena&&!s.world.sideDone&&!s.world.enemies.some(e=>!e.dead)){
       if(s.world.sideRound<2){s.world.sideRound=2;this.spawnExpeditionWave(s.world,AREA_BY_ID[s.area]);this.notice('Expeditie · groep 2 / 2 · elitebewaker ontwaakt');}
       else{s.world.sideDone=true;s.world.gate.eliteSpawned=true;s.world.gate.open=true;s.world.loot.push({id:++this.idCounter,x:POSITIONS.exit.x-110,y:POSITIONS.exit.y+65,type:'loot',profile:AREA_BY_ID[s.area].optional?'cache':'expedition',expeditionReward:true});if(AREA_BY_ID[s.area].optional){const reward=35+s.zone*20;p.scrap+=reward;this.notice('Berging voltooid · +'+reward+' schroot');}else this.notice('Expeditie voltooid · beloning en terugportal vrij');this.emit('relaydone');}
     }
     this.placeQuestRecovery();this.updateCityQuests();this.updateChallenge(dt);
     if(s.world.gate&&s.world.relays.length&&s.zone<3&&s.world.relays.every(r=>r.status==='online')&&!s.world.gate.eliteSpawned){s.world.gate.eliteSpawned=true;const e=this.makeEnemy(REGIONAL_BOSSES[s.zone],s.world.gate.x-120,s.world.gate.y+110,false,true);e.guardian=true;s.world.enemies.push(e);this.notice(ENEMIES[e.type].name+' ontwaakt · laatste kalibratie');this.emit('guardian');}
     if(s.world.gate?.eliteSpawned&&this.arenaCleared()){s.world.gate.open=true;s.world.coreAvailable=true;}
-    if(p.xp>=p.nextXp&&!this.challengeBuildLocked()&&!s.pending&&!s.ultimateWave&&!s.effects.some(e=>e.type==='ultimate-wave'&&e.life>.5)&&s.mode==='playing'){p.xp-=p.nextXp;p.level++;p.nextXp=Math.round(p.nextXp*1.28);p.skillPoints++;s.mode='modal';s.pending={type:'upgrade',choices:this.upgradeChoices()};this.notice('NIVEAU '+p.level+' BEREIKT · +1 vaardigheidspunt','#ffe3a0');this.effect('level-burst',p.x,p.y,{level:p.level,life:1.6});this.emit('levelready',{level:p.level});}
+    if(p.xp>=p.nextXp&&!this.challengeBuildLocked()&&!s.pending&&!s.ultimateWave&&!s.effects.some(e=>e.type==='ultimate-wave'&&e.life>.5)&&s.mode==='playing'){p.xp-=p.nextXp;p.level++;if(p.level>=5&&p.preferredSpecialization&&!p.specialization)this.chooseSpecialization(p.preferredSpecialization);p.nextXp=Math.round(p.nextXp*1.28);p.skillPoints++;s.mode='modal';s.pending={type:'upgrade',choices:this.upgradeChoices()};this.notice('NIVEAU '+p.level+' BEREIKT · +1 vaardigheidspunt','#ffe3a0');this.effect('level-burst',p.x,p.y,{level:p.level,life:1.6});this.emit('levelready',{level:p.level});}
     for(const e of s.effects){e.life-=dt;e.age+=dt;if(e.type==='tank-wave'&&!e.hit&&Math.abs(distance(p,e)-(40+Math.min(1,e.age/.9)*240))<26){e.hit=true;this.hurtPlayer(e.damage);}}s.effects=s.effects.filter(e=>e.life>0);
     for(const n of s.numbers){n.life-=dt;n.y-=dt*32;}s.numbers=s.numbers.filter(n=>n.life>0);
     for(const n of s.notices)n.life-=dt;s.notices=s.notices.filter(n=>n.life>0);
@@ -382,10 +408,11 @@ export class Engine {
       if(e.burn>0){e.burn=Math.max(0,e.burn-dt);e.hp-=dt*7;if(e.hp<=0){this.killEnemy(e);continue;}}
       if(e.leap){const leap=e.leap;leap.age+=dt;const t=clamp(leap.age/.32,0,1);e.x=leap.from.x+(leap.to.x-leap.from.x)*t;e.y=leap.from.y+(leap.to.y-leap.from.y)*t;e.jumpHeight=Math.sin(t*Math.PI)*68;
         if(t>=1){e.jumpHeight=0;e.leap=null;if(!this.inCamp(e)&&distance(e,p)<95)this.hurtPlayer(leap.damage);this.effect('impact',e.x,e.y,{color:'#bad88d',element:'toxin',radius:95,life:.45});s.world.hazards.push({id:'poison-'+ ++this.idCounter,x:e.x,y:e.y,r:62,type:'spore',venom:true,life:4,cleared:false});}continue;}
-      if(e.rush){const rush=e.rush;rush.life-=dt;if(e.stun<=0)this.moveEntity(e,rush.dir.x*700*dt,rush.dir.y*700/1.15*dt);if(!rush.hit&&distance(e,p)<e.radius+24){rush.hit=true;this.hurtPlayer(rush.damage);}if(rush.life<=0||e.stun>0)e.rush=null;continue;}
+      if(e.rush){const rush=e.rush;rush.life-=dt;this.hurtCompanions(e,e.radius+24,rush.damage,rush.hitCompanions||(rush.hitCompanions=[]));if(e.stun<=0)this.moveEntity(e,rush.dir.x*700*dt,rush.dir.y*700/1.15*dt);if(!rush.hit&&distance(e,p)<e.radius+24){rush.hit=true;this.hurtPlayer(rush.damage,rush.element||'physical');}if(rush.life<=0||e.stun>0)e.rush=null;continue;}
       const dist=distance(e,p);if(!e.awake&&(dist<(e.type==='boss'?570:Math.max(330,Math.min(540,base.range))))){e.awake=true;this.effect('alert',e.x,e.y-90,{color:'#edd99c',radius:20,life:.55});}
       if(!e.awake||e.stun>0){e.steerX=e.steerY=0;continue;}e.cd-=dt;e.move=false;
-      this.updateV6Enemy(e);
+      this.updateV6Enemy(e);this.updateBiomeEnemy(e);this.updateNatureEnemy(e);
+      if(this.updateCreatureEnemy(e,dt))continue;
       if(e.burrow&&updateEncounterState(this,e,dt))continue;updateBossPhase(this,e);
       if(e.windup){e.steerX=e.steerY=0;e.windup.timer-=dt;if(e.windup.timer<=0){this.executeEnemyAttack(e);e.windup=null;e.cd=(base.boss?(e.phase===3?1.15:1.7):e.type==='rimedrone'?1.6:e.type==='raider'?1.4:e.type==='beast'?1.8:2.2)*(e.cooldownMultiplier||1);}continue;}
       const obstructed=(AREA_BY_ID[s.area].kind==='route'||arenaObstacles(s.area).length)&&!clearLine(e,p,s.area,e.radius);
@@ -407,8 +434,8 @@ export class Engine {
     }
   }
   planAttack(enemy) {
-    if(this.planV6Attack(enemy)||planNewAttack(this,enemy))return;
-    const e=enemy,p=this.state.player,base=ENEMIES[e.type];
+    if(this.planNatureAttack(enemy)||this.planCreatureAttack(enemy)||this.planBiomeAttack(enemy)||this.planV6Attack(enemy)||planNewAttack(this,enemy))return;
+    const e=enemy,p=this.enemyTarget(enemy),base=ENEMIES[e.type];
     const target={x:p.x,y:p.y},dir=normal(target.x-e.x,(target.y-e.y)*1.15);
     let mode=base.attack||(e.type==='raider'?'swing':e.type==='beast'?'leap':e.type==='turret'?'beam':'volley');
     e.attacks=(e.attacks||0)+1;
@@ -427,7 +454,7 @@ export class Engine {
     this.executeEnemyAttackPattern(enemy);presentEnemyAttack(this,enemy,firstProjectile,firstThreat,firstEffect);
   }
   executeEnemyAttackPattern(enemy) {
-    if(this.executeV6Attack(enemy)||executeNewAttack(this,enemy))return;
+    if(this.executeNatureAttack(enemy)||this.executeCreatureAttack(enemy)||this.executeBiomeAttack(enemy)||this.executeV6Attack(enemy)||executeNewAttack(this,enemy))return;
     const s=this.state,p=s.player,e=enemy,attack=e.windup,base=ENEMIES[e.type],damage=base.damage*(e.damageMultiplier||1+s.zone*.09)*(e.elite?1.18:1);
     if(this.inCamp())return;
     if(attack.mode==='charge'){e.rush={dir:{...attack.dir},life:.34,damage,hit:false};this.effect('slash',e.x,e.y,{dir:attack.dir,color:base.color,radius:100,life:.3});}
@@ -451,7 +478,7 @@ export class Engine {
     }
     this.emit('enemyattack',{enemy:e.type,mode:attack.mode});
   }
-  detonate(bolt,radius=125){radius=bolt.blastRadius||radius;const s=this.state;this.effect(bolt.type==='gravity'?'nova':'eruption',bolt.x,bolt.y+18,{color:SPELLS[bolt.type].color,radius,life:.65});for(const e of s.world.enemies.filter(e=>!e.dead&&distance(e,{x:bolt.x,y:bolt.y+18})<radius+e.radius))this.hitEnemy(e,bolt.damage,bolt.type);if(bolt.type==='ember'){for(const h of s.world.hazards)if(h.type==='spore'&&distance(h,bolt)<h.r+radius){h.cleared=true;this.emit('clearspore');}if(!bolt.noFire)s.world.hazards.push({id:'fire-'+ ++this.idCounter,x:bolt.x,y:bolt.y+18,r:bolt.fireRadius||75,type:'friendlyFire',damage:bolt.fireDamage??14,life:1.5});}bolt.life=0;}
+  detonate(bolt,radius=125){radius=bolt.blastRadius||radius;const s=this.state;this.effect(bolt.meteor?'orbital-strike':bolt.type==='gravity'?'nova':'eruption',bolt.x,bolt.y+18,{color:SPELLS[bolt.type].color,radius,life:.65});for(const e of s.world.enemies.filter(e=>!e.dead&&distance(e,{x:bolt.x,y:bolt.y+18})<radius+e.radius))this.hitEnemy(e,bolt.damage,bolt.type);if(bolt.type==='ember'){for(const h of s.world.hazards)if(h.type==='spore'&&distance(h,bolt)<h.r+radius){h.cleared=true;this.emit('clearspore');}if(!bolt.noFire)s.world.hazards.push({id:'fire-'+ ++this.idCounter,x:bolt.x,y:bolt.y+18,r:bolt.fireRadius||75,type:'friendlyFire',damage:bolt.fireDamage??14,life:1.5});}bolt.life=0;}
   updateProjectiles(dt) {
     const s=this.state,p=s.player;
     for(const bolt of s.projectiles){bolt.life-=dt;bolt.age+=dt;bolt.trail.push({x:bolt.x,y:bolt.y-(bolt.flightHeight||0)});if(bolt.trail.length>10)bolt.trail.shift();const old={x:bolt.x,y:bolt.y};
@@ -470,7 +497,7 @@ export class Engine {
           if(bolt.type==='prism'){const next=s.world.enemies.filter(e=>!e.dead&&!bolt.hitIds.includes(e.id)&&distance(e,hit)<360).sort((a,b)=>distance(a,hit)-distance(b,hit))[0];if(bolt.bounces>0&&next){bolt.bounces--;bolt.damage*=bolt.bounceFalloff??.75;bolt.x=hit.x;bolt.y=hit.y-22;const dir=normal(next.x-bolt.x,(next.y-22-bolt.y)*1.15);bolt.vx=dir.x*(bolt.projectileSpeed||960);bolt.vy=dir.y*(bolt.projectileSpeed||960)/1.15;bolt.life=.65;this.effect('element-impact',hit.x,hit.y-22,{element:'solar',radius:45,life:.35});}else bolt.life=0;break;}
           if(bolt.type==='tide'||bolt.pierce){bolt.pierce--;if(bolt.pierce<=0){bolt.life=0;break;}}else if(!['frost','gale'].includes(bolt.type)){bolt.life=0;break;}
         }
-      }else if(this.interceptCompanion(bolt,old)){continue;}else if(segmentDistance(old,bolt,{x:p.x,y:p.y-20})<22+bolt.radius){const canHit=!this.inCamp()&&p.invincible<=0;this.hurtPlayer(bolt.damage,bolt.damageType||(bolt.venom?'venomHit':'electric'));if(canHit){if(bolt.chill)p.rootSlow=Math.max(p.rootSlow||0,.8);if(bolt.element==='water')p.wet=Math.max(p.wet,1.1);if(bolt.element==='fire')p.heat=Math.min(5,p.heat+.6);}bolt.life=0;this.effect(bolt.element?'element-impact':'impact',p.x,p.y-20,{element:bolt.element,color:bolt.color||'#ffb38d',radius:40,life:.4});}
+      }else if(this.interceptCompanion(bolt,old)){continue;}else if(segmentDistance(old,bolt,{x:p.x,y:p.y-20})<22+bolt.radius){const canHit=!this.inCamp()&&p.invincible<=0;this.hurtPlayer(bolt.damage,bolt.damageType||(bolt.venom?'venomHit':'electric'));if(canHit){if(bolt.gust){const n=normal(bolt.vx,bolt.vy);this.moveEntity(p,n.x*38,n.y*30);}if(bolt.chill)p.rootSlow=Math.max(p.rootSlow||0,.8);if(bolt.element==='water')p.wet=Math.max(p.wet,1.1);if(bolt.element==='fire')p.heat=Math.min(5,p.heat+.6);}bolt.life=0;this.effect(bolt.element?'element-impact':'impact',p.x,p.y-20,{element:bolt.element,color:bolt.color||'#ffb38d',radius:40,life:.4});}
     }
     s.projectiles=s.projectiles.filter(b=>b.life>0);
   }
@@ -489,6 +516,14 @@ Object.assign(Engine.prototype,SpecializationRules,PremiumSpellRules);
 
 Object.assign(Engine.prototype,BossTerrainRules);
 
-Object.assign(Engine.prototype,AdventureRules);
+Object.assign(Engine.prototype,AdventureRules,BiomeRules);
 
 Object.assign(Engine.prototype,V8ExpeditionRules);
+
+Object.assign(Engine.prototype,CreatureRules);
+
+Object.assign(Engine.prototype,CompanionUpgradeRules);
+
+Object.assign(Engine.prototype,NatureRules);
+
+Object.assign(Engine.prototype,QuarterRules);

@@ -24,8 +24,8 @@ export function simulate(seed=48,discipline='tide',maxSeconds=1800,options={}){
    else if(q.type==='loot'){const sorted=q.choices.map((u,i)=>({i,value:gearValue(u)-gearValue(p.equipment[gearSlot(p,u)])})).sort((a,b)=>b.value-a.value);if(sorted[0].value>0){const uid=g.chooseLoot(sorted[0].i);g.equipItem(uid,gearSlot(p,p.inventory.find(i=>i.uid===uid)));}else g.recycleLoot();}
    else g.closeModal();continue;
   }
-  if(!p.specialization)g.chooseSpecialization(discipline==='tide'?'hunter':'elementalist');
-  for(const [tier,id]of (discipline==='tide'?['lances','guard','focus']:['conduction','economy','elements']).entries())if(!p.specializationTalents?.[tier])g.chooseTalent(tier,id);
+  if(!p.specialization)g.chooseSpecialization(p.preferredSpecialization||(discipline==='tide'?'hunter':'elementalist'));
+  for(const [tier,id]of ({hunter:['lances','guard','focus'],builder:['overclock','battery','squad'],elementalist:['conduction','economy','elements']}[p.specialization]||[]).entries())if(!p.specializationTalents?.[tier])g.chooseTalent(tier,id);
   for(const item of [...p.inventory])if(p.level>=(item.requiredLevel||1)&&gearValue(item)>gearValue(p.equipment[gearSlot(p,item)])+1)g.equipItem(item.uid,gearSlot(p,item));
   if(g.canTrade()&&!traded.has(s.area+':'+g.recommendedArea())){
    traded.add(s.area+':'+g.recommendedArea());
@@ -38,6 +38,7 @@ export function simulate(seed=48,discipline='tide',maxSeconds=1800,options={}){
    // Read the new region's stated element and use the ordinary paid forge.
    if(s.zone>=4){const resist=s.zone===4?'waterResist':'fireResist';for(const slot of ['head','belt','gloves','boots'])while((g.stats()[resist]||0)<.24&&g.reinforce(slot,resist))forges++;}
   }
+  if(options.useCompanions!==false&&p.skills.includes('summon')&&!s.summons?.length&&!g.inCamp())g.cast('summon');
   if(p.venom>0)g.useAntidote();
   if(p.hp<g.stats().maxHp*.52&&g.heal())heals++;
   const nearby=w.enemies.filter(e=>!e.dead&&e.awake).sort((a,b)=>distance(p,a)-distance(p,b));
@@ -59,16 +60,16 @@ export function simulate(seed=48,discipline='tide',maxSeconds=1800,options={}){
   // Read the same warnings a human sees, then step out before impact.
   let danger=false;
   for(const e of nearby){const a=e.windup;if(!a||a.quick)continue;
-   if(['venomJet','beam','snipe','charge','crossfire','echo','sweep','solarSweep','clawRush','arcDash','huntDash','harpoonVolley','huntShots','tether'].includes(a.mode)){const dx=p.x-e.x,dy=(p.y-e.y)*1.15,along=dx*a.dir.x+dy*a.dir.y,cross=dx*a.dir.y-dy*a.dir.x;if(along>0&&along<750&&Math.abs(cross)<85){const sign=cross<0?-1:1;move={x:a.dir.y*sign,y:-a.dir.x*sign};danger=a.timer<.35;}}
+   if(['venomJet','beam','snipe','charge','crossfire','echo','sweep','solarSweep','clawRush','arcDash','huntDash','harpoonVolley','huntShots','tether','stingVolley','sandBurst','drillRush','cinderSweep','shellRush','owlFan','antlerFan','antlerRush','mistPounce'].includes(a.mode)){const dx=p.x-e.x,dy=(p.y-e.y)*1.15,along=dx*a.dir.x+dy*a.dir.y,cross=dx*a.dir.y-dy*a.dir.x;if(along>0&&along<750&&Math.abs(cross)<85){const sign=cross<0?-1:1;move={x:a.dir.y*sign,y:-a.dir.x*sign};danger=a.timer<.35;}}
    if(a.mode==='floodLanes')for(const y of a.lanes)if(Math.abs(p.y-y)*1.15<80){move={x:0,y:p.y<y?-1:1};danger=a.timer<.35;}
    if(a.mode==='mirrorCross')for(const target of a.targets)if(Math.abs(p.x-target.x)<75){move={x:p.x<target.x?-1:1,y:0};danger=a.timer<.35;}
-   if(['swing','slam','bite','brinejet','shieldBash'].includes(a.mode)&&distance(p,e)<175){move=normal(p.x-e.x,(p.y-e.y)*1.15);danger=a.timer<.3;}
+   if(['swing','slam','bite','brinejet','shieldBash','pincer','shellSlam','crownClaw'].includes(a.mode)&&distance(p,e)<175){move=normal(p.x-e.x,(p.y-e.y)*1.15);danger=a.timer<.3;}
    for(const target of (a.mode==='mirrorCross'?[]:a.targets)||((a.mode==='leap')?[a.target]:[]))if(distance(p,target)<145){move=normal(p.x-target.x||.1,(p.y-target.y)*1.15||-1);danger=a.timer<.35;}
   }
   for(const t of w.threats||[]){
    if(t.type==='v6lane'&&Math.abs(t.vertical?p.y-t.y:(p.x-t.x)/1.15)<t.length/2/1.15){const cross=t.vertical?p.x-t.x:(p.y-t.y)*1.15;if(Math.abs(cross)<t.r+35){move=t.vertical?{x:cross<0?-1:1,y:0}:{x:0,y:cross<0?-1:1};danger=t.age>t.arm-.3;}}
    if(['bossPatch','bossBarrier'].includes(t.type)&&distance(p,t)<t.r+35){move=normal(p.x-t.x||1,(p.y-t.y)*1.15||-1);danger=t.type==='bossPatch'&&t.age>=t.arm-.25;}
-   if(t.type==='ring'){const r=t.r+t.age*t.speed,d=distance(p,t);if(Math.abs(d-r)<85){move=normal(p.x-t.x,(p.y-t.y)*1.15);danger=Math.abs(d-r)<45;}}
+   if(t.type==='ring'){const r=t.r+t.age*t.speed,d=distance(p,t);if(Math.abs(d-r)<85){move=AREA_BY_ID[s.area].natureArena?normal(t.x-p.x,(t.y-p.y)*1.15):normal(p.x-t.x,(p.y-t.y)*1.15);danger=Math.abs(d-r)<(AREA_BY_ID[s.area].natureArena?65:45);}}
    if(t.type==='toxicPool'&&distance(p,t)<t.r+35){move=normal(p.x-t.x||1,(p.y-t.y)*1.15||-1);danger=t.age>=t.arm-.3;}
    if(t.type==='eruption'&&distance(p,t)<t.r+25){move=normal(p.x-t.x||1,(p.y-t.y)*1.15||-1);danger=t.age>t.arm-.3;}
    if(t.type==='mine'&&distance(p,t)<t.r+35){move=normal(p.x-t.x||1,(p.y-t.y)*1.15||-1);danger=t.age>=t.arm-.3;}

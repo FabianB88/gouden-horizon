@@ -14,6 +14,7 @@ export function heroDirection(x,y,previous=0){
 export function updateHeroMotion(p,dx,dy,dt,moveSpeed,dashing=false){
  const groundY=dy/.78,moved=Math.hypot(dx,groundY),moving=!dashing&&moved>dt*moveSpeed*.025;
  p.walkBlend=dashing?0:Math.min(1,moved/Math.max(.001,dt*moveSpeed));
+ p.visualMotionBlend=(p.visualMotionBlend??p.walkBlend)+(p.walkBlend-(p.visualMotionBlend??p.walkBlend))*(1-Math.exp(-dt*14));
  p.moving=moving;
  if(moving){
   p.walkPhase=(p.walkPhase||0)+moved/215;

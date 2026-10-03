@@ -1,10 +1,10 @@
-import {ADVENTURE_NPCS} from './adventures.js?v=22';
-import {makeItem} from './loot.js?v=22';
+import {ADVENTURE_NPCS} from './adventures.js?v=27';
+import {makeItem} from './loot.js?v=27';
 
 export const NORA={id:'nora',x:630,y:350,name:'Nora · Bergingscoördinator',title:'Noodstroom'};
 const near=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15)<115;
 export const QuestRules={
- questNPCs(){return [...(this.state.area==='highway'?[NORA]:[]),...this.cityNPCs(),...(ADVENTURE_NPCS[this.state.area]?[ADVENTURE_NPCS[this.state.area]]:[])];},
+ questNPCs(){return [...(this.state.area==='highway'?[NORA]:[]),...this.cityNPCs(),...this.quarterNPCs(),...(ADVENTURE_NPCS[this.state.area]?[ADVENTURE_NPCS[this.state.area]]:[])];},
  nearbyQuestNPC(){return this.questNPCs().filter(n=>near(this.state.player,n)).sort((a,b)=>Math.hypot(a.x-this.state.player.x,a.y-this.state.player.y)-Math.hypot(b.x-this.state.player.x,b.y-this.state.player.y))[0]||null;},
  acceptSalvageQuest(){
   const s=this.state;if(this.nearbyQuestNPC()?.id!=='nora'||s.quests?.noodstroom||!['playing','modal'].includes(s.mode))return false;

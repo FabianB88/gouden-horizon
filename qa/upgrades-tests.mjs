@@ -28,13 +28,13 @@ test('Expanded hubs provide more walking room and gates occupy separate plazas i
   for(let y=24;y<WORLD.height;y+=24)for(let x=24;x<WORLD.width;x+=24)if(canStand(x,y,18,id))floor++;
   assert(floor>(previous[id]?previous[id]*1.15:500),id+' insufficient walking room');const gates=g.state.world.portals;let spread=0;
   for(let i=0;i<gates.length;i++)for(let j=i+1;j<gates.length;j++){assert(distance(gates[i],gates[j])>310,'crowded gates');for(let k=j+1;k<gates.length;k++){const [a,b,c]=[gates[i],gates[j],gates[k]];spread=Math.max(spread,Math.abs((b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x)));}}
-  assert(spread>100000,id+' has a portal row');
+  if(gates.length>=3)assert(spread>100000,id+' has a portal row');
   for(const gate of gates){assert(canStand(gate.x,gate.y,35,id));for(const service of g.state.world.camp.services)assert(distance(gate,service)>165,'gate crowds a merchant');for(const loot of g.state.world.loot)assert(distance(gate,loot)>115,'loot masks portal interaction');}
  }
 });
 test('Every distributed gate is reachable with ordinary keyboard movement and keeps its destination',()=>{
  for(const id of SAFE_HUBS)for(const [to,[x,y]]of Object.entries(HUB_LAYOUTS[id].portals)){
-  const g=new Engine();g.state.cores=[0,1,2,3];g.state.visited=AREAS.map(a=>a.id);g.enterArea(id);walkWithKeys(g,{x,y});
+  const g=new Engine();g.state.cores=[0,1,2,3];g.state.visited=AREAS.map(a=>a.id);g.state.player.runeWorkshopUnlocked=true;g.enterArea(id);walkWithKeys(g,{x,y});
   assert.equal(g.interaction().type,'portal',id+' gate '+to+' at '+JSON.stringify(g.state.player.x)+','+g.state.player.y+' selected '+g.interaction().entity.id);assert.equal(g.interaction().entity.to,to);assert(g.interact());assert.equal(g.state.area,to);
  }
 });

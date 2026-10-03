@@ -1,22 +1,22 @@
-import {RESISTANCES,resistance} from './resistances.js?v=22';
-import {protectedItem} from './item-marks.js?v=22';
-import {spellProfile} from './spell-variants.js?v=22';
-import {WORLD,SPELLS,AREAS,AREA_BY_ID,ENEMIES,START_EQUIPMENT,RARITIES} from './data.js?v=22';
-import {marketStock} from './markets.js?v=22';
-import {HUB_LAYOUTS} from './hub-layouts.js?v=22';
-import {scaleEnemy} from './balance.js?v=22';
-import {makeItem,normalizePlayer,normalizeItem,DROP_TABLES,dropProfile,sellValue,salvageValue} from './loot.js?v=22';
+import {RESISTANCES,resistance} from './resistances.js?v=27';
+import {protectedItem} from './item-marks.js?v=27';
+import {spellProfile} from './spell-variants.js?v=27';
+import {WORLD,SPELLS,AREAS,AREA_BY_ID,ENEMIES,START_EQUIPMENT,RARITIES} from './data.js?v=27';
+import {marketStock} from './markets.js?v=27';
+import {HUB_LAYOUTS} from './hub-layouts.js?v=27';
+import {scaleEnemy} from './balance.js?v=27';
+import {makeItem,normalizePlayer,normalizeItem,DROP_TABLES,dropProfile,sellValue,salvageValue} from './loot.js?v=27';
 const dist=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 const clone=value=>JSON.parse(JSON.stringify(value));
 const unit=(x,y)=>{const n=Math.hypot(x,y)||1;return {x:x/n,y:y/n};};
 export const REGION_CAMPS=['canal','highway','forest','skybridge','metro-refuge','cooling-refuge'];
 export const ExpeditionRules={
- isUnlocked(id){const area=AREA_BY_ID[id];if(area?.extension){const i=['metro-refuge','sluice','railworks','deepwater','cooling-refuge','heatworks','condensers','tower'].indexOf(id);return Boolean(this.state.visited.includes(id)||(i===0?this.chapterComplete('aurelia'):this.chapterComplete(['metro-refuge','sluice','railworks','deepwater','cooling-refuge','heatworks','condensers','tower'][i-1])));}if(area?.adventure)return Boolean(this.state.completed||this.state.cores.includes(3)||this.chapterComplete(area.unlockChapter));if(area?.bounty)return Boolean(this.state.completed||this.state.cores.includes(3)||this.chapterComplete(area.unlockChapter));if(area?.endgame)return this.endgameUnlocked();return Boolean(area&&(this.state.completed||this.state.visited.includes(id)||this.state.cores.filter(c=>c<3).length>=(area.unlockCore||0)));},
+ isUnlocked(id){const area=AREA_BY_ID[id];if(area?.safeExplore)return this.chapterComplete('highway')&&(id!=='hidden-atelier'||Boolean(this.state.player.runeWorkshopUnlocked));if(area?.biomeRegion)return Boolean(this.state.visited.includes(id)||this.chapterComplete(area.unlockChapter)&&(!area.unlockArena||(this.state.natureVictories?.[area.unlockArena]||0)>0));if(area?.extension){const i=['metro-refuge','sluice','railworks','deepwater','cooling-refuge','heatworks','condensers','tower'].indexOf(id);return Boolean(this.state.visited.includes(id)||(i===0?this.chapterComplete('aurelia'):this.chapterComplete(['metro-refuge','sluice','railworks','deepwater','cooling-refuge','heatworks','condensers','tower'][i-1])));}if(area?.adventure)return Boolean(this.state.completed||this.state.cores.includes(3)||this.chapterComplete(area.unlockChapter));if(area?.bounty)return Boolean(this.state.completed||this.state.cores.includes(3)||this.chapterComplete(area.unlockChapter));if(area?.endgame)return this.endgameUnlocked();return Boolean(area&&(this.state.completed||this.state.visited.includes(id)||this.state.cores.filter(c=>c<3).length>=(area.unlockCore||0)));},
  arenaCleared(){const w=this.state.world;if(w.trial)return w.trial.done;if(AREA_BY_ID[this.state.area]?.side)return Boolean(w.sideDone&&!w.enemies.some(e=>!e.dead));return !w.enemies.some(e=>!e.dead)&&w.relays.every(r=>r.status==='online')&&(this.state.zone===3?w.bossDefeated:w.gate?.eliteSpawned);},
  inCamp(point=this.state.player){const camp=this.state.world?.camp;return Boolean(camp&&dist(camp,point)<camp.radius);},
- canTrade(){return this.inCamp()&&['playing','modal'].includes(this.state.mode)&&(!this.state.pending||this.state.pending.type==='shop');},
+ canTrade(){return Boolean(this.state.world?.camp)&&this.inCamp()&&['playing','modal'].includes(this.state.mode)&&(!this.state.pending||this.state.pending.type==='shop');},
  routeCachePosition(area){const layout=HUB_LAYOUTS[area.id];if(layout)return {x:layout.cache[0],y:layout.cache[1]};if(REGION_CAMPS.includes(area.id))return {x:area.pocket[0]*WORLD.width,y:area.pocket[1]*WORLD.height};return {x:(area.spawn[0]+(area.exit[0]-area.spawn[0])*.52)*WORLD.width,y:(area.spawn[1]+(area.exit[1]-area.spawn[1])*.52)*WORLD.height};},
- campFor(area){if(area.kind!=='route')return null;return {x:area.spawn[0]*WORLD.width+(area.extension?0:55),y:area.spawn[1]*WORLD.height-(area.extension?0:37),radius:180,merchant:{x:area.spawn[0]*WORLD.width+190,y:area.spawn[1]*WORLD.height-110},name:['Waterlijnhandel','Schrootstation','Veldmakers','Horizonpost','Onderstation','Koelhof'][area.zone]};},
+ campFor(area){if(area.kind!=='route')return null;return {x:area.spawn[0]*WORLD.width+(area.extension||area.biomeRegion?0:55),y:area.spawn[1]*WORLD.height-(area.extension||area.biomeRegion?0:37),radius:180,merchant:{x:area.spawn[0]*WORLD.width+190,y:area.spawn[1]*WORLD.height-110},name:area.id==='lanternwood'?'Lantaarnwoud':area.id==='groenkloof'?'Groenkloof':['Waterlijnhandel','Schrootstation','Veldmakers','Horizonpost','Onderstation','Koelhof'][area.zone]};},
  makeStock(zone,areaId){return marketStock(this,zone,areaId);},
  buyItem(uid){if(!this.canTrade())return false;const w=this.state.world,p=this.state.player,index=w.shop.stock.findIndex(i=>i.uid===uid);if(index<0)return false;const item=w.shop.stock[index];if(p.scrap<item.price||p.inventory.length>=48)return false;
   p.scrap-=item.price;if(item.investment){w.shop.purchasedSpecials||=[];w.shop.purchasedSpecials.push(item.investment);}w.shop.stock.splice(index,1);p.inventory.push(item);this.notice(item.name+' gekocht · in rugzak');this.emit('loot');this.checkpoint();return item.uid;

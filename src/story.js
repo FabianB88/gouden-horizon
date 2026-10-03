@@ -1,5 +1,5 @@
-import {AREAS,AREA_BY_ID,WORLD,POSITIONS} from './data.js?v=22';
-import {SAFE_HUBS,hubPortals} from './hubs.js?v=22';
+import {AREAS,AREA_BY_ID,WORLD,POSITIONS} from './data.js?v=27';
+import {SAFE_HUBS,hubPortals} from './hubs.js?v=27';
 
 // Chronological journey with fixed arena/generator gates in regional hubs.
 export const STORY_ORDER=['canal','delta','ring','rooftops','highway','mirrors','brine','kilometer','forest','glass','saltwood','vault','skybridge','harbor','clouds','aurelia','metro-refuge','sluice','railworks','deepwater','cooling-refuge','heatworks','condensers','tower'];
@@ -35,10 +35,12 @@ export const StoryRules={
  },
  recommendedArea(){return STORY_ORDER.find(id=>!this.chapterComplete(id))||'tower';},
  canSelectDestination(id){return this.isUnlocked(id)&&(AREA_BY_ID[id]?.endgame||AREA_BY_ID[id]?.optional||this.state.visited.includes(id)||this.state.storyPassed?.includes(id)||id===this.recommendedArea());},
- selectDestination(id){if(!this.canSelectDestination(id))return false;if(SAFE_HUBS.includes(this.state.area)&&this.chapterComplete(id)&&id!==this.state.area)return this.enterArea(id);this.state.destination=id===this.state.area?null:id;this.syncStoryPortals();return true;},
+ selectDestination(id){if(!this.canSelectDestination(id))return false;if(AREA_BY_ID[id]?.safeExplore&&this.inCamp())return this.enterArea(id);if(AREA_BY_ID[id].natureRegion&&this.inCamp()){if(id==='lanternwood')return this.enterArea(id);if(this.state.area!=='lanternwood'&&!this.enterArea('lanternwood'))return false;this.state.destination=id;this.syncStoryPortals();return true;}if(AREA_BY_ID[id].biomeRegion&&this.inCamp()){if(id==='groenkloof')return this.enterArea(id);if(this.state.area!=='groenkloof'&&!this.enterArea('groenkloof'))return false;this.state.destination=id;this.syncStoryPortals();return true;}if(SAFE_HUBS.includes(this.state.area)&&this.chapterComplete(id)&&id!==this.state.area)return this.enterArea(id);this.state.destination=id===this.state.area?null:id;this.syncStoryPortals();return true;},
  portalDefinitions(id){
   const a=AREA_BY_ID[id];if(!a)return [];
+  if(a.safeExplore)return this.quarterPortals(id);
   if(SAFE_HUBS.includes(id))return hubPortals(this,id);
+  if(a.natureArena||a.biomeArena)return [{id:'biome-return',to:a.returnHub,x:a.exit[0]*WORLD.width,y:a.exit[1]*WORLD.height,story:true}];
   if(a.adventure)return [{id:'adventure-return',to:a.returnHub,x:a.exit[0]*WORLD.width,y:a.exit[1]*WORLD.height,story:true}];
   if(a.endgame)return [{id:'trial-return',to:'skybridge',x:POSITIONS.exit.x,y:POSITIONS.exit.y,story:true}];
   let to;
@@ -54,20 +56,24 @@ export const StoryRules={
  },
  syncStoryPortals(){if(this.state.world)this.state.world.portals=this.portalDefinitions(this.state.area);},
  routeTo(goal=this.state.destination||this.recommendedArea()){
-  const current=this.state.area;if(goal===current)return [current];
+  const current=this.state.area;if(goal===current)return [current];if(AREA_BY_ID[current]?.safeExplore)return goal==='highway'?[current,goal]:[current,'highway',goal];if(AREA_BY_ID[goal]?.safeExplore)return current==='highway'?[current,goal]:[current,'highway',goal];
   if(!this.canSelectDestination(goal))return [];
-  const a=AREA_BY_ID[current],camp=camps[a.zone];
+  const a=AREA_BY_ID[current],camp=a.biomeArena?a.returnHub:a.id==='groenkloof'?'cooling-refuge':camps[a.zone];
+  if(a.natureArena)return goal==='lanternwood'?[current,goal]:[current,'lanternwood','cooling-refuge',goal];if(current==='lanternwood')return ['crystalfalls','coppercrown','cooling-refuge'].includes(goal)?[current,goal]:[current,'cooling-refuge',goal];if(current==='cooling-refuge'&&AREA_BY_ID[goal]?.natureRegion)return [current,'lanternwood',goal];
+  if(current==='glass-dunes')return goal==='groenkloof'?[current,goal]:[current,'groenkloof','cooling-refuge',goal];
+  if(current==='groenkloof')return ['glass-dunes','cooling-refuge'].includes(goal)?[current,goal]:[current,'cooling-refuge',goal];
+  if(current==='cooling-refuge'&&goal==='glass-dunes')return [current,'groenkloof',goal];
   return a.kind==='hub'&&goal!==camp?[current,camp,goal]:[current,goal];
  },
- portalReady(){const a=AREA_BY_ID[this.state.area];if(a.endgame)return this.arenaCleared();return a.kind==='hub'?this.arenaCleared():!cacheChapters.has(a.id)||this.chapterComplete(a.id);},
+ portalReady(){const a=AREA_BY_ID[this.state.area];if(a.safeExplore)return true;if(a.endgame)return this.arenaCleared();return a.kind==='hub'?this.arenaCleared():!cacheChapters.has(a.id)||this.chapterComplete(a.id);},
  nextWaypoint(){
-  this.syncStoryPortals();const s=this.state,w=s.world,a=AREA_BY_ID[s.area];if(a.adventure)return w.objectives.filter(o=>!o.done).sort((a,b)=>Math.hypot(a.x-s.player.x,a.y-s.player.y)-Math.hypot(b.x-s.player.x,b.y-s.player.y))[0]||w.portals[0];if(a.bounty)return w.enemies.find(e=>!e.dead)||w.portals[0];if(a.endgame)return w.enemies.find(e=>!e.dead)|| (w.trial.done?w.portals[0]:null);
+  this.syncStoryPortals();const s=this.state,w=s.world,a=AREA_BY_ID[s.area];if(a.safeExplore)return this.quarterWaypoint();if(a.adventure)return w.objectives.filter(o=>!o.done).sort((a,b)=>Math.hypot(a.x-s.player.x,a.y-s.player.y)-Math.hypot(b.x-s.player.x,b.y-s.player.y))[0]||w.portals[0];if(a.bounty)return w.enemies.find(e=>!e.dead)||w.portals[0];if(a.endgame)return w.enemies.find(e=>!e.dead)|| (w.trial.done?w.portals[0]:null);
   if(a.kind==='hub'&&!this.arenaCleared())return w.relays.find(r=>r.status==='dormant')||w.enemies.find(e=>!e.dead&&(e.guardian||e.type==='boss'))||w.enemies.find(e=>!e.dead);
   if(a.kind==='hub'&&!w.coreCollected)return w.gate;
   if(cacheChapters.has(a.id)&&!this.chapterComplete(a.id))return w.enemies.find(e=>!e.dead&&e.cacheGuard)||w.loot.find(i=>!i.item);
   return w.portals.find(p=>!p.locked&&p.to===(s.destination||this.recommendedArea()))||w.portals.find(p=>!p.locked);
  },
- storyText(){if(this.state.world?.adventure)return 'Berging · verken drie punten, versla hun bewakers en pak de onderdelen met F. De terugpoort opent na alle drie.';if(this.state.world?.trial)return 'Tijdproef · versla vier golven. De terugpoort opent na de eindbaas.';if(this.chapterComplete('tower'))return 'Aurelia is verbonden. Via M kun je bij een handelspost drie endgame-tijdproeven starten, of terugreizen naar eerdere hoofdstukken.';const id=this.recommendedArea();return STORY_BEATS[id]||AREA_BY_ID[id].story;},
+ storyText(){if(AREA_BY_ID[this.state.area]?.safeExplore)return AREA_BY_ID[this.state.area].story;if(this.state.world?.nature)return AREA_BY_ID[this.state.area].story;if(this.state.area==='lanternwood')return AREA_BY_ID.lanternwood.story;if(this.state.world?.biome)return 'Duinexpeditie · '+(this.state.world.sideDone?'voltooid · terug naar Groenkloof':this.state.world.biome.wave===3?'versla de Duinbreker':'groep '+this.state.world.biome.wave+'/2 · daarna de Duinbreker');if(this.state.area==='groenkloof')return AREA_BY_ID.groenkloof.story;if(this.state.world?.adventure)return 'Berging · verken drie punten, versla hun bewakers en pak de onderdelen met F. De terugpoort opent na alle drie.';if(this.state.world?.trial)return 'Tijdproef · versla vier golven. De terugpoort opent na de eindbaas.';if(this.chapterComplete('tower'))return 'Aurelia is verbonden. Via M kun je bij een handelspost drie endgame-tijdproeven starten, of terugreizen naar eerdere hoofdstukken.';const id=this.recommendedArea();return STORY_BEATS[id]||AREA_BY_ID[id].story;},
  markStoryCache(loot){if(cacheChapters.has(this.state.area)&&!loot.item&&!loot.exploration){this.state.world.storyCacheClaimed=true;this.notice('Protocol geborgen · de volgende verhaalroute is open');}},
  migrateStory(){
   const s=this.state;if(s.campaignVersion===1)return;

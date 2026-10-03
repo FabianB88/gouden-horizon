@@ -1,4 +1,4 @@
-import {resistance} from './resistances.js?v=22';
+import {resistance} from './resistances.js?v=27';
 export const HEAL_COOLDOWN=10;
 export const ANTIDOTE_COOLDOWN=30;
 export const ANTIDOTE_PRICE=45;
@@ -24,7 +24,7 @@ export const SurvivalRules={
  useAntidote(){
   const p=this.state.player;if(this.state.mode!=='playing'||p.antidotes<1||p.antidoteCooldown>0||(!(p.venom>0)&&!(p.poison>0)))return false;
   p.antidotes--;p.venom=0;p.poison=0;p.venomTick=0;p.venomDamage=0;p.venomGuard=5;p.antidoteCooldown=ANTIDOTE_COOLDOWN;
-  this.effect('heal',p.x,p.y,{color:'#c9ee8f',radius:65,life:.7});this.number(p.x,p.y,'GIF GESTOPT','#c9ee8f',16);if(this.hasUnique('filter')){p.ward=24;p.wardTime=6;}this.emit('antidote');return true;
+  this.effect('heal',p.x,p.y,{color:'#c9ee8f',radius:65,life:.7});this.number(p.x,p.y,'GIF GESTOPT','#c9ee8f',16);if(this.hasUnique('filter')||this.hasUnique('glassMantle')){p.ward=Math.max(p.ward||0,this.hasUnique('glassMantle')?this.stats().maxHp*.15:24);p.wardTime=6;}this.emit('antidote');return true;
  },
  buyAntidote(){
   const p=this.state.player,w=this.state.world;if(!this.canTrade()||p.scrap<ANTIDOTE_PRICE||p.antidotes>=ANTIDOTE_CAP||!(w.shop.antidoteStock>0))return false;

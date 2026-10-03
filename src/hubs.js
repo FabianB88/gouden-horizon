@@ -1,7 +1,7 @@
-import {AREAS,AREA_BY_ID,WORLD} from './data.js?v=22';
-import {regionalService} from './markets.js?v=22';
-import {HUB_LAYOUTS} from './hub-layouts.js?v=22';
-export const SAFE_HUBS=['canal','highway','forest','skybridge','metro-refuge','cooling-refuge'];
+import {AREAS,AREA_BY_ID,WORLD} from './data.js?v=27';
+import {regionalService} from './markets.js?v=27';
+import {HUB_LAYOUTS} from './hub-layouts.js?v=27';
+export const SAFE_HUBS=['canal','highway','forest','skybridge','metro-refuge','cooling-refuge','groenkloof','lanternwood'];
 export const SERVICE_INFO={
  smith:{name:'Mara · Focusmaker',title:'Focusmaker',slots:['weapon','relic','gloves'],text:'Precisie of elementkracht? Kies een focus die bij je spreuken past.',file:'smith'},
  outfitter:{name:'Jules · Veldhandel',title:'Veldhandel',slots:['suit','head','boots','belt'],text:'Snel bewegen helpt. Bescherming geeft je tijd om een fout te herstellen.',file:'outfitter'},
@@ -22,7 +22,7 @@ export const QUAY_SUPPLY=HUB_LAYOUTS.canal.supply.map((v,i)=>v/(i?WORLD.height:W
 export function hubMerchants(id){return Object.entries(HUB_LAYOUTS[id].services).map(([service,[x,y]])=>({id:service,service,x,y,...SERVICE_INFO[service],...regionalService(id,SERVICE_INFO[service])}));}
 export function fixedHubPortals(g,id){
  const layout=HUB_LAYOUTS[id];if(!layout)return null;
- return Object.entries(layout.portals).map(([to,[x,y]])=>{const a=AREA_BY_ID[to],category=a.optional?'bonus':a.side?'arena':a.kind==='hub'?'generator':'route';return {id:'gate-'+to,to,x,y,category,story:true,locked:!g.canSelectDestination(to),reason:'Voltooi eerst '+AREA_BY_ID[g.recommendedArea()].name};});
+ return Object.entries(layout.portals).map(([to,[x,y]])=>{const a=AREA_BY_ID[to],category=a.safeExplore?'explore':a.optional?'bonus':a.side?'arena':a.kind==='hub'?'generator':'route';return {id:'gate-'+to,to,x,y,category,story:true,locked:!g.canSelectDestination(to),reason:to==='hidden-atelier'?'Breng het regenkompas en de bergingssleutel naar Milo in Vrijhaven':'Voltooi eerst '+AREA_BY_ID[a.unlockArena||a.unlockChapter||g.recommendedArea()].name};});
 }
 export const hubPortals=fixedHubPortals;
 export const HubRules={
@@ -49,7 +49,7 @@ export const HubRules={
    w.quayLayoutVersion=2;
   }
  },
- inCamp(point=this.state.player){if(SAFE_HUBS.includes(this.state.area))return true;const camp=this.state.world?.camp;return Boolean(camp&&(Math.hypot(camp.x-point.x,(camp.y-point.y)*1.15)<camp.radius||Math.hypot(camp.merchant.x-point.x,(camp.merchant.y-point.y)*1.15)<125));},
+ inCamp(point=this.state.player){if(AREA_BY_ID[this.state.area]?.safeExplore)return true;if(SAFE_HUBS.includes(this.state.area))return true;const camp=this.state.world?.camp;return Boolean(camp&&(Math.hypot(camp.x-point.x,(camp.y-point.y)*1.15)<camp.radius||Math.hypot(camp.merchant.x-point.x,(camp.merchant.y-point.y)*1.15)<125));},
  hubMerchants(id=this.state.area){return SAFE_HUBS.includes(id)?hubMerchants(id):this.state.world?.camp?[{id:'smith',service:'smith',...this.state.world.camp.merchant,...SERVICE_INFO.smith,...regionalService(id,SERVICE_INFO.smith),name:(id==='rooftops'?'Noor':'Bo')+' · '+this.state.world.camp.name,title:'Veldkaravaan',slots:['weapon','suit','relic','boots','gloves','belt'],supplies:true,forge:true}]:[];},
  nearbyMerchant(){return this.hubMerchants().filter(m=>Math.hypot(m.x-this.state.player.x,(m.y-this.state.player.y)*1.15)<115).sort((a,b)=>Math.hypot(a.x-this.state.player.x,a.y-this.state.player.y)-Math.hypot(b.x-this.state.player.x,b.y-this.state.player.y))[0]||null;},
  service(){return this.state.pending?.service||this.nearbyMerchant()?.service||'smith';},
