@@ -1,7 +1,7 @@
-import {AREA_BY_ID,ENEMIES} from './data.js?v=27';
-import {CREATURE_ENEMIES,CREATURE_ELITES} from './creature-content.js?v=27';
-import {chaseRandom} from './chase-loot.js?v=27';
-import {makeItem} from './loot.js?v=27';
+import {AREA_BY_ID,ENEMIES} from './data.js?v=29';
+import {CREATURE_ENEMIES,CREATURE_ELITES} from './creature-content.js?v=29';
+import {chaseRandom} from './chase-loot.js?v=29';
+import {makeItem} from './loot.js?v=29';
 const dist=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 const unit=(x,y)=>{const n=Math.hypot(x,y)||1;return {x:x/n,y:y/n};};
 const faunaAreas=new Set(['brine','kilometer','glass','saltwood','harbor','clouds','sluice','railworks','deepwater','heatworks','condensers']);

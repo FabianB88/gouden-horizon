@@ -1,5 +1,5 @@
-import {SPELLS,AREA_BY_ID,RARITIES} from './data.js?v=27';
-import {EncounterVisuals} from './encounter-visuals.js?v=27';
+import {SPELLS,AREA_BY_ID,RARITIES} from './data.js?v=29';
+import {EncounterVisuals} from './encounter-visuals.js?v=29';
 const centered=source=>({...source,anchor:[.5,.5]});
 const distance=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 export const ExpeditionVisuals={
@@ -61,20 +61,20 @@ export const ExpeditionVisuals={
   if(f.type==='cryo'){this.ellipse(f.x,f.y,f.r,f.r/1.15,'#a7e7ff12','#bceeff99',2);const count=f.detonated?6:3;for(let i=0;i<count;i++){const a=i*Math.PI*2/count+f.age*.3,x=f.x+Math.cos(a)*f.r*.64,y=f.y+Math.sin(a)*f.r*.64/1.15;this.sprite(this.assets.abilities,this.expedition.abilities.glacier,x,y,60,false,0,fade*.75);}}else if(f.type==='glacier'){
    // A crosswise strip of crystals matches the narrow collision footprint.
    const side={x:-f.dir.y,y:f.dir.x/1.15};
-   for(let i=-3;i<=3;i++){const x=f.x+side.x*i*(f.r/3.5),y=f.y+side.y*i*(f.r/3.5);
+   for(let i=-2;i<=2;i++){const x=f.x+side.x*i*(f.r/2.5),y=f.y+side.y*i*(f.r/2.5);
     this.ellipse(x,y,(f.halfWidth||48),Math.min(38,f.r/6),'#73d5eb24','#ade9ef55',1);
-    this.sprite(this.assets.abilities,this.expedition.abilities.glacier,x,y,(75+(3-Math.abs(i))*9)*Math.max(.65,Math.min(1.25,(f.halfWidth||48)/48)),false,0,fade*.9);
+    this.sprite(this.assets.abilities,this.expedition.abilities.glacier,x,y,(75+(3-Math.abs(i))*9)*Math.max(.65,Math.min(1.25,(f.halfWidth||48)/48)),false,0,fade*.72);
    }
   }else if(f.type==='cyclone'){
    this.ellipse(f.x,f.y,f.r*.9,f.r*.43,'#213f3738');
-   this.sprite(this.assets.abilities,this.expedition.abilities.cyclone,f.x,f.y,275*Math.min(1,Math.sqrt(f.r/105)),false,Math.sin(f.age*7)*.035,fade*.85);
+   this.sprite(this.assets.abilities,this.expedition.abilities.cyclone,f.x,f.y,225*Math.min(1,Math.sqrt(f.r/105)),false,Math.sin(f.age*7)*.035,fade*.68);
    for(let i=0;i<4;i++){const a=f.age*5+i*Math.PI/2;this.ellipse(f.x+Math.cos(a)*70,f.y-35+Math.sin(a)*30,4,2,'#cdf1d7bb');}
   }else if(f.type==='tempest'){
    const source=this.expedition.abilities.tempest,[x,y,w,h]=source.bounds;
    this.ellipse(f.x,f.y,150,60,'#3d315f22');
    // Fade the cloud texture's lower edge; no rectangular crop edge appears.
    const height=Math.round(h*.62),scale=130/height*(f.variant==='focused'?.78:f.variant==='drizzle'?1.15:1);
-   for(let row=0;row<height;row+=8){const band=Math.min(8,height-row),opacity=Math.min(1,(height-row)/(height*.35));c.save();c.globalAlpha=fade*.88*opacity;c.drawImage(this.assets.abilities,x,y+row,w,band,f.x-w*scale/2,f.y-218+row*scale,w*scale,band*scale+.2);c.restore();}
+   c.save();c.globalAlpha*=fade*.6;c.drawImage(this.cache.cloud(this.assets.abilities,source),f.x-w*scale/2,f.y-206,w*scale,height*scale);c.restore();
    this.glow(f.x,f.y-120,65,'#b89bef',.16);
   }else if(f.type==='orbital'){
    for(const impact of f.strikes){if(impact.done)continue;

@@ -1,6 +1,6 @@
-import {UNIQUE_ITEMS} from './unique-items.js?v=27';
-import {AREA_BY_ID} from './data.js?v=27';
-import {makeItem,makeUniqueItem} from './loot.js?v=27';
+import {UNIQUE_ITEMS} from './unique-items.js?v=29';
+import {AREA_BY_ID} from './data.js?v=29';
+import {makeItem,makeUniqueItem} from './loot.js?v=29';
 export const CITY_NPCS=[
  {id:'ilya',name:'Ilya · Levenshoeder',title:'Het levende verbond',x:1560,y:540,art:0},
  {id:'milo',name:'Milo · Cartograaf',title:'Kaarten van Vrijhaven',x:350,y:290,art:1},

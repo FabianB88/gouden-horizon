@@ -1,4 +1,4 @@
-import {makeUniqueItem} from './loot.js?v=27';
+import {makeUniqueItem} from './loot.js?v=29';
 
 // These replace one ordinary equipment drop: no additional loot pile and no
 // guaranteed rare-item pity. Rates below are conditional on equipment dropping.

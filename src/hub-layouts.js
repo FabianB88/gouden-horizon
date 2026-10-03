@@ -1,13 +1,13 @@
-import {BIOME_HUB_LAYOUTS} from './biome-content.js?v=27';
-import {NATURE_HUB_LAYOUT} from './nature-content.js?v=27';
-import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=27';
+import {BIOME_HUB_LAYOUTS} from './biome-content.js?v=29';
+import {NATURE_HUB_LAYOUT} from './nature-content.js?v=29';
+import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=29';
 // World-pixel placements on the painted floors. Gates keep their destinations
 // while the story controls their locks; no hub uses a single portal queue.
 export const HUB_LAYOUTS={
  canal:{
-  portals:{delta:[1330,790],ring:[1695,545],rooftops:[1510,285],salvage:[435,1110]},
-  services:{smith:[272.64,931.84],outfitter:[1120,790],workshop:[268,695]},
-  cache:[1050,955],supply:[1565,485],
+  portals:{delta:[1418.75,772.5],ring:[1695,545],rooftops:[1510,285],salvage:[435,1110]},
+  services:{smith:[272.64,931.84],outfitter:[1232.5,766.25],workshop:[267.5,695]},
+  cache:[1275,856.25],supply:[1800,493.75],
   floors:[
    // Full stone promenade, with room for the hero at both diagonal edges.
    [[315,800],[1455,240],[1535,240],[1590,285],[455,915],[345,915],[290,860]],
@@ -43,8 +43,8 @@ export const HUB_LAYOUTS={
  },
  forest:{
   portals:{glass:[1515,280],saltwood:[650,825],vault:[1400,900]},
-  services:{smith:[350,795],outfitter:[1060,745],workshop:[460,450]},
-  cache:[950,820],supply:[330,310],
+  services:{smith:[372.5,812.5],outfitter:[1000,956.25],workshop:[460,450]},
+  cache:[1187.5,958.75],supply:[500,212.5],
   floors:[
    [[325,680],[620,500],[915,350],[1150,300],[1330,170],[1500,105],[1560,180],[1290,395],[1020,560],[790,680],[535,850],[390,880],[300,790]],
    [[640,670],[900,570],[1050,610],[1320,740],[1295,830],[1130,900],[960,900],[790,810]],

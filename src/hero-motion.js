@@ -24,7 +24,7 @@ export function updateHeroMotion(p,dx,dy,dt,moveSpeed,dashing=false){
  const y=dashing?p.dashDir.y:moving?groundY:p.aim?.y||0;
  const direction=heroDirection(x,y,p.poseDirection??0);
  if(direction!==p.poseDirection){p.previousPoseDirection=p.poseDirection??direction;p.poseDirection=direction;p.poseTurn=1;}
- p.poseTurn=Math.max(0,(p.poseTurn||0)-dt/.10);
+ p.poseTurn=Math.max(0,(p.poseTurn||0)-dt/.085);
  if(moving||dashing){p.moveFacing=x<-.0001?-1:x>.0001?1:p.moveFacing||1;p.moveLookUp=y<-.0001;p.facing=p.moveFacing;p.lookUp=p.moveLookUp;}
 }
 

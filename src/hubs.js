@@ -1,6 +1,7 @@
-import {AREAS,AREA_BY_ID,WORLD} from './data.js?v=27';
-import {regionalService} from './markets.js?v=27';
-import {HUB_LAYOUTS} from './hub-layouts.js?v=27';
+import {AREAS,AREA_BY_ID,WORLD} from './data.js?v=29';
+import {regionalService} from './markets.js?v=29';
+import {HUB_LAYOUTS} from './hub-layouts.js?v=29';
+import {wanderingScrap} from './hub-wandering-content.js?v=29';
 export const SAFE_HUBS=['canal','highway','forest','skybridge','metro-refuge','cooling-refuge','groenkloof','lanternwood'];
 export const SERVICE_INFO={
  smith:{name:'Mara · Focusmaker',title:'Focusmaker',slots:['weapon','relic','gloves'],text:'Precisie of elementkracht? Kies een focus die bij je spreuken past.',file:'smith'},
@@ -32,6 +33,7 @@ export const HubRules={
   if(w.shop&&w.shop.antidoteStock===undefined)w.shop.antidoteStock=2;
   if(!SAFE_HUBS.includes(area.id))return;
   w.safeHub=true;w.enemies=w.enemies.filter(e=>e.dead);w.hazards=[];w.threats=[];w.camp.services=hubMerchants(area.id);
+  if(!w.wanderingVersion){w.wanderingVersion=1;w.pickups||=[];w.pickups.push(...wanderingScrap(this.state.seed,area));}
   const layout=HUB_LAYOUTS[area.id];
   if(w.shop.antidoteStock===undefined)w.shop.antidoteStock=2;
   if(!w.hubVersion){w.hubVersion=1;w.loot.push({id:++this.idCounter,x:layout.supply[0],y:layout.supply[1],type:'loot',hiddenSupply:true,profile:'expedition'});}

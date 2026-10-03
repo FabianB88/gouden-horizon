@@ -1,10 +1,11 @@
-import {QUARTER_AREAS,QUARTER_GATES} from './safe-exploration-content.js?v=27';
-import {NATURE_AREAS,NATURE_ENEMIES} from './nature-content.js?v=27';
-import {CREATURE_ENEMIES} from './creature-content.js?v=27';
-import {BIOME_AREAS,BIOME_ENEMIES,BIOME_HUB_LAYOUTS} from './biome-content.js?v=27';
-import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=27';
-import {V8_AREAS,V8_ZONES,V8_ENEMIES} from './v8-content.js?v=27';
-import {HUB_LAYOUTS} from './hub-layouts.js?v=27';
+import {WANDERING_FLOORS,WANDERING_EXTENSIONS} from './hub-wandering-content.js?v=29';
+import {QUARTER_AREAS,QUARTER_GATES} from './safe-exploration-content.js?v=29';
+import {NATURE_AREAS,NATURE_ENEMIES} from './nature-content.js?v=29';
+import {CREATURE_ENEMIES} from './creature-content.js?v=29';
+import {BIOME_AREAS,BIOME_ENEMIES,BIOME_HUB_LAYOUTS} from './biome-content.js?v=29';
+import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=29';
+import {V8_AREAS,V8_ZONES,V8_ENEMIES} from './v8-content.js?v=29';
+import {HUB_LAYOUTS} from './hub-layouts.js?v=29';
 export const WORLD = { width: 1920, height: 1280 };
 export const SPELLS = {
   tide: { name: 'Getijdenwaaier', short: 'GETIJ', color: '#73e2e5', dark: '#126c8b', key: '1', damage: 13, cost: 4, interval: .22, speed: 780, radius: 11, status: 'wet', description: 'Drie waterbogen waaieren uit en maken doelen NAT. Wissel naar storm voor kettingbliksem.' },
@@ -998,3 +999,8 @@ AREAS.push(...NATURE_AREAS);Object.assign(ENEMIES,NATURE_ENEMIES);Object.assign(
 
 AREAS.push(...QUARTER_AREAS);Object.assign(AREA_BY_ID,Object.fromEntries(QUARTER_AREAS.map(a=>[a.id,a])));
 Object.assign(HUB_LAYOUTS.highway.portals,QUARTER_GATES.highway);
+
+// Garden promenades replace the former narrow floors on repainted maps.
+const nativeFloor=poly=>poly.map(([x,y])=>[x/1536,y/1024]);
+for(const [id,polygons]of Object.entries(WANDERING_FLOORS)){AREA_BY_ID[id].file=id+'-route-wandering-v86.webp';AREA_BY_ID[id].nav=polygons.map(nativeFloor);}
+for(const [id,polygons]of Object.entries(WANDERING_EXTENSIONS))AREA_BY_ID[id].nav.push(...polygons.map(nativeFloor));

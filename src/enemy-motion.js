@@ -1,5 +1,7 @@
-import {surface,freezeSurface} from './render-cache.js?v=27';
+import {surface,freezeSurface} from './render-cache.js?v=29';
+import {advanceFeedback} from './combat-feedback.js?v=29';
 export function updateEnemyMotion(e,dx,dy,dt){
+ advanceFeedback(e,dt);
  const moved=Math.hypot(dx,dy/.78),walking=moved>dt*3&&!e.leap&&!e.rush&&!e.burrow;
  e.faceHold=Math.max(0,(e.faceHold||0)-dt);
  if(walking){e.walkDistance=(e.walkDistance||0)+moved;if(Math.abs(dx)>dt*12&&e.faceHold<=0){const face=dx<0?-1:1;if(face!==e.travelFacing)e.faceHold=.18;e.travelFacing=face;}}
@@ -10,7 +12,7 @@ export function enemyPose(e,time=0){
  if(e.type==='hunter'&&e.windup?.mode==='huntShots')return {frame:1,blend:0};
  if(e.type==='hunter'&&e.attackRelease>0&&e.lastAttack==='huntShots')return {frame:3,blend:0};
  if(e.windup){const elapsed=e.windup.total-e.windup.timer;if(Number.isFinite(elapsed)&&elapsed<.12)return {frame:0,next:4,blend:Math.max(0,elapsed/.12)};return {frame:4,blend:0};}
- if(e.attackRelease>0){if(e.attackRelease<.12)return {frame:5,next:0,blend:1-e.attackRelease/.12};return {frame:5,blend:0};}
+ if(e.attackRelease>0){const elapsed=.32-e.attackRelease;if(elapsed<.055)return {frame:4,next:5,blend:Math.max(0,elapsed/.055)};if(e.attackRelease<.11)return {frame:5,next:0,blend:1-e.attackRelease/.11};return {frame:5,blend:0};}
  const phase=e.type==='stormnest'?time*1.2:(e.walkDistance||0)/155*4;
  if(!(e.motionBlend>.05)&&e.type!=='stormnest')return {frame:0,blend:0};
  return {frame:Math.floor(phase)%4,blend:phase%1};

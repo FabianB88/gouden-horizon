@@ -1,5 +1,5 @@
-import {equipmentAppearance} from './appearance.js?v=27';
-import {freezeSurface} from './render-cache.js?v=27';
+import {equipmentAppearance} from './appearance.js?v=29';
+import {freezeSurface} from './render-cache.js?v=29';
 // Painted bind poses retain the eight camera directions. Both legs are driven
 // by opposite foot contacts. Traced cloth masks remove the bind-pose legs,
 // while preserving the coat. Short, forward knee paths avoid lateral IK bends.
@@ -38,13 +38,24 @@ export const WALK_STRIDE=18;
 export const FOOT_STANCE=.375;
 export function footCycle(phase){return [0,1].map(i=>{const t=((phase+i*.5)%1+1)%1;if(t<FOOT_STANCE)return {advance:1-t*2/FOOT_STANCE,lift:0,planted:true};const u=(t-FOOT_STANCE)/(1-FOOT_STANCE),s=u*u*(3-2*u);return {advance:-1+2*s,lift:Math.sin(u*Math.PI),planted:false};});}
 export function heroRigPose(r,direction,p={}){const mirrored=direction>=5,index=mirrored?8-direction:direction,name=directions[index],appearance=equipmentAppearance(p),gear=r.heroGearCrop?.styles[appearance.armor],frame=gear?gear[index]:r.heroDirectionalCrop.directions[name][2],rig=frame.rig||spec[name];return {mirrored,index,name,rig,frame,appearance,scale:gear?r.heroGearCrop.scale:r.heroDirectionalCrop.scale,image:gear?r.assets['hero-'+appearance.armor]:r.assets.heroDirectional};}
-export function prepareHeroRig(r){for(let d=0;d<5;d++){const {name,rig,frame,image}=heroRigPose(r,d),[,,w,h]=frame.bounds,px=q=>[q[0]*w,q[1]*h];rasterParts(r,name,frame,frame.leg||rig.leg.map(px),frame.other||rig.other.map(px),image,rig);}}
-export function heroBodyMotion(p,index){const phase=(p.walkDistance||0)/WALK_CYCLE_DISTANCE,blend=p.visualMotionBlend??(p.moving?(p.walkBlend??1):0),dirX=Math.cos(index*Math.PI/4+Math.PI/2);return {x:(Math.sin(phase*Math.PI*2)*.8+dirX*1.4)*blend,y:-Math.abs(Math.sin(phase*Math.PI*2))*1.2*blend,rotation:blend*(.04*dirX+Math.sin(phase*Math.PI*2)*.025)+Math.sin(Math.min(1,(p.cast||0)/.18)*Math.PI)*.035};}
+export async function prepareHeroRig(r){
+ // Warm the twenty coat/direction cutouts during loading, yielding between
+ // coats. Equipping an item or turning never needs a cold pixel-mask pass.
+ for(const armor of ['light','heavy','filter','storm']){for(let d=0;d<5;d++){const {name,rig,frame,image}=heroRigPose(r,d,{equipment:{suit:{appearance:armor}}}),[,,w,h]=frame.bounds,px=q=>[q[0]*w,q[1]*h];rasterParts(r,name,frame,frame.leg||rig.leg.map(px),frame.other||rig.other.map(px),image,rig);}await new Promise(resolve=>setTimeout(resolve,0));}
+}
+export function heroBodyMotion(p,index){
+ const phase=(p.walkDistance||0)/WALK_CYCLE_DISTANCE*2*Math.PI,blend=p.visualMotionBlend??(p.moving?(p.walkBlend??1):0),angle=index*Math.PI/4+Math.PI/2,dx=Math.cos(angle),dy=Math.sin(angle)*.78;
+ // Alternating foot contacts carry the hips; shoulders counter the step.
+ // A cast briefly shifts weight away from the staff, then settles. Feet stay
+ // on the same planted cycle, including while moving and casting together.
+ const cast=Math.min(1,(p.cast||0)/.18),recoil=Math.sin(cast*Math.PI)*1.8;
+ return {x:(Math.sin(phase)*.65+dx*.9)*blend-dx*recoil,y:-Math.abs(Math.sin(phase))*1.05*blend-dy*recoil*.4,rotation:blend*(dx*.025-Math.sin(phase)*.018)-dx*recoil*.012};
+}
 export function drawRiggedHero(r,p,direction,alpha=1){
  const {mirrored,index,name,rig,frame,scale,image,appearance}=heroRigPose(r,direction,p),c=r.ctx,[sx,sy,w,h]=frame.bounds,px=q=>[q[0]*w,q[1]*h],H=px(rig.h),K=px(rig.k),F=px(rig.f),leg=frame.leg||rig.leg.map(px),other=frame.other||rig.other.map(px),parts=rasterParts(r,name,frame,leg,other,image,rig);
  const phase=(p.walkDistance||0)/WALK_CYCLE_DISTANCE,cycle=footCycle(phase),angle=index*Math.PI/4+Math.PI/2,dir=[Math.cos(angle),Math.sin(angle)*.78],blend=p.visualMotionBlend??(p.moving?(p.walkBlend??1):0),bodyMotion=heroBodyMotion(p,index),bob=bodyMotion.y;
  const segment=(a,b,A,B,image)=>{c.save();c.translate(...A);c.rotate(Math.atan2(B[1]-A[1],B[0]-A[0]));c.scale(Math.hypot(B[0]-A[0],B[1]-A[1])/Math.hypot(b[0]-a[0],b[1]-a[1]),1);c.rotate(-Math.atan2(b[1]-a[1],b[0]-a[0]));c.translate(-a[0],-a[1]);c.drawImage(image,0,0);c.restore();};
- c.save();c.globalAlpha=alpha;c.translate(p.x,p.y);c.scale(mirrored?-scale:scale,scale);c.translate(-H[0],-frame.anchor[1]*h);
+ c.save();c.globalAlpha*=alpha;c.translate(p.x,p.y);c.scale(mirrored?-scale:scale,scale);c.translate(-H[0],-frame.anchor[1]*h);
  for(const i of [1,0]){const side=(i?-1:1)*5/scale,contact=cycle[i],hip=[H[0]+side,H[1]+bob/scale],foot=[H[0]+side+(F[0]-H[0])*.28+dir[0]*contact.advance*WALK_STRIDE/scale*blend,frame.anchor[1]*h+dir[1]*contact.advance*WALK_STRIDE/scale*blend-contact.lift*4/scale*blend],joint=[hip[0]+(foot[0]-hip[0])*.48+dir[0]*contact.lift*3/scale*blend,hip[1]+(foot[1]-hip[1])*.48-contact.lift*1.5/scale*blend];c.save();if(i)c.globalAlpha*=.88;segment(H,K,hip,joint,parts.thigh);segment(K,F,joint,foot,parts.calf);c.restore();}
  c.save();c.translate(bodyMotion.x/scale,bodyMotion.y/scale);c.translate(...H);c.rotate(bodyMotion.rotation);c.translate(-H[0],-H[1]);c.drawImage(parts.body,0,0);if(frame.grip){drawEquipmentParts(r,p,index,frame,appearance,'weapon');drawWeaponHand(c,parts.body,frame);}if(frame.head)drawEquipmentParts(r,p,index,frame,appearance,'helmet');c.restore();c.restore();
 }

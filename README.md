@@ -1,7 +1,29 @@
 # Gouden Horizon — Aurelia
 
 
-**v8.4.0 — De verloren wijken**
+**v8.6.0 — Ruimte om te dwalen**
+
+Getijdenkade en de Groene Corridor hebben nieuwe geschilderde kaarten met brede, verbonden zijpaden, tuinen en rustige pleintjes. De handelaren en kisten zijn verdeeld over die ruimtes. Milo staat aan het begin op het zijpleintje bij de kas, bereikbaar vanaf de stenen hoofdroute. Hij staat daardoor niet meer midden in de promenade.
+
+Ook Vrijhaven, Horizonpost, Onderstation, Koelhof en Lantaarnwoud hebben extra beloopbare zijruimtes. In alle acht veilige handelsposten liggen per expeditie twee tot vier kleine hoopjes schroot. Loop eroverheen om ze op te pakken, ook met een volle rugzak. De vroege posten betalen samen maximaal 24 schroot per post; latere maximaal 28 of 36. De posities verschillen per nieuwe expeditie. Opnieuw bezoeken, laden of een checkpoint gebruiken vult gevonden hoopjes niet opnieuw aan. Vondsten geven geen gratis leven, XP of uitrusting.
+
+Deze ZIP bevat de volledige zelfstandige bronversie, inclusief artwork, geluidscode, tests en hostingbestanden. Pak hem uit en voer `npm start` uit met Node.js; open daarna **http://localhost:8080**. Voor GitHub Pages of Render staan de stappen verderop. De bron-ZIP is v8.6.0; de bestaande testsite is deze ronde niet bijgewerkt.
+
+Looproutes worden gecontroleerd met gewone acht-richtingstoetsen, ook terug vanaf de zijpaden. De nieuwe artprompts staan in `assets/V86-ART-PROMPTS.json`; controles staan in `qa/wandering-tests.mjs` en `qa/V86-VALIDATION.md`.
+
+Eerder: **v8.5.0 — Gevecht & beweging gepolijst**
+
+De held draagt zijn passen met subtielere rompbeweging, kortere vloeiende richtingswissels en een korte gewichtsverplaatsing bij het casten. Alle mantelrichtingen worden tijdens laden voorbereid, zodat draaien of omkleden geen nieuwe pixelmaskers hoeft te berekenen.
+
+Treffers geven een korte zichtbare reactie, kleine geschilderde vonken en elementgebonden geluid. Kritieke treffers hebben een eigen accent. Vijanden vervagen kort wanneer ze vallen. Deze reacties zijn visueel: ze verschuiven geen echte posities en voegen geen gratis stun toe.
+
+Melee-vijanden kiezen kleine aparte aanlooplijnen; schutters houden stabielere afstand. Een ruimtelijk raster verdeelt de burencontroles. Schade, levens, aanvalsklokken, consumables en droptabellen blijven gelijk. Gevaarlijke aanvalsranden hebben meer contrast; eigen wolken, ijs en wervels dekken minder van het slagveld af. Buiten beeld worden projectielen en effecten overgeslagen; bij drukte worden decoratieve deeltjes en trailsegmenten verminderd.
+
+Rugzak én koopmenu tonen de gevolgen voor je totale build, waaronder het percentage maximaal leven dat één volledige gifinfectie kost. K en de spreukenhandel tonen de rol en basisschade met je eigen gear, inclusief spreukvarianten. Deze getallen zijn vóór kritieke treffers, combo’s en vijandbescherming; gebiedsspreuken geven schade per puls/krater aan.
+
+Achter het titelbeeld en stilstaande menu’s tekent de wereld niet voortdurend verder. Resizen en nieuwe resultaatbeelden worden wel verwerkt. **Instellingen → Laatste spelmoment** toont je echte browser-FPS, framevertraging en aandeel trage frames. Menu’s tellen niet mee. Meetdetails en beperkingen staan in `qa/V85-VALIDATION.md`.
+
+Eerder: **v8.4.0 — De verloren wijken**
 
 Praat in **Vrijhaven** met **Milo (F)** en neem *De verloren wijken* aan. Drie verspreide verkenningspoorten verbinden de stad met nieuwe geschilderde locaties: **De Hangende Tuinen**, **De Stille Woningen** en **Het Verborgen Atelier**. Tuinen en woningen zijn ook onderling verbonden. Brede vloeren, zijkamers en acht onderzoekplekken bieden verhalen, een kleine voorraad en eenmalige beloningen.
 

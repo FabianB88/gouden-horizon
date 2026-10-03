@@ -125,3 +125,13 @@
 
 /* The title content and footer each own their space, also on short screens. */
 .cover-copy{min-height:calc(100svh - 72px);padding-bottom:32px}.cover-copy>#cover-help{margin-top:22px;font-size:14px;line-height:1.5;min-height:32px}.cover-footer{position:relative;inset:auto;min-height:72px;padding:20px clamp(25px,6vw,110px);align-items:center;gap:18px;flex-wrap:wrap;font-size:12px;line-height:1.5;letter-spacing:.1em}#load-status[hidden]{display:none}
+
+/* Practical build feedback keeps the painted inventory easy to compare. */
+.build-impact{border-top:1px solid #b69b6540;margin-top:14px;padding-top:13px;text-align:left}
+.build-impact>strong,.performance-readout>b{color:#f1dcad;font-size:13px;letter-spacing:.04em}
+.build-impact dl{margin:9px 0;display:grid;gap:6px}.build-impact dl>div{display:flex;justify-content:space-between;gap:18px;font-size:12px}.build-impact dt{color:#b6c8c3}.build-impact dd{margin:0;color:#b6c8c3;font-variant-numeric:tabular-nums}.build-impact dd b{color:#f2dfb7}
+.build-impact small,.performance-readout small{display:block;color:#9db0aa;font-size:11px;line-height:1.5}
+.spell-role,.spell-damage{display:block;font-size:11px;line-height:1.45;margin:4px 0;color:#b8cec5}.spell-damage{color:#e7d5ae}
+.performance-readout{border:1px solid #b69b6540;background:#10201dcc;border-radius:10px;padding:16px;margin-top:18px}.performance-readout p{font-variant-numeric:tabular-nums;margin:8px 0;font-size:13px}
+@media(max-width:600px){.build-impact dl>div{gap:8px}.build-impact dt{max-width:55%}}
+.market-build{margin:12px 0;padding:10px 12px;border-left:2px solid #c6a76b66;background:#14262288}.market-build>small{display:block;font-size:10px;color:#9cb7ad;line-height:1.5}

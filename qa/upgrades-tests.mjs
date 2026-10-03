@@ -16,7 +16,8 @@ function walkWithKeys(g,target){
  const p=g.state.player,id=g.state.area;
  // Plan with extra body clearance. Reach each bend before turning instead of
  // cutting it early; input remains ordinary discrete eight-direction keys.
- const path=findPath(p,target,id,35).length?findPath(p,target,id,35):findPath(p,target,id,26);assert(path.length,id+' inaccessible walking route');
+ const route=findPath(p,target,id,35).length?findPath(p,target,id,35):findPath(p,target,id,26);assert(route.length,id+' inaccessible walking route');
+ const path=[];let from={x:p.x,y:p.y};for(const end of route){const count=Math.ceil(distance(from,end)/70);for(let i=1;i<=count;i++)path.push({x:from.x+(end.x-from.x)*i/count,y:from.y+(end.y-from.y)*i/count});from=end;}
  for(const point of path){let frames=0;while(distance(p,point)>6&&frames++<2400){const a=Math.round(Math.atan2((point.y-p.y)/.78,point.x-p.x)/(Math.PI/4))*Math.PI/4;g.update(1/60,{x:Math.round(Math.cos(a)),y:Math.round(Math.sin(a))});}assert(frames<2400,id+' blocked keyboard approach');}
  assert(distance(p,target)<8);
 }
@@ -45,7 +46,7 @@ test('All hub side vendors and both crates are reachable with ordinary eight-dir
 test('Both painted quay stair entrances accept left, centre and right approaches without pathfinding',()=>{
  // Fixed S / S+D key presses across the actual painted stairs, including the
  // eastern stairhead formerly cut off by the rectangular end of the road.
- for(const [x,y]of [[1495,325],[1525,320],[1560,315],[1040,560],[1075,545],[1110,545]]){
+ for(const [x,y]of [[1196,260],[1220,256],[1248,252],[855,430],[880,430],[905,430]].map(([x,y])=>[x*1.25,y*1.25])){
   const g=new Engine(),p=g.state.player;Object.assign(p,{x,y,velocity:{x:0,y:0}});assert(canStand(x,y,18,'canal'),'painted stairhead is blocked');
   for(let i=0;i<60;i++){g.update(1/60,{x:i%5<2?1:0,y:1});assert(canStand(p.x,p.y,18,'canal'));}
   assert(p.y-y>125,'stair descent is blocked');assert(p.x-x>45&&p.x-x<85,'stair descent needs an exact approach');

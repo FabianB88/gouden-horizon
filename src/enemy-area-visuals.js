@@ -1,4 +1,4 @@
-import {attackProfile,ELEMENT_COLORS} from './enemy-combat.js?v=27';
+import {attackProfile,ELEMENT_COLORS} from './enemy-combat.js?v=29';
 const TAU=Math.PI*2;
 const clamp=n=>Math.max(0,Math.min(1,n));
 const alpha=n=>Math.round(clamp(n)*255).toString(16).padStart(2,'0');
@@ -19,6 +19,7 @@ export const EnemyAreaVisuals={
   const color=ELEMENT_COLORS[element]||ELEMENT_COLORS.fire,c=this.ctx;u=clamp(u);
   // The outer edge always matches the damage footprint. The bright perimeter
   // fills clockwise as the attack approaches; decorative art stays inside it.
+  this.ellipse(x,y,r,r/1.15,null,'#172525a0',4);
   this.ellipse(x,y,r,r/1.15,color+alpha(.045+.075*u),color+alpha(.55+.3*u),2);
   c.save();c.translate(x,y);c.scale(1,1/1.15);
   for(let i=0;i<12;i++){const a=i*TAU/12-.08;c.beginPath();c.arc(0,0,r,a,a+.24);c.strokeStyle=color+alpha(.25+.5*u);c.lineWidth=3;c.stroke();}

@@ -1,5 +1,6 @@
-import {ENEMIES} from './data.js?v=27';
-import {coverHit} from './arena-layouts.js?v=27';
+import {trailStep} from './frame-performance.js?v=29';
+import {ENEMIES} from './data.js?v=29';
+import {coverHit} from './arena-layouts.js?v=29';
 
 export const ELEMENT_COLORS={water:'#6be6ee',fire:'#ff994c',storm:'#c5a0ff',toxin:'#bbdf49',solar:'#ffd371',metal:'#e9b77d'};
 const elements={mossback:'metal',sunnewt:'fire',windowl:'water',crownbear:'solar',prismhorn:'solar',mistprowler:'water',stormtoad:'storm',glassscorpion:'toxin',dustskirmisher:'metal',slagcarrier:'fire',dunebreaker:'metal',pressurediver:'water',rimedrone:'water',furnacegunner:'fire',deepwarden:'water',towerwarden:'fire',bulwark:'solar',plaguewright:'toxin',hunter:'metal',repairer:'metal',tideleviathan:'water',solararchitect:'solar',drone:'metal',raider:'fire',beast:'toxin',turret:'storm',boss:'solar',crawler:'metal',sniper:'metal',sentinel:'fire',sporecaster:'toxin',stormling:'storm',siege:'fire',minecrab:'metal',resonant:'storm',brinebreaker:'water',eel:'water',salamander:'fire',shieldguard:'solar',stormnest:'storm',dredger:'water',solarKnight:'solar',seedheart:'toxin',toxinbeetle:'toxin',chemist:'toxin'};
@@ -14,7 +15,7 @@ export function enemyAttackMotion(e){
  const profile=attackProfile(e),dir=e.windup?.dir||e.attackDirection||{x:0,y:0};let push=0,rotation=0,squash=0;
  if(e.windup){const u=1-e.windup.timer/e.windup.total;push=-(profile.melee?7:4)*u;rotation=-dir.x*(profile.melee?.07:.025)*u;squash=Math.sin(u*Math.PI)*.035;}
  else if(e.attackRelease>0){const pulse=Math.sin((1-e.attackRelease/.32)*Math.PI);push=(profile.melee?12:-7)*pulse;rotation=dir.x*(profile.melee?.11:-.045)*pulse;squash=pulse*.025;}
- return {x:dir.x*push,y:dir.y*push/1.15,rotation,squash};
+ const hit=impactMotion(e);return {x:dir.x*push+hit.x,y:dir.y*push/1.15+hit.y,rotation:rotation+hit.rotation,squash};
 }
 export function launchEnemyLob(g,e,target,{duration=.55,damage=0,radius=70,poison=false,carrier=false,element=attackProfile(e).element}={}){
  const origin=enemyMuzzle(e);g.state.projectiles.push({id:++g.idCounter,team:'enemy',type:carrier?'enemy-carrier':'enemy-lob',source:e.id,element,color:ELEMENT_COLORS[element],x:origin.x,y:origin.y,origin,end:{...target},duration,age:0,life:duration+.1,flightHeight:0,radius:10,impactRadius:radius,damage,venom:poison,trail:[]});
@@ -49,8 +50,8 @@ export const EnemyCombatVisuals={
  drawEnemyLanding(s){for(const b of s.projectiles){if(b.type!=='enemy-lob')continue;this.areaWarning(b.end.x,b.end.y,b.impactRadius,Math.min(1,b.age/b.duration),b.element);}},
  drawEnemyProjectile(b){
   if(b.team!=='enemy')return false;const element=b.element||(b.venom?'toxin':'metal'),color=ELEMENT_COLORS[element],y=b.y-(b.flightHeight||0),angle=b.origin?Math.atan2(b.end.y-b.origin.y,b.end.x-b.origin.x):Math.atan2(b.vy,b.vx),size=element==='metal'?19:element==='solar'?23:31;
-  for(let i=1;i<b.trail.length;i++)this.line(b.trail[i-1],b.trail[i],color+Math.round(i/b.trail.length*100).toString(16).padStart(2,'0'),element==='metal'?2:4);
-  if(b.flightHeight)this.ellipse(b.x,b.y,9,4,'#0c202650');this.glow(b.x,y,18,color,.22);this.combatSprite(element,Math.floor(b.age*12)%2,b.x,y,size,angle);return true;
+  for(let i=1;i<b.trail.length;i+=trailStep(this.visualLoad))this.line(b.trail[i-1],b.trail[i],color+Math.round(i/b.trail.length*100).toString(16).padStart(2,'0'),element==='metal'?2:4);
+  if(b.flightHeight)this.ellipse(b.x,b.y,9,4,'#0c202650');this.ellipse(b.x,y,Math.max(5,b.radius*.8),Math.max(4,b.radius*.55),'#142425b0',color+'df',1.5);this.glow(b.x,y,18,color,.18);this.combatSprite(element,Math.floor(b.age*12)%2,b.x,y,size,angle);return true;
  },
  drawEnemyThreat(t){
   if(!t.element)return false;const color=ELEMENT_COLORS[t.element];
@@ -70,3 +71,4 @@ export const EnemyCombatVisuals={
   return false;
  }
 };
+import {impactMotion} from './combat-feedback.js?v=29';

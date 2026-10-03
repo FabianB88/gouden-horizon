@@ -1,0 +1,89 @@
+{
+  "method": "Native CPU Canvas, 1920x1080, 130 frames per fixture, first 20 discarded; not browser FPS",
+  "v84": [
+    {
+      "id": "welcome",
+      "medianMs": 3.31,
+      "p95Ms": 4.87,
+      "coldMs": 37.95,
+      "totalsMs": {
+        "drawHazards": 0,
+        "drawTelegraphs": 0,
+        "drawPlayer": 1.44,
+        "drawAtmosphere": 0.19,
+        "drawMinimap": 0.16
+      }
+    },
+    {
+      "id": "city",
+      "medianMs": 1.69,
+      "p95Ms": 3.48,
+      "coldMs": 25.75,
+      "totalsMs": {
+        "drawHazards": 0,
+        "drawTelegraphs": 0,
+        "drawPlayer": 0.53,
+        "drawAtmosphere": 0.11,
+        "drawMinimap": 0.13
+      }
+    },
+    {
+      "id": "combat",
+      "medianMs": 2.53,
+      "p95Ms": 3.81,
+      "coldMs": 15.29,
+      "totalsMs": {
+        "drawHazards": 0.07,
+        "drawTelegraphs": 0,
+        "drawEnemy": 0.5,
+        "drawPlayer": 0.38,
+        "drawEffect": 0.85,
+        "drawAtmosphere": 0.09,
+        "drawMinimap": 0.17
+      }
+    }
+  ],
+  "v85": [
+    {
+      "id": "welcome",
+      "medianMs": 3.15,
+      "p95Ms": 4.25,
+      "coldMs": 31.4,
+      "totalsMs": {
+        "drawHazards": 0,
+        "drawTelegraphs": 0,
+        "drawPlayer": 1.44,
+        "drawAtmosphere": 0.23,
+        "drawMinimap": 0.14
+      }
+    },
+    {
+      "id": "city",
+      "medianMs": 1.81,
+      "p95Ms": 3.78,
+      "coldMs": 22.49,
+      "totalsMs": {
+        "drawHazards": 0,
+        "drawTelegraphs": 0,
+        "drawPlayer": 0.57,
+        "drawAtmosphere": 0.12,
+        "drawMinimap": 0.14
+      }
+    },
+    {
+      "id": "combat",
+      "medianMs": 2.42,
+      "p95Ms": 3.97,
+      "coldMs": 15.17,
+      "totalsMs": {
+        "drawHazards": 0.08,
+        "drawTelegraphs": 0,
+        "drawEnemy": 0.59,
+        "drawPlayer": 0.41,
+        "drawEffect": 0.65,
+        "drawAtmosphere": 0.11,
+        "drawMinimap": 0.19
+      }
+    }
+  ]
+}

@@ -40,7 +40,9 @@ export function simulate(seed=48,discipline='tide',maxSeconds=1800,options={}){
   }
   if(options.useCompanions!==false&&p.skills.includes('summon')&&!s.summons?.length&&!g.inCamp())g.cast('summon');
   if(p.venom>0)g.useAntidote();
-  if(p.hp<g.stats().maxHp*.52&&g.heal())heals++;
+  // Boss volleys can land several hits before the next bandage cooldown.
+  const healingThreshold=w.enemies.some(e=>!e.dead&&e.awake&&ENEMIES[e.type].boss) ? .68 : .52;
+  if(p.hp<g.stats().maxHp*healingThreshold&&g.heal())heals++;
   const nearby=w.enemies.filter(e=>!e.dead&&e.awake).sort((a,b)=>distance(p,a)-distance(p,b));
   const enemy=nearby[0];let goal=null,move={x:0,y:0};
   if(enemy){

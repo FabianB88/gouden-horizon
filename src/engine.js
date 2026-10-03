@@ -1,43 +1,44 @@
-import {QuarterRules} from './safe-exploration.js?v=27';
-import {NatureRules,tuneNatureEnemy} from './nature-region.js?v=27';
-import {CompanionUpgradeRules} from './companion-upgrades.js?v=27';
-import {summonAvailable,summonUnlockLevel} from './summon-progression.js?v=27';
-import {CreatureRules} from './creatures.js?v=27';
-import {V8ExpeditionRules,tuneV8Enemy} from './v8-expedition.js?v=27';
-import {tacticalMovement,smoothEnemyVelocity} from './enemy-ai.js?v=27';
-import {BiomeRules,tuneBiomeEnemy} from './biomes.js?v=27';
-import {rollChaseItem,chaseRandom} from './chase-loot.js?v=27';
-import {AdventureRules} from './adventures.js?v=27';
-import {itemFitsSlot} from './equipment-slots.js?v=27';
-import {BossTerrainRules} from './boss-terrain.js?v=27';
-import {SpecializationRules,specializationStats} from './specializations.js?v=27';
-import {PremiumSpellRules} from './premium-spells.js?v=27';
-import {damageResistance} from './resistances.js?v=27';
-import {ItemMarkRules,protectedItem} from './item-marks.js?v=27';
-import {VariantRules,spellProfile,variantChoices} from './spell-variants.js?v=27';
-import {SummonRules} from './summons.js?v=27';
-import {UniqueRules} from './unique-items.js?v=27';
-import {V6EnemyRules} from './v6-enemies.js?v=27';
-import {CityRules} from './city.js?v=27';
-import {BountyRules} from './bounties.js?v=27';
-import { WORLD, SPELLS, ZONES, ENEMIES, EQUIPMENT, START_EQUIPMENT, UPGRADES, DISCIPLINES, POSITIONS, AREAS, AREA_BY_ID, HUB_IDS } from './data.js?v=27';
-import {StoryRules} from './story.js?v=27';
-import {planNewAttack,executeNewAttack,updateNewThreats} from './enemy-variety.js?v=27';
-import {scaleEnemy} from './balance.js?v=27';
-import {ExpeditionRules,REGION_CAMPS} from './expedition.js?v=27';
-import {makeItem,normalizePlayer,DROP_TABLES,dropProfile,salvageValue} from './loot.js?v=27';
-import {HubRules,SAFE_HUBS} from './hubs.js?v=27';
-import {REGIONAL_BOSSES,updateBossPhase,updateEncounterState} from './encounters.js?v=27';
-import {legendaryCast,legendaryDash,legendaryHit,legendaryKill,triggerLegendary,updateLegendary} from './legendary.js?v=27';
-import {updateHeroMotion,heroDirection,heroFrame} from './hero-motion.js?v=27';
-import {SurvivalRules,HEAL_COOLDOWN} from './survival.js?v=27';
-import {updateEnemyMotion} from './enemy-motion.js?v=27';
-import {GambleRules} from './gamble.js?v=27';
-import {presentEnemyAttack,launchEnemyLob,updateEnemyLob} from './enemy-combat.js?v=27';
-import {EndgameRules} from './endgame.js?v=27';
-import {MarketRules} from './markets.js?v=27';
-import {QuestRules} from './quests.js?v=27';
-import {arenaObstacles,blockedByObstacle,coverHit} from './arena-layouts.js?v=27';
+import {registerHit} from './combat-feedback.js?v=29';
+import {QuarterRules} from './safe-exploration.js?v=29';
+import {NatureRules,tuneNatureEnemy} from './nature-region.js?v=29';
+import {CompanionUpgradeRules} from './companion-upgrades.js?v=29';
+import {summonAvailable,summonUnlockLevel} from './summon-progression.js?v=29';
+import {CreatureRules} from './creatures.js?v=29';
+import {V8ExpeditionRules,tuneV8Enemy} from './v8-expedition.js?v=29';
+import {tacticalMovement,smoothEnemyVelocity,engagementGoal,EnemyCrowd,separationVector} from './enemy-ai.js?v=29';
+import {BiomeRules,tuneBiomeEnemy} from './biomes.js?v=29';
+import {rollChaseItem,chaseRandom} from './chase-loot.js?v=29';
+import {AdventureRules} from './adventures.js?v=29';
+import {itemFitsSlot} from './equipment-slots.js?v=29';
+import {BossTerrainRules} from './boss-terrain.js?v=29';
+import {SpecializationRules,specializationStats} from './specializations.js?v=29';
+import {PremiumSpellRules} from './premium-spells.js?v=29';
+import {damageResistance} from './resistances.js?v=29';
+import {ItemMarkRules,protectedItem} from './item-marks.js?v=29';
+import {VariantRules,spellProfile,variantChoices} from './spell-variants.js?v=29';
+import {SummonRules} from './summons.js?v=29';
+import {UniqueRules} from './unique-items.js?v=29';
+import {V6EnemyRules} from './v6-enemies.js?v=29';
+import {CityRules} from './city.js?v=29';
+import {BountyRules} from './bounties.js?v=29';
+import { WORLD, SPELLS, ZONES, ENEMIES, EQUIPMENT, START_EQUIPMENT, UPGRADES, DISCIPLINES, POSITIONS, AREAS, AREA_BY_ID, HUB_IDS } from './data.js?v=29';
+import {StoryRules} from './story.js?v=29';
+import {planNewAttack,executeNewAttack,updateNewThreats} from './enemy-variety.js?v=29';
+import {scaleEnemy} from './balance.js?v=29';
+import {ExpeditionRules,REGION_CAMPS} from './expedition.js?v=29';
+import {makeItem,normalizePlayer,DROP_TABLES,dropProfile,salvageValue} from './loot.js?v=29';
+import {HubRules,SAFE_HUBS} from './hubs.js?v=29';
+import {REGIONAL_BOSSES,updateBossPhase,updateEncounterState} from './encounters.js?v=29';
+import {legendaryCast,legendaryDash,legendaryHit,legendaryKill,triggerLegendary,updateLegendary} from './legendary.js?v=29';
+import {updateHeroMotion,heroDirection,heroFrame} from './hero-motion.js?v=29';
+import {SurvivalRules,HEAL_COOLDOWN} from './survival.js?v=29';
+import {updateEnemyMotion} from './enemy-motion.js?v=29';
+import {GambleRules} from './gamble.js?v=29';
+import {presentEnemyAttack,launchEnemyLob,updateEnemyLob} from './enemy-combat.js?v=29';
+import {EndgameRules} from './endgame.js?v=29';
+import {MarketRules} from './markets.js?v=29';
+import {QuestRules} from './quests.js?v=29';
+import {arenaObstacles,blockedByObstacle,coverHit} from './arena-layouts.js?v=29';
 export const clamp = (n,a,b) => Math.max(a,Math.min(b,n));
 export const distance = (a,b) => Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 export const normal = (x,y) => { const d=Math.hypot(x,y)||1;return {x:x/d,y:y/d}; };
@@ -306,12 +307,12 @@ export class Engine {
     if(element==='ember')enemy.burn=3*(1+(stats.burnTime||0));
     if(combo){enemy.comboCd=1.6;s.combos++;if(!this.executingUltimate)p.ultimate=Math.min(100,p.ultimate+4*(1+stats.comboCharge));this.number(enemy.x,enemy.y-15,combo,SPELLS[element].color,14);this.emit('combo',{element});}
     if(!this.executingUltimate)p.ultimate=Math.min(100,p.ultimate+Math.min(dealt,Math.max(0,enemy.hp+dealt))*.0325);this.number(enemy.x+(this.rng()-.5)*20,enemy.y,crit?Math.round(dealt)+'!':Math.round(dealt),crit?'#fff0a8':SPELLS[element]?.color||'#e6ecd4',crit?25:18);
-    this.effect('impact',enemy.x,enemy.y-25,{color:SPELLS[element]?.color||'#e8d7a1',radius:35,life:.26});this.emit('hit',{crit});
+    registerHit(enemy,p,dealt,element,crit,secondary,Boolean(ENEMIES[enemy.type].boss));this.effect('hit-spark',enemy.x,enemy.y-28,{element,crit,secondary,dir:{x:enemy.impact.x,y:enemy.impact.y},radius:crit?39:26,life:.18});this.emit('hit',{crit,element,heavy:dealt>=60,secondary});
     if(element==='storm'&&!secondary&&multiplier>1){const near=s.world.enemies.filter(e=>e!==enemy&&!e.dead&&distance(e,enemy)<210).sort((a,b)=>distance(a,enemy)-distance(b,enemy)).slice(0,2+stats.chain);for(const e of near){this.effect('chain',enemy.x,enemy.y-20,{end:{x:e.x,y:e.y-25},color:SPELLS.storm.color,life:.2});this.hitEnemy(e,damage*.55,'storm',true);}}
     legendaryHit(this,enemy,damage,element,secondary);if(enemy.hp<=0)this.killEnemy(enemy);
   }
   killEnemy(enemy) {
-    if(enemy.dead)return;enemy.dead=true;const s=this.state,p=s.player,base=ENEMIES[enemy.type];if(!enemy.noReward){s.kills++;p.xp+=base.xp*(enemy.elite?2:1);p.scrap+=AREA_BY_ID[s.area].extension?(base.boss?45:enemy.elite?16:5):base.boss?22:enemy.elite?9:2;if(!this.executingUltimate)p.ultimate=Math.min(100,p.ultimate+2);p.hp=Math.min(this.stats().maxHp,p.hp+this.stats().leech);}this.effect('death',enemy.x,enemy.y,{color:base.color,radius:75,life:.65});
+    if(enemy.dead)return;enemy.dead=true;enemy.deathVisualLife=.24;const s=this.state,p=s.player,base=ENEMIES[enemy.type];if(!enemy.noReward){s.kills++;p.xp+=base.xp*(enemy.elite?2:1);p.scrap+=AREA_BY_ID[s.area].extension?(base.boss?45:enemy.elite?16:5):base.boss?22:enemy.elite?9:2;if(!this.executingUltimate)p.ultimate=Math.min(100,p.ultimate+2);p.hp=Math.min(this.stats().maxHp,p.hp+this.stats().leech);}this.effect('death',enemy.x,enemy.y,{color:base.color,radius:75,life:.65});
     this.creatureDeath(enemy);legendaryKill(this,enemy);this.uniqueKill(enemy);if(enemy.noReward){if(s.world.trial){s.world.trial.kills++;if(enemy.trialEnemy)p.hp=Math.min(this.stats().maxHp,p.hp+this.stats().leech);}this.emit('kill');return;}
     const drop=this.dropGround(enemy);
     if(this.rng()<.10)s.world.pickups.push({id:++this.idCounter,x:drop.x,y:drop.y,type:'health',amount:15});
@@ -370,7 +371,12 @@ export class Engine {
     const enemyPositions=new Map(s.world.enemies.map(e=>[e.id,{x:e.x,y:e.y}]));this.updateEnemies(dt);
     for(const e of s.world.enemies){const old=enemyPositions.get(e.id)||e;updateEnemyMotion(e,e.x-old.x,e.y-old.y,dt);}
     this.updateProjectiles(dt);
-    for(const pickup of s.world.pickups){const d=distance(p,pickup);if(d<120){const v=normal(p.x-pickup.x,p.y-pickup.y);pickup.x+=v.x*210*dt;pickup.y+=v.y*170*dt;}if(d<30){pickup.collected=true;p.hp=Math.min(stats.maxHp,p.hp+pickup.amount);this.number(p.x,p.y,'+'+pickup.amount,'#b3edaa');}}
+    for(const pickup of s.world.pickups){const d=distance(p,pickup);
+      if(pickup.type==='scrap'){
+        if(d<32&&clearLine(p,pickup,s.area,0)){pickup.collected=true;p.scrap+=pickup.amount;this.number(p.x,p.y,'+'+pickup.amount+' schroot','#ffe0a0');this.emit('scrappickup',{amount:pickup.amount});}
+        continue;
+      }
+      if(d<120){const v=normal(p.x-pickup.x,p.y-pickup.y);pickup.x+=v.x*210*dt;pickup.y+=v.y*170*dt;}if(d<30){pickup.collected=true;p.hp=Math.min(stats.maxHp,p.hp+pickup.amount);this.number(p.x,p.y,'+'+pickup.amount,'#b3edaa');}}
     s.world.pickups=s.world.pickups.filter(item=>!item.collected);
     for(const r of s.world.relays){if(r.status==='defending'&&!s.world.enemies.some(e=>!e.dead&&e.relayId===r.id)){if(r.wave<2){r.wave++;this.spawnRelayWave(r);continue;}r.status='online';this.effect('relay',r.x,r.y,{color:'#96eedc',radius:180,life:1.4});this.notice('Station '+r.id+' online · bron hersteld','#a2ebd9');this.emit('relaydone');s.world.loot.push({id:++this.idCounter,x:r.x+75,y:r.y+65,type:'loot',profile:'station'});
       const local=s.world.hazards.filter(h=>h.life===undefined&&!h.cleared).sort((a,b)=>distance(a,r)-distance(b,r))[0];if(local){local.cleared=true;this.effect('relay',local.x,local.y,{color:'#96eedc',radius:local.r,life:1.2});}
@@ -403,7 +409,7 @@ export class Engine {
     p.heat=Math.max(0,p.heat-dt*.15);s.world.hazards=s.world.hazards.filter(h=>!h.cleared||h.life===undefined);
   }
   updateEnemies(dt) {
-    const s=this.state,p=s.player;
+    const s=this.state,p=s.player,crowd=new EnemyCrowd(s.world.enemies);
     for(const e of s.world.enemies){if(e.dead)continue;const base=ENEMIES[e.type];if(this.inCamp(e)&&e.home){e.x=e.home.x;e.y=e.home.y;}if(this.inCamp()){e.windup=null;e.leap=null;e.rush=null;e.jumpHeight=0;e.move=false;e.awake=false;continue;}e.anim+=dt;e.hurt=Math.max(0,e.hurt-dt);e.wet=Math.max(0,e.wet-dt);e.stun=Math.max(0,e.stun-dt);e.frozen=Math.max(0,(e.frozen||0)-dt);e.resolve=Math.max(0,(e.resolve||0)-dt);e.comboCd=Math.max(0,(e.comboCd||0)-dt);e.slow=Math.max(0,(e.slow||0)-dt);
       if(e.burn>0){e.burn=Math.max(0,e.burn-dt);e.hp-=dt*7;if(e.hp<=0){this.killEnemy(e);continue;}}
       if(e.leap){const leap=e.leap;leap.age+=dt;const t=clamp(leap.age/.32,0,1);e.x=leap.from.x+(leap.to.x-leap.from.x)*t;e.y=leap.from.y+(leap.to.y-leap.from.y)*t;e.jumpHeight=Math.sin(t*Math.PI)*68;
@@ -416,7 +422,7 @@ export class Engine {
       if(e.burrow&&updateEncounterState(this,e,dt))continue;updateBossPhase(this,e);
       if(e.windup){e.steerX=e.steerY=0;e.windup.timer-=dt;if(e.windup.timer<=0){this.executeEnemyAttack(e);e.windup=null;e.cd=(base.boss?(e.phase===3?1.15:1.7):e.type==='rimedrone'?1.6:e.type==='raider'?1.4:e.type==='beast'?1.8:2.2)*(e.cooldownMultiplier||1);}continue;}
       const obstructed=(AREA_BY_ID[s.area].kind==='route'||arenaObstacles(s.area).length)&&!clearLine(e,p,s.area,e.radius);
-      let goal=p;if(obstructed){e.pathCd=(e.pathCd||0)-dt;if(e.pathCd<=0){e.path=findPath(e,p,s.area,e.radius);e.pathCd=.7;}if(e.path?.length){if(distance(e,e.path[0])<12)e.path.shift();goal=e.path[0]||p;}}
+      let goal=engagementGoal(e,p,base);if(obstructed){e.pathCd=(e.pathCd||0)-dt;if(e.pathCd<=0){e.path=findPath(e,p,s.area,e.radius);e.pathCd=.7;}if(e.path?.length){if(distance(e,e.path[0])<12)e.path.shift();goal=e.path[0]||p;}}
       const dir=normal(goal.x-e.x,(goal.y-e.y)*(AREA_BY_ID[s.area].kind==='route'?1/.78:1.15));e.angle=Math.atan2(dir.y,dir.x);
       const attackRange=e.type==='crawler'&&(e.attacks||0)%2===1?280:e.type==='sentinel'&&(e.attacks||0)%2===1?360:e.type==='minecrab'&&(e.attacks||0)%2===1?220:base.range;
       if(e.cd<=0&&dist<attackRange&&(!arenaObstacles(s.area).length||!coverHit(e,p,s.area))){this.planAttack(e);continue;}
@@ -426,11 +432,11 @@ export class Engine {
       else if(e.type==='drone'||base.role==='orbit'||base.role==='ranged'){const orbit=(e.id%2?1:-1)*(e.type==='drone'&&Math.floor(e.anim/2)%2?-1:1);if(dist>(base.role==='ranged'?440:290)){mx=dir.x;my=dir.y;}else if(dist<(base.role==='ranged'?260:160)){mx=-dir.x;my=-dir.y;}else{mx=-dir.y*.7*orbit;my=dir.x*.7*orbit;}}
       else if(e.type==='siege'){if(dist>380){mx=dir.x;my=dir.y;}}
       else if(e.type!=='turret'&&dist>(e.type==='boss'?280:75)){mx=dir.x;my=dir.y;}
-      const tactic=tacticalMovement(e,dir,dist,dt);if(tactic){mx=tactic.x;my=tactic.y;}
+      const tactic=tacticalMovement(e,dir,dist,dt,base);if(tactic){mx=tactic.x;my=tactic.y;}
       if(obstructed&&goal!==p){mx=dir.x;my=dir.y;}
-      const velocity=smoothEnemyVelocity(e,mx,my,dt);
+      const neighbors=crowd.near(e),space=separationVector(e,neighbors),steering=Math.max(1,Math.hypot(mx+space.x,my+space.y));const velocity=smoothEnemyVelocity(e,(mx+space.x)/steering,(my+space.y)/steering,dt);
       if(Math.abs(velocity.x)+Math.abs(velocity.y)>.01){this.moveEntity(e,velocity.x*base.speed*(e.speedMultiplier||1)*(e.slow?.45:1)*dt,velocity.y*base.speed*(e.speedMultiplier||1)*(e.slow?.45:1)*.78*dt);e.move=true;}
-      for(const other of s.world.enemies){if(other===e||other.dead)continue;const dd=distance(e,other),min=e.radius+other.radius;if(dd>0&&dd<min){const push=normal(e.x-other.x,e.y-other.y);this.moveEntity(e,push.x*25*dt,push.y*20*dt);}}
+      for(const other of neighbors){const dd=distance(e,other),min=e.radius+other.radius;if(dd>0&&dd<min){const push=normal(e.x-other.x,e.y-other.y);this.moveEntity(e,push.x*25*dt,push.y*20*dt);}}
     }
   }
   planAttack(enemy) {

@@ -8,7 +8,8 @@ export function surface(width,height){
 }
 export function freezeSurface(canvas){return canvas.transferToImageBitmap?.()||canvas;}
 export class RenderCache{
- constructor(){this.sprites=new WeakMap();this.labels=new Map();this.glows=new Map();this.vignette=null;this.mini=null;}
+ constructor(){this.sprites=new WeakMap();this.clouds=new WeakMap();this.labels=new Map();this.glows=new Map();this.vignette=null;this.mini=null;}
+ cloud(image,source){let variants=this.clouds.get(image);if(!variants){variants=new WeakMap();this.clouds.set(image,variants);}if(variants.has(source))return variants.get(source);const[x,y,w,h]=source.bounds,height=Math.round(h*.62),canvas=surface(w,height),c=canvas.getContext('2d');for(let row=0;row<height;row+=8){const band=Math.min(8,height-row);c.globalAlpha=Math.min(1,(height-row)/(height*.35));c.drawImage(image,x,y+row,w,band,0,row,w,band);}const result=freezeSurface(canvas);variants.set(source,result);return result;}
  sprite(image,source,filter='none'){
   if(!source.clip?.length&&(!filter||filter==='none'))return null;
   let sources=this.sprites.get(image);if(!sources){sources=new WeakMap();this.sprites.set(image,sources);}

@@ -1,5 +1,5 @@
-import {ADVENTURE_NPCS} from './adventures.js?v=27';
-import {makeItem} from './loot.js?v=27';
+import {ADVENTURE_NPCS} from './adventures.js?v=29';
+import {makeItem} from './loot.js?v=29';
 
 export const NORA={id:'nora',x:630,y:350,name:'Nora · Bergingscoördinator',title:'Noodstroom'};
 const near=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15)<115;
