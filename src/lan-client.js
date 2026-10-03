@@ -1,0 +1,30 @@
+import {Engine,normal} from './engine.js?v=30';
+import {updateHeroMotion} from './hero-motion.js?v=30';
+// The RPC surface is shared with the server; no client-supplied positions or damage.
+import {RPC_METHODS,cleanInput} from './coop-session.js?v=30';
+const REMOTE_ONLY=new Set(['interact','castSlot','castRight','dash','heal','useAntidote','ultimate','commandCompanions','enterArea','startAdventure','startBounty','startChallenge','restartChallenge','returnFromChallenge','openQuayGarden','retry','acceptTravel']);
+export class LanClient extends Engine {
+ constructor({onLobby,onStart,onResult,onStatus}={}){super('tide',879);this.isLan=true;this.connected=false;this.running=false;this.events=[];this.callbacks={onLobby,onStart,onResult,onStatus};this.sequence=0;this.inputClock=0;this.receivedAt=0;this.peerTargets=new Map();this.visualTargets=new Map();
+  for(const method of new Set([...RPC_METHODS,'retry','acceptTravel'])){const original=this[method]?.bind(this);this[method]=(...args)=>{if(!this.connected||!this.running)return false;this.socket.send(JSON.stringify({type:'rpc',request:++this.sequence,method,args}));if(!REMOTE_ONLY.has(method)&&original){try{return original(...args)??true;}catch{return true;}}return true;};}
+ }
+ connect({name,build,token}={}){const protocol=location.protocol==='https:'?'wss:':'ws:';this.socket=new WebSocket(protocol+'//'+location.host+'/lan/ws');this.socket.onopen=()=>{this.connected=true;this.socket.send(JSON.stringify({type:'join',name,build,token}));};this.socket.onmessage=e=>{let m;try{m=JSON.parse(e.data);}catch{return;}if(m.type==='joined'){this.id=m.id;try{sessionStorage.setItem('gouden-lan-token',m.token);}catch{}}if(m.lobby)this.callbacks.onLobby?.(m.lobby);if(m.state)this.applySnapshot(m.state,m.events||[]);if(m.type==='result'){this.callbacks.onResult?.(m.result,m.request);if(m.result===false)this.notice('Actie niet uitgevoerd · controleer afstand, voorraad of voorwaarden');}if(m.type==='error')this.callbacks.onStatus?.(m.message);};this.socket.onclose=()=>{this.connected=false;this.callbacks.onStatus?.('Verbinding verbroken. Je expeditie wacht op je. Klik Opnieuw verbinden.');};this.socket.onerror=()=>this.callbacks.onStatus?.('De LAN-server is niet bereikbaar. Open de link die de lokale server toont.');}
+ ready(){if(this.connected)this.socket.send(JSON.stringify({type:'ready'}));}
+ applySnapshot(state,events){const first=!this.running,changed=state.area!==this.state.area,old=this.state.player;this.correction=first||changed?{x:0,y:0}:{x:state.player.x-old.x,y:state.player.y-old.y};
+  if(!first&&!changed&&Math.hypot(this.correction.x,this.correction.y)<110&&!state.coop.defeated){state.player.x=old.x;state.player.y=old.y;for(const key of ['walkPhase','walkDistance','poseTurn','visualDirection','visualMotionBlend','motionVelocity'])if(old[key]!==undefined)state.player[key]=old[key];}else this.correction={x:0,y:0};
+  for(const peer of state.coop.players)if(peer.player){const previous=this.state.coop?.players.find(p=>p.id===peer.id)?.player;this.peerTargets.set(peer.id,{x:peer.player.x,y:peer.player.y});if(previous&&!changed){peer.player.x=previous.x;peer.player.y=previous.y;}}
+  this.visualTargets.clear();for(const [kind,list,previousList]of [['enemy',state.world.enemies,this.state.world.enemies],['bolt',state.projectiles,this.state.projectiles]]){const previous=new Map(previousList.map(e=>[e.id,e]));for(const e of list){const old=previous.get(e.id);if(!changed&&old&&!e.dead&&Math.hypot(e.x-old.x,e.y-old.y)<180){this.visualTargets.set(kind+e.id,{x:e.x,y:e.y,walkDistance:e.walkDistance,jumpHeight:e.jumpHeight});e.x=old.x;e.y=old.y;if(Number.isFinite(old.walkDistance))e.walkDistance=old.walkDistance;if(Number.isFinite(old.jumpHeight))e.jumpHeight=old.jumpHeight;}}}
+  this.state=state;this.running=true;this.events.push(...events);this.receivedAt=performance.now();if(first)this.callbacks.onStart?.(this);}
+ update(dt,input={}){if(!this.running)return;const active=this.connected&&!this.state.coop.paused&&!this.state.coop.defeated,p=this.state.player,canMove=active&&p.hp>0&&!input.paused&&this.state.mode==='playing';this.inputClock+=dt;
+  if(this.inputClock>=1/30){this.inputClock%=1/30;if(this.connected)this.socket.send(JSON.stringify({type:'input',input:cleanInput(canMove?input:{paused:true})}));}
+  // Visual movement prediction only. Health, casts, loot and AI use server snapshots.
+  if(performance.now()-this.receivedAt<250&&active){const old={x:p.x,y:p.y},stats=this.stats(),dir=normal(canMove?input.x||0:0,canMove?input.y||0:0),speed=canMove?stats.moveSpeed*Math.min(1,Math.hypot(input.x||0,input.y||0))*(p.wet?.8:1)*(p.rootSlow>0?.65:1):0,v=p.velocity||(p.velocity={x:0,y:0}),k=1-Math.exp(-dt/.055);v.x+=(dir.x*speed-v.x)*k;v.y+=(dir.y*speed*.78-v.y)*k;
+   if(p.dashTimer>0&&p.dashDir)this.moveEntity(p,p.dashDir.x*880*dt,p.dashDir.y*710*dt);else this.moveEntity(p,v.x*dt,v.y*dt);
+   if(this.correction){const f=1-Math.exp(-dt*14);p.x+=this.correction.x*f;p.y+=this.correction.y*f;this.correction.x*=1-f;this.correction.y*=1-f;}
+   if(input.aim)this.aimAt(input.aim.x,input.aim.y);updateHeroMotion(p,p.x-old.x,p.y-old.y,dt,stats.moveSpeed,p.dashTimer>0);
+  }
+  for(const peer of this.state.coop.players)if(peer.player){const target=this.peerTargets.get(peer.id),k=1-Math.exp(-dt*18);peer.player.x+=(target.x-peer.player.x)*k;peer.player.y+=(target.y-peer.player.y)*k;}
+  if(active&&performance.now()-this.receivedAt<250)for(const [kind,list]of [['enemy',this.state.world.enemies],['bolt',this.state.projectiles]])for(const e of list){const target=this.visualTargets.get(kind+e.id);if(!target)continue;const k=1-Math.exp(-dt*24);e.x+=(target.x-e.x)*k;e.y+=(target.y-e.y)*k;for(const key of ['walkDistance','jumpHeight'])if(Number.isFinite(target[key])&&Number.isFinite(e[key]))e[key]+=(target[key]-e[key])*k;}
+ }
+ checkpoint(){} serialize(){return null;}
+ disconnect(){this.callbacks={};this.connected=false;this.running=false;this.socket?.close();}
+}

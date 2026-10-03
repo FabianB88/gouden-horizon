@@ -1,6 +1,6 @@
-import {trailStep} from './frame-performance.js?v=29';
-import {ENEMIES} from './data.js?v=29';
-import {coverHit} from './arena-layouts.js?v=29';
+import {trailStep} from './frame-performance.js?v=30';
+import {ENEMIES} from './data.js?v=30';
+import {coverHit} from './arena-layouts.js?v=30';
 
 export const ELEMENT_COLORS={water:'#6be6ee',fire:'#ff994c',storm:'#c5a0ff',toxin:'#bbdf49',solar:'#ffd371',metal:'#e9b77d'};
 const elements={mossback:'metal',sunnewt:'fire',windowl:'water',crownbear:'solar',prismhorn:'solar',mistprowler:'water',stormtoad:'storm',glassscorpion:'toxin',dustskirmisher:'metal',slagcarrier:'fire',dunebreaker:'metal',pressurediver:'water',rimedrone:'water',furnacegunner:'fire',deepwarden:'water',towerwarden:'fire',bulwark:'solar',plaguewright:'toxin',hunter:'metal',repairer:'metal',tideleviathan:'water',solararchitect:'solar',drone:'metal',raider:'fire',beast:'toxin',turret:'storm',boss:'solar',crawler:'metal',sniper:'metal',sentinel:'fire',sporecaster:'toxin',stormling:'storm',siege:'fire',minecrab:'metal',resonant:'storm',brinebreaker:'water',eel:'water',salamander:'fire',shieldguard:'solar',stormnest:'storm',dredger:'water',solarKnight:'solar',seedheart:'toxin',toxinbeetle:'toxin',chemist:'toxin'};
@@ -37,8 +37,8 @@ export function presentEnemyAttack(g,e,firstProjectile,firstThreat,firstEffect){
 export function updateEnemyLob(g,b){
  if(!['enemy-lob','enemy-carrier'].includes(b.type))return false;
  const t=Math.min(1,b.age/b.duration);b.x=b.origin.x+(b.end.x-b.origin.x)*t;b.y=b.origin.y+(b.end.y-b.origin.y)*t;b.flightHeight=Math.sin(t*Math.PI)*95;
- if(t>=1){b.life=0;if(b.type==='enemy-lob'){g.hurtCompanions(b.end,b.impactRadius,b.damage);
-   if(Math.hypot(g.state.player.x-b.end.x,(g.state.player.y-b.end.y)*1.15)<b.impactRadius)g.hurtPlayer(b.damage,b.venom?'venomHit':b.element==='storm'?'electric':b.element);
+ if(t>=1){b.life=0;if(b.type==='enemy-lob'){if(g.hurtPartyArea)g.hurtPartyArea(b.end,b.impactRadius,b.damage,b.venom?'venomHit':b.element==='storm'?'electric':b.element);else {g.hurtCompanions(b.end,b.impactRadius,b.damage);
+   if(Math.hypot(g.state.player.x-b.end.x,(g.state.player.y-b.end.y)*1.15)<b.impactRadius)g.hurtPlayer(b.damage,b.venom?'venomHit':b.element==='storm'?'electric':b.element);}
    if(b.venom)g.state.world.hazards.push({id:'spores-'+ ++g.idCounter,x:b.end.x,y:b.end.y,r:63,type:'spore',venom:true,life:4});
   }g.effect('element-impact',b.end.x,b.end.y,{element:b.element,color:b.color,radius:b.impactRadius,life:.55});
  }return true;
@@ -71,4 +71,4 @@ export const EnemyCombatVisuals={
   return false;
  }
 };
-import {impactMotion} from './combat-feedback.js?v=29';
+import {impactMotion} from './combat-feedback.js?v=30';

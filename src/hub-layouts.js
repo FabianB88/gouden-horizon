@@ -1,6 +1,8 @@
-import {BIOME_HUB_LAYOUTS} from './biome-content.js?v=29';
-import {NATURE_HUB_LAYOUT} from './nature-content.js?v=29';
-import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=29';
+import {BIOME_HUB_LAYOUTS} from './biome-content.js?v=30';
+import {NATURE_HUB_LAYOUT} from './nature-content.js?v=30';
+import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=30';
+import {QUARTER_GATES} from './safe-exploration-content.js?v=30';
+import {HUB_SCALES} from './hub-space.js?v=30';
 // World-pixel placements on the painted floors. Gates keep their destinations
 // while the story controls their locks; no hub uses a single portal queue.
 export const HUB_LAYOUTS={
@@ -75,3 +77,10 @@ export const HUB_LAYOUTS={
 Object.assign(HUB_LAYOUTS,V8_HUB_LAYOUTS,BIOME_HUB_LAYOUTS);
 HUB_LAYOUTS.lanternwood=NATURE_HUB_LAYOUT;
 HUB_LAYOUTS['cooling-refuge'].portals.lanternwood=[1030,725];
+Object.assign(HUB_LAYOUTS.highway.portals,QUARTER_GATES.highway);
+
+// Local module initialization keeps unversioned tools and browser imports identical.
+for(const [id,scale]of Object.entries(HUB_SCALES)){
+ for(const group of ['portals','services'])for(const key of Object.keys(HUB_LAYOUTS[id][group]))HUB_LAYOUTS[id][group][key]=HUB_LAYOUTS[id][group][key].map(v=>v*scale);
+ for(const key of ['cache','supply'])HUB_LAYOUTS[id][key]=HUB_LAYOUTS[id][key].map(v=>v*scale);
+}

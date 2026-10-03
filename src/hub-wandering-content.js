@@ -1,3 +1,4 @@
+import {hubScale} from './hub-space.js?v=30';
 // Native painted pixels (1536 × 1024). Floors overlap at stairs and junctions.
 export const WANDERING_FLOORS={
  canal:[
@@ -24,9 +25,14 @@ export const WANDERING_FLOORS={
   [[831,238],[903,229],[987,272],[985,313],[905,372],[829,328]],
   [[599,507],[736,447],[902,467],[1029,526],[1014,586],[930,617],[820,598],[730,551],[650,566]],
   [[476,590],[560,552],[663,604],[781,661],[843,694],[953,711],[1040,741],[1031,794],[977,829],[854,833],[768,788],[691,748],[557,685],[495,650]],
-  [[805,577],[877,594],[924,656],[1005,666],[1097,699],[1145,748],[1165,779],[1121,807],[1082,779],[975,731],[904,715],[818,656],[785,624]],
+  [[787,561],[836,558],[882,589],[936,651],[1005,666],[1097,699],[1145,748],[1165,779],[1121,807],[1082,779],[975,731],[904,715],[808,657],[773,617]],
   [[1021,681],[1126,677],[1225,722],[1269,791],[1241,834],[1162,823],[1095,793],[1018,747]],
   [[740,720],[820,713],[927,739],[967,790],[909,827],[805,820],[745,786]],
+  // The paved ramp beside the central stairs is a second way down. Its middle
+  // was missing from the floor, forcing an invisible detour through the stairs.
+  [[978,542],[1045,550],[1081,597],[1149,651],[1226,708],[1250,779],[1209,807],[1124,748],[1031,680],[987,624],[945,589]],
+  // Continue the upper-left stone terrace into the stair landing.
+  [[0,65],[105,70],[177,101],[235,127],[256,170],[221,199],[149,157],[76,139],[0,125]],
  ],
 };
 export const WANDERING_EXTENSIONS={
@@ -65,5 +71,5 @@ export function wanderingScrap(seed,area){
  const candidates=spots.map((point,index)=>({point,index}));
  for(let i=candidates.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[candidates[i],candidates[j]]=[candidates[j],candidates[i]];}
  const count=2+Math.floor(random()*3),base=area.zone<2?3:area.zone<4?4:6;
- return candidates.slice(0,count).map(({point:[x,y],index})=>({id:'wandering-'+area.id+'-'+index,type:'scrap',x:x*1.25,y:y*1.25,amount:base+Math.floor(random()*4),variant:index%2}));
+ return candidates.slice(0,count).map(({point:[x,y],index})=>({id:'wandering-'+area.id+'-'+index,type:'scrap',x:x*1.25*hubScale(area.id),y:y*1.25*hubScale(area.id),amount:base+Math.floor(random()*4),variant:index%2}));
 }

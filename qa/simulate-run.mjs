@@ -6,12 +6,12 @@ import {arenaObstacles,coverHit} from '../src/arena-layouts.js';
 import {pathToFileURL} from 'node:url';
 import {ENEMIES,AREA_BY_ID,AREAS} from '../src/data.js';
 const dt=1/60;
-function gearValue(item){const s=item.stats||{};return (s.poisonResist||0)*95+(s.fireResist||0)*40+(s.stormResist||0)*40+(s.waterResist||0)*30+(s.leech||0)*12+(s.power||0)*90+(s.armor||0)*60+(s.hp||0)+(s.regen||0)*3+(s.storm||0)*80+(s.tide||0)*45+(s.mana||0)*.3+(s.recovery||0)*12+(s.speed||0)*20;}
+function gearValue(item,zone=0){const s=item.stats||{};return (s.poisonResist||0)*95+(s.fireResist||0)*(zone>=5?160:40)+(s.stormResist||0)*40+(s.waterResist||0)*(zone===4?140:30)+(s.leech||0)*12+(s.power||0)*90+(s.armor||0)*60+(s.hp||0)+(s.regen||0)*3+(s.storm||0)*80+(s.tide||0)*45+(s.mana||0)*.3+(s.recovery||0)*12+(s.speed||0)*20;}
 function gearSlot(p,item){return item.slot==='relic'&&(p.equipment.relic2.empty||gearValue(p.equipment.relic2)<gearValue(p.equipment.relic))?'relic2':item.slot;}
 export function simulate(seed=48,discipline='tide',maxSeconds=1800,options={}){
- const g=options.engine||new Engine(discipline,seed),history=[],traded=new Set();let buys=0,sales=0,forges=0,retries=0,lastPosition=null,stalled=0,lastZone=null,path=[],pathGoal=null,pathAge=0,attacks=0,hits=0,dashes=0,heals=0,phases=new Set(),step=0;
+ const g=options.engine||new Engine(discipline,seed),history=[],traded=new Set(),prepared=new Set();let buys=0,sales=0,forges=0,retries=0,lastPosition=null,stalled=0,lastZone=null,path=[],pathGoal=null,pathAge=0,attacks=0,hits=0,dashes=0,heals=0,phases=new Set(),step=0;
  for(;step<60*maxSeconds;step++){
-  const s=g.state,p=s.player,w=s.world;
+  const s=g.state,p=s.player,w=s.world,value=item=>gearValue(item,s.zone);
   if(s.area!==lastZone){history.push({area:s.area,zone:s.zone,at:Math.round(s.runTime),hp:Math.round(p.hp),level:p.level});lastZone=s.area;path=[];pathGoal=null;options.onArea?.(g);}
   if(s.mode==='won'||options.stopWhen?.(s,g))break;
   if(s.mode==='dead'){if(retries>=2)break;retries++;g.retry();lastPosition=null;stalled=0;path=[];pathGoal=null;pathAge=0;continue;}
@@ -20,17 +20,17 @@ export function simulate(seed=48,discipline='tide',maxSeconds=1800,options={}){
   if(s.mode==='playing'&&!w.enemies.some(e=>!e.dead&&e.awake)&&lastPosition&&distance(p,lastPosition)<.02)stalled++;else stalled=0;lastPosition={x:p.x,y:p.y};if(stalled>300)break;
   if(s.mode==='modal'){
    const q=s.pending;
-   if(q.type==='upgrade'){const sorted=q.choices.map((u,i)=>({i,value:gearValue(u)})).sort((a,b)=>b.value-a.value);g.chooseUpgrade(q.choices.findIndex(u=>u.skill)>=0?q.choices.findIndex(u=>u.skill):sorted[0].i);}
-   else if(q.type==='loot'){const sorted=q.choices.map((u,i)=>({i,value:gearValue(u)-gearValue(p.equipment[gearSlot(p,u)])})).sort((a,b)=>b.value-a.value);if(sorted[0].value>0){const uid=g.chooseLoot(sorted[0].i);g.equipItem(uid,gearSlot(p,p.inventory.find(i=>i.uid===uid)));}else g.recycleLoot();}
+   if(q.type==='upgrade'){const sorted=q.choices.map((u,i)=>({i,value:value(u)})).sort((a,b)=>b.value-a.value);g.chooseUpgrade(q.choices.findIndex(u=>u.skill)>=0?q.choices.findIndex(u=>u.skill):sorted[0].i);}
+   else if(q.type==='loot'){const sorted=q.choices.map((u,i)=>({i,value:value(u)-value(p.equipment[gearSlot(p,u)])})).sort((a,b)=>b.value-a.value);if(sorted[0].value>0){const uid=g.chooseLoot(sorted[0].i);g.equipItem(uid,gearSlot(p,p.inventory.find(i=>i.uid===uid)));}else g.recycleLoot();}
    else g.closeModal();continue;
   }
   if(!p.specialization)g.chooseSpecialization(p.preferredSpecialization||(discipline==='tide'?'hunter':'elementalist'));
   for(const [tier,id]of ({hunter:['lances','guard','focus'],builder:['overclock','battery','squad'],elementalist:['conduction','economy','elements']}[p.specialization]||[]).entries())if(!p.specializationTalents?.[tier])g.chooseTalent(tier,id);
-  for(const item of [...p.inventory])if(p.level>=(item.requiredLevel||1)&&gearValue(item)>gearValue(p.equipment[gearSlot(p,item)])+1)g.equipItem(item.uid,gearSlot(p,item));
+  for(const item of [...p.inventory])if(p.level>=(item.requiredLevel||1)&&value(item)>value(p.equipment[gearSlot(p,item)])+1)g.equipItem(item.uid,gearSlot(p,item));
   if(g.canTrade()&&!traded.has(s.area+':'+g.recommendedArea())){
    traded.add(s.area+':'+g.recommendedArea());
-   for(const item of [...p.inventory])if(gearValue(item)<=gearValue(p.equipment[gearSlot(p,item)])){if(g.sellItem(item.uid))sales++;}
-   const offers=w.shop.stock.filter(item=>p.level>=item.requiredLevel&&p.scrap>=item.price&&gearValue(item)>gearValue(p.equipment[gearSlot(p,item)])+3).sort((a,b)=>(gearValue(b)-gearValue(p.equipment[gearSlot(p,b)]))-(gearValue(a)-gearValue(p.equipment[gearSlot(p,a)])));
+   for(const item of [...p.inventory])if(value(item)<=value(p.equipment[gearSlot(p,item)])){if(g.sellItem(item.uid))sales++;}
+   const offers=w.shop.stock.filter(item=>p.level>=item.requiredLevel&&p.scrap>=item.price&&value(item)>value(p.equipment[gearSlot(p,item)])+3).sort((a,b)=>(value(b)-value(p.equipment[gearSlot(p,b)]))-(value(a)-value(p.equipment[gearSlot(p,a)])));
    if(offers[0]){const uid=g.buyItem(offers[0].uid);if(uid){buys++;g.equipItem(uid,gearSlot(p,p.inventory.find(i=>i.uid===uid)));}}
    while(p.potions<3&&g.buySupply()){}
    while(p.antidotes<2&&g.buyAntidote()){}
@@ -38,6 +38,10 @@ export function simulate(seed=48,discipline='tide',maxSeconds=1800,options={}){
    // Read the new region's stated element and use the ordinary paid forge.
    if(s.zone>=4){const resist=s.zone===4?'waterResist':'fireResist';for(const slot of ['head','belt','gloves','boots'])while((g.stats()[resist]||0)<.24&&g.reinforce(slot,resist))forges++;}
   }
+  // Visit the real workshop before late elemental fights instead of hoping
+  // to walk past the correct vendor while collecting a chest.
+  const preparationKey=s.area+':'+g.recommendedArea(),workshop=w.safeHub&&s.zone>=4&&!prepared.has(preparationKey)?w.camp.services.find(m=>m.service==='workshop'):null;
+  if(workshop&&distance(p,workshop)<115){const resist=s.zone===4?'waterResist':'fireResist';for(const slot of ['head','belt','gloves','boots'])while((g.stats()[resist]||0)<.32&&g.reinforce(slot,resist))forges++;prepared.add(preparationKey);}
   if(options.useCompanions!==false&&p.skills.includes('summon')&&!s.summons?.length&&!g.inCamp())g.cast('summon');
   if(p.venom>0)g.useAntidote();
   // Boss volleys can land several hits before the next bandage cooldown.
@@ -56,7 +60,7 @@ export function simulate(seed=48,discipline='tide',maxSeconds=1800,options={}){
    if(p.mana>45)g.castRight({x:enemy.x,y:enemy.y});
    if(p.ultimate>=100&&(nearby.filter(e=>distance(p,e)<410).length>2||ENEMIES[enemy.type].boss))g.ultimate();
   }else{
-   g.syncStoryPortals();const next=g.routeTo(g.recommendedArea())[1];goal=w.loot[0]||(w.adventure?w.objectives.find(o=>!o.done):null)||w.relays.find(r=>r.status==='dormant')||(!w.coreCollected&&g.arenaCleared()?w.gate:w.enemies.find(e=>!e.dead))||w.portals.find(portal=>portal.to===next);
+   g.syncStoryPortals();const next=g.routeTo(g.recommendedArea())[1];goal=workshop&&!prepared.has(preparationKey)?workshop:w.loot[0]||(w.adventure?w.objectives.find(o=>!o.done):null)||w.relays.find(r=>r.status==='dormant')||(!w.coreCollected&&g.arenaCleared()?w.gate:w.enemies.find(e=>!e.dead))||w.portals.find(portal=>portal.to===next);
    if(goal){move=normal(goal.x-p.x,(goal.y-p.y)*1.15);if(distance(p,goal)<85){const a=g.interaction();if(a&&(a.entity.id===goal.id||distance(a.entity,goal)<1))g.interact();}}
   }
   // Read the same warnings a human sees, then step out before impact.
@@ -91,7 +95,8 @@ export function simulate(seed=48,discipline='tide',maxSeconds=1800,options={}){
   // Follow traced routes when scenery blocks the direct line. No teleporting or artificial stats.
   const area=AREA_BY_ID[s.area];if(area.kind==='route'||arenaObstacles(s.area).length){
    const destination=enemy&&(distance(p,enemy)>240||coverHit(p,enemy,s.area))?enemy:goal;if(!enemy&&goal)move=normal(goal.x-p.x,(goal.y-p.y)/.78);
-   if(destination&&!clearLine(p,destination,s.area)){
+   // Danger avoidance takes priority over a route toward the target.
+   if(!danger&&destination&&!clearLine(p,destination,s.area)){
     if(pathGoal!==destination.id||pathAge--<=0||!path.length){path=findPath(p,destination,s.area);pathGoal=destination.id;pathAge=45;}
     if(path.length){if(distance(p,path[0])<3)path.shift();const point=path[0]||destination;move=normal(point.x-p.x,(point.y-p.y)/.78);}
    }

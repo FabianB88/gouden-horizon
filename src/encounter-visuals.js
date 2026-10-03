@@ -1,4 +1,4 @@
-import {ENEMIES} from './data.js?v=29';
+import {ENEMIES} from './data.js?v=30';
 export const EncounterVisuals={
  drawEncounterWarning(e,w,progress){const color=ENEMIES[e.type].color,dir=w.dir;
   if(['toxicFan','venomFan'].includes(w.mode)){for(const off of [-.34,0,.34]){const a=Math.atan2(dir.y,dir.x)+off;this.line(e,{x:e.x+Math.cos(a)*420,y:e.y+Math.sin(a)*420/1.15},'#b7df6d70',2);}return true;}

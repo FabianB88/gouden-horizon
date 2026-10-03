@@ -1,7 +1,7 @@
-import {AREAS,AREA_BY_ID,WORLD} from './data.js?v=29';
-import {regionalService} from './markets.js?v=29';
-import {HUB_LAYOUTS} from './hub-layouts.js?v=29';
-import {wanderingScrap} from './hub-wandering-content.js?v=29';
+import {AREAS,AREA_BY_ID,WORLD} from './data.js?v=30';
+import {regionalService} from './markets.js?v=30';
+import {HUB_LAYOUTS} from './hub-layouts.js?v=30';
+import {wanderingScrap} from './hub-wandering-content.js?v=30';
 export const SAFE_HUBS=['canal','highway','forest','skybridge','metro-refuge','cooling-refuge','groenkloof','lanternwood'];
 export const SERVICE_INFO={
  smith:{name:'Mara · Focusmaker',title:'Focusmaker',slots:['weapon','relic','gloves'],text:'Precisie of elementkracht? Kies een focus die bij je spreuken past.',file:'smith'},
@@ -40,6 +40,8 @@ export const HubRules={
   for(const loot of w.loot.filter(i=>!i.item)){const [x,y]=loot.hiddenSupply?layout.supply:layout.cache;Object.assign(loot,{x,y});}
   if(area.id==='highway'&&w.cityLayoutVersion!==1){w.cityLayoutVersion=1;if(this.state.area==='highway'&&this.state.world===w&&!valid(this.state.player,'highway')){this.state.player.x=area.spawn[0]*WORLD.width+55;this.state.player.y=area.spawn[1]*WORLD.height-37;this.state.player.velocity={x:0,y:0};}}
   if(area.id==='canal'){
+   if(!w.gardenVersion){w.gardenVersion=1;w.pickups.push({id:'garden-overlook',type:'scrap',x:4165,y:1420,amount:8,variant:1},{id:'garden-greenhouse',type:'scrap',x:4000,y:360,amount:6,variant:0});}
+
    const oldLayout=w.quayLayoutVersion!==2;
    // A save in the former stair corridor must never resume outside the new floor.
    if(oldLayout&&this.state.area==='canal'&&this.state.world===w&&!valid(this.state.player,'canal')){

@@ -1,5 +1,5 @@
-import {SPELLS,AREA_BY_ID,RARITIES} from './data.js?v=29';
-import {EncounterVisuals} from './encounter-visuals.js?v=29';
+import {SPELLS,AREA_BY_ID,RARITIES} from './data.js?v=30';
+import {EncounterVisuals} from './encounter-visuals.js?v=30';
 const centered=source=>({...source,anchor:[.5,.5]});
 const distance=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 export const ExpeditionVisuals={

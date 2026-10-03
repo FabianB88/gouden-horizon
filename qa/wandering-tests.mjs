@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import {statSync} from 'node:fs';
-import {Engine,canStand,findPath,distance,copy} from '../src/engine.js';
+import {Engine,canStand,clearLine,findPath,distance,copy} from '../src/engine.js';
 import {AREA_BY_ID,WORLD} from '../src/data.js';
 import {WANDERING_SPOTS,wanderingScrap} from '../src/hub-wandering-content.js';
+import {hubScale} from '../src/hub-space.js';
 import {STORY_ORDER} from '../src/story.js';
 import {ADVENTURE_NPCS} from '../src/adventures.js';
 let n=0;const test=(name,fn)=>{fn();console.log('PASS '+name);n++;};
@@ -17,7 +18,7 @@ test('Every ground-scrap corner and early hub service has generous walkable rout
  for(const [id,points]of Object.entries(WANDERING_SPOTS)){
   const g=game();assert(g.enterArea(id));const start={x:g.state.player.x,y:g.state.player.y};
   assert.equal(g.state.world.enemies.length,0);assert.equal(g.state.world.hazards.length,0);assert(g.inCamp());
-  const targets=points.map(([x,y])=>({x:x*1.25,y:y*1.25}));
+  const targets=points.map(([x,y])=>({x:x*1.25*hubScale(id),y:y*1.25*hubScale(id)}));
   if(['canal','forest'].includes(id))targets.push(...g.state.world.portals,...g.state.world.camp.services,...g.state.world.loot,ADVENTURE_NPCS[id]);
   for(const point of targets){assert(canStand(point.x,point.y,35,id),id+' cramped corner '+JSON.stringify(point));walk(g,point);walk(g,start);}
  }
@@ -46,9 +47,26 @@ test('Found scrap stays gone through revisits, reload and checkpoint retry; fres
 });
 test('Starting Milo is beside the greenhouse, off the main promenade and reachable with normal keys',()=>{
  const g=game(),npc=ADVENTURE_NPCS.canal;assert(canStand(npc.x,npc.y,35,'canal'));
- for(let t=0;t<=1;t+=.025){const point={x:(.22+.56*t)*WORLD.width,y:(.62-.39*t)*WORLD.height};assert(distance(npc,point)>180,'Milo crowds the promenade');}
+ for(let t=0;t<=1;t+=.025){const point={x:(.22+.56*t)*WORLD.width*1.4,y:(.62-.39*t)*WORLD.height*1.4};assert(distance(npc,point)>180,'Milo crowds the promenade');}
  for(const service of g.state.world.camp.services)assert(distance(npc,service)>165,'Milo crowds a merchant');
  for(const gate of g.state.world.portals)assert(distance(npc,gate)>165,'Milo masks a portal');
  walk(g,npc);assert.equal(g.interaction().type,'quest');assert.equal(g.interaction().entity.id,'routes');assert(g.interact());assert.equal(g.state.pending.type,'quest');assert.equal(g.state.pending.npc,'routes');
+});
+test('Groene Corridor follows the visible ramp and stair landings directly, without invisible detours',()=>{
+ const g=game();g.enterArea('forest');
+ const routes=[
+  [[956,550],[995,578],[1039,628],[1097,681],[1160,725],[1210,775]],
+  [[210,157],[241,205],[282,250],[327,309],[365,362],[425,418],[505,476],[550,507]],
+  [[760,536],[810,561],[840,614],[882,663],[925,701],[975,727]],
+  [[75,103],[151,127],[211,155]],
+ ];
+ for(const native of routes){const points=native.map(([x,y])=>({x:x*1.75,y:y*1.75}));for(const route of [points,[...points].reverse()]){
+  Object.assign(g.state.player,route[0],{velocity:{x:0,y:0}});
+  for(const [i,target]of route.entries()){assert(canStand(target.x,target.y,35,'forest'),'Cramped stair landing');if(!i)continue;
+   assert(clearLine(route[i-1],target,'forest',35),'A visible tiled route requires an unnecessary detour');
+   let frames=0;while(distance(g.state.player,target)>6&&frames++<180){const p=g.state.player,a=Math.round(Math.atan2((target.y-p.y)/.78,target.x-p.x)/(Math.PI/4))*Math.PI/4;g.update(1/60,{x:Math.round(Math.cos(a)),y:Math.round(Math.sin(a))});}assert(frames<180,'Ordinary keys hit an invisible wall');
+  }
+ }}
+ for(const [x,y]of [[730,330],[960,450],[1240,560]])assert(!canStand(x*1.75,y*1.75,18,'forest'),'Canal or planting becomes walkable');
 });
 console.log(`\n${n} wandering, navigation and economy checks passed.`);

@@ -1,11 +1,12 @@
-import {WANDERING_FLOORS,WANDERING_EXTENSIONS} from './hub-wandering-content.js?v=29';
-import {QUARTER_AREAS,QUARTER_GATES} from './safe-exploration-content.js?v=29';
-import {NATURE_AREAS,NATURE_ENEMIES} from './nature-content.js?v=29';
-import {CREATURE_ENEMIES} from './creature-content.js?v=29';
-import {BIOME_AREAS,BIOME_ENEMIES,BIOME_HUB_LAYOUTS} from './biome-content.js?v=29';
-import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=29';
-import {V8_AREAS,V8_ZONES,V8_ENEMIES} from './v8-content.js?v=29';
-import {HUB_LAYOUTS} from './hub-layouts.js?v=29';
+import {WANDERING_FLOORS,WANDERING_EXTENSIONS} from './hub-wandering-content.js?v=30';
+import {HUB_SCALES} from './hub-space.js?v=30';
+import {QUARTER_AREAS,QUARTER_GATES} from './safe-exploration-content.js?v=30';
+import {NATURE_AREAS,NATURE_ENEMIES} from './nature-content.js?v=30';
+import {CREATURE_ENEMIES} from './creature-content.js?v=30';
+import {BIOME_AREAS,BIOME_ENEMIES,BIOME_HUB_LAYOUTS} from './biome-content.js?v=30';
+import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=30';
+import {V8_AREAS,V8_ZONES,V8_ENEMIES} from './v8-content.js?v=30';
+import {HUB_LAYOUTS} from './hub-layouts.js?v=30';
 export const WORLD = { width: 1920, height: 1280 };
 export const SPELLS = {
   tide: { name: 'Getijdenwaaier', short: 'GETIJ', color: '#73e2e5', dark: '#126c8b', key: '1', damage: 13, cost: 4, interval: .22, speed: 780, radius: 11, status: 'wet', description: 'Drie waterbogen waaieren uit en maken doelen NAT. Wissel naar storm voor kettingbliksem.' },
@@ -973,7 +974,6 @@ const cityPixels=[
  [[20,515],[110,505],[260,550],[285,580],[260,615],[144,595],[18,575]]
 ];
 const cityArea=AREA_BY_ID.highway;cityArea.name='Vrijhaven · Het Transportnet';cityArea.file='city-v6.webp';cityArea.nav=cityPixels.map(poly=>poly.map(([x,y])=>[x/1536,y/1024]));cityArea.spawn=[.46,.64];cityArea.exit=[.77,.79];
-Object.assign(HUB_LAYOUTS.highway,{portals:{mirrors:[430,255],brine:[580,790],kilometer:[1850,1150],forest:[1550,1000],depot:[1140,720],'workshop-v6':[1575,360]},services:{smith:[335,700],outfitter:[1040,880],workshop:[1390,400]},cache:[1030,680],supply:[190,280]});
 
 SPELLS.volt={name:'Donderlans',short:'LANS',color:'#d5c4ff',dark:'#7860bb',damage:90,cost:24,interval:1.65,speed:1250,radius:12,element:'storm',shopOnly:true,unlockLevel:8,description:'Een snelle, gerichte bliksemlans door drie doelen. 90 schade; natte doelen krijgen de stormcombinatie. 24 mana, 1,65s. Bij Mara vanaf de Groene Corridor · 1200 schroot.'};
 SPELLS.cryo={name:'Winterkroon',short:'KROON',color:'#c1f1ff',dark:'#498eac',damage:95,cost:30,interval:5.5,radius:155,area:true,duration:1.8,element:'frost',shopOnly:true,unlockLevel:11,description:'Plaats een vorstexplosie: 95 schade plus twee nasplinterpulsen van 16. Vertraagt en bevriest natte doelen kort. 30 mana, 5,5s. Bij Mara in Horizonpost · 1800 schroot.'};
@@ -998,9 +998,33 @@ Object.assign(ENEMIES,CREATURE_ENEMIES);
 AREAS.push(...NATURE_AREAS);Object.assign(ENEMIES,NATURE_ENEMIES);Object.assign(AREA_BY_ID,Object.fromEntries(NATURE_AREAS.map(a=>[a.id,a])));
 
 AREAS.push(...QUARTER_AREAS);Object.assign(AREA_BY_ID,Object.fromEntries(QUARTER_AREAS.map(a=>[a.id,a])));
-Object.assign(HUB_LAYOUTS.highway.portals,QUARTER_GATES.highway);
 
 // Garden promenades replace the former narrow floors on repainted maps.
 const nativeFloor=poly=>poly.map(([x,y])=>[x/1536,y/1024]);
 for(const [id,polygons]of Object.entries(WANDERING_FLOORS)){AREA_BY_ID[id].file=id+'-route-wandering-v86.webp';AREA_BY_ID[id].nav=polygons.map(nativeFloor);}
 for(const [id,polygons]of Object.entries(WANDERING_EXTENSIONS))AREA_BY_ID[id].nav.push(...polygons.map(nativeFloor));
+for(const [id,scale]of Object.entries(HUB_SCALES))if(id!=='canal'){
+ const area=AREA_BY_ID[id];area.bounds={width:WORLD.width*scale,height:WORLD.height*scale};
+ area.nav=area.nav.map(poly=>poly.map(([x,y])=>[x*scale,y*scale]));
+ for(const key of ['spawn','exit','pocket'])if(area[key])area[key]=area[key].map(v=>v*scale);
+}
+
+// The quay and gardens are adjoining tiles in one continuous walking area.
+export const QUAY_SCALE=1.4;
+const extendedQuay=AREA_BY_ID.canal,tileW=WORLD.width*QUAY_SCALE,tileH=WORLD.height*QUAY_SCALE;
+extendedQuay.bounds={width:tileW*2,height:tileH};
+extendedQuay.tiles=[{file:extendedQuay.file,x:0,y:0,width:tileW,height:tileH},{file:'canal-garden-court-v87.webp',x:tileW,y:0,width:tileW,height:tileH}];
+extendedQuay.nav=extendedQuay.nav.map(poly=>poly.map(([x,y])=>[x*QUAY_SCALE,y*QUAY_SCALE]));
+extendedQuay.spawn=extendedQuay.spawn.map(v=>v*QUAY_SCALE);extendedQuay.exit=extendedQuay.exit.map(v=>v*QUAY_SCALE);
+// Trace the clear stone, keeping flowerbeds, canal banks and buildings solid.
+const gardenFloors=[
+ [[0,40],[118,48],[354,201],[568,344],[611,417],[531,459],[319,299],[85,147],[0,153]],
+ [[418,333],[619,316],[852,267],[1036,327],[1235,426],[1240,518],[1080,633],[927,686],[705,666],[514,561],[414,447]],
+ [[566,353],[617,250],[666,166],[747,135],[820,142],[850,222],[822,306],[769,360]],
+ [[644,535],[703,631],[795,716],[924,794],[907,850],[821,866],[678,758],[571,649]],
+ [[987,562],[1120,585],[1278,684],[1378,739],[1383,819],[1324,848],[1244,793],[1098,681],[1016,664]],
+ [[345,299],[404,260],[508,284],[571,325],[531,401],[460,406]],
+];
+extendedQuay.nav.push(...gardenFloors.map(poly=>poly.map(([x,y])=>[(tileW+x*1.75)/WORLD.width,y*1.75/WORLD.height])));
+export function worldBounds(id){return AREA_BY_ID[id]?.bounds||WORLD;}
+export const QUAY_GATE={x:tileW,y:164,halfWidth:33,halfHeight:112};

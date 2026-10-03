@@ -2,8 +2,8 @@
 <html lang="nl">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#142a31"><meta name="description" content="Gouden Horizon — een geschilderde action RPG. Verken zestien gebieden, kies je vaardigheden en herstel het klimaatnet in een opgebroken Nederland.">
-  <title>Gouden Horizon — Aurelia</title><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css?v=29">
+  <meta name="theme-color" content="#142a31"><meta name="description" content="Gouden Horizon — een geschilderde action RPG. Verken vierentwintig hoofdstukken, kies je vaardigheden en herstel het klimaatnet in een opgebroken Nederland.">
+  <title>Gouden Horizon — Aurelia</title><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css?v=30">
 </head>
 <body>
   <main class="game" id="game" aria-label="Gouden Horizon">
@@ -17,7 +17,7 @@
     <section class="map glass"><div><span>ROUTEKAART</span><button id="map-button" title="Wereldkaart openen (M)" aria-label="Wereldkaart openen">M</button></div><canvas id="minimap" width="216" height="144"></canvas><p id="terrain-text">Water geleidt storm.</p></section>
     <section class="trial-hud glass" id="trial-hud" hidden aria-label="Tijdproef"><small id="trial-name"></small><strong id="trial-clock">0:00.00</strong><span id="trial-wave"></span><small id="trial-best"></small></section>
     <section class="boss-hud" id="boss-hud" hidden><span><span id="boss-name">DE GOUDEN WACHTER</span> <b id="boss-phase">FASE I</b></span><div><i id="boss-life"></i></div></section>
-    <div class="notices" id="notices" aria-live="polite"></div>
+    <aside class="coop-hud glass" id="coop-hud" hidden><strong id="coop-roster"></strong><span id="coop-status"></span><button id="coop-travel" hidden>Reis mee</button><button id="coop-reconnect" hidden>Opnieuw verbinden</button></aside><div class="notices" id="notices" aria-live="polite"></div>
     <div id="loot-announcement" class="loot-announcement" role="status" hidden><img id="loot-announcement-art" alt=""><div><small id="loot-announcement-meta"></small><strong id="loot-announcement-title"></strong><span id="loot-announcement-change"></span></div></div>
     <div id="level-announcement" class="level-announcement" role="status" hidden><small>LEVEL-UP</small><strong id="level-announcement-title">Niveau 2 bereikt</strong><span>+1 vaardigheidspunt</span></div>
     <div class="interaction" id="interaction" hidden><kbd>F</kbd><span>Start kalibratie</span></div>
@@ -45,10 +45,11 @@
   </main>
   <section class="cover" id="cover">
     <div class="cover-art"></div><div class="cover-shade"></div>
-    <div class="cover-copy"><div class="eyebrow">NEDERLAND · 2089</div><h2><span>Gouden</span> Horizon</h2><p>De wereld is niet voorbij.<br>Alleen moeilijker bereikbaar.</p><div class="cover-description">Verken verloren steden. Bouw je uitrusting.<br>Herstel de laatste route naar Aurelia.</div><div class="cover-actions"><button id="new-game" class="primary">Start expeditie</button><button id="continue-game" class="secondary" hidden>Hervat expeditie</button></div><div class="load-status" id="load-status"><i></i> Spelwereld laden…</div><button class="text-button" id="cover-help">Besturing & spelregels</button></div>
-    <div class="cover-footer"><span>GETIJ · STORM · ZON · V8.6.0</span><span>Een wereld om te redden</span></div>
+    <div class="cover-copy"><div class="eyebrow">NEDERLAND · 2089</div><h2><span>Gouden</span> Horizon</h2><p>De wereld is niet voorbij.<br>Alleen moeilijker bereikbaar.</p><div class="cover-description">Verken verloren steden. Bouw je uitrusting.<br>Herstel de laatste route naar Aurelia.</div><div class="cover-actions"><button id="new-game" class="primary">Start expeditie</button><button id="continue-game" class="secondary" hidden>Hervat expeditie</button></div><button id="lan-game" class="secondary lan-launch">Samen spelen · LAN</button><div class="load-status" id="load-status"><i></i> Spelwereld laden…</div><button class="text-button" id="cover-settings">Instellingen & controller</button><button class="text-button" id="cover-help">Besturing & spelregels</button></div>
+    <div class="cover-footer"><span>GETIJ · STORM · ZON · V8.7.0</span><span>Een wereld om te redden</span></div>
   </section>
   <div class="modal-backdrop" id="modal-layer" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><header class="journal-heading"><div class="eyebrow" id="modal-kicker"></div><h2 id="modal-title"></h2><button id="modal-close" aria-label="Menu sluiten" title="Sluiten (Esc)">×</button></header><div class="modal-body" id="modal-body"></div><div class="modal-actions" id="modal-actions"></div></section></div>
+  <aside class="controller-status glass" id="controller-status" hidden aria-live="polite"></aside>
   <noscript>Deze game heeft JavaScript nodig om te spelen.</noscript>
-  <script type="module" src="src/main.js?v=29"></script>
+  <script type="module" src="src/main.js?v=30"></script>
 </body></html>

@@ -1,7 +1,8 @@
 // Reuse painted cutouts and soft lighting. Canvas filters and clipping paths
 // otherwise create intermediate layers on every frame, including safe hubs.
 export const MAX_RENDER_PIXELS=2500000;
-export function renderRatio(width,height,dpr=1){return Math.min(1.5,dpr,Math.sqrt(MAX_RENDER_PIXELS/Math.max(1,width*height)));}
+export const HIGH_RENDER_PIXELS=4000000;
+export function renderRatio(width,height,dpr=1,quality='auto'){return Math.min(quality==='high'?2:1.5,dpr,Math.sqrt((quality==='high'?HIGH_RENDER_PIXELS:MAX_RENDER_PIXELS)/Math.max(1,width*height)));}
 export function surface(width,height){
  const canvas=typeof OffscreenCanvas!=='undefined'?new OffscreenCanvas(Math.ceil(width),Math.ceil(height)):document.createElement('canvas');
  canvas.width=Math.ceil(width);canvas.height=Math.ceil(height);return canvas.backing||canvas;

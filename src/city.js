@@ -1,6 +1,7 @@
-import {UNIQUE_ITEMS} from './unique-items.js?v=29';
-import {AREA_BY_ID} from './data.js?v=29';
-import {makeItem,makeUniqueItem} from './loot.js?v=29';
+import {UNIQUE_ITEMS} from './unique-items.js?v=30';
+import {AREA_BY_ID} from './data.js?v=30';
+import {makeItem,makeUniqueItem} from './loot.js?v=30';
+import {spaciousPoint} from './hub-space.js?v=30';
 export const CITY_NPCS=[
  {id:'ilya',name:'Ilya · Levenshoeder',title:'Het levende verbond',x:1560,y:540,art:0},
  {id:'milo',name:'Milo · Cartograaf',title:'Kaarten van Vrijhaven',x:350,y:290,art:1},
@@ -8,6 +9,12 @@ export const CITY_NPCS=[
 ];
 export const CITY_LANDMARKS=[{id:'garden',name:'Daktuin',x:500,y:285},{id:'harbor',name:'Watermeter',x:150,y:685},{id:'workshop',name:'Werkplaatsarchief',x:1250,y:540}];
 export const CONTRACT_NPCS={forest:{id:'contract-spore',name:'Sera · Baascontracten',title:'Sporenbassin · herhaalbare baas',x:740,y:605,art:2,bounty:'bounty-spore'},skybridge:{id:'contract-solar',name:'Sera · Baascontracten',title:'Zonneoven · herhaalbare baas',x:895,y:610,art:2,bounty:'bounty-solar'}};
+Object.assign(CONTRACT_NPCS.forest,{x:1217.5,y:687.5});
+Object.assign(CONTRACT_NPCS.skybridge,{x:1030,y:640});
+Object.assign(CITY_NPCS.find(n=>n.id==='milo'),{x:300,y:150});
+Object.assign(CITY_NPCS.find(n=>n.id==='sera'),{x:1280,y:920});
+for(const point of [...CITY_NPCS,...CITY_LANDMARKS])Object.assign(point,spaciousPoint(point,'highway'));
+for(const id of Object.keys(CONTRACT_NPCS))CONTRACT_NPCS[id]=spaciousPoint(CONTRACT_NPCS[id],id);
 const near=(a,b,r=110)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15)<r;
 export const CityRules={
  cityNPCs(){return this.state.area==='highway'?CITY_NPCS:CONTRACT_NPCS[this.state.area]?[CONTRACT_NPCS[this.state.area]]:[];},

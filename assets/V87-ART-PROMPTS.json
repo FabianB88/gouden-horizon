@@ -1,0 +1,80 @@
+{
+  "version": "8.7.0",
+  "newAssets": [
+    "painted/canal-garden-court-v87.webp",
+    "painted/quay-join-v87.webp"
+  ],
+  "prompts": [
+    {
+      "tool": "built-in image_gen",
+      "reference_inspected": "/workspace/scratch/19cb526127e1/polish-review-v84/assets/painted/canal-route-wandering-v86.webp",
+      "final_asset": "/workspace/scratch/19cb526127e1/lan-art/canal-garden-court-v87.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "generation_prompt": "Use case: stylized-concept.\nAsset type: one new environment tile for a continuous painted 2.5D RPG world. Generate exactly one final landscape image, 1536x1024, no variants.\nPrimary request: a spacious quiet adjoining garden court that expands a sunlit canal and greenhouse city. This is an adjacent map tile placed to the RIGHT of an existing canal map. Create a new court, not a duplicate of a crowded map. The old city has warm pale sandstone paving and arched stone canal supports, thin dark bronze railings, glowing turquoise-teal water with lily pads, gold-green trees, bright flowers in perimeter planters, and tall glazed conservatories with bronze structural ribs. Carry those exact visual qualities into this more open tile.\nEssential gameplay floor and connection: a broad, continuous, clear stone avenue ENTERS FLUSH FROM THE CENTRE OF THE LEFT IMAGE EDGE. At x=0 the entrance is an uninterrupted paved opening spanning approximately y=300 through y=540 in this 1536x1024 tile. Stone pavement must reach the literal left boundary: no wall, rail, building, tree, canal, water gap, arch pillar or planter across this entrance. Keep all left-edge architecture subdued and outside that opening. The entrance narrows gently into a still-generous avenue roughly 110–170 pixels visually wide, with two continuous sides readable in the perspective, leading to a very large quiet central paved courtyard around (850,490). Connect left entrance and courtyard directly on one coherent level at the elevation of an elevated canal-city promenade. No staircase, threshold or vertical wall breaks the entry route.\nSpatial design: the main courtyard is large, open and uncrowded, approximately 500 by 330 pixels of connected clear aged warm stone floor, enough room for two heroes and comfortable exploration. The center is empty of decorations. Plants, lamps and architectural details are concentrated around the perimeter. Add a clearly connected broad NORTH greenhouse branch from this courtyard to a roomy planted conservatory forecourt in the upper-middle part of the image. Add a broad clear SOUTH branch from the courtyard to a spacious waterfront overlook terrace in the lower-middle part, with teal water visibly beyond its railing. Both branches are continuous unobstructed paved routes with wide landings, at least 100 pixels visually wide. Stone supports and low rails follow the route sides, never across walking space. Canals surround the outside of the garden court and provide breathing room; no maze of tiny islands or crowded narrow paths. Leave generous empty paving for navigation.\nStyle/medium: premium Torchlight-like finely hand-painted RPG game-world environment, detailed warm stone texture, rich brushed foliage, elegant greenhouse architecture, fixed elevated isometric camera at roughly 35 degrees, consistent world scale, sharp readable paving boundaries. No horizon line or sky. Match a warm golden sun from upper left, long soft shadows cast lower right, glowing turquoise teal canals, warm ivory sandstone and deep gold-green gardens. View fills the canvas edge-to-edge.\nConstraints: exactly 1536x1024 landscape. The left-edge y=300..540 paved entry is the most important layout requirement. Preserve a clear consistent avenue and spacious open plazas. No closed physical gates; gates will be separate game assets.\nAvoid: characters, people, NPCs, monsters, animals, items, loot, chests, weapons, text, labels, letters, signage, portals, circular magic seals, HUD, UI, markers, arrows, grid overlays, compass, watermarks, tiny one-person passages, center-cluttering fountains, sculptures or garden beds. No wall or water across the left-edge entry.",
+      "seam_correction_prompt": "Use case: precise-object-edit.\nAsset type: final corrected 1536x1024 painted 2.5D RPG adjacent world tile.\nInput image: the supplied generated garden court is the EDIT TARGET. Preserve this image's big empty central plaza, north conservatory branch, south round waterfront overlook, teal canals, premium painted greenhouse architecture, warm sun and fixed elevated isometric camera.\nOne essential correction: MOVE the map's west entrance from the middle of the left edge to the TOP-LEFT edge. The existing neighboring tile's promenade exits its RIGHT edge at y=50..125. Thus this new tile must have a broad continuous warm pale stone avenue touching the literal LEFT image boundary at x=0, with an unobstructed paved opening spanning native image y=45 through y=155. This top-left paved entrance is mandatory. No water, trees, planter, glasshouse, pillar, wall, rail, gate or stair may cross the x=0 opening from y=45 to y=155.\nFrom this inlet centered at (0,100), create a generous 110–170 pixel wide clear stone avenue that bends gently DOWN AND RIGHT, through approximately (250,200) and (430,300), into the existing central court around (650,440). Give it physically continuous level paving and visible stone supports over canals as needed. Remove or relocate the obstructing upper-left conservatory/tree mass only along this new route. Side railings may border the avenue but never cross its entry or its connected floor. Match the main elevated promenade's paving height without stairs or vertical discontinuities.\nClose the OLD middle-left map exit: around the left edge y=300..540, turn the former entrance into canal water or a quiet perimeter terrace bounded by a continuous side railing. There must be NO second walkable exit off the left edge there. The new top-left inlet is the sole west seam. Retain the rest of the spacious central court and greenhouse gardens as much as possible, with broad unobstructed paving and connected north and south branches.\nStyle invariants: premium Torchlight-like finely painted isometric game-world art, golden sunlight from upper left, warm pale sandstone, bronze conservatory framing and fine railings, glowing turquoise-teal canals with lily pads, golden-green foliage and flowers around the edges. Exact same camera, scale, palette and 1536x1024 framing as the supplied image. The central plaza remains empty and roomy.\nAvoid: characters, NPCs, people, monsters, animals, items, loot, text, labels, portals, UI, markers, arrows, magical circles, gates, tiny passages, center-cluttering fountains or sculptures. No border or letterboxing. Do not change the south overlook or replace the entire court.",
+      "note": "Final uses corrected top-left entrance; original generation began before seam correction arrived."
+    },
+    {
+      "tool": "built-in image_gen",
+      "final_asset": "/workspace/scratch/19cb526127e1/lan-art/quay-join-v87.png",
+      "final_dimensions": [
+        85,
+        1024
+      ],
+      "world_draw_dimensions": [
+        150,
+        1792
+      ],
+      "world_anchor_center_x": 2688,
+      "north_clear_native_interval": [
+        31,
+        160
+      ],
+      "north_clear_world_interval": [
+        54.25,
+        280
+      ],
+      "south_wall_native_start_y": 160,
+      "south_wall_world_start_y": 280,
+      "reference_images_inspected": [
+        "/workspace/scratch/19cb526127e1/lan-qa/gate.png",
+        "/workspace/scratch/19cb526127e1/polish-review-v84/assets/painted/canal-route-wandering-v86.webp",
+        "/workspace/scratch/19cb526127e1/lan-art/canal-garden-court-v87.png"
+      ],
+      "generation_prompt": "Use case: stylized-concept.\nAsset type: transparent PNG game environment overlay, a tall very narrow seam-covering garden retaining wall for a premium painted 2.5D RPG.\nPrimary request: exactly ONE long slender ivy-covered stone canal retaining wall/divider strip, aligned perfectly VERTICALLY in screen space. Genuine transparent background. The strip disguises the vertical join between two painted canal garden maps, so its opaque stone and dense foliage must be continuous down the full south length. This is a credible elegant physical garden boundary seen from an elevated isometric game camera, not a portal.\nFinal proportions and position: portrait canvas 1024x1536. Center the long wall on x=512, and keep the entire strip, including leaves and small shadows, inside a very narrow 128-pixel-wide band, approximately x=448..576. Everything outside this thin band is completely transparent, not a colored background. The strip extends all the way to the literal top and bottom edges; no padding above or below.\nNorth gate opening: the topmost short wall/cap occupies only y=0..47. Then there is a fully CLEAR OPEN CROSSING from y=48 through y=233, approximately the upper 3% through 15% of total image height: genuine empty transparent pixels across the ENTIRE narrow band, with no stone, ivy, shadow, gate, arch, lintel, rail or object overlapping this clear interval. The gap allows characters to walk horizontally from left to right between maps. A pair of refined stone end-post/caps may terminate the wall immediately ABOVE and BELOW the gap, outside it, suggesting a natural gateway frame. Do NOT paint a gate door. The game will draw a closed/open ritual door separately at this opening.\nSouth divider: from y=234 continuously to y=1535, paint an uninterrupted SOLID physical wall. There must be opaque warm aged sandstone with a subtle green patina directly on the centerline x=512 at every row, richly clothed with golden-green ivy, cascading leaves, tiny white and pink flowers, fern tufts and occasional elegant stone buttresses. No additional gaps, passageways or see-through arches in this south wall. Make the wall body narrow but credible, with a sunlit cap surface and a slightly shaded side face in elevated 2.5D isometric perspective, lovely irregular foliage edges. End exactly flush at the bottom edge so the divider continues beyond the visible world.\nStyle and lighting: premium Torchlight-like finely hand-painted game environment, matching sunlit canal gardens with pale honey sandstone, bronze greenhouse details, gold-green foliage and glowing turquoise canal colors. Warm golden sunlight from upper left and soft shadows lower right. The greenery should blend beautifully against lush gardens and the masonry against the old canal's retaining walls. No flat UI/vector treatment. High polish and fine brushwork, subtle wear, credible masonry.\nImportant transparency rules: no background scene, no canal water rectangle, no paving rectangle, no ground tile, no distant environment. Wall, foliage and tight object-shadow only, isolated on transparent alpha. The north opening y=48..233 must remain genuinely clear. Keep object extremely slender with 12:1 height-to-width proportions; it is a seam overlay, not a conventional wide wall illustration. No lateral branches outside the band.\nAvoid: people, characters, NPCs, animals, monsters, text, labels, items, loot, chests, magical portal, glow, energy, glyphs, arch across the opening, closed doors, gate leaves, UI, markers, arrows, circular bases, watermarks. No road or broad building.",
+      "correction_prompt": "Use case: precise-object-edit.\nEdit target: the supplied transparent ivy wall strip. Preserve its painted stone, foliage, narrow vertical shape, upper-left sunlight and fine flowers. Correct only the alpha/background and exact north gap alignment.\nKeep the same 1024x1536 canvas and centered wall x=512, with the wall including all foliage confined to approximately x=442..590. ALL other pixels must be truly transparent. REMOVE ALL yellow/green background haze, glow, vignette, mist and ambient blurred shadows. Only the actual hard-edged wall and leaves remain. No cast shadow outside the tight silhouette.\nExact north crossing: make the TOP STUB much SHORTER. It occupies ONLY y=0..47. Then y=48..233 is COMPLETELY EMPTY TRANSPARENT across the entire canvas: no hanging ivy, stone, cap, haze, shadow, arch or door in this interval. Begin the long SOUTH WALL at exactly y=234, with a lovely cap/post on its upper end whose top remains BELOW the gap. Continue one opaque ivy-clad solid masonry divider from y=234 all the way to the literal bottom edge y=1535. No missing rows or southern gap. The stone centerline x=512 should be opaque throughout y=234..1535. Keep the gap empty because a separate game gate sprite will be placed there.\nThis is a transparent isometric canal retaining wall sprite, not a portrait illustration. Extremely narrow 12:1 proportions; no background scenery, no ground, no water, no wide building, no text, no people, no items, no portal, no magical glow. Do not change the style of the wall.",
+      "asset_preparation": {
+        "source": "/workspace/scratch/19cb526127e1/generated_images/exec-9e9cf0a8-e29e-4e94-bfdd-86029b157b54.png",
+        "alpha_cleanup": "Values <=8 cleared as background haze; values >=200 made fully opaque; edge antialiasing retained.",
+        "top_cap_source_crop": [
+          432,
+          0,
+          592,
+          48
+        ],
+        "top_cap_destination": [
+          0,
+          0,
+          85,
+          31
+        ],
+        "south_wall_source_crop": [
+          432,
+          284,
+          592,
+          1536
+        ],
+        "south_wall_destination": [
+          0,
+          160,
+          85,
+          1024
+        ],
+        "north_crossing": "Left entirely transparent; no gate door painted. Runtime ritual gate is separate."
+      }
+    }
+  ]
+}

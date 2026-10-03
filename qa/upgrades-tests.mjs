@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {Engine,copy,canStand,findPath,distance} from '../src/engine.js';
-import {ENEMIES,START_EQUIPMENT,WORLD,AREAS} from '../src/data.js';
+import {ENEMIES,START_EQUIPMENT,WORLD,AREAS,worldBounds} from '../src/data.js';
 import {STORY_ORDER} from '../src/story.js';
 import {SAFE_HUBS} from '../src/hubs.js';
 import {HUB_LAYOUTS} from '../src/hub-layouts.js';
@@ -22,11 +22,11 @@ function walkWithKeys(g,target){
  assert(distance(p,target)<8);
 }
 test('Safe hubs have fixed distinct arena and generator doors that cannot bypass progression',()=>{const g=new Engine();const before=copy(g.state.world.portals);assert.equal(g.state.world.portals.filter(p=>!p.locked).length,1);const gate=g.state.world.portals.find(p=>p.to==='ring');Object.assign(g.state.player,gate);assert.equal(g.interaction().type,'lockedPortal');assert(!g.interact());g.state.storyPassed=['canal','delta'];g.syncStoryPortals();assert(!g.state.world.portals.find(p=>p.to==='ring').locked);assert.deepEqual(g.state.world.portals.map(({x,y,to})=>({x,y,to})),before.map(({x,y,to})=>({x,y,to})));});
-test('All three merchants, fixed gates and exploration caches can be walked to in each hub',()=>{for(const id of SAFE_HUBS){const g=new Engine();g.state.cores=[0,1,2,3];g.state.storyPassed=[...STORY_ORDER];assert(g.enterArea(id));assert.equal(g.state.world.enemies.length,0);assert.equal(g.state.world.hazards.length,0);assert.equal(g.state.world.camp.services.length,3);for(const point of [...g.state.world.camp.services,...g.state.world.portals,...g.state.world.loot]){const p=g.state.player;assert(canStand(point.x,point.y,18,id));const path=findPath(p,point,id);assert(path.length,id+' inaccessible service');for(const step of path){let i=0;while(distance(p,step)>1&&i++<3000){const d=Math.hypot(step.x-p.x,step.y-p.y),r=Math.min(2,d);g.moveEntity(p,(step.x-p.x)/d*r,(step.y-p.y)/d*r);}assert(distance(p,step)<1.1);}}}});
+test('All three merchants, fixed gates and exploration caches can be walked to in each hub',()=>{for(const id of SAFE_HUBS){const g=new Engine();g.state.cores=[0,1,2,3];g.state.storyPassed=[...STORY_ORDER];assert(g.enterArea(id));assert.equal(g.state.world.enemies.length,0);assert.equal(g.state.world.hazards.length,0);assert.equal(g.state.world.camp.services.length,3);for(const point of [...g.state.world.camp.services,...g.state.world.portals,...g.state.world.loot]){const p=g.state.player;assert(canStand(point.x,point.y,18,id));const path=findPath(p,point,id);assert(path.length,id+' inaccessible service');for(const step of path){let i=0;while(distance(p,step)>1&&i++<3000){const d=Math.hypot(step.x-p.x,step.y-p.y),r=Math.min(2,d);g.moveEntity(p,(step.x-p.x)/d*r,(step.y-p.y)/d*r);}assert(distance(p,step)<1.1,JSON.stringify({id,target:point,step,x:p.x,y:p.y}));}}}});
 test('Expanded hubs provide more walking room and gates occupy separate plazas instead of a row',()=>{
  const previous={canal:409,highway:461,forest:258,skybridge:424};
  for(const id of SAFE_HUBS){const g=new Engine();g.state.cores=[0,1,2,3];g.state.storyPassed=[...STORY_ORDER];assert(g.enterArea(id));let floor=0;
-  for(let y=24;y<WORLD.height;y+=24)for(let x=24;x<WORLD.width;x+=24)if(canStand(x,y,18,id))floor++;
+  for(let y=24;y<worldBounds(id).height;y+=24)for(let x=24;x<worldBounds(id).width;x+=24)if(canStand(x,y,18,id))floor++;
   assert(floor>(previous[id]?previous[id]*1.15:500),id+' insufficient walking room');const gates=g.state.world.portals;let spread=0;
   for(let i=0;i<gates.length;i++)for(let j=i+1;j<gates.length;j++){assert(distance(gates[i],gates[j])>310,'crowded gates');for(let k=j+1;k<gates.length;k++){const [a,b,c]=[gates[i],gates[j],gates[k]];spread=Math.max(spread,Math.abs((b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x)));}}
   if(gates.length>=3)assert(spread>100000,id+' has a portal row');
@@ -46,7 +46,7 @@ test('All hub side vendors and both crates are reachable with ordinary eight-dir
 test('Both painted quay stair entrances accept left, centre and right approaches without pathfinding',()=>{
  // Fixed S / S+D key presses across the actual painted stairs, including the
  // eastern stairhead formerly cut off by the rectangular end of the road.
- for(const [x,y]of [[1196,260],[1220,256],[1248,252],[855,430],[880,430],[905,430]].map(([x,y])=>[x*1.25,y*1.25])){
+ for(const [x,y]of [[1196,260],[1220,256],[1248,252],[855,430],[880,430],[905,430]].map(([x,y])=>[x*1.75,y*1.75])){
   const g=new Engine(),p=g.state.player;Object.assign(p,{x,y,velocity:{x:0,y:0}});assert(canStand(x,y,18,'canal'),'painted stairhead is blocked');
   for(let i=0;i<60;i++){g.update(1/60,{x:i%5<2?1:0,y:1});assert(canStand(p.x,p.y,18,'canal'));}
   assert(p.y-y>125,'stair descent is blocked');assert(p.x-x>45&&p.x-x<85,'stair descent needs an exact approach');
@@ -55,14 +55,14 @@ test('Both painted quay stair entrances accept left, centre and right approaches
  }
 });
 test('Getijdenkade main promenade has generous player clearance and vendors are off the lane',()=>{
- const g=new Engine();for(let t=.05;t<1;t+=.05){const point={x:(.22+.56*t)*WORLD.width,y:(.62-.39*t)*WORLD.height};assert(canStand(point.x,point.y,36,'canal'));for(const service of g.state.world.camp.services)assert(distance(service,point)>160,'merchant in main promenade');}
+ const g=new Engine();for(let t=.05;t<1;t+=.05){const point={x:(.22+.56*t)*WORLD.width*1.4,y:(.62-.39*t)*WORLD.height*1.4};assert(canStand(point.x,point.y,36,'canal'));for(const service of g.state.world.camp.services)assert(distance(service,point)>160,'merchant in main promenade');}
 });
 test('Old quay saves relocate remaining crates and stranded players without restoring opened loot or changing purchases',()=>{
  const g=new Engine(),p=g.state.player,w=g.state.world,normal=w.loot.find(i=>!i.hiddenSupply);Object.assign(p,normal);assert(g.interact());g.recycleLoot();g.checkpoint();
- p.hp=37;p.mana=22;p.scrap=145;p.x=.620*WORLD.width;p.y=.450*WORLD.height;assert(!canStand(p.x,p.y,18,'canal'));
+ p.hp=37;p.mana=22;p.scrap=145;p.x=.620*WORLD.width*1.4;p.y=.450*WORLD.height*1.4;assert(!canStand(p.x,p.y,18,'canal'));
  const hidden=w.loot.find(i=>i.hiddenSupply);Object.assign(hidden,{x:.85*WORLD.width,y:.419*WORLD.height});delete w.quayLayoutVersion;
  w.shop.stock.splice(0,1);const stock=copy(w.shop.stock),ids=w.loot.map(i=>i.id);const restored=Engine.restore(g.serialize()),rp=restored.state.player,rw=restored.state.world;
- assert(canStand(rp.x,rp.y,18,'canal'));assert.equal(rp.hp,37);assert.equal(rp.mana,22);assert.equal(rp.scrap,145);assert.deepEqual(rw.shop.stock,stock);assert.deepEqual(rw.loot.map(i=>i.id),ids);assert.equal(rw.loot.length,1);assert.equal(rw.loot[0].x,HUB_LAYOUTS.canal.supply[0]);assert.equal(rw.camp.services[0].x,.142*WORLD.width);
+ assert(canStand(rp.x,rp.y,18,'canal'));assert.equal(rp.hp,37);assert.equal(rp.mana,22);assert.equal(rp.scrap,145);assert.deepEqual(rw.shop.stock,stock);assert.deepEqual(rw.loot.map(i=>i.id),ids);assert.equal(rw.loot.length,1);assert.equal(rw.loot[0].x,HUB_LAYOUTS.canal.supply[0]);assert.equal(rw.camp.services[0].x,HUB_LAYOUTS.canal.services.smith[0]);
  restored.enterArea('ring');restored.enterArea('canal');assert.equal(restored.state.world.loot.length,1);
 });
 test('Merchant stock is split by gear type and workshop does not sell duplicate gear',()=>{const g=new Engine();for(const m of g.state.world.camp.services){g.state.pending={type:'shop',service:m.id};const items=g.serviceStock();assert.equal(g.currentService().id,m.id);assert(items.every(i=>m.slots.includes(i.slot)));if(m.id==='workshop')assert.equal(items.length,0);else assert(items.length>0);}});

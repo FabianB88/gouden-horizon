@@ -1,4 +1,4 @@
-import {AREA_BY_ID,ENEMIES,WORLD} from './data.js?v=29';
+import {AREA_BY_ID,ENEMIES,WORLD} from './data.js?v=30';
 // Chapter level is the floor. Overlevelling cannot turn repeat fights into
 // trivial farms, but enemy HP is frozen at encounter creation.
 export function tuneV8Enemy(e,area){

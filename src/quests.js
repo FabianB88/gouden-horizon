@@ -1,7 +1,8 @@
-import {ADVENTURE_NPCS} from './adventures.js?v=29';
-import {makeItem} from './loot.js?v=29';
+import {ADVENTURE_NPCS} from './adventures.js?v=30';
+import {makeItem} from './loot.js?v=30';
+import {spaciousPoint} from './hub-space.js?v=30';
 
-export const NORA={id:'nora',x:630,y:350,name:'Nora · Bergingscoördinator',title:'Noodstroom'};
+export const NORA=spaciousPoint({id:'nora',x:630,y:350,name:'Nora · Bergingscoördinator',title:'Noodstroom'},'highway');
 const near=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15)<115;
 export const QuestRules={
  questNPCs(){return [...(this.state.area==='highway'?[NORA]:[]),...this.cityNPCs(),...this.quarterNPCs(),...(ADVENTURE_NPCS[this.state.area]?[ADVENTURE_NPCS[this.state.area]]:[])];},

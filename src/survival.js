@@ -1,4 +1,4 @@
-import {resistance} from './resistances.js?v=29';
+import {resistance} from './resistances.js?v=30';
 export const HEAL_COOLDOWN=10;
 export const ANTIDOTE_COOLDOWN=30;
 export const ANTIDOTE_PRICE=45;

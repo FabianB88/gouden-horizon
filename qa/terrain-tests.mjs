@@ -9,8 +9,8 @@ test('Every hub service, gate, crate and quest NPC has a route with extra body c
  for(const id of SAFE_HUBS){const g=new Engine();g.state.cores=[0,1,2,3];g.state.storyPassed=[...STORY_ORDER];g.state.natureVictories={crystalfalls:1};assert(g.enterArea(id));for(const t of [...g.state.world.portals,...g.state.world.camp.services,...g.state.world.loot,...g.questNPCs()])assert(findPath(g.state.player,t,id,35).length,id+' narrow access '+(t.to||t.id));}
 });
 test('Vrijhaven depot gate accepts three approaches across its broad forecourt, both directions',()=>{
- for(const offset of [-18,0,18]){const g=new Engine();g.state.cores=[0,1,2,3];g.enterArea('highway');const p=g.state.player;Object.assign(p,{x:1060,y:750+offset,velocity:{x:0,y:0}});assert(canStand(p.x,p.y,35,'highway'));
-  const route=[{x:1100,y:725+offset},{x:1140,y:720}];walk(g,route);assert.equal(g.interaction().entity.to,'depot');walk(g,[...route.slice(0,-1).reverse(),{x:1060,y:750+offset}]);assert(distance(p,{x:1060,y:750+offset})<8);
+ for(const offset of [-18,0,18]){const g=new Engine();g.state.cores=[0,1,2,3];g.enterArea('highway');const p=g.state.player;Object.assign(p,{x:1060*1.4,y:(750+offset)*1.4,velocity:{x:0,y:0}});assert(canStand(p.x,p.y,35,'highway'));
+  const route=[{x:1100*1.4,y:(725+offset)*1.4},{x:1140*1.4,y:720*1.4}];walk(g,route);assert.equal(g.interaction().entity.to,'depot');walk(g,[...route.slice(0,-1).reverse(),{x:1060*1.4,y:(750+offset)*1.4}]);assert(distance(p,{x:1060*1.4,y:(750+offset)*1.4})<8);
  }
 });
 test('Arena obstacles leave a connected floor and all wave spawns and return gates reachable',()=>{

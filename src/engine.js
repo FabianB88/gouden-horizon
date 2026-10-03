@@ -1,44 +1,44 @@
-import {registerHit} from './combat-feedback.js?v=29';
-import {QuarterRules} from './safe-exploration.js?v=29';
-import {NatureRules,tuneNatureEnemy} from './nature-region.js?v=29';
-import {CompanionUpgradeRules} from './companion-upgrades.js?v=29';
-import {summonAvailable,summonUnlockLevel} from './summon-progression.js?v=29';
-import {CreatureRules} from './creatures.js?v=29';
-import {V8ExpeditionRules,tuneV8Enemy} from './v8-expedition.js?v=29';
-import {tacticalMovement,smoothEnemyVelocity,engagementGoal,EnemyCrowd,separationVector} from './enemy-ai.js?v=29';
-import {BiomeRules,tuneBiomeEnemy} from './biomes.js?v=29';
-import {rollChaseItem,chaseRandom} from './chase-loot.js?v=29';
-import {AdventureRules} from './adventures.js?v=29';
-import {itemFitsSlot} from './equipment-slots.js?v=29';
-import {BossTerrainRules} from './boss-terrain.js?v=29';
-import {SpecializationRules,specializationStats} from './specializations.js?v=29';
-import {PremiumSpellRules} from './premium-spells.js?v=29';
-import {damageResistance} from './resistances.js?v=29';
-import {ItemMarkRules,protectedItem} from './item-marks.js?v=29';
-import {VariantRules,spellProfile,variantChoices} from './spell-variants.js?v=29';
-import {SummonRules} from './summons.js?v=29';
-import {UniqueRules} from './unique-items.js?v=29';
-import {V6EnemyRules} from './v6-enemies.js?v=29';
-import {CityRules} from './city.js?v=29';
-import {BountyRules} from './bounties.js?v=29';
-import { WORLD, SPELLS, ZONES, ENEMIES, EQUIPMENT, START_EQUIPMENT, UPGRADES, DISCIPLINES, POSITIONS, AREAS, AREA_BY_ID, HUB_IDS } from './data.js?v=29';
-import {StoryRules} from './story.js?v=29';
-import {planNewAttack,executeNewAttack,updateNewThreats} from './enemy-variety.js?v=29';
-import {scaleEnemy} from './balance.js?v=29';
-import {ExpeditionRules,REGION_CAMPS} from './expedition.js?v=29';
-import {makeItem,normalizePlayer,DROP_TABLES,dropProfile,salvageValue} from './loot.js?v=29';
-import {HubRules,SAFE_HUBS} from './hubs.js?v=29';
-import {REGIONAL_BOSSES,updateBossPhase,updateEncounterState} from './encounters.js?v=29';
-import {legendaryCast,legendaryDash,legendaryHit,legendaryKill,triggerLegendary,updateLegendary} from './legendary.js?v=29';
-import {updateHeroMotion,heroDirection,heroFrame} from './hero-motion.js?v=29';
-import {SurvivalRules,HEAL_COOLDOWN} from './survival.js?v=29';
-import {updateEnemyMotion} from './enemy-motion.js?v=29';
-import {GambleRules} from './gamble.js?v=29';
-import {presentEnemyAttack,launchEnemyLob,updateEnemyLob} from './enemy-combat.js?v=29';
-import {EndgameRules} from './endgame.js?v=29';
-import {MarketRules} from './markets.js?v=29';
-import {QuestRules} from './quests.js?v=29';
-import {arenaObstacles,blockedByObstacle,coverHit} from './arena-layouts.js?v=29';
+import {registerHit} from './combat-feedback.js?v=30';
+import {QuarterRules} from './safe-exploration.js?v=30';
+import {NatureRules,tuneNatureEnemy} from './nature-region.js?v=30';
+import {CompanionUpgradeRules} from './companion-upgrades.js?v=30';
+import {summonAvailable,summonUnlockLevel} from './summon-progression.js?v=30';
+import {CreatureRules} from './creatures.js?v=30';
+import {V8ExpeditionRules,tuneV8Enemy} from './v8-expedition.js?v=30';
+import {tacticalMovement,smoothEnemyVelocity,engagementGoal,EnemyCrowd,separationVector} from './enemy-ai.js?v=30';
+import {BiomeRules,tuneBiomeEnemy} from './biomes.js?v=30';
+import {rollChaseItem,chaseRandom} from './chase-loot.js?v=30';
+import {AdventureRules} from './adventures.js?v=30';
+import {itemFitsSlot} from './equipment-slots.js?v=30';
+import {BossTerrainRules} from './boss-terrain.js?v=30';
+import {SpecializationRules,specializationStats} from './specializations.js?v=30';
+import {PremiumSpellRules} from './premium-spells.js?v=30';
+import {damageResistance} from './resistances.js?v=30';
+import {ItemMarkRules,protectedItem} from './item-marks.js?v=30';
+import {VariantRules,spellProfile,variantChoices} from './spell-variants.js?v=30';
+import {SummonRules} from './summons.js?v=30';
+import {UniqueRules} from './unique-items.js?v=30';
+import {V6EnemyRules} from './v6-enemies.js?v=30';
+import {CityRules} from './city.js?v=30';
+import {BountyRules} from './bounties.js?v=30';
+import { worldBounds, QUAY_GATE, WORLD, SPELLS, ZONES, ENEMIES, EQUIPMENT, START_EQUIPMENT, UPGRADES, DISCIPLINES, POSITIONS, AREAS, AREA_BY_ID, HUB_IDS } from './data.js?v=30';
+import {StoryRules} from './story.js?v=30';
+import {planNewAttack,executeNewAttack,updateNewThreats} from './enemy-variety.js?v=30';
+import {scaleEnemy} from './balance.js?v=30';
+import {ExpeditionRules,REGION_CAMPS} from './expedition.js?v=30';
+import {makeItem,normalizePlayer,DROP_TABLES,dropProfile,salvageValue} from './loot.js?v=30';
+import {HubRules,SAFE_HUBS} from './hubs.js?v=30';
+import {REGIONAL_BOSSES,updateBossPhase,updateEncounterState} from './encounters.js?v=30';
+import {legendaryCast,legendaryDash,legendaryHit,legendaryKill,triggerLegendary,updateLegendary} from './legendary.js?v=30';
+import {updateHeroMotion,heroDirection,heroFrame} from './hero-motion.js?v=30';
+import {SurvivalRules,HEAL_COOLDOWN} from './survival.js?v=30';
+import {updateEnemyMotion} from './enemy-motion.js?v=30';
+import {GambleRules} from './gamble.js?v=30';
+import {presentEnemyAttack,launchEnemyLob,updateEnemyLob} from './enemy-combat.js?v=30';
+import {EndgameRules} from './endgame.js?v=30';
+import {MarketRules} from './markets.js?v=30';
+import {QuestRules} from './quests.js?v=30';
+import {arenaObstacles,blockedByObstacle,coverHit} from './arena-layouts.js?v=30';
 export const clamp = (n,a,b) => Math.max(a,Math.min(b,n));
 export const distance = (a,b) => Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 export const normal = (x,y) => { const d=Math.hypot(x,y)||1;return {x:x/d,y:y/d}; };
@@ -67,10 +67,10 @@ export function canStand(x,y,radius=18,area=0) {if(blockedByObstacle(x,y,radius,
 const walkGrid=new Map(),CELL=24;
 export function clearLine(a,b,area,radius=18){const steps=Math.ceil(distance(a,b)/2);for(let i=0;i<=steps;i++)if(!canStand(a.x+(b.x-a.x)*i/Math.max(1,steps),a.y+(b.y-a.y)*i/Math.max(1,steps),radius,area))return false;return true;}
 // Cached navigation lattice. Both the player guide and enemies use the painted floor, including side branches.
-export function findPath(a,b,area=0,radius=18){if(clearLine(a,b,area,radius))return [{x:b.x,y:b.y}];const gridKey=area+':'+radius;let grid=walkGrid.get(gridKey);if(!grid){grid=new Map();for(let y=1;y<WORLD.height/CELL;y++)for(let x=1;x<WORLD.width/CELL;x++)if(canStand(x*CELL,y*CELL,radius+2,area))grid.set(x+','+y,{x:x*CELL,y:y*CELL});walkGrid.set(gridKey,grid);}
+export function findPath(a,b,area=0,radius=18){if(clearLine(a,b,area,radius))return [{x:b.x,y:b.y}];const gridKey=area+':'+radius;let grid=walkGrid.get(gridKey);if(!grid){grid=new Map();for(let y=1;y<worldBounds(area).height/CELL;y++)for(let x=1;x<worldBounds(area).width/CELL;x++)if(canStand(x*CELL,y*CELL,radius+2,area))grid.set(x+','+y,{x:x*CELL,y:y*CELL});walkGrid.set(gridKey,grid);}
  const nearest=p=>{let best=null,d=Infinity;for(const [key,v]of grid){const n=Math.hypot(p.x-v.x,p.y-v.y);if(n<d&&clearLine(p,v,area,radius)){d=n;best=key;}}return best;},start=nearest(a),goal=nearest(b);if(!start||!goal)return [];
  const open=[start],g=new Map([[start,0]]),prev=new Map(),done=new Set(),h=k=>distance(grid.get(k),grid.get(goal));let limit=10000;
- while(open.length&&limit--){open.sort((a,b)=>(g.get(a)+h(a))-(g.get(b)+h(b)));const key=open.shift();if(key===goal){const path=[{x:b.x,y:b.y}];let k=goal;while(k!==start){path.unshift(grid.get(k));k=prev.get(k);if(!k)return [];}path.unshift(grid.get(start));let compact=[],anchor=a;for(let i=0;i<path.length;i++){if(i===path.length-1||!clearLine(anchor,path[i+1],area,radius)){compact.push(path[i]);anchor=path[i];}}return compact;}
+ while(open.length&&limit--){open.sort((a,b)=>(g.get(a)+h(a))-(g.get(b)+h(b)));const key=open.shift();if(key===goal){const path=[{x:b.x,y:b.y}];let k=goal;while(k!==start){path.unshift(grid.get(k));k=prev.get(k);if(!k)return [];}path.unshift(grid.get(start));let compact=[],anchor=a;for(let i=0;i<path.length;i++){if(i===path.length-1||!clearLine(anchor,path[i+1],area,radius+2)){compact.push(path[i]);anchor=path[i];}}return compact;}
  done.add(key);const [x,y]=key.split(',').map(Number);for(const [dx,dy]of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]]){const next=(x+dx)+','+(y+dy);if(!grid.has(next)||done.has(next)||!clearLine(grid.get(key),grid.get(next),area,radius+2))continue;const score=g.get(key)+Math.hypot(dx,dy)*CELL;if(score<(g.get(next)??Infinity)){g.set(next,score);prev.set(next,key);if(!open.includes(next))open.push(next);}}}return [];
 }
 
@@ -133,7 +133,7 @@ export class Engine {
     const s=this.state,p=s.player;if(s.world)s.areas[s.area]=s.world;if(area.endgame||area.optional&&s.areas[id]?.sideDone)delete s.areas[id];s.area=id;s.zone=area.zone;s.mode='playing';s.pending=null;s.projectiles=[];s.fields=[];s.ultimateWave=null;s.effects=[];s.numbers=[];s.summons=[];
     s.world=s.areas[id]||this.createWorld(area);s.world.portals=this.portalDefinitions(id);s.world.camp=this.campFor(area);if(s.world.camp&&!s.world.shop)s.world.shop={stock:this.makeStock(area.zone,area.id),marketVersion:2};s.areas[id]=s.world;if(!s.visited.includes(id))s.visited.push(id);
     this.prepareHub(s.world,area);s.world.threats||=[];this.syncStoryPortals();
-    const spawn=area.safeExplore||area.natureArena||area.biomeArena||area.adventure||area.extension&&!area.safe?{x:area.spawn[0]*WORLD.width,y:area.spawn[1]*WORLD.height}:area.kind==='route'?s.world.camp:POSITIONS.start;
+    const spawn=area.safeExplore||area.natureArena||area.biomeArena||area.adventure||area.extension&&!area.safe?{x:area.spawn[0]*WORLD.width,y:area.spawn[1]*WORLD.height}:area.id==='canal'?{x:POSITIONS.start.x*1.4,y:POSITIONS.start.y*1.4}:area.kind==='route'?s.world.camp:POSITIONS.start;
     p.x=spawn.x;p.y=spawn.y;p.velocity={x:0,y:0};p.walkBlend=0;p.visualMotionBlend=0;p.moving=false;p.poseTurn=0;p.dashTimer=0;p.invincible=1.2;p.trail=[];p.lastHurt=s.time;
     this.reconcileArena();
     if(s.destination===id)s.destination=null;
@@ -203,11 +203,13 @@ export class Engine {
     const s=this.state,p=s.player;if(s.mode!=='playing'||p.potions<1||p.healCooldown>0||p.hp>=this.stats().maxHp)return false;
     const healed=Math.min(45,this.stats().maxHp-p.hp);p.potions--;p.healCooldown=HEAL_COOLDOWN;p.hp+=healed;p.heat=0;this.effect('heal',p.x,p.y,{color:'#a8e9b0',radius:75,life:.7});this.number(p.x,p.y,'+'+Math.round(healed),'#b4efbc');this.emit('heal');return true;
   }
+  openQuayGarden(){if(this.state.area!=='canal'||this.state.pending?.npc!=='routes')return false;this.state.world.gardenOpen=true;this.notice('Milo opent de tuinpoort · volg de brede weg naar het oosten');this.closeModal();this.checkpoint();return true;}
+  townGateBlocks(x,y,radius=18){const gate=QUAY_GATE;return this.state.area==='canal'&&!this.state.world.gardenOpen&&Math.abs(x-gate.x)<gate.halfWidth+radius&&Math.abs(y-gate.y)<gate.halfHeight+radius;}
   moveEntity(entity,dx,dy) {
     const nx=entity.x+dx,ny=entity.y+dy;if(entity.type&&this.inCamp({x:nx,y:ny}))return;
-    if(canStand(nx,ny,entity.radius||18,this.state.area)&&!this.blockedByBossTerrain(nx,ny,entity.radius||18,entity)){entity.x=nx;entity.y=ny;return;}
-    if(canStand(nx,entity.y,entity.radius||18,this.state.area)&&!this.blockedByBossTerrain(nx,entity.y,entity.radius||18,entity))entity.x=nx;
-    if(canStand(entity.x,ny,entity.radius||18,this.state.area)&&!this.blockedByBossTerrain(entity.x,ny,entity.radius||18,entity))entity.y=ny;
+    if(canStand(nx,ny,entity.radius||18,this.state.area)&&!this.townGateBlocks(nx,ny,entity.radius||18)&&!this.blockedByBossTerrain(nx,ny,entity.radius||18,entity)){entity.x=nx;entity.y=ny;return;}
+    if(canStand(nx,entity.y,entity.radius||18,this.state.area)&&!this.townGateBlocks(nx,entity.y,entity.radius||18)&&!this.blockedByBossTerrain(nx,entity.y,entity.radius||18,entity))entity.x=nx;
+    if(canStand(entity.x,ny,entity.radius||18,this.state.area)&&!this.townGateBlocks(entity.x,ny,entity.radius||18)&&!this.blockedByBossTerrain(entity.x,ny,entity.radius||18,entity))entity.y=ny;
   }
   moveCompanionToward(u,desired,dt) {
     u.pathCd=Math.max(0,(u.pathCd||0)-dt);
@@ -343,6 +345,44 @@ export class Engine {
   }
   update(dt,input={}) {
     const s=this.state;if(s.mode!=='playing')return;if(this.updateChallengeCountdown(dt))return;s.time+=dt;s.runTime+=dt;
+    this.updateActor(dt,input);if(s.mode!=='playing')return;
+    this.updateFields(dt);this.updateThreats(dt);this.updateHazards(dt);this.updateCompanions(dt);
+    const positions=new Map(s.world.enemies.map(e=>[e.id,{x:e.x,y:e.y}]));this.updateEnemies(dt);
+    for(const e of s.world.enemies){const old=positions.get(e.id)||e;updateEnemyMotion(e,e.x-old.x,e.y-old.y,dt);}
+    this.updateProjectiles(dt);this.updatePickups(dt);this.updateWorldProgress(dt);this.updateLevel();this.updateVisuals(dt);
+  }
+  updateThreats(dt){updateNewThreats(this,dt);this.updateV6Threats(dt);this.updateCreatureThreats(dt);this.updateBossTerrain(dt);}
+  updatePickups(dt){const s=this.state,p=s.player,stats=this.stats();
+    for(const pickup of s.world.pickups){const d=distance(p,pickup);
+      if(pickup.type==='scrap'){
+        if(d<32&&clearLine(p,pickup,s.area,0)){pickup.collected=true;p.scrap+=pickup.amount;this.number(p.x,p.y,'+'+pickup.amount+' schroot','#ffe0a0');this.emit('scrappickup',{amount:pickup.amount});}
+        continue;
+      }
+      if(d<120){const v=normal(p.x-pickup.x,p.y-pickup.y);pickup.x+=v.x*210*dt;pickup.y+=v.y*170*dt;}if(d<30){pickup.collected=true;p.hp=Math.min(stats.maxHp,p.hp+pickup.amount);this.number(p.x,p.y,'+'+pickup.amount,'#b3edaa');}}
+    s.world.pickups=s.world.pickups.filter(item=>!item.collected);
+  }
+  updateWorldProgress(dt){const s=this.state,p=s.player;
+    for(const r of s.world.relays){if(r.status==='defending'&&!s.world.enemies.some(e=>!e.dead&&e.relayId===r.id)){if(r.wave<2){r.wave++;this.spawnRelayWave(r);continue;}r.status='online';this.effect('relay',r.x,r.y,{color:'#96eedc',radius:180,life:1.4});this.notice('Station '+r.id+' online · bron hersteld','#a2ebd9');this.emit('relaydone');s.world.loot.push({id:++this.idCounter,x:r.x+75,y:r.y+65,type:'loot',profile:'station'});
+      const local=s.world.hazards.filter(h=>h.life===undefined&&!h.cleared).sort((a,b)=>distance(a,r)-distance(b,r))[0];if(local){local.cleared=true;this.effect('relay',local.x,local.y,{color:'#96eedc',radius:local.r,life:1.2});}
+    }}
+    this.updateCreatureRitual();this.updateBounty();this.updateAdventure();this.completeV8Arena();this.completeBiomeArena();this.completeNatureArena();this.updateNatureExploration();if(AREA_BY_ID[s.area].side&&!AREA_BY_ID[s.area].bounty&&!AREA_BY_ID[s.area].adventure&&!AREA_BY_ID[s.area].extension&&!AREA_BY_ID[s.area].biomeArena&&!AREA_BY_ID[s.area].natureArena&&!s.world.sideDone&&!s.world.enemies.some(e=>!e.dead)){
+      if(s.world.sideRound<2){s.world.sideRound=2;this.spawnExpeditionWave(s.world,AREA_BY_ID[s.area]);this.notice('Expeditie · groep 2 / 2 · elitebewaker ontwaakt');}
+      else{s.world.sideDone=true;s.world.gate.eliteSpawned=true;s.world.gate.open=true;s.world.loot.push({id:++this.idCounter,x:POSITIONS.exit.x-110,y:POSITIONS.exit.y+65,type:'loot',profile:AREA_BY_ID[s.area].optional?'cache':'expedition',expeditionReward:true});if(AREA_BY_ID[s.area].optional){const reward=35+s.zone*20;p.scrap+=reward;this.notice('Berging voltooid · +'+reward+' schroot');}else this.notice('Expeditie voltooid · beloning en terugportal vrij');this.emit('relaydone');}
+    }
+    this.placeQuestRecovery();this.updateCityQuests();this.updateChallenge(dt);
+    if(s.world.gate&&s.world.relays.length&&s.zone<3&&s.world.relays.every(r=>r.status==='online')&&!s.world.gate.eliteSpawned){s.world.gate.eliteSpawned=true;const e=this.makeEnemy(REGIONAL_BOSSES[s.zone],s.world.gate.x-120,s.world.gate.y+110,false,true);e.guardian=true;s.world.enemies.push(e);this.notice(ENEMIES[e.type].name+' ontwaakt · laatste kalibratie');this.emit('guardian');}
+    if(s.world.gate?.eliteSpawned&&this.arenaCleared()){s.world.gate.open=true;s.world.coreAvailable=true;}
+  }
+  updateLevel(){const s=this.state,p=s.player;
+    if(p.xp>=p.nextXp&&!this.challengeBuildLocked()&&!s.pending&&!s.ultimateWave&&!s.effects.some(e=>e.type==='ultimate-wave'&&e.life>.5)&&s.mode==='playing'){p.xp-=p.nextXp;p.level++;if(p.level>=5&&p.preferredSpecialization&&!p.specialization)this.chooseSpecialization(p.preferredSpecialization);p.nextXp=Math.round(p.nextXp*1.28);p.skillPoints++;s.mode='modal';s.pending={type:'upgrade',choices:this.upgradeChoices()};this.notice('NIVEAU '+p.level+' BEREIKT · +1 vaardigheidspunt','#ffe3a0');this.effect('level-burst',p.x,p.y,{level:p.level,life:1.6});this.emit('levelready',{level:p.level});}
+  }
+  updateVisuals(dt){const s=this.state,p=s.player;
+    for(const e of s.effects){e.life-=dt;e.age+=dt;if(e.type==='tank-wave'&&!e.hit&&Math.abs(distance(p,e)-(40+Math.min(1,e.age/.9)*240))<26){e.hit=true;this.hurtPlayer(e.damage);}}s.effects=s.effects.filter(e=>e.life>0);
+    for(const n of s.numbers){n.life-=dt;n.y-=dt*32;}s.numbers=s.numbers.filter(n=>n.life>0);
+    for(const n of s.notices)n.life-=dt;s.notices=s.notices.filter(n=>n.life>0);
+  }
+  updateActor(dt,input={}) {
+    const s=this.state;
     const p=s.player,stats=this.stats();
     this.updateSurvival(dt);if(s.mode!=='playing')return;
     updateLegendary(p,dt);p.rootSlow=Math.max(0,(p.rootSlow||0)-dt);
@@ -367,31 +407,6 @@ export class Engine {
     const footBefore=Math.floor((p.walkDistance||0)/48);updateHeroMotion(p,p.x-walkFrom.x,p.y-walkFrom.y,dt,stats.moveSpeed,wasDashing);
     if(!wasDashing&&p.moving&&Math.floor((p.walkDistance||0)/48)!==footBefore)this.emit('footstep',{material:s.area==='glass-dunes'?'sand':s.area==='groenkloof'||s.zone===2?'grass':'stone'});
     if(input.shoot)this.cast();for(const slot of input.slots||[])this.castSlot(slot,input.aim);if(input.right)this.castRight(input.aim);
-    this.updateFields(dt);updateNewThreats(this,dt);this.updateV6Threats(dt);this.updateCreatureThreats(dt);this.updateBossTerrain(dt);this.updateHazards(dt);this.updateCompanions(dt);
-    const enemyPositions=new Map(s.world.enemies.map(e=>[e.id,{x:e.x,y:e.y}]));this.updateEnemies(dt);
-    for(const e of s.world.enemies){const old=enemyPositions.get(e.id)||e;updateEnemyMotion(e,e.x-old.x,e.y-old.y,dt);}
-    this.updateProjectiles(dt);
-    for(const pickup of s.world.pickups){const d=distance(p,pickup);
-      if(pickup.type==='scrap'){
-        if(d<32&&clearLine(p,pickup,s.area,0)){pickup.collected=true;p.scrap+=pickup.amount;this.number(p.x,p.y,'+'+pickup.amount+' schroot','#ffe0a0');this.emit('scrappickup',{amount:pickup.amount});}
-        continue;
-      }
-      if(d<120){const v=normal(p.x-pickup.x,p.y-pickup.y);pickup.x+=v.x*210*dt;pickup.y+=v.y*170*dt;}if(d<30){pickup.collected=true;p.hp=Math.min(stats.maxHp,p.hp+pickup.amount);this.number(p.x,p.y,'+'+pickup.amount,'#b3edaa');}}
-    s.world.pickups=s.world.pickups.filter(item=>!item.collected);
-    for(const r of s.world.relays){if(r.status==='defending'&&!s.world.enemies.some(e=>!e.dead&&e.relayId===r.id)){if(r.wave<2){r.wave++;this.spawnRelayWave(r);continue;}r.status='online';this.effect('relay',r.x,r.y,{color:'#96eedc',radius:180,life:1.4});this.notice('Station '+r.id+' online · bron hersteld','#a2ebd9');this.emit('relaydone');s.world.loot.push({id:++this.idCounter,x:r.x+75,y:r.y+65,type:'loot',profile:'station'});
-      const local=s.world.hazards.filter(h=>h.life===undefined&&!h.cleared).sort((a,b)=>distance(a,r)-distance(b,r))[0];if(local){local.cleared=true;this.effect('relay',local.x,local.y,{color:'#96eedc',radius:local.r,life:1.2});}
-    }}
-    this.updateCreatureRitual();this.updateBounty();this.updateAdventure();this.completeV8Arena();this.completeBiomeArena();this.completeNatureArena();this.updateNatureExploration();if(AREA_BY_ID[s.area].side&&!AREA_BY_ID[s.area].bounty&&!AREA_BY_ID[s.area].adventure&&!AREA_BY_ID[s.area].extension&&!AREA_BY_ID[s.area].biomeArena&&!AREA_BY_ID[s.area].natureArena&&!s.world.sideDone&&!s.world.enemies.some(e=>!e.dead)){
-      if(s.world.sideRound<2){s.world.sideRound=2;this.spawnExpeditionWave(s.world,AREA_BY_ID[s.area]);this.notice('Expeditie · groep 2 / 2 · elitebewaker ontwaakt');}
-      else{s.world.sideDone=true;s.world.gate.eliteSpawned=true;s.world.gate.open=true;s.world.loot.push({id:++this.idCounter,x:POSITIONS.exit.x-110,y:POSITIONS.exit.y+65,type:'loot',profile:AREA_BY_ID[s.area].optional?'cache':'expedition',expeditionReward:true});if(AREA_BY_ID[s.area].optional){const reward=35+s.zone*20;p.scrap+=reward;this.notice('Berging voltooid · +'+reward+' schroot');}else this.notice('Expeditie voltooid · beloning en terugportal vrij');this.emit('relaydone');}
-    }
-    this.placeQuestRecovery();this.updateCityQuests();this.updateChallenge(dt);
-    if(s.world.gate&&s.world.relays.length&&s.zone<3&&s.world.relays.every(r=>r.status==='online')&&!s.world.gate.eliteSpawned){s.world.gate.eliteSpawned=true;const e=this.makeEnemy(REGIONAL_BOSSES[s.zone],s.world.gate.x-120,s.world.gate.y+110,false,true);e.guardian=true;s.world.enemies.push(e);this.notice(ENEMIES[e.type].name+' ontwaakt · laatste kalibratie');this.emit('guardian');}
-    if(s.world.gate?.eliteSpawned&&this.arenaCleared()){s.world.gate.open=true;s.world.coreAvailable=true;}
-    if(p.xp>=p.nextXp&&!this.challengeBuildLocked()&&!s.pending&&!s.ultimateWave&&!s.effects.some(e=>e.type==='ultimate-wave'&&e.life>.5)&&s.mode==='playing'){p.xp-=p.nextXp;p.level++;if(p.level>=5&&p.preferredSpecialization&&!p.specialization)this.chooseSpecialization(p.preferredSpecialization);p.nextXp=Math.round(p.nextXp*1.28);p.skillPoints++;s.mode='modal';s.pending={type:'upgrade',choices:this.upgradeChoices()};this.notice('NIVEAU '+p.level+' BEREIKT · +1 vaardigheidspunt','#ffe3a0');this.effect('level-burst',p.x,p.y,{level:p.level,life:1.6});this.emit('levelready',{level:p.level});}
-    for(const e of s.effects){e.life-=dt;e.age+=dt;if(e.type==='tank-wave'&&!e.hit&&Math.abs(distance(p,e)-(40+Math.min(1,e.age/.9)*240))<26){e.hit=true;this.hurtPlayer(e.damage);}}s.effects=s.effects.filter(e=>e.life>0);
-    for(const n of s.numbers){n.life-=dt;n.y-=dt*32;}s.numbers=s.numbers.filter(n=>n.life>0);
-    for(const n of s.notices)n.life-=dt;s.notices=s.notices.filter(n=>n.life>0);
   }
   updateHazards(dt) {
     const s=this.state,p=s.player,stats=this.stats();if(this.inCamp()){p.wet=0;p.heat=0;p.poison=0;return;}let terrainDamage=0,terrainType='poison';
@@ -408,13 +423,13 @@ export class Engine {
     if(terrainDamage){p.terrainTick=(p.terrainTick||0)+dt;if(p.terrainTick>=1){p.terrainTick-=1;this.hurtPlayer(terrainDamage,terrainType);}}else p.terrainTick=0;
     p.heat=Math.max(0,p.heat-dt*.15);s.world.hazards=s.world.hazards.filter(h=>!h.cleared||h.life===undefined);
   }
-  updateEnemies(dt) {
-    const s=this.state,p=s.player,crowd=new EnemyCrowd(s.world.enemies);
-    for(const e of s.world.enemies){if(e.dead)continue;const base=ENEMIES[e.type];if(this.inCamp(e)&&e.home){e.x=e.home.x;e.y=e.home.y;}if(this.inCamp()){e.windup=null;e.leap=null;e.rush=null;e.jumpHeight=0;e.move=false;e.awake=false;continue;}e.anim+=dt;e.hurt=Math.max(0,e.hurt-dt);e.wet=Math.max(0,e.wet-dt);e.stun=Math.max(0,e.stun-dt);e.frozen=Math.max(0,(e.frozen||0)-dt);e.resolve=Math.max(0,(e.resolve||0)-dt);e.comboCd=Math.max(0,(e.comboCd||0)-dt);e.slow=Math.max(0,(e.slow||0)-dt);
+  updateEnemies(dt,subset=this.state.world.enemies,crowd=new EnemyCrowd(this.state.world.enemies)) {
+    const s=this.state,p=s.player;
+    for(const e of subset){if(e.dead)continue;const base=ENEMIES[e.type];if(this.inCamp(e)&&e.home){e.x=e.home.x;e.y=e.home.y;}if(this.inCamp()){e.windup=null;e.leap=null;e.rush=null;e.jumpHeight=0;e.move=false;e.awake=false;continue;}e.anim+=dt;e.hurt=Math.max(0,e.hurt-dt);e.wet=Math.max(0,e.wet-dt);e.stun=Math.max(0,e.stun-dt);e.frozen=Math.max(0,(e.frozen||0)-dt);e.resolve=Math.max(0,(e.resolve||0)-dt);e.comboCd=Math.max(0,(e.comboCd||0)-dt);e.slow=Math.max(0,(e.slow||0)-dt);
       if(e.burn>0){e.burn=Math.max(0,e.burn-dt);e.hp-=dt*7;if(e.hp<=0){this.killEnemy(e);continue;}}
       if(e.leap){const leap=e.leap;leap.age+=dt;const t=clamp(leap.age/.32,0,1);e.x=leap.from.x+(leap.to.x-leap.from.x)*t;e.y=leap.from.y+(leap.to.y-leap.from.y)*t;e.jumpHeight=Math.sin(t*Math.PI)*68;
-        if(t>=1){e.jumpHeight=0;e.leap=null;if(!this.inCamp(e)&&distance(e,p)<95)this.hurtPlayer(leap.damage);this.effect('impact',e.x,e.y,{color:'#bad88d',element:'toxin',radius:95,life:.45});s.world.hazards.push({id:'poison-'+ ++this.idCounter,x:e.x,y:e.y,r:62,type:'spore',venom:true,life:4,cleared:false});}continue;}
-      if(e.rush){const rush=e.rush;rush.life-=dt;this.hurtCompanions(e,e.radius+24,rush.damage,rush.hitCompanions||(rush.hitCompanions=[]));if(e.stun<=0)this.moveEntity(e,rush.dir.x*700*dt,rush.dir.y*700/1.15*dt);if(!rush.hit&&distance(e,p)<e.radius+24){rush.hit=true;this.hurtPlayer(rush.damage,rush.element||'physical');}if(rush.life<=0||e.stun>0)e.rush=null;continue;}
+        if(t>=1){e.jumpHeight=0;e.leap=null;if(!this.inCamp(e)){if(this.hurtPartyArea)this.hurtPartyArea(e,95,leap.damage);else if(distance(e,p)<95)this.hurtPlayer(leap.damage);}this.effect('impact',e.x,e.y,{color:'#bad88d',element:'toxin',radius:95,life:.45});s.world.hazards.push({id:'poison-'+ ++this.idCounter,x:e.x,y:e.y,r:62,type:'spore',venom:true,life:4,cleared:false});}continue;}
+      if(e.rush){const rush=e.rush;rush.life-=dt;this.hurtCompanions(e,e.radius+24,rush.damage,rush.hitCompanions||(rush.hitCompanions=[]));if(e.stun<=0)this.moveEntity(e,rush.dir.x*700*dt,rush.dir.y*700/1.15*dt);if(this.forEachLivingHero)this.forEachLivingHero(hero=>{rush.hitHeroes||=[];if(!rush.hitHeroes.includes(hero.heroId)&&distance(e,hero)<e.radius+24){rush.hitHeroes.push(hero.heroId);this.hurtPlayer(rush.damage,rush.element||'physical');}});else if(!rush.hit&&distance(e,p)<e.radius+24){rush.hit=true;this.hurtPlayer(rush.damage,rush.element||'physical');}if(rush.life<=0||e.stun>0)e.rush=null;continue;}
       const dist=distance(e,p);if(!e.awake&&(dist<(e.type==='boss'?570:Math.max(330,Math.min(540,base.range))))){e.awake=true;this.effect('alert',e.x,e.y-90,{color:'#edd99c',radius:20,life:.55});}
       if(!e.awake||e.stun>0){e.steerX=e.steerY=0;continue;}e.cd-=dt;e.move=false;
       this.updateV6Enemy(e);this.updateBiomeEnemy(e);this.updateNatureEnemy(e);
@@ -466,7 +481,7 @@ export class Engine {
     if(attack.mode==='charge'){e.rush={dir:{...attack.dir},life:.34,damage,hit:false};this.effect('slash',e.x,e.y,{dir:attack.dir,color:base.color,radius:100,life:.3});}
     else if(attack.mode==='shockwave'){this.effect('tank-wave',e.x,e.y,{damage,radius:280,hit:false,life:.9,color:base.color});}
     else if(attack.mode==='bite'){if(distance(p,e)<100)this.hurtPlayer(damage);this.effect('slash',e.x,e.y,{dir:attack.dir,color:base.color,radius:78,life:.25});}
-    else if(attack.mode==='slam'){if(distance(p,e)<150)this.hurtPlayer(damage);this.effect('nova',e.x,e.y,{color:base.color,radius:150,life:.5});}
+    else if(attack.mode==='slam'){if(this.hurtPartyArea)this.hurtPartyArea(e,150,damage);else if(distance(p,e)<150)this.hurtPlayer(damage);this.effect('nova',e.x,e.y,{color:base.color,radius:150,life:.5});}
     else if(attack.mode==='spores'||attack.mode==='siege'){attack.targets.forEach((target,i)=>launchEnemyLob(this,e,target,{duration:.5+i*.09,damage,radius:attack.mode==='siege'?90:65,poison:attack.mode==='spores'}));}
     else if(attack.mode==='swing'){if(distance(p,e)<130){const to=normal(p.x-e.x,(p.y-e.y)*1.15);if(to.x*attack.dir.x+to.y*attack.dir.y>.35)this.hurtPlayer(damage);}this.effect('slash',e.x,e.y,{dir:attack.dir,color:'#f78e68',radius:125,life:.35});}
     else if(attack.mode==='leap'){const to=copy(attack.target);if(!canStand(to.x,to.y,e.radius,s.area)){let found=false;for(let r=12;r<=100&&!found;r+=12)for(let i=0;i<12;i++){const x=attack.target.x+Math.cos(i*Math.PI/6)*r,y=attack.target.y+Math.sin(i*Math.PI/6)*r;if(canStand(x,y,e.radius,s.area)){to.x=x;to.y=y;found=true;break;}}if(!found){to.x=e.x;to.y=e.y;}}e.leap={from:{x:e.x,y:e.y},to,damage,age:0};}
@@ -475,7 +490,7 @@ export class Engine {
       let length=e.type==='boss'?740:640,end={x:e.x+attack.dir.x*length,y:e.y+attack.dir.y*length/1.15};
       const cover=coverHit(e,end,s.area);if(cover){end={x:cover.x,y:cover.y};length=distance(e,end);}
       const vx=p.x-e.x,vy=(p.y-e.y)*1.15,along=vx*attack.dir.x+vy*attack.dir.y,cross=Math.abs(vx*attack.dir.y-vy*attack.dir.x);
-      if(along>0&&along<length&&cross<(attack.mode==='snipe'?15:35))this.hurtPlayer(damage,'electric');this.effect('beam',e.x,e.y-25,{end:{x:end.x,y:end.y-25},color:'#ffb397',life:.3});
+      if(this.forEachLivingHero)this.forEachLivingHero(hero=>{const dx=hero.x-e.x,dy=(hero.y-e.y)*1.15,a=dx*attack.dir.x+dy*attack.dir.y,c=Math.abs(dx*attack.dir.y-dy*attack.dir.x);if(a>0&&a<length&&c<35)this.hurtPlayer(damage,'electric');});else if(along>0&&along<length&&cross<(attack.mode==='snipe'?15:35))this.hurtPlayer(damage,'electric');this.effect('beam',e.x,e.y-25,{end:{x:end.x,y:end.y-25},color:'#ffb397',life:.3});
     }else if(attack.mode==='meteors'){attack.targets.forEach((target,i)=>launchEnemyLob(this,e,target,{duration:.5+i*.08,damage,radius:94}));}
     else{
       const count=attack.mode==='chainburst'?6:attack.mode==='radial'?(e.phase===3?14:10):3;

@@ -1,8 +1,8 @@
-import {spellInsight} from './build-insights.js?v=29';
-import {SPELL_OFFERS} from './markets.js?v=29';
-import {variantBody} from './variant-ui.js?v=29';
-import {spellProfile,activeVariant} from './spell-variants.js?v=29';
-import {SPELLS,UPGRADES} from './data.js?v=29';
+import {spellInsight} from './build-insights.js?v=30';
+import {SPELL_OFFERS} from './markets.js?v=30';
+import {variantBody} from './variant-ui.js?v=30';
+import {spellProfile,activeVariant} from './spell-variants.js?v=30';
+import {SPELLS,UPGRADES} from './data.js?v=30';
 const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const art=id=>`<img class="painted-spell" src="assets/items/skill-${id==='summon'?'summon-v82':id}.webp" alt="" draggable="false">`;
 export function bindingLabel(key){return key==='main'?'Linkermuisknop':key==='right'?'Rechtermuisknop / Q':'Slot '+(Number(key)+1);}
