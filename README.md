@@ -1,6 +1,10 @@
-# Gouden Horizon v8.8.4 — Groene Corridor
+# Gouden Horizon v8.8.5 — Zichtbare wegen in de Groene Corridor
 
 De volledige bronversie voor desktop en Android in de browser, online solo via GitHub Pages of Render, en gratis LAN-co-op. Upload de inhoud van `dist/` na `npm run site:build`, of publiceer deze bronmap rechtstreeks: `index.html`, `src/`, `assets/`, de vier CSS-bestanden en `.nojekyll` moeten bij elkaar blijven. Er is geen Android-app of betaalde server nodig voor solo.
+
+## Nieuw in v8.8.5
+
+De loopruimte van de verbindingsbrug, de kristaltrappen en het zuidelijke serrepad volgt nu de geschilderde stenen. Ook het kleine balkonpad langs de westelijke serre is toegankelijk. Twee vijandstartplekken zijn van planten/rotsen naar bestrating verplaatst. De controle volgt vaste wegen met gewone toetsen: vanaf de aankomstplek over de brug naar het hek, door de tuin en weer langs dezelfde wegen terug. Zestien vaste paden worden links, midden en rechts in beide richtingen gelopen. Per bewegingsstap wordt de afwijking van het huidige stuk pad gecontroleerd; alleen aankomen bij een bestemming is onvoldoende. Zie `qa/FOREST-V885-VALIDATION.md`.
 
 ## Nieuw in v8.8.4
 

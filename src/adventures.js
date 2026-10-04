@@ -1,6 +1,6 @@
-import {AREA_BY_ID,ENEMIES} from './data.js?v=37';
-import {makeItem} from './loot.js?v=37';
-import {spaciousPoint} from './hub-space.js?v=37';
+import {AREA_BY_ID,ENEMIES} from './data.js?v=38';
+import {makeItem} from './loot.js?v=38';
+import {spaciousPoint} from './hub-space.js?v=38';
 export const ADVENTURES={
  'adventure-metro':{name:'De Metrowerkplaats',hub:'canal',chapter:'delta',zone:0,reward:75,xp:45,weights:[12,58,28,2,0],objectives:['Pompzekering','Signaalmodule','Voedingskast'],groups:[['crawler','drone'],['sniper','minecrab'],['eel','raider','crawler']]},
  'adventure-caravan':{name:'De Verloren Karavaan',hub:'highway',chapter:'highway',zone:1,reward:115,xp:70,weights:[4,47,40,9,0],objectives:['Medicijnkrat','Focuskoffer','Accuvoorraad'],groups:[['hunter','raider'],['repairer','bulwark'],['sniper','bulwark','hunter']]},

@@ -25,7 +25,7 @@ export const OUTDOOR_REGIONS={
   wild:[[[503,373],[820,315],[1280,95],[1536,120],[1536,1024],[983,802],[636,567],[545,470]]],
   solids:[],
   points:[{id:'moonseed',name:'Maanbloem',point:[675,375]},{id:'crystalseed',name:'Kristalvaren',point:[1020,235]},{id:'amberseed',name:'Amberkiem',point:[1180,756]}],
-  encounters:[['mossback',750,540],['sunnewt',978,611],['mistprowler',1115,390],['windowl',1100,216],['sporecaster',1230,834]],
+  encounters:[['mossback',750,540],['sunnewt',978,611],['mistprowler',1185,400],['windowl',1100,216],['sporecaster',1230,895]],
  },
  skybridge:{file:'stormwatch-v872.webp',asset:'stormwatch',scale:1.25,name:'Stormwacht',npc:'orin',npcName:'Orin · Stormlezer',npcPoint:[455,360],color:'#a7e5ef',
   intro:'Aurelia hoort niets door de stormruis. Achter die echte deur liggen drie oude bakens. Stem elk baken af: blijf twee seconden staan. Lopen, aanvallen of geraakt worden onderbreekt de afstemming. De wezens verderop zijn gevaarlijk.',

@@ -1,5 +1,5 @@
-import {makeItem,weighted} from './loot.js?v=37';
-import {START_EQUIPMENT} from './data.js?v=37';
+import {makeItem,weighted} from './loot.js?v=38';
+import {START_EQUIPMENT} from './data.js?v=38';
 export const GAMBLE_WEIGHTS=[40,36,18,5,1];
 export const GambleRules={
  gambleCost(){return 40+10*this.state.player.level;},

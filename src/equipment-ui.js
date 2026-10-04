@@ -1,8 +1,8 @@
-import {SLOT_NAMES,RARITIES} from './data.js?v=37';
-import {RESISTANCES,resistance} from './resistances.js?v=37';
-import {markActions} from './item-marks.js?v=37';
-import {EQUIPMENT_SLOT_NAMES,itemFitsSlot,comparisonSlot} from './equipment-slots.js?v=37';
-import {gearFeedback} from './gear-feedback.js?v=37';
+import {SLOT_NAMES,RARITIES} from './data.js?v=38';
+import {RESISTANCES,resistance} from './resistances.js?v=38';
+import {markActions} from './item-marks.js?v=38';
+import {EQUIPMENT_SLOT_NAMES,itemFitsSlot,comparisonSlot} from './equipment-slots.js?v=38';
+import {gearFeedback} from './gear-feedback.js?v=38';
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const art=i=>`<img class="painted-item" src="assets/items/${i.art||i.id}.webp" alt="" draggable="false">`;
 export function equipmentBody(p,stats,selected,slot,sort='rarity'){

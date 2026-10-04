@@ -1,7 +1,7 @@
-import {activeVariant} from './spell-variants.js?v=37';
-import {AREA_BY_ID,ENEMIES,POSITIONS} from './data.js?v=37';
-import {SAFE_HUBS} from './hubs.js?v=37';
-import {makeItem} from './loot.js?v=37';
+import {activeVariant} from './spell-variants.js?v=38';
+import {AREA_BY_ID,ENEMIES,POSITIONS} from './data.js?v=38';
+import {SAFE_HUBS} from './hubs.js?v=38';
+import {makeItem} from './loot.js?v=38';
 const clone=v=>JSON.parse(JSON.stringify(v));
 export const TRIALS=[
  {id:'trial-tide',name:'Dijkbreker',theme:'Water, gif en zware dijkmachines',boss:'dredger',bossName:'De Dijkwachter',roster:['eel','minecrab','toxinbeetle','bulwark','brinebreaker'],rewardSlot:'boots'},
