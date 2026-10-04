@@ -1,4 +1,4 @@
-import {attackProfile,ELEMENT_COLORS} from './enemy-combat.js?v=38';
+import {attackProfile,ELEMENT_COLORS} from './enemy-combat.js?v=39';
 const TAU=Math.PI*2;
 const clamp=n=>Math.max(0,Math.min(1,n));
 const alpha=n=>Math.round(clamp(n)*255).toString(16).padStart(2,'0');

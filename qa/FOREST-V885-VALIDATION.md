@@ -35,8 +35,15 @@ Validation:
 - Nineteen focused forest checks, six walkway/preload checks, eleven outdoor
   checks, six wandering checks and ten existing navigation checks pass.
 - Static build regenerates 24 navigation grids. The 20 non-forest records remain
-  identical in parsed data to v8.8.4. Cache revision 38 and walkways-v885.json
+  identical in parsed data to v8.8.4. The final v8.8.6 follow-up uses cache revision 39 and walkways-v886.json
   prevent cached v8.8.4 geometry from being reused.
+
+The final v8.8.6 browser repeat recorded 7,061 frames with maximum cross-track
+deviation 6.39 world pixels, again without browser errors or missing resources.
+
+The first public v8.8.5 check found a sub-pixel clearance gap on the outer
+southern bend between movement samples. v8.8.6 fills this paving edge and adds
+collision checks every native pixel along all three lanes to the permanent suite.
 
 Reproduce: `npm run test:world`, `node qa/outdoor-v872-tests.mjs`,
 `node qa/wandering-tests.mjs`, `node qa/navigation-v871-tests.mjs`.

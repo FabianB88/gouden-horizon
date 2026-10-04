@@ -1,6 +1,6 @@
-import {ADVENTURE_NPCS} from './adventures.js?v=38';
-import {makeItem} from './loot.js?v=38';
-import {spaciousPoint} from './hub-space.js?v=38';
+import {ADVENTURE_NPCS} from './adventures.js?v=39';
+import {makeItem} from './loot.js?v=39';
+import {spaciousPoint} from './hub-space.js?v=39';
 
 export const NORA=spaciousPoint({id:'nora',x:570*1.25,y:310*1.25,name:'Nora · Bergingscoördinator',title:'Noodstroom'},'highway');
 const near=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15)<115;

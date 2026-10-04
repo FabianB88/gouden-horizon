@@ -1,4 +1,4 @@
-import {ENEMIES} from './data.js?v=38';
+import {ENEMIES} from './data.js?v=39';
 
 // Snapshot strength when an enemy enters the encounter. Equipment changes and
 // later level-ups never refill or repeatedly enlarge a living enemy's health.

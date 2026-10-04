@@ -1,5 +1,5 @@
-import {AREA_BY_ID} from './data.js?v=38';
-import {STORY_ORDER} from './story.js?v=38';
+import {AREA_BY_ID} from './data.js?v=39';
+import {STORY_ORDER} from './story.js?v=39';
 
 // Each scene connects an existing encounter to the journey; it never invents a new quest.
 export const JOURNEY_SCENES={

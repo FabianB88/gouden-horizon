@@ -10,5 +10,5 @@ for(const area of Object.keys(WORLD_WALKWAYS)){
  for(const radius of radii){records.push(findPath.bake(area,radius));console.log('Prepared '+area+' · '+radius);}
 }
 const output=new URL('../assets/navigation/',import.meta.url);mkdirSync(output,{recursive:true});
-writeFileSync(new URL('walkways-v885.json',output),JSON.stringify(records));
+writeFileSync(new URL('walkways-v886.json',output),JSON.stringify(records));
 console.log('Prepared '+records.length+' navigation grids.');

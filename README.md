@@ -1,6 +1,10 @@
-# Gouden Horizon v8.8.5 — Zichtbare wegen in de Groene Corridor
+# Gouden Horizon v8.8.6 — Zichtbare wegen in de Groene Corridor
 
 De volledige bronversie voor desktop en Android in de browser, online solo via GitHub Pages of Render, en gratis LAN-co-op. Upload de inhoud van `dist/` na `npm run site:build`, of publiceer deze bronmap rechtstreeks: `index.html`, `src/`, `assets/`, de vier CSS-bestanden en `.nojekyll` moeten bij elkaar blijven. Er is geen Android-app of betaalde server nodig voor solo.
+
+## Nieuw in v8.8.6
+
+Een klein ontbrekend randvlak in de zuidelijke bocht is gedicht. Alle zestien testwegen worden nu ook op elke native beeldpixel links, midden en rechts gecontroleerd, zodat gaten tussen bewegingsstappen niet worden gemist.
 
 ## Nieuw in v8.8.5
 

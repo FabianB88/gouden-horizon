@@ -26,7 +26,9 @@ let count=0;const failures=[];
 for(const [name,tile,width,points]of PAINTED_LANES){
  try{
  const g=game();g.state.world.outdoor.open=true;
- for(const offset of [-width,0,width]){const targets=lane(tile,points,offset);walk(g,targets,name+' offset '+offset);walk(g,targets.toReversed(),name+' reverse offset '+offset);}
+ for(const offset of [-width,0,width]){const targets=lane(tile,points,offset);
+  for(let i=1;i<targets.length;i++){const a=targets[i-1],b=targets[i],steps=Math.ceil(distance(a,b)/1.75);for(let t=0;t<=steps;t++)assert(canStand(a.x+(b.x-a.x)*t/steps,a.y+(b.y-a.y)*t/steps,18,'forest'),name+' dense side-lane clearance at '+JSON.stringify([(a.x+(b.x-a.x)*t/steps)/1.75,(a.y+(b.y-a.y)*t/steps)/1.75]));}
+  walk(g,targets,name+' offset '+offset);walk(g,targets.toReversed(),name+' reverse offset '+offset);}
  console.log('PASS full-width keyboard walking: '+name);count++;
  }catch(error){failures.push(error.message);console.log('FAIL '+error.message);}
 }
