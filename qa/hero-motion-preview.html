@@ -1,0 +1,28 @@
+<!doctype html><meta charset="utf-8"><title>Hero walking and turn review</title>
+<style>body{margin:0;background:#213a3b;color:#eee;font:16px sans-serif}canvas{width:100%;max-width:1440px}</style>
+<canvas width="1440" height="850"></canvas>
+<script type="module">
+import {drawDirectionalHero} from '../src/hero-animation.js';
+import {updateHeroMotion} from '../src/hero-motion.js';
+const canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d');
+const load=async path=>{const img=new Image();img.src='../'+path;await img.decode();return img;};
+const r={ctx,assets:{},heroClassCrop:await fetch('../assets/painted/hero-classes-v88.json').then(r=>r.json())};
+const variants={'elementalist-male':['elementalist','male','storm','elementalist-male-v88'],'elementalist-female':['elementalist','female','storm','elementalist-female-v883'],'builder-male':['builder','male','filter','builder-v871'],'builder-female':['builder','female','filter','builder-female-v883'],'hunter-male':['hunter','male','light','hunter-male-v88'],'hunter-female':['hunter','female','light','hunter-female-v883']};
+const [characterClass,heroGender,armor,file]=variants[new URLSearchParams(location.search).get('variant')]||variants['elementalist-male'];
+r.assets['hero-class-'+characterClass+'-'+heroGender]=await load('assets/painted/hero-class-'+file+'.webp');
+if(new URLSearchParams(location.search).has('gear')){
+ r.focusV8Crop=await fetch('../assets/expedition/focus-v8.json').then(r=>r.json());r.assets.focusV8=await load('assets/expedition/focus-v8.webp');
+ r.helmetV8Crop=await fetch('../assets/expedition/helmets-v8.json').then(r=>r.json());r.assets.helmetsV8=await load('assets/expedition/helmets-v8.webp');
+}
+const base={characterClass,heroGender,equipment:{suit:{appearance:armor}},moving:true,walkBlend:1,visualMotionBlend:1,aim:{x:1,y:0}};
+if(new URLSearchParams(location.search).has('gear'))base.equipment.head={appearance:'field'};
+function draw(p,x,y){ctx.save();ctx.translate(x,y);ctx.scale(1.8,1.8);drawDirectionalHero(r,{...p,x:0,y:0});ctx.restore();}
+ctx.fillStyle='#e5ddc1';ctx.fillText('Eight directions / fixed ground anchor',24,25);
+for(let d=0;d<8;d++){const x=90+d*180;ctx.strokeStyle='#aac5b455';ctx.beginPath();ctx.moveTo(x-55,280);ctx.lineTo(x+55,280);ctx.stroke();draw({...base,poseDirection:d,walkDistance:24},x,280);ctx.fillStyle='#e5ddc1';ctx.fillText(String(d),x,310);}
+ctx.fillText('West → east reversal / consecutive frames at 30 ms',24,355);
+const p={...base,poseDirection:2,walkDistance:48};
+for(let i=0;i<8;i++){updateHeroMotion(p,6,0,.03,200);draw(p,90+i*180,620);ctx.fillStyle='#e5ddc1';ctx.fillText(i*30+' ms',65+i*180,650);}
+ctx.fillText('South stride / consecutive contacts',24,700);
+for(let i=0;i<8;i++){ctx.save();ctx.translate(90+i*180,835);ctx.scale(1.1,1.1);drawDirectionalHero(r,{...base,x:0,y:0,poseDirection:0,walkDistance:i*12});ctx.restore();}
+document.body.dataset.ready='true';
+</script>

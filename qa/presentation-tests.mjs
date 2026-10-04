@@ -34,6 +34,22 @@ test('Animation follows speed and travelled distance, while dashes keep the walk
  updateHeroMotion(fast,0,-70,.1,300,true);
  assert.equal(fast.walkDistance,before);assert.equal(fast.poseDirection,4);
 });
+test('Reversals use adjacent opaque views without resetting the walking cycle',()=>{
+ const p={poseDirection:2,walkDistance:48,aim:{x:1,y:0}};
+ let previous=p.poseDirection;
+ for(let i=0;i<20;i++){
+  updateHeroMotion(p,200/60,0,1/60,200);
+  const step=Math.abs(p.poseDirection-previous);
+  assert(Math.min(step,8-step)<=1,'turn skipped a painted view');
+  assert.equal(p.poseTurn,0,'turn creates overlapping silhouettes');
+  assert(Math.abs(p.walkDistance-(48+(i+1)*200/60))<1e-8);
+  previous=p.poseDirection;
+ }
+ assert.equal(p.poseDirection,6);
+ // Repeated reversals and angle wrap-around remain finite and settle.
+ for(let i=0;i<120;i++)updateHeroMotion(p,i<60?-3:3,0,1/60,200);
+ assert.equal(p.poseDirection,6);assert(Number.isFinite(p.visualDirection));
+});
 test('Every source crop stays in its atlas and has a valid ground anchor and clipping path',()=>{
  const root=new URL('../',import.meta.url),read=f=>JSON.parse(fs.readFileSync(new URL(f,root),'utf8'));
  const hero=read('assets/painted/hero-eight-directions.json'),enemies=read('assets/expedition/v54-sprites.json');

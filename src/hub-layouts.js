@@ -1,9 +1,9 @@
-import {cityExtensionPoint} from './city-extension.js?v=35';
-import {BIOME_HUB_LAYOUTS} from './biome-content.js?v=35';
-import {NATURE_HUB_LAYOUT} from './nature-content.js?v=35';
-import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=35';
-import {QUARTER_GATES} from './safe-exploration-content.js?v=35';
-import {HUB_SCALES} from './hub-space.js?v=35';
+import {cityExtensionPoint} from './city-extension.js?v=36';
+import {BIOME_HUB_LAYOUTS} from './biome-content.js?v=36';
+import {NATURE_HUB_LAYOUT} from './nature-content.js?v=36';
+import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=36';
+import {QUARTER_GATES} from './safe-exploration-content.js?v=36';
+import {HUB_SCALES} from './hub-space.js?v=36';
 // World-pixel placements on the painted floors. Gates keep their destinations
 // while the story controls their locks; no hub uses a single portal queue.
 export const HUB_LAYOUTS={

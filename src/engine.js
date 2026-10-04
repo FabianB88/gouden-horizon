@@ -1,46 +1,47 @@
-import {OutdoorRules} from './outdoors.js?v=35';
-import {TestModeRules} from './test-mode.js?v=35';
-import {registerHit} from './combat-feedback.js?v=35';
-import {QuarterRules} from './safe-exploration.js?v=35';
-import {NatureRules,tuneNatureEnemy} from './nature-region.js?v=35';
-import {CompanionUpgradeRules} from './companion-upgrades.js?v=35';
-import {summonAvailable,summonUnlockLevel} from './summon-progression.js?v=35';
-import {CreatureRules} from './creatures.js?v=35';
-import {V8ExpeditionRules,tuneV8Enemy} from './v8-expedition.js?v=35';
-import {tacticalMovement,smoothEnemyVelocity,engagementGoal,EnemyCrowd,separationVector} from './enemy-ai.js?v=35';
-import {BiomeRules,tuneBiomeEnemy} from './biomes.js?v=35';
-import {rollChaseItem,chaseRandom} from './chase-loot.js?v=35';
-import {AdventureRules} from './adventures.js?v=35';
-import {itemFitsSlot} from './equipment-slots.js?v=35';
-import {BossTerrainRules} from './boss-terrain.js?v=35';
-import {SpecializationRules,specializationStats} from './specializations.js?v=35';
-import {PremiumSpellRules} from './premium-spells.js?v=35';
-import {damageResistance} from './resistances.js?v=35';
-import {ItemMarkRules,protectedItem} from './item-marks.js?v=35';
-import {VariantRules,spellProfile,variantChoices} from './spell-variants.js?v=35';
-import {SummonRules} from './summons.js?v=35';
-import {UniqueRules} from './unique-items.js?v=35';
-import {V6EnemyRules} from './v6-enemies.js?v=35';
-import {CityRules} from './city.js?v=35';
-import {BountyRules} from './bounties.js?v=35';
-import { worldBounds, QUAY_GATE, WORLD, SPELLS, ZONES, ENEMIES, EQUIPMENT, START_EQUIPMENT, UPGRADES, DISCIPLINES, POSITIONS, AREAS, AREA_BY_ID, HUB_IDS } from './data.js?v=35';
-import {StoryRules} from './story.js?v=35';
-import {planNewAttack,executeNewAttack,updateNewThreats} from './enemy-variety.js?v=35';
-import {scaleEnemy,tuneChapterEnemy} from './balance.js?v=35';
-import {ExpeditionRules,REGION_CAMPS} from './expedition.js?v=35';
-import {makeItem,normalizePlayer,DROP_TABLES,dropProfile,salvageValue} from './loot.js?v=35';
-import {HubRules,SAFE_HUBS} from './hubs.js?v=35';
-import {REGIONAL_BOSSES,updateBossPhase,updateEncounterState} from './encounters.js?v=35';
-import {legendaryCast,legendaryDash,legendaryHit,legendaryKill,triggerLegendary,updateLegendary} from './legendary.js?v=35';
-import {updateHeroMotion,heroDirection,heroFrame} from './hero-motion.js?v=35';
-import {SurvivalRules,HEAL_COOLDOWN} from './survival.js?v=35';
-import {updateEnemyMotion} from './enemy-motion.js?v=35';
-import {GambleRules} from './gamble.js?v=35';
-import {presentEnemyAttack,launchEnemyLob,updateEnemyLob} from './enemy-combat.js?v=35';
-import {EndgameRules} from './endgame.js?v=35';
-import {MarketRules} from './markets.js?v=35';
-import {QuestRules} from './quests.js?v=35';
-import {arenaObstacles,blockedByObstacle,coverHit} from './arena-layouts.js?v=35';
+import {createNavigator} from './navigation.js?v=36';
+import {OutdoorRules} from './outdoors.js?v=36';
+import {TestModeRules} from './test-mode.js?v=36';
+import {registerHit} from './combat-feedback.js?v=36';
+import {QuarterRules} from './safe-exploration.js?v=36';
+import {NatureRules,tuneNatureEnemy} from './nature-region.js?v=36';
+import {CompanionUpgradeRules} from './companion-upgrades.js?v=36';
+import {summonAvailable,summonUnlockLevel} from './summon-progression.js?v=36';
+import {CreatureRules} from './creatures.js?v=36';
+import {V8ExpeditionRules,tuneV8Enemy} from './v8-expedition.js?v=36';
+import {tacticalMovement,smoothEnemyVelocity,engagementGoal,EnemyCrowd,separationVector} from './enemy-ai.js?v=36';
+import {BiomeRules,tuneBiomeEnemy} from './biomes.js?v=36';
+import {rollChaseItem,chaseRandom} from './chase-loot.js?v=36';
+import {AdventureRules} from './adventures.js?v=36';
+import {itemFitsSlot} from './equipment-slots.js?v=36';
+import {BossTerrainRules} from './boss-terrain.js?v=36';
+import {SpecializationRules,specializationStats} from './specializations.js?v=36';
+import {PremiumSpellRules} from './premium-spells.js?v=36';
+import {damageResistance} from './resistances.js?v=36';
+import {ItemMarkRules,protectedItem} from './item-marks.js?v=36';
+import {VariantRules,spellProfile,variantChoices} from './spell-variants.js?v=36';
+import {SummonRules} from './summons.js?v=36';
+import {UniqueRules} from './unique-items.js?v=36';
+import {V6EnemyRules} from './v6-enemies.js?v=36';
+import {CityRules} from './city.js?v=36';
+import {BountyRules} from './bounties.js?v=36';
+import { worldBounds, QUAY_GATE, WORLD, SPELLS, ZONES, ENEMIES, EQUIPMENT, START_EQUIPMENT, UPGRADES, DISCIPLINES, POSITIONS, AREAS, AREA_BY_ID, HUB_IDS } from './data.js?v=36';
+import {StoryRules} from './story.js?v=36';
+import {planNewAttack,executeNewAttack,updateNewThreats} from './enemy-variety.js?v=36';
+import {scaleEnemy,tuneChapterEnemy} from './balance.js?v=36';
+import {ExpeditionRules,REGION_CAMPS} from './expedition.js?v=36';
+import {makeItem,normalizePlayer,DROP_TABLES,dropProfile,salvageValue} from './loot.js?v=36';
+import {HubRules,SAFE_HUBS} from './hubs.js?v=36';
+import {REGIONAL_BOSSES,updateBossPhase,updateEncounterState} from './encounters.js?v=36';
+import {legendaryCast,legendaryDash,legendaryHit,legendaryKill,triggerLegendary,updateLegendary} from './legendary.js?v=36';
+import {updateHeroMotion,heroDirection,heroFrame} from './hero-motion.js?v=36';
+import {SurvivalRules,HEAL_COOLDOWN} from './survival.js?v=36';
+import {updateEnemyMotion} from './enemy-motion.js?v=36';
+import {GambleRules} from './gamble.js?v=36';
+import {presentEnemyAttack,launchEnemyLob,updateEnemyLob} from './enemy-combat.js?v=36';
+import {EndgameRules} from './endgame.js?v=36';
+import {MarketRules} from './markets.js?v=36';
+import {QuestRules} from './quests.js?v=36';
+import {arenaObstacles,blockedByObstacle,coverHit} from './arena-layouts.js?v=36';
 export const clamp = (n,a,b) => Math.max(a,Math.min(b,n));
 export const distance = (a,b) => Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 export const normal = (x,y) => { const d=Math.hypot(x,y)||1;return {x:x/d,y:y/d}; };
@@ -65,16 +66,23 @@ export function inPolygon(x,y,polygon=NAV) {
 }
 const AREA_FLOORS=Object.fromEntries(AREAS.map(a=>[a.id,a.nav?a.nav.map(court):[NAV_ZONES[a.zone]]]));
 export function floors(area=0) {return typeof area==='number'?[NAV_ZONES[area]]:AREA_FLOORS[area]||[NAV];}
-export function canStand(x,y,radius=18,area=0) {if(blockedByObstacle(x,y,radius,area))return false;const polygons=floors(area);return [[0,0],[radius,0],[-radius,0],[0,radius],[0,-radius]].every(([dx,dy])=>polygons.some(poly=>inPolygon(x+dx,y+dy,poly)));}
-const walkGrid=new Map(),CELL=24;
-export function clearLine(a,b,area,radius=18,allowed=null){const steps=Math.ceil(distance(a,b)/2);for(let i=0;i<=steps;i++){const x=a.x+(b.x-a.x)*i/Math.max(1,steps),y=a.y+(b.y-a.y)*i/Math.max(1,steps);if(!canStand(x,y,radius,area)||allowed&&!allowed(x,y,radius))return false;}return true;}
-// Cached navigation lattice. Both the player guide and enemies use the painted floor, including side branches.
-export function findPath(a,b,area=0,radius=18,allowed=null){const line=(a,b,r=radius)=>clearLine(a,b,area,r,allowed);if(line(a,b))return [{x:b.x,y:b.y}];const gridKey=area+':'+radius;let grid=walkGrid.get(gridKey);if(!grid){grid=new Map();for(let y=1;y<worldBounds(area).height/CELL;y++)for(let x=1;x<worldBounds(area).width/CELL;x++)if(canStand(x*CELL,y*CELL,radius+2,area))grid.set(x+','+y,{x:x*CELL,y:y*CELL});walkGrid.set(gridKey,grid);}if(allowed)grid=new Map([...grid].filter(([,p])=>allowed(p.x,p.y,radius+2)));
- const nearest=p=>{let best=null,d=Infinity;for(const [key,v]of grid){const n=Math.hypot(p.x-v.x,p.y-v.y);if(n<d&&line(p,v)){d=n;best=key;}}return best;},start=nearest(a),goal=nearest(b);if(!start||!goal)return [];
- const open=[start],g=new Map([[start,0]]),prev=new Map(),done=new Set(),h=k=>distance(grid.get(k),grid.get(goal));let limit=10000;
- while(open.length&&limit--){open.sort((a,b)=>(g.get(a)+h(a))-(g.get(b)+h(b)));const key=open.shift();if(key===goal){const path=[{x:b.x,y:b.y}];let k=goal;while(k!==start){path.unshift(grid.get(k));k=prev.get(k);if(!k)return [];}path.unshift(grid.get(start));let compact=[],anchor=a;for(let i=0;i<path.length;i++){if(i===path.length-1||!line(anchor,path[i+1],radius+2)){compact.push(path[i]);anchor=path[i];}}return compact;}
- done.add(key);const [x,y]=key.split(',').map(Number);for(const [dx,dy]of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]]){const next=(x+dx)+','+(y+dy);if(!grid.has(next)||done.has(next)||!line(grid.get(key),grid.get(next),radius+2))continue;const score=g.get(key)+Math.hypot(dx,dy)*CELL;if(score<(g.get(next)??Infinity)){g.set(next,score);prev.set(next,key);if(!open.includes(next))open.push(next);}}}return [];
+const floorBoundsCache=new Map(),footprints=new Map(),FLOOR_CELL=96;
+function floorBounds(area){
+ if(!floorBoundsCache.has(area)){const cells=new Map();for(const poly of floors(area)){const box={poly,minX:Math.min(...poly.map(p=>p.x)),maxX:Math.max(...poly.map(p=>p.x)),minY:Math.min(...poly.map(p=>p.y)),maxY:Math.max(...poly.map(p=>p.y))};for(let y=Math.floor(box.minY/FLOOR_CELL);y<=Math.floor(box.maxY/FLOOR_CELL);y++)for(let x=Math.floor(box.minX/FLOOR_CELL);x<=Math.floor(box.maxX/FLOOR_CELL);x++){const key=x+y*1024;if(!cells.has(key))cells.set(key,[]);cells.get(key).push(box);}}floorBoundsCache.set(area,cells);}return floorBoundsCache.get(area);
 }
+export function canStand(x,y,radius=18,area=0){
+ if(blockedByObstacle(x,y,radius,area))return false;
+ // The route clearance must include the hero's actual footprint too.
+ if(radius>18&&!canStand(x,y,18,area))return false;
+ if(!footprints.has(radius)){const points=[[0,0]];for(const r of [radius/2,radius])for(let i=0;i<8;i++)points.push([Math.cos(i*Math.PI/4)*r,Math.sin(i*Math.PI/4)*r]);footprints.set(radius,points);}
+ const cells=floorBounds(area),local=cells.get(Math.floor(x/FLOOR_CELL)+Math.floor(y/FLOOR_CELL)*1024)||[];
+ // Most movement is within one roomy court. Prove disk clearance directly,
+ // then only sample the union where adjoining floor polygons meet.
+ for(const {poly,minX,minY,maxX,maxY}of local){if(x-radius<minX||x+radius>maxX||y-radius<minY||y+radius>maxY||!inPolygon(x,y,poly))continue;let safe=true;for(let i=0,j=poly.length-1;i<poly.length;j=i++){const a=poly[j],b=poly[i],dx=b.x-a.x,dy=b.y-a.y,t=Math.max(0,Math.min(1,((x-a.x)*dx+(y-a.y)*dy)/(dx*dx+dy*dy||1)));if((x-a.x-t*dx)**2+(y-a.y-t*dy)**2<radius*radius){safe=false;break;}}if(safe)return true;}
+ return footprints.get(radius).every(([dx,dy])=>{const px=x+dx,py=y+dy;return (cells.get(Math.floor(px/FLOOR_CELL)+Math.floor(py/FLOOR_CELL)*1024)||[]).some(({poly,minX,minY,maxX,maxY})=>px>=minX&&px<=maxX&&py>=minY&&py<=maxY&&inPolygon(px,py,poly));});
+}
+export function clearLine(a,b,area,radius=18,allowed=null){const steps=Math.ceil(distance(a,b)/2);for(let i=0;i<=steps;i++){const x=a.x+(b.x-a.x)*i/Math.max(1,steps),y=a.y+(b.y-a.y)*i/Math.max(1,steps);if(!canStand(x,y,radius,area)||allowed&&!allowed(x,y,radius))return false;}return true;}
+export const findPath=createNavigator(canStand,clearLine,worldBounds,area=>{let h=2166136261;const value=JSON.stringify([floors(area),arenaObstacles(area),worldBounds(area)]);for(let i=0;i<value.length;i++)h=Math.imul(h^value.charCodeAt(i),16777619);return h>>>0;});
 
 export class Engine {
   constructor(discipline='tide',seed=Date.now()%1000000) {
@@ -432,7 +440,7 @@ export class Engine {
     p.heat=Math.max(0,p.heat-dt*.15);s.world.hazards=s.world.hazards.filter(h=>!h.cleared||h.life===undefined);
   }
   updateEnemies(dt,subset=this.state.world.enemies,crowd=new EnemyCrowd(this.state.world.enemies)) {
-    const s=this.state,p=s.player;
+    const s=this.state,p=s.player;let pathComputed=false;
     for(const e of subset){if(e.dead)continue;const base=ENEMIES[e.type];if(this.inCamp(e)&&e.home){e.x=e.home.x;e.y=e.home.y;}if(this.inCamp()){e.windup=null;e.leap=null;e.rush=null;e.jumpHeight=0;e.move=false;e.awake=false;continue;}e.anim+=dt;e.hurt=Math.max(0,e.hurt-dt);e.wet=Math.max(0,e.wet-dt);e.stun=Math.max(0,e.stun-dt);e.frozen=Math.max(0,(e.frozen||0)-dt);e.resolve=Math.max(0,(e.resolve||0)-dt);e.comboCd=Math.max(0,(e.comboCd||0)-dt);e.slow=Math.max(0,(e.slow||0)-dt);
       if(e.burn>0){e.burn=Math.max(0,e.burn-dt);e.hp-=dt*7;if(e.hp<=0){this.killEnemy(e);continue;}}
       if(e.leap){const leap=e.leap;leap.age+=dt;const t=clamp(leap.age/.32,0,1);e.x=leap.from.x+(leap.to.x-leap.from.x)*t;e.y=leap.from.y+(leap.to.y-leap.from.y)*t;e.jumpHeight=Math.sin(t*Math.PI)*68;
@@ -444,8 +452,8 @@ export class Engine {
       if(this.updateCreatureEnemy(e,dt))continue;
       if(e.burrow&&updateEncounterState(this,e,dt))continue;updateBossPhase(this,e);
       if(e.windup){e.steerX=e.steerY=0;e.windup.timer-=dt;if(e.windup.timer<=0){this.executeEnemyAttack(e);e.windup=null;e.cd=(base.boss?(e.phase===3?1.15:1.7):e.type==='rimedrone'?1.6:e.type==='raider'?1.4:e.type==='beast'?1.8:2.2)*(e.cooldownMultiplier||1);}continue;}
-      const obstructed=(AREA_BY_ID[s.area].kind==='route'||arenaObstacles(s.area).length)&&!clearLine(e,p,s.area,e.radius,this.navigationBlocker());
-      let goal=engagementGoal(e,p,base);if(obstructed){e.pathCd=(e.pathCd||0)-dt;if(e.pathCd<=0){e.path=this.findWalkingPath(e,p,e.radius);e.pathCd=.7;}if(e.path?.length){if(distance(e,e.path[0])<12)e.path.shift();goal=e.path[0]||p;}}
+      e.sightCd=(e.sightCd||0)-dt;if(e.sightCd<=0){e.obstructed=(floors(s.area).length>1||AREA_BY_ID[s.area].kind==='route'||arenaObstacles(s.area).length)&&!clearLine(e,p,s.area,e.radius,this.navigationBlocker());e.sightCd=.18+(e.id%4)*.015;}const obstructed=e.obstructed;
+      let goal=engagementGoal(e,p,base);if(obstructed){e.pathCd=(e.pathCd||0)-dt;if(e.pathCd<=0&&!pathComputed){e.path=this.findWalkingPath(e,p,e.radius);e.pathCd=.7;pathComputed=true;}if(e.path?.length){if(distance(e,e.path[0])<12)e.path.shift();goal=e.path[0]||p;}}
       const dir=normal(goal.x-e.x,(goal.y-e.y)*(AREA_BY_ID[s.area].kind==='route'?1/.78:1.15));e.angle=Math.atan2(dir.y,dir.x);
       const attackRange=e.type==='crawler'&&(e.attacks||0)%2===1?280:e.type==='sentinel'&&(e.attacks||0)%2===1?360:e.type==='minecrab'&&(e.attacks||0)%2===1?220:base.range;
       if(e.cd<=0&&dist<attackRange&&(!arenaObstacles(s.area).length||!coverHit(e,p,s.area))){this.planAttack(e);continue;}
@@ -534,7 +542,8 @@ export class Engine {
   static restore(json) {
     const payload=JSON.parse(json),s=payload.state;if(![3,4,5].includes(s?.version)||!s.player)throw new Error('save-version');const engine=new Engine(s.player.discipline,s.seed);engine.state=s;engine.idCounter=payload.idCounter||1000;engine.rng=seeded(payload.rngState??s.seed);engine.events=[];
     if(s.version===3){s.version=4;s.area=HUB_IDS[s.zone];s.areas={};s.visited=[s.area];s.destination=null;const p=s.player;p.inventory=[];p.skills=['tide','storm','ember'];p.hotbar=['tide','storm','ember',null,null,null];p.spellCd={};p.skillPoints=Math.max(0,p.level-1);p.perks={};s.world.portals=engine.portalDefinitions(s.area);s.world.coreCollected=s.cores.includes(s.zone);s.areas[s.area]=s.world;if(s.pending?.type==='upgrade')s.pending.choices=engine.upgradeChoices();engine.checkpoint();}
-    else s.world=s.areas[s.area];engine.migrateExpedition();engine.migrateStory();if(!s.world)throw new Error('save-area');engine.reconcileArena();if(s.world.trial&&!s.world.trial.done){engine.restartChallenge();engine.notice('Tijdproef opnieuw gestart · herladen bewaart geen halve poging');}s.player.invincible=1;return engine;
+    else s.world=s.areas[s.area];engine.migrateExpedition();engine.migrateStory();if(!s.world)throw new Error('save-area');engine.reconcileArena();if(s.world.trial&&!s.world.trial.done){engine.restartChallenge();engine.notice('Tijdproef opnieuw gestart · herladen bewaart geen halve poging');}if(AREA_BY_ID[s.area].kind==='route'||AREA_BY_ID[s.area].safeExplore){const p=s.player,valid=(x,y)=>canStand(x,y,18,s.area)&&!engine.townGateBlocks(x,y,18)&&!engine.outdoorGateBlocks(x,y,18);if(!valid(p.x,p.y)){let found=null;for(let r=8;r<=360&&!found;r+=8)for(let i=0;i<24;i++){const x=p.x+Math.cos(i*Math.PI/12)*r,y=p.y+Math.sin(i*Math.PI/12)*r;if(valid(x,y)){found={x,y};break;}}const a=AREA_BY_ID[s.area];Object.assign(p,found||{x:a.spawn[0]*WORLD.width,y:a.spawn[1]*WORLD.height},{velocity:{x:0,y:0},moving:false,walkBlend:0});}}
+    s.player.invincible=1;return engine;
   }
 
 }

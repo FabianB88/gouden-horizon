@@ -1,6 +1,6 @@
-import {trailStep} from './frame-performance.js?v=35';
-import {ENEMIES} from './data.js?v=35';
-import {coverHit} from './arena-layouts.js?v=35';
+import {trailStep} from './frame-performance.js?v=36';
+import {ENEMIES} from './data.js?v=36';
+import {coverHit} from './arena-layouts.js?v=36';
 
 export const ELEMENT_COLORS={water:'#6be6ee',fire:'#ff994c',storm:'#c5a0ff',toxin:'#bbdf49',solar:'#ffd371',metal:'#e9b77d'};
 const elements={mossback:'metal',sunnewt:'fire',windowl:'water',crownbear:'solar',prismhorn:'solar',mistprowler:'water',stormtoad:'storm',glassscorpion:'toxin',dustskirmisher:'metal',slagcarrier:'fire',dunebreaker:'metal',pressurediver:'water',rimedrone:'water',furnacegunner:'fire',deepwarden:'water',towerwarden:'fire',bulwark:'solar',plaguewright:'toxin',hunter:'metal',repairer:'metal',tideleviathan:'water',solararchitect:'solar',drone:'metal',raider:'fire',beast:'toxin',turret:'storm',boss:'solar',crawler:'metal',sniper:'metal',sentinel:'fire',sporecaster:'toxin',stormling:'storm',siege:'fire',minecrab:'metal',resonant:'storm',brinebreaker:'water',eel:'water',salamander:'fire',shieldguard:'solar',stormnest:'storm',dredger:'water',solarKnight:'solar',seedheart:'toxin',toxinbeetle:'toxin',chemist:'toxin'};
@@ -71,4 +71,4 @@ export const EnemyCombatVisuals={
   return false;
  }
 };
-import {impactMotion} from './combat-feedback.js?v=35';
+import {impactMotion} from './combat-feedback.js?v=36';

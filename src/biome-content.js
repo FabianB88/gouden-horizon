@@ -23,4 +23,4 @@ const greenFloor=[
  [[500,560],[645,630],[540,720],[465,825],[380,920],[315,1024],[240,1024],[230,960],[290,855],[370,720],[395,640]]
 ];
 BIOME_AREAS[0].nav=greenFloor.map(native);
-Object.assign(BIOME_HUB_LAYOUTS.groenkloof,{nav:greenFloor,services:{smith:world([990,415]),outfitter:world([415,400]),workshop:world([880,770])},cache:world([1260,470]),supply:world([545,275]),portals:{'cooling-refuge':world([360,840]),'glass-dunes':world([1240,270])}});
+Object.assign(BIOME_HUB_LAYOUTS.groenkloof,{nav:greenFloor,services:{smith:world([990,415]),outfitter:world([385,365]),workshop:world([880,770])},cache:world([1260,470]),supply:world([545,275]),portals:{'cooling-refuge':world([360,840]),'glass-dunes':world([1240,270])}});

@@ -1,0 +1,24 @@
+<!doctype html><meta charset="utf-8"><title>Gouden Horizon — nieuwe vrouwelijke helden</title>
+<style>body{margin:0;background:#213a3b}canvas{display:block;width:100%;max-width:1200px;margin:auto}</style>
+<canvas width="1200" height="560"></canvas>
+<script type="module">
+import {drawRiggedHero} from '../src/hero-rig.js';
+const canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d'),assets={};
+const read=p=>fetch('../'+p).then(r=>r.json()),load=async p=>{const i=new Image();i.src='../'+p;await i.decode();return i;};
+const r={ctx,assets,heroClassCrop:await read('assets/painted/hero-classes-v88.json'),focusV8Crop:await read('assets/expedition/focus-v8.json')};
+assets.focusV8=await load('assets/expedition/focus-v8.webp');
+const classes=[['elementalist','Elementalist','storm','tidal'],['builder','Natuurhoeder','filter','crystal'],['hunter','Veldjager','light','storm']];
+ctx.fillStyle='#efd7a4';ctx.font='bold 29px Georgia';ctx.fillText('Gouden Horizon',28,43);
+ctx.fillStyle='#d9e7dc';ctx.font='17px sans-serif';ctx.fillText('Drie eigen vrouwelijke verschijningen',28,76);
+for(const [column,[id,label,armor,focus]]of classes.entries()){
+ const centre=column*400+200;ctx.textAlign='center';ctx.fillStyle='#efd7a4';ctx.font='bold 25px Georgia';ctx.fillText(label,centre,125);
+ for(const [i,gender]of ['male','female'].entries()){
+  const file=gender==='female'?id+'-female-v883':id==='builder'?'builder-v871':id+'-male-v88';
+  assets['hero-class-'+id+'-'+gender]=await load('assets/painted/hero-class-'+file+'.webp');
+  ctx.save();ctx.translate(column*400+100+i*200,438);ctx.scale(2,2);
+  drawRiggedHero(r,{x:0,y:0,characterClass:id,heroGender:gender,walkDistance:0,visualMotionBlend:0,equipment:{suit:{appearance:armor},weapon:{appearance:focus}}},0);ctx.restore();
+  ctx.font='17px sans-serif';ctx.fillStyle='#d9e7dc';ctx.fillText(gender==='female'?'Vrouwelijk':'Mannelijk',column*400+100+i*200,482);
+ }
+}
+document.body.dataset.ready='true';
+</script>

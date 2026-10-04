@@ -1,5 +1,5 @@
-import {equipmentAppearance} from './appearance.js?v=35';
-import {freezeSurface} from './render-cache.js?v=35';
+import {equipmentAppearance} from './appearance.js?v=36';
+import {freezeSurface} from './render-cache.js?v=36';
 // Painted bind poses retain the eight camera directions. Both legs are driven
 // by opposite foot contacts. Traced cloth masks remove the bind-pose legs,
 // while preserving the coat. Short, forward knee paths avoid lateral IK bends.
@@ -19,6 +19,9 @@ function rasterParts(r,name,frame,leg,other,image=r.assets.heroDirectional,rig=s
  if(frame.clip?.length){c.beginPath();polygon(c,frame.clip);c.clip();}c.drawImage(image,sx,sy,w,h,0,0,w,h);
  const pixels=c.getImageData(0,0,w,h),coat=new Uint8Array(w*h),horizontal=new Uint8Array(w*h),coatMask=new Uint8Array(w*h),boots=lower.getContext('2d').createImageData(w,h);
  for(let i=0;i<w*h;i++){const at=i*4;coat[i]=pixels.data[at+3]>0&&(frame.classBaseStyle?(pixels.data[at+2]>pixels.data[at]*1.12&&pixels.data[at+1]>pixels.data[at]*.8||pixels.data[at+1]>pixels.data[at]*1.05&&pixels.data[at+2]>pixels.data[at]*.8):pixels.data[at+1]>pixels.data[at]*1.15&&pixels.data[at+2]>pixels.data[at]*1.08)?1:0;}
+ // Charcoal fitted leggings must move with the legs, rather than being
+ // mistaken for blue coat cloth and left behind as a second static limb.
+ if(frame.tailoredCloth)for(let i=0;i<w*h;i++){const at=i*4;if(pixels.data[at+2]-pixels.data[at]<12&&pixels.data[at+1]-pixels.data[at]<12)coat[i]=0;}
  // Separable dilation preserves the cloth mask with ten checks instead of 25.
  for(let y=0;y<h;y++)for(let x=0;x<w;x++)for(let dx=-2;dx<=2;dx++)if(x+dx>=0&&x+dx<w&&coat[y*w+x+dx]){horizontal[y*w+x]=1;break;}
  for(let y=0;y<h;y++)for(let x=0;x<w;x++)for(let dy=-2;dy<=2;dy++)if(y+dy>=0&&y+dy<h&&horizontal[(y+dy)*w+x]){coatMask[y*w+x]=1;break;}
@@ -62,7 +65,7 @@ export function heroBodyMotion(p,index){
 }
 export function drawRiggedHero(r,p,direction,alpha=1){
  const {mirrored,index,name,rig,frame,scale,image,appearance}=heroRigPose(r,direction,p),c=r.ctx,[sx,sy,w,h]=frame.bounds,px=q=>[q[0]*w,q[1]*h],H=px(rig.h),K=px(rig.k),F=px(rig.f),leg=frame.leg||rig.leg.map(px),other=frame.other||rig.other.map(px),parts=rasterParts(r,name,frame,leg,other,image,rig);
- const phase=(p.walkDistance||0)/WALK_CYCLE_DISTANCE,cycle=footCycle(phase),angle=index*Math.PI/4+Math.PI/2,dir=[Math.cos(angle),Math.sin(angle)*.78],blend=p.visualMotionBlend??(p.moving?(p.walkBlend??1):0),bodyMotion=heroBodyMotion(p,index),bob=bodyMotion.y;
+ const phase=(p.walkDistance||0)/WALK_CYCLE_DISTANCE,cycle=footCycle(phase),angle=index*Math.PI/4+Math.PI/2,dir=p.moving&&p.motionVelocity?[(mirrored?-1:1)*p.motionVelocity.x,p.motionVelocity.y]:[Math.cos(angle),Math.sin(angle)*.78],blend=p.visualMotionBlend??(p.moving?(p.walkBlend??1):0),bodyMotion=heroBodyMotion(p,index),bob=bodyMotion.y;
  const stamp=image=>image.image?c.drawImage(image.image,image.x,image.y):c.drawImage(image,0,0),segment=(a,b,A,B,image)=>{c.save();c.translate(...A);c.rotate(Math.atan2(B[1]-A[1],B[0]-A[0]));c.scale(Math.hypot(B[0]-A[0],B[1]-A[1])/Math.hypot(b[0]-a[0],b[1]-a[1]),1);c.rotate(-Math.atan2(b[1]-a[1],b[0]-a[0]));c.translate(-a[0],-a[1]);stamp(image);c.restore();};
  c.save();c.globalAlpha*=alpha;c.translate(p.x,p.y);c.scale(mirrored?-scale:scale,scale);c.translate(-H[0],-frame.anchor[1]*h);
  for(const i of [1,0]){
@@ -86,8 +89,13 @@ function focusTransform(r,index,frame,appearance){
 }
 function drawWeaponHand(c,body,frame){const [x,y]=frame.grip;c.save();c.beginPath();c.ellipse(x,y-3,8,12,0,0,Math.PI*2);c.clip();c.drawImage(body,0,0);c.restore();}
 export function paintedLegMotion(hip,ankle,contact,dir,blend,scale){
- const angle=-dir[0]*contact.advance*.17*blend,depth=(dir[1]*contact.advance*3.2-contact.lift*2.4)/scale*blend,dx=ankle[0]-hip[0],dy=ankle[1]-hip[1];
- return {angle,depth,footX:dx*Math.cos(angle)-dy*Math.sin(angle)-dx,footY:dx*Math.sin(angle)+dy*Math.cos(angle)-dy+depth};
+ const dx=ankle[0]-hip[0],dy=ankle[1]-hip[1],length=Math.hypot(dx,dy),footX=dir[0]*contact.advance*WALK_STRIDE/scale*blend;
+ // Drive the rigid leg from the same travel-matched foot contact as the gait.
+ // Its ankle and rigid boot share a position, including diagonal movement.
+ const angle=Math.asin(Math.max(-.95,Math.min(.95,dx/length)))-Math.asin(Math.max(-.95,Math.min(.95,(dx+footX)/length)));
+ const footY=(dir[1]*contact.advance*WALK_STRIDE-contact.lift*3)/scale*blend;
+ const depth=footY-(dx*Math.sin(angle)+dy*Math.cos(angle)-dy);
+ return {angle,depth,footX,footY};
 }
 export function helmetTransform(frame,crop,index){
  const [,,w,h]=crop.bounds,scale=frame.headWidth*1.32/w,anchorX=[.5,.59,.63,.53,.5][index];

@@ -1,0 +1,19 @@
+<!doctype html><meta charset="utf-8"><title>World route audit</title>
+<style>body{margin:0;background:#153237}canvas{display:block;width:100%}</style><canvas></canvas>
+<script type="module">
+import {AREA_BY_ID,worldBounds,WORLD,QUAY_GATE} from '../src/data.js';
+import {floors} from '../src/engine.js';
+import {hubMerchants,SAFE_HUBS} from '../src/hubs.js';
+import {CITY_JOIN} from '../src/city-extension.js';
+const id=new URLSearchParams(location.search).get('area')||'forest',overlay=new URLSearchParams(location.search).has('overlay'),a=AREA_BY_ID[id],bounds=worldBounds(id),canvas=document.querySelector('canvas'),c=canvas.getContext('2d'),scale=1536/bounds.width;
+canvas.width=1536;canvas.height=bounds.height*scale;const load=async file=>{const i=new Image();i.src='../assets/painted/'+file;await i.decode();return i;};
+c.scale(scale,scale);for(const t of a.tiles||[{file:a.file,x:0,y:0,width:bounds.width,height:bounds.height}])c.drawImage(await load(t.file),t.x,t.y,t.width,t.height);
+if(id==='canal')c.drawImage(await load('quay-join-v87.webp'),QUAY_GATE.x-74.375,0,148.75,1792);
+if(id==='highway')c.drawImage(await load('vrijhaven-join-v882.webp'),CITY_JOIN.x,CITY_JOIN.y,CITY_JOIN.width,CITY_JOIN.height);
+for(const j of a.joins||[])c.drawImage(await load('region-causeway-v882.webp'),j.x,j.y,j.width,j.height);
+if(overlay){for(const poly of floors(id)){c.beginPath();poly.forEach((p,i)=>i?c.lineTo(p.x,p.y):c.moveTo(p.x,p.y));c.closePath();c.fillStyle='#37cf9a33';c.fill();c.strokeStyle='#30fcca';c.lineWidth=2/scale;c.stroke();}}
+const mark=(x,y,label)=>{c.fillStyle='#fff3b6';c.strokeStyle='#051e30';c.lineWidth=2/scale;c.beginPath();c.arc(x,y,6/scale,0,Math.PI*2);c.fill();c.stroke();c.font=(15/scale)+'px sans-serif';c.lineWidth=3/scale;c.strokeText(label,x+9/scale,y);c.fillText(label,x+9/scale,y);};
+if(SAFE_HUBS.includes(id))for(const n of hubMerchants(id))mark(n.x,n.y,n.name);mark(a.spawn[0]*WORLD.width,a.spawn[1]*WORLD.height,'START');
+document.body.dataset.ready='true';
+</script>
+

@@ -22,9 +22,16 @@ export function updateHeroMotion(p,dx,dy,dt,moveSpeed,dashing=false){
  }
  const x=dashing?p.dashDir.x:moving?dx:p.aim?.x||0;
  const y=dashing?p.dashDir.y:moving?groundY:p.aim?.y||0;
- const direction=heroDirection(x,y,p.poseDirection??0);
- if(direction!==p.poseDirection){p.previousPoseDirection=p.poseDirection??direction;p.poseDirection=direction;p.poseTurn=1;}
- p.poseTurn=Math.max(0,(p.poseTurn||0)-dt/.085);
+ const target=Math.hypot(x,y)>.0001?Math.atan2(y,x):angleFor(p.poseDirection??0);
+ if(p.poseDirection===undefined||dashing)p.visualDirection=target;
+ else{
+  const current=p.visualDirection??angleFor(p.poseDirection),delta=angleDelta(target,current);
+  // Turn through neighbouring painted views, keeping one opaque silhouette.
+  p.visualDirection=current+Math.max(-dt*20,Math.min(dt*20,delta));
+ }
+ p.poseDirection=heroDirection(Math.cos(p.visualDirection),Math.sin(p.visualDirection),p.poseDirection??0);
+ p.poseTurn=0;
+ if(moving)p.motionVelocity={x:dx/moved,y:dy/moved};
  if(moving||dashing){p.moveFacing=x<-.0001?-1:x>.0001?1:p.moveFacing||1;p.moveLookUp=y<-.0001;p.facing=p.moveFacing;p.lookUp=p.moveLookUp;}
 }
 

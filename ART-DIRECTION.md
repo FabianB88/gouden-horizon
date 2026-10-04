@@ -16,3 +16,5 @@ De normale heldenanimatie roteert een vaste geschilderde bovenbeen/onderbeen-vor
 
 
 V8.8.2 voegt vier doelgebonden poortsilhouetten toe: brede amber arena, hoge cyan sterrenwijzer, verdigris bergingskompas en lichte veilige lantaarn. Twee bestaande bruggen hebben nieuwe, geschilderde traplandingen. Alle nieuwe beelden hebben echte alfa; kaarttegels behouden hun bestaande afmetingen. Exacte prompts staan in assets/expedition/v882-art-manifest.json.
+
+De vrouwelijke helden hebben vanaf de lokale v883-artset een duidelijk eigen vrouwelijk silhouet, kapsel en kledingontwerp. Maak ze zichtbaar verschillend van de mannelijke modellen: slankere schouders, een getailleerde taille, natuurlijke vrouwelijke rondingen en eigen haar- en kledingdetails. Iedere klasse behoudt haar kleurpalet en speelstijl. Controleer nieuwe legmaskers, voetankers en uitrustingspunten op het nieuwe artwork; kopieer de oude mannelijke lichaamsmaskers niet zonder visuele controle. Prompts staan in assets/painted/CHARACTER-V883-PROMPTS.json.

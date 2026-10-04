@@ -1,4 +1,4 @@
-import {scoreStep} from './score.js?v=35';
+import {scoreStep} from './score.js?v=36';
 // Original procedural score and spell sounds. No audio files or external requests.
 export class Soundscape {
  constructor(){this.ctx=null;this.master=null;this.muted=false;this.zone=0;this.area=null;this.running=false;this.lastCast=0;this.lastStep=-1;this.lastEnemy=-1;this.lastHit=-1;this.timer=null;this.step=0;this.tension=0;this.music=null;this.fx=null;this.reverb=null;this.noiseBuffers=new Map();}

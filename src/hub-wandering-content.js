@@ -1,4 +1,4 @@
-import {hubScale} from './hub-space.js?v=35';
+import {hubScale} from './hub-space.js?v=36';
 // Native painted pixels (1536 × 1024). Floors overlap at stairs and junctions.
 export const WANDERING_FLOORS={
  canal:[

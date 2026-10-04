@@ -1,13 +1,13 @@
-import {AREA_BY_ID,ENEMIES} from './data.js?v=35';
-import {makeItem} from './loot.js?v=35';
-import {spaciousPoint} from './hub-space.js?v=35';
+import {AREA_BY_ID,ENEMIES} from './data.js?v=36';
+import {makeItem} from './loot.js?v=36';
+import {spaciousPoint} from './hub-space.js?v=36';
 export const ADVENTURES={
  'adventure-metro':{name:'De Metrowerkplaats',hub:'canal',chapter:'delta',zone:0,reward:75,xp:45,weights:[12,58,28,2,0],objectives:['Pompzekering','Signaalmodule','Voedingskast'],groups:[['crawler','drone'],['sniper','minecrab'],['eel','raider','crawler']]},
  'adventure-caravan':{name:'De Verloren Karavaan',hub:'highway',chapter:'highway',zone:1,reward:115,xp:70,weights:[4,47,40,9,0],objectives:['Medicijnkrat','Focuskoffer','Accuvoorraad'],groups:[['hunter','raider'],['repairer','bulwark'],['sniper','bulwark','hunter']]},
  'adventure-bio':{name:'Het Stille Laboratorium',hub:'forest',chapter:'forest',zone:2,reward:165,xp:95,weights:[0,38,49,12,1],objectives:['Filtercultuur','Archiefkopie','Isoleermodule'],groups:[['plaguewright','beast'],['repairer','toxinbeetle'],['plaguewright','bulwark','hunter']]},
  'adventure-radar':{name:'De Hoogteradar',hub:'skybridge',chapter:'skybridge',zone:3,reward:215,xp:110,weights:[0,24,57,18,1],objectives:['Antennarelais','Koelmodule','Noodaccu'],groups:[['resonant','hunter'],['stormnest','repairer'],['siege','bulwark','hunter']]}
 };
-export const ADVENTURE_NPCS={canal:{id:'routes',name:'Milo · Nevenroutes',title:'Bergingsexpedities · F',x:831.25,y:256.25,art:1,routes:true},forest:{id:'routes',name:'Milo · Nevenroutes',title:'Bergingsexpedities · F',x:925,y:656.25,art:1,routes:true},skybridge:{id:'routes',name:'Milo · Nevenroutes',title:'Bergingsexpedities · F',x:1435,y:620,art:1,routes:true}};
+export const ADVENTURE_NPCS={canal:{id:'routes',name:'Milo · Nevenroutes',title:'Bergingsexpedities · F',x:831.25,y:256.25,art:1,routes:true},forest:{id:'routes',name:'Milo · Nevenroutes',title:'Bergingsexpedities · F',x:925,y:656.25,art:1,routes:true},skybridge:{id:'routes',name:'Milo · Nevenroutes',title:'Bergingsexpedities · F',x:1620,y:645,art:1,routes:true}};
 Object.assign(ADVENTURE_NPCS.forest,{x:865,y:282.5});
 for(const id of Object.keys(ADVENTURE_NPCS))ADVENTURE_NPCS[id]=spaciousPoint(ADVENTURE_NPCS[id],id);
 export const AdventureRules={

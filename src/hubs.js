@@ -1,8 +1,8 @@
-import {OUTDOOR_REGIONS,inOutdoorWild} from './outdoor-content.js?v=35';
-import {AREAS,AREA_BY_ID,WORLD} from './data.js?v=35';
-import {regionalService} from './markets.js?v=35';
-import {HUB_LAYOUTS} from './hub-layouts.js?v=35';
-import {wanderingScrap} from './hub-wandering-content.js?v=35';
+import {OUTDOOR_REGIONS,inOutdoorWild} from './outdoor-content.js?v=36';
+import {AREAS,AREA_BY_ID,WORLD} from './data.js?v=36';
+import {regionalService} from './markets.js?v=36';
+import {HUB_LAYOUTS} from './hub-layouts.js?v=36';
+import {wanderingScrap} from './hub-wandering-content.js?v=36';
 export const SAFE_HUBS=['canal','highway','forest','skybridge','metro-refuge','cooling-refuge','groenkloof','lanternwood'];
 export const SERVICE_INFO={
  smith:{name:'Mara · Focusmaker',title:'Focusmaker',slots:['weapon','relic','gloves'],text:'Precisie of elementkracht? Kies een focus die bij je spreuken past.',file:'smith'},

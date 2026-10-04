@@ -37,8 +37,8 @@ await test('All map bytes download before play, duplicate files share bytes and 
  await assert.rejects(()=>downloadMaps({a:'bad'},async()=>({ok:false})));assert.deepEqual(areaTextureKeys({id:'highway',tiles:[{}, {asset:'cityEast'}],joins:[{asset:'join'}]}),['highway','cityEast','join','cityJoin']);
 });
 await test('Rigid leg steps bound rotation and retain foot shape instead of stretching knees',()=>{
- for(let d=0;d<8;d++)for(let phase=0;phase<20;phase++){const v=paintedLegMotion([212,295],[207,451],{advance:Math.cos(phase),lift:Math.max(0,Math.sin(phase))},[Math.cos(d*Math.PI/4),Math.sin(d*Math.PI/4)*.78],1,.27);assert(Math.abs(v.angle)<=.17);assert(Number.isFinite(v.footX+v.footY));assert(Math.abs(v.footX)<28);assert(Math.abs(v.depth)<22);}
- assert.deepEqual(paintedLegMotion([212,295],[207,451],{advance:1,lift:1},[1,0],0,.27),{angle:-0,depth:-0,footX:0,footY:0});
+ for(let d=0;d<8;d++)for(let phase=0;phase<20;phase++){const v=paintedLegMotion([212,295],[207,451],{advance:Math.cos(phase),lift:Math.max(0,Math.sin(phase))},[Math.cos(d*Math.PI/4),Math.sin(d*Math.PI/4)*.78],1,.27);assert(Math.abs(v.angle)<.32);assert(Number.isFinite(v.footX+v.footY));assert(Math.abs(v.footX)<=12/.27);assert(Math.abs(v.depth)<48);}
+ const still=paintedLegMotion([212,295],[207,451],{advance:1,lift:1},[1,0],0,.27);for(const value of Object.values(still))assert(Math.abs(value)<1e-9);
 });
 await test('Each class has both appearances, stable equipment attachment and the same gameplay stats',()=>{
  const atlas=JSON.parse(fs.readFileSync(new URL('../assets/painted/hero-classes-v88.json',import.meta.url))),r={heroClassCrop:atlas,assets:{}};

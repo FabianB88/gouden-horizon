@@ -1,4 +1,4 @@
-import {ENEMIES} from './data.js?v=35';
+import {ENEMIES} from './data.js?v=36';
 export const UNIQUE_ITEMS={
  meteorStaff:{chase:true,slot:'weapon',name:'Zon van het Vallende Sterrenwoud',art:'meteor-staff-v82',text:'Je Zonnebom wordt één zware meteoor: +70% schade, 175 bereik. Kost 55% meer mana en herlaadt 45% langer; vervangt de bomvariant.',stats:{power:.13,ember:.10,mana:12}},
  spiritAmber:{chase:true,slot:'relic',name:'Amber van de Oude Geestvos',art:'spirit-amber-v82',text:'Vanaf niveau 10 vervangt één grote geestvos je hele getijroedel, ook de derde vos. 22 basisaanval per 1,1s (twee vossen: samen 16), 68 basisleven. Oproep kost 12 extra mana en herlaadt 4s langer. Andere dieren blijven gelijk.',stats:{mana:12,regen:1}},

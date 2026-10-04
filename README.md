@@ -1,6 +1,16 @@
-# Gouden Horizon v8.8.2 — Verhaal, poorten en vrije paden
+# Gouden Horizon v8.8.3 — Looproutes en voorbereiding op de PC
 
 De volledige bronversie voor desktop en Android in de browser, online solo via GitHub Pages of Render, en gratis LAN-co-op. Upload de inhoud van `dist/` na `npm run site:build`, of publiceer deze bronmap rechtstreeks: `index.html`, `src/`, `assets/`, de vier CSS-bestanden en `.nojekyll` moeten bij elkaar blijven. Er is geen Android-app of betaalde server nodig voor solo.
+
+## Nieuw in v8.8.3
+
+- Opnieuw aangesloten paden, trappen en landingen in alle 13 tussengebieden. Inez is over het pad bereikbaar; de metroperrons, serre en andere uitbreidingen zijn ook met gewone beweging gecontroleerd.
+- De routeberekening gebruikt de werkelijke voetruimte, voorbereide routekaarten, opgeslagen verbindingen en een snellere zoeklijst. Vijanden verdelen routeverzoeken over meerdere frames.
+- Op PC worden alle 48 unieke kaartbeelden volledig gedecodeerd en alle voorbereide loopnetwerken ingeladen voordat spelen beschikbaar is. Reizen vraagt geen nieuwe kaartdownloads. Android houdt zijn begrensde beeldcache.
+- De stadsbrug behoudt nu dezelfde schaal in beide richtingen. Uitbreidingen blijven losse, aansluitende artworktegels; bestaande kaarten worden niet verder uitgerekt.
+- Nieuw vrouwelijk artwork voor alle drie klassen, met aangepaste beenmaskers, portretten en acht richtingen. Draaien gebruikt één duidelijke houding en volgt de echte bewegingsrichting.
+
+Validatie en de geteste routes: `qa/WORLD-V883-VALIDATION.md`.
 
 ## Nieuw in v8.8.2
 

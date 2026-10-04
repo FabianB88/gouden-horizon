@@ -1,36 +1,36 @@
-import {PORTAL_ART} from './portal-art.js?v=35';
-import {MapTextures,downloadMaps} from './map-textures.js?v=35';
-import {OutdoorVisuals} from './outdoor-visuals.js?v=35';
-import {OUTDOOR_REGIONS,outdoorPoint} from './outdoor-content.js?v=35';
-import {CITY_JOIN} from './city-extension.js?v=35';
-import {FeedbackVisuals} from './combat-feedback.js?v=35';
-import {effectParticles,trailStep} from './frame-performance.js?v=35';
-import {QuarterVisuals} from './safe-exploration.js?v=35';
-import {QUARTER_POINTS} from './safe-exploration-content.js?v=35';
-import {CreatureVisuals} from './creature-visuals.js?v=35';
-import {drawRiggedHero} from './hero-rig.js?v=35';
-import {equipmentAppearance} from './appearance.js?v=35';
-import {V6Visuals} from './v6-visuals.js?v=35';
-import {UNIQUE_ITEMS} from './unique-items.js?v=35';
-import {worldBounds,QUAY_GATE,WORLD,ZONES,AREAS,AREA_BY_ID,SPELLS,ENEMIES,POSITIONS,START_EQUIPMENT} from './data.js?v=35';
-import {clamp,distance} from './engine.js?v=35';
-import {ITEM_BASES} from './loot.js?v=35';
-import {ExpeditionVisuals} from './visuals.js?v=35';
-import {drawAnimatedEnemy} from './enemy-motion.js?v=35';
-import {drawWalkingHero,drawDirectionalHero,heroFocus} from './hero-animation.js?v=35';
-import {EnemyCombatVisuals,enemyAttackMotion} from './enemy-combat.js?v=35';
-import {QuestVisuals,NORA} from './quests.js?v=35';
-import {arenaObstacles} from './arena-layouts.js?v=35';
-import {EnemyAreaVisuals} from './enemy-area-visuals.js?v=35';
-import {prepareHeroRig} from './hero-rig.js?v=35';
-import {RenderCache,renderRatio,surface,freezeSurface} from './render-cache.js?v=35';
+import {PORTAL_ART} from './portal-art.js?v=36';
+import {MapTextures,downloadMaps} from './map-textures.js?v=36';
+import {OutdoorVisuals} from './outdoor-visuals.js?v=36';
+import {OUTDOOR_REGIONS,outdoorPoint} from './outdoor-content.js?v=36';
+import {CITY_JOIN} from './city-extension.js?v=36';
+import {FeedbackVisuals} from './combat-feedback.js?v=36';
+import {effectParticles,trailStep} from './frame-performance.js?v=36';
+import {QuarterVisuals} from './safe-exploration.js?v=36';
+import {QUARTER_POINTS} from './safe-exploration-content.js?v=36';
+import {CreatureVisuals} from './creature-visuals.js?v=36';
+import {drawRiggedHero} from './hero-rig.js?v=36';
+import {equipmentAppearance} from './appearance.js?v=36';
+import {V6Visuals} from './v6-visuals.js?v=36';
+import {UNIQUE_ITEMS} from './unique-items.js?v=36';
+import {worldBounds,QUAY_GATE,WORLD,ZONES,AREAS,AREA_BY_ID,SPELLS,ENEMIES,POSITIONS,START_EQUIPMENT} from './data.js?v=36';
+import {clamp,distance,findPath} from './engine.js?v=36';
+import {ITEM_BASES} from './loot.js?v=36';
+import {ExpeditionVisuals} from './visuals.js?v=36';
+import {drawAnimatedEnemy} from './enemy-motion.js?v=36';
+import {drawWalkingHero,drawDirectionalHero,heroFocus} from './hero-animation.js?v=36';
+import {EnemyCombatVisuals,enemyAttackMotion} from './enemy-combat.js?v=36';
+import {QuestVisuals,NORA} from './quests.js?v=36';
+import {arenaObstacles} from './arena-layouts.js?v=36';
+import {EnemyAreaVisuals} from './enemy-area-visuals.js?v=36';
+import {prepareHeroRig} from './hero-rig.js?v=36';
+import {RenderCache,renderRatio,surface,freezeSurface} from './render-cache.js?v=36';
 const TAU=Math.PI*2;
 export class Renderer {
   constructor(canvas,minimap){this.canvas=canvas;this.ctx=canvas.getContext('2d');this.minimap=minimap;this.mctx=minimap.getContext('2d');this.assets={};this.camera={x:0,y:0};this.shake=0;this.flash=0;this.ready=false;this.crop=null;this.time=0;this.quality=1;this.cache=new RenderCache();}
   async load(onProgress=()=>{}){
     const files={...Object.fromEntries(AREAS.map(z=>[z.id,'assets/painted/'+z.file])),items:'assets/items/item-atlas.webp',travel:'assets/expedition/travel-camp-atlas.webp',mineArt:'assets/expedition/magnet-mine.webp',combatEffects:'assets/expedition/combat-effects-v551.webp',nora:'assets/expedition/nora-v551.webp',enemyAnimation:'assets/expedition/enemy-animation-v55.webp',rolesV54:'assets/expedition/enemy-v54.webp',bossesV54:'assets/expedition/boss-v54.webp',newEnemies:'assets/expedition/enemy-v52.webp',extraEnemies:'assets/expedition/enemy-atlas.webp',abilities:'assets/expedition/ability-atlas.webp',...Object.fromEntries([...new Set([...ITEM_BASES,...Object.values(START_EQUIPMENT)].map(i=>i.art||i.id))].map(id=>['item-'+id,'assets/items/'+id+'.webp'])),atlas:'assets/painted/enemy-atlas.webp'};
     for(const id of ['enemies','bosses','summons','npcs'])files['v6-'+id]='assets/expedition/v6-'+id+'.webp';for(const u of Object.values(UNIQUE_ITEMS))files['item-'+u.art]='assets/items/'+u.art+'.webp';
-    for(const identity of ['elementalist','builder','hunter'])files['hero-class-'+identity]='assets/painted/hero-class-'+identity+'-v871.webp';for(const variant of ['builder-female','elementalist-male','hunter-male'])files['hero-class-'+variant]='assets/painted/hero-class-'+variant+'-v88.webp';files.focusV8='assets/expedition/focus-v8.webp';files.helmetsV8='assets/expedition/helmets-v8.webp';files.enemiesV8='assets/expedition/enemies-v8.webp';files.biomeEnemies='assets/expedition/enemies-biome-v81.webp';
+    for(const identity of ['elementalist','builder','hunter'])files['hero-class-'+identity]='assets/painted/hero-class-'+identity+'-v871.webp';for(const variant of ['elementalist-male','hunter-male'])files['hero-class-'+variant]='assets/painted/hero-class-'+variant+'-v88.webp';for(const identity of ['elementalist','builder','hunter'])files['hero-class-'+identity+'-female']='assets/painted/hero-class-'+identity+'-female-v883.webp';files.focusV8='assets/expedition/focus-v8.webp';files.helmetsV8='assets/expedition/helmets-v8.webp';files.enemiesV8='assets/expedition/enemies-v8.webp';files.biomeEnemies='assets/expedition/enemies-biome-v81.webp';
     files.natureCreatures='assets/expedition/nature-creatures-v83.webp';
     for(const r of Object.values(OUTDOOR_REGIONS))files[r.asset]='assets/painted/'+r.file;files.regionCauseway='assets/painted/region-causeway-v882.webp';files.outdoorDoor='assets/expedition/outdoor-door-v872.webp';for(const name of ['seya','orin','tess'])files['npc-'+name]='assets/expedition/npc-'+name+'-v872.webp';
     files.cityEast='assets/painted/vrijhaven-east-v871.webp';files.cityJoin='assets/painted/vrijhaven-join-v882.webp';
@@ -42,9 +42,11 @@ export class Renderer {
     const decoded=new Map(),loadImage=file=>{if(!decoded.has(file))decoded.set(file,new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(new Error('Asset ontbreekt: '+file));image.src=file;}));return decoded.get(file);};
     const mapKeys=[...AREAS.map(a=>a.id),...Object.values(OUTDOOR_REGIONS).map(r=>r.asset),'regionCauseway','cityEast','cityJoin','quayGarden','quayJoin'];
     const mapFiles=Object.fromEntries(mapKeys.map(key=>[key,files[key]]));
+    const navigationReady=fetch('assets/navigation/walkways-v883.json').then(r=>{if(!r.ok)throw Error('Looproutes konden niet laden');return r.json();}).then(async records=>{findPath.install(records);this.navigationRecords=records;const mobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);for(const record of records)if(!mobile||record.area==='canal'){findPath.prepare(record.area,record.radius);await new Promise(resolve=>setTimeout(resolve,0));}});
     const mapBytes=await downloadMaps(mapFiles,globalThis.fetch,(done,total)=>onProgress('Kaarten laden · '+done+' / '+total));
-    this.maps=new MapTextures(mapFiles,this.assets,file=>new Promise((resolve,reject)=>{const image=new Image(),url=URL.createObjectURL(mapBytes.get(file));image.onload=()=>{URL.revokeObjectURL(url);resolve(image);};image.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Kaart kon niet laden: '+file));};image.src=url;}));
-    await Promise.all([this.maps.ensure(AREA_BY_ID.canal),...Object.entries(files).filter(([id])=>!mapKeys.includes(id)).map(async([id,file])=>{this.assets[id]=await loadImage(file);})]);
+    this.maps=new MapTextures(mapFiles,this.assets,file=>new Promise((resolve,reject)=>{const image=new Image(),url=URL.createObjectURL(mapBytes.get(file));image.onload=async()=>{try{await image.decode();URL.revokeObjectURL(url);resolve(image);}catch(error){URL.revokeObjectURL(url);reject(error);}};image.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Kaart kon niet laden: '+file));};image.src=url;}));
+    const mobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+    await Promise.all([navigationReady,mobile?this.maps.ensure(AREA_BY_ID.canal):this.maps.preload((done,total)=>onProgress('Kaarten voorbereiden · '+done+' / '+total)),...Object.entries(files).filter(([id])=>!mapKeys.includes(id)).map(async([id,file])=>{this.assets[id]=await loadImage(file);})]);
     [this.enemyAOECrop,this.arenaPropsCrop]=await Promise.all(['enemy-aoe-v561','arena-obstacles-v561'].map(name=>fetch('assets/expedition/'+name+'.json').then(r=>r.json())));
     this.outdoorNPCCrop=await fetch('assets/expedition/npcs-v872.json').then(r=>r.json());
     this.natureCrop=await fetch('assets/expedition/nature-creatures-v83.json').then(r=>r.json());
@@ -55,7 +57,7 @@ export class Renderer {
     this.combatEffectsCrop=await fetch('assets/expedition/combat-effects-v551.json').then(r=>r.json());this.noraCrop=await fetch('assets/expedition/nora-v551.json').then(r=>r.json());this.enemyAnimationCrop=await fetch('assets/expedition/enemy-animation-v55.json').then(r=>r.json());this.v54Crop=await fetch('assets/expedition/v54-sprites.json').then(r=>r.json());this.newEnemyCrop=await fetch('assets/expedition/enemy-v52.json').then(r=>r.json());this.expedition=await fetch('assets/expedition/sprites.json').then(r=>r.json());this.itemCrop=await fetch('assets/items/items.json').then(r=>r.json());this.crop=await fetch('assets/painted/sprites.json').then(r=>r.json());[this.heroGearCrop,this.focusV8Crop,this.helmetV8Crop,this.v8EnemyCrop]=await Promise.all(['assets/painted/hero-gear-v8.json','assets/expedition/focus-v8.json','assets/expedition/helmets-v8.json','assets/expedition/enemies-v8.json'].map(file=>fetch(file).then(r=>r.json())));this.heroDirectionalCrop=await fetch('assets/painted/hero-eight-directions.json').then(r=>r.json());this.heroClassCrop=await fetch('assets/painted/hero-classes-v88.json').then(r=>r.json());await prepareHeroRig(this);this.ready=true;
   }
   areaReady(id){return !this.maps||this.maps.ready(AREA_BY_ID[id]);}
-  async ensureArea(id){if(this.maps&&!this.areaReady(id)){await this.maps.ensure(AREA_BY_ID[id]);this.sceneDirty=true;}}
+  async ensureArea(id){if(this.maps&&!this.areaReady(id)){await this.maps.ensure(AREA_BY_ID[id]);for(const record of this.navigationRecords||[])if(record.area===id)findPath.prepare(id,record.radius);this.sceneDirty=true;}}
   drawEquipmentPortrait(canvas,p){if(!canvas||!this.ready)return;const key=equipmentAppearance(p).key;this.portraits||=new Map();let tile=this.portraits.get(key);if(!tile){tile=typeof OffscreenCanvas!=='undefined'?new OffscreenCanvas(320,420):document.createElement('canvas');tile.width=320;tile.height=420;const ctx=tile.getContext('2d'),old=this.ctx;this.ctx=ctx;ctx.save();ctx.translate(160,375);ctx.scale(2.6,2.6);drawRiggedHero(this,{...p,x:0,y:0,moving:false,walkBlend:0,visualMotionBlend:0,cast:0,poseTurn:0},0);ctx.restore();this.ctx=old;this.portraits.set(key,tile);while(this.portraits.size>12)this.portraits.delete(this.portraits.keys().next().value);}const ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(tile,0,0,canvas.width,canvas.height);}
   resize(){const rect=this.canvas.getBoundingClientRect(),ratio=renderRatio(rect.width,rect.height,window.devicePixelRatio||1,this.settings?.quality)*(this.performanceScale||1);this.canvas.width=Math.round(rect.width*ratio);this.canvas.height=Math.round(rect.height*ratio);this.width=rect.width;this.height=rect.height;this.pixelRatio=ratio;this.updateZoom();this.ctx.imageSmoothingEnabled=true;this.ctx.imageSmoothingQuality=this.settings?.quality==='high'?'high':'medium';const bounds=worldBounds(this.renderArea);this.camera.x=clamp(this.camera.x,0,Math.max(0,bounds.width-this.viewWidth));this.camera.y=clamp(this.camera.y,0,Math.max(0,bounds.height-this.viewHeight));this.cache.clearViewport();this.sceneDirty=true;}
   updateZoom(){const b=worldBounds(this.renderArea),base=Math.max(this.width<=720?.78:1,this.width/WORLD.width,this.height/WORLD.height),fit=Math.max(this.width/b.width,this.height/b.height);this.zoom=Math.max(fit,base*(this.settings?.camera||1.15));this.viewWidth=this.width/this.zoom;this.viewHeight=this.height/this.zoom;}
@@ -72,7 +74,7 @@ export class Renderer {
     const smooth=1-Math.exp(-delta*6);this.camera.x+=(targetX-this.camera.x)*smooth;this.camera.y+=(targetY-this.camera.y)*smooth;
     const shakeX=(Math.sin(time*67)*this.shake),shakeY=(Math.cos(time*83)*this.shake*.6);this.shake=Math.max(0,this.shake-delta*24);
     c.setTransform(this.pixelRatio,0,0,this.pixelRatio,0,0);c.clearRect(0,0,this.width,this.height);c.save();c.scale(this.zoom,this.zoom);c.translate(-this.camera.x+shakeX,-this.camera.y+shakeY);
-    if(zone.tiles){for(const [i,tile] of zone.tiles.entries())if(this.inView(tile.x+tile.width/2,tile.y+tile.height/2,tile.width/2,tile.height/2,tile.height/2))c.drawImage(tile.asset?this.assets[tile.asset]:i?this.assets.quayGarden:this.assets[zone.id],tile.x,tile.y,tile.width,tile.height);}else c.drawImage(this.assets[zone.id],0,0,bounds.width,bounds.height);if(s.area==='highway'&&this.inView(CITY_JOIN.x+CITY_JOIN.width/2,CITY_JOIN.y+CITY_JOIN.height/2,CITY_JOIN.width/2,CITY_JOIN.height/2,CITY_JOIN.height/2))c.drawImage(this.assets.cityJoin,CITY_JOIN.x,CITY_JOIN.y,CITY_JOIN.width,CITY_JOIN.height);if(s.area==='canal'&&this.inView(QUAY_GATE.x,896,100,896,896))c.drawImage(this.assets.quayJoin,QUAY_GATE.x-75,0,150,1792);for(const j of zone.joins||[])if(this.inView(j.x+j.width/2,j.y+j.height/2,j.width/2,j.height/2,j.height/2))c.drawImage(this.assets[j.asset],j.x,j.y,j.width,j.height);c.fillStyle='rgba(9,26,36,.035)';c.fillRect(0,0,bounds.width,bounds.height);
+    if(zone.tiles){for(const [i,tile] of zone.tiles.entries())if(this.inView(tile.x+tile.width/2,tile.y+tile.height/2,tile.width/2,tile.height/2,tile.height/2))c.drawImage(tile.asset?this.assets[tile.asset]:i?this.assets.quayGarden:this.assets[zone.id],tile.x,tile.y,tile.width,tile.height);}else c.drawImage(this.assets[zone.id],0,0,bounds.width,bounds.height);if(s.area==='highway'&&this.inView(CITY_JOIN.x+CITY_JOIN.width/2,CITY_JOIN.y+CITY_JOIN.height/2,CITY_JOIN.width/2,CITY_JOIN.height/2,CITY_JOIN.height/2))c.drawImage(this.assets.cityJoin,CITY_JOIN.x,CITY_JOIN.y,CITY_JOIN.width,CITY_JOIN.height);if(s.area==='canal'&&this.inView(QUAY_GATE.x,896,100,896,896))c.drawImage(this.assets.quayJoin,QUAY_GATE.x-74.375,0,148.75,1792);for(const j of zone.joins||[])if(this.inView(j.x+j.width/2,j.y+j.height/2,j.width/2,j.height/2,j.height/2))c.drawImage(this.assets[j.asset],j.x,j.y,j.width,j.height);c.fillStyle='rgba(9,26,36,.035)';c.fillRect(0,0,bounds.width,bounds.height);
     this.visualLoad=s.effects.length+s.projectiles.length*.5+s.fields.length*3;
     this.drawHazards(s);this.drawNewThreats(s);this.drawV6Ground(s);this.drawCreatureGround(s);for(const field of s.fields)this.drawAreaField(field);if(s.world.camp)this.drawCampFloor(s.world.camp,s);this.drawTelegraphs(s);this.drawEnemyLanding(s);
     for(const relay of s.world.relays)this.drawRelay(relay,s);

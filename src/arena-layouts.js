@@ -1,4 +1,4 @@
-import {OUTDOOR_REGIONS,outdoorPoint} from './outdoor-content.js?v=35';
+import {OUTDOOR_REGIONS,outdoorPoint} from './outdoor-content.js?v=36';
 // Each footprint is the solid ground base of its painted prop, in world pixels.
 // Open courts stay open elsewhere; these three chapters have distinct lanes.
 export const ARENA_LAYOUTS={
@@ -48,3 +48,5 @@ ARENA_LAYOUTS.crystalfalls=[{id:'west-basalt',paintedOnly:true,x:410*1.25,y:505*
 ARENA_LAYOUTS.coppercrown=[{id:'left-masonry',paintedOnly:true,x:355*1.25,y:431*1.25,rx:84*1.25,ry:42*1.25,height:150},{id:'lower-masonry',paintedOnly:true,x:620*1.25,y:788*1.25,rx:110*1.25,ry:57*1.25,height:160},{id:'right-masonry',paintedOnly:true,x:1315*1.25,y:610*1.25,rx:95*1.25,ry:52*1.25,height:155},{id:'observatory',paintedOnly:true,x:800*1.25,y:547*1.25,rx:113*1.25,ry:60*1.25,height:90}];
 
 for(const [id,r]of Object.entries(OUTDOOR_REGIONS))for(const o of r.solids){(ARENA_LAYOUTS[id]||=[]).push({...o,...outdoorPoint(id,[o.x,o.y]),id:'outdoor-planter',rx:o.rx*r.scale,ry:o.ry*r.scale,paintedOnly:true,height:55*r.scale});}
+
+ARENA_LAYOUTS.rooftops=[{id:'south-planter',paintedOnly:true,x:635,y:1170,rx:16,ry:18,height:55}];

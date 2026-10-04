@@ -5,3 +5,7 @@ qa/screenshots/
 *.tar.gz
 
 .lan-saves/
+
+# Local continuity notes stay on this PC.
+PROJECT-HANDOVER.md
+qa/LOCAL-RECOVERY.md

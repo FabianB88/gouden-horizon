@@ -1,4 +1,4 @@
-import {drawRiggedHero,heroRigPose,heroBodyMotion,gearFocusPoint} from './hero-rig.js?v=35';
+import {drawRiggedHero,heroRigPose,heroBodyMotion,gearFocusPoint} from './hero-rig.js?v=36';
 
 export function heroFocus(renderer,p,time=0){
  const atlas=renderer.heroDirectionalCrop;
@@ -7,9 +7,7 @@ export function heroFocus(renderer,p,time=0){
   const {mirrored,rig,frame,scale,index:bindIndex}=heroRigPose(renderer,index,p),focus=gearFocusPoint(renderer,p,index),motion=heroBodyMotion(p,bindIndex),dx=focus[0]-rig.h[0]*frame.bounds[2],dy=focus[1]-rig.h[1]*frame.bounds[3],a=motion.rotation;
   return {x:p.x+((dx*Math.cos(a)-dy*Math.sin(a))*scale+motion.x)*(mirrored?-1:1),y:p.y+(rig.h[1]-frame.anchor[1])*frame.bounds[3]*scale+(dx*Math.sin(a)+dy*Math.cos(a))*scale+motion.y};
  };
- const current=point(p.poseDirection??0),turn=p.poseTurn*(p.poseTurn*(3-2*p.poseTurn));
- if(p.poseTurn>0&&p.previousPoseDirection!==p.poseDirection){const previous=point(p.previousPoseDirection);return {x:current.x+(previous.x-current.x)*turn,y:current.y+(previous.y-current.y)*turn};}
- return current;
+ return point(p.poseDirection??0);
 }
 
 export function drawDirectionalHero(renderer,p,time=0){
@@ -22,8 +20,7 @@ export function drawDirectionalHero(renderer,p,time=0){
  for(const trail of p.trail||[]){
   drawRiggedHero(renderer,{...p,x:trail.x,y:trail.y,moving:false,cast:0},trail.direction??direction,trail.life*.7);
  }
- if(p.poseTurn>0&&p.previousPoseDirection!==direction){const turn=p.poseTurn*p.poseTurn*(3-2*p.poseTurn);draw(p.previousPoseDirection,turn);draw(direction,1-turn);}
- else draw(direction);
+ draw(direction);
  return true;
 }
 
