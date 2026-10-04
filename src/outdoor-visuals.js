@@ -1,4 +1,4 @@
-import {OUTDOOR_REGIONS,outdoorPoint} from './outdoor-content.js?v=33';
+import {OUTDOOR_REGIONS,outdoorPoint} from './outdoor-content.js?v=32';
 const distance=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 export const OutdoorVisuals={
  drawOutdoorNPC(npc,s){const r=OUTDOOR_REGIONS[s.area];this.ellipse(npc.x,npc.y,23,10,'#152b3455');this.sprite(this.assets['npc-'+r.npc],this.outdoorNPCCrop[r.npc],npc.x,npc.y,137);if(distance(s.player,npc)<330){this.text(npc.name,npc.x,npc.y-151,'#f5e1ad',14);this.text(r.name,npc.x,npc.y+23,r.color,12);}},

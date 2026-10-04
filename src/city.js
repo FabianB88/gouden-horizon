@@ -1,8 +1,8 @@
-import {cityExtensionPoint} from './city-extension.js?v=33';
-import {UNIQUE_ITEMS} from './unique-items.js?v=33';
-import {AREA_BY_ID} from './data.js?v=33';
-import {makeItem,makeUniqueItem} from './loot.js?v=33';
-import {spaciousPoint} from './hub-space.js?v=33';
+import {cityExtensionPoint} from './city-extension.js?v=32';
+import {UNIQUE_ITEMS} from './unique-items.js?v=32';
+import {AREA_BY_ID} from './data.js?v=32';
+import {makeItem,makeUniqueItem} from './loot.js?v=32';
+import {spaciousPoint} from './hub-space.js?v=32';
 export const CITY_NPCS=[
  {id:'ilya',name:'Ilya · Levenshoeder',title:'Het levende verbond',x:1560,y:540,art:0},
  {id:'milo',name:'Milo · Cartograaf',title:'Kaarten van Vrijhaven',x:350,y:290,art:1},
@@ -34,7 +34,7 @@ export const CityRules={
   if(id==='ilya'){p.menderUnlocked=true;const item=makeItem({rng:this.rng,level:Math.max(5,Math.min(8,p.level)),rarity:'rare',slot:'gloves',uid:++this.idCounter});p.inventory.push(item);this.emit('discovery',{item,collected:true});}
   if(id==='sera')p.uniqueBlueprints=true;this.notice(id==='ilya'?'Lichtmot en zeldzame handschoenen vrijgespeeld':id==='sera'?'Unieke recepten beschikbaar bij Inez · +150 schroot':'Drie wijken in kaart · +100 schroot');this.emit('questcomplete');this.checkpoint();return true;
  },
- buyUniqueRecipe(id){if(UNIQUE_ITEMS[id]?.chase)return false;const p=this.state.player;if(!this.canTrade()||this.service()!=='workshop'||!p.uniqueBlueprints||p.level<8||p.inventory.length>=48||p.scrap<1200||(p.uniquePurchased||[]).includes(id))return false;const item=makeUniqueItem(id,Math.max(8,Math.min(14,p.level)),++this.idCounter);if(!item)return false;p.scrap-=1200;p.uniquePurchased||=[];p.uniquePurchased.push(id);p.inventory.push(item);this.emit('purchase',{name:item.name,cost:1200,item,detail:'Gebouwd · in je rugzak'});this.emit('discovery',{item,collected:true});this.emit('trade');this.checkpoint();return true;}
+ buyUniqueRecipe(id){if(UNIQUE_ITEMS[id]?.chase)return false;const p=this.state.player;if(!this.canTrade()||this.service()!=='workshop'||!p.uniqueBlueprints||p.level<8||p.inventory.length>=48||p.scrap<1200||(p.uniquePurchased||[]).includes(id))return false;const item=makeUniqueItem(id,Math.max(8,Math.min(14,p.level)),++this.idCounter);if(!item)return false;p.scrap-=1200;p.uniquePurchased||=[];p.uniquePurchased.push(id);p.inventory.push(item);this.emit('discovery',{item,collected:true});this.emit('trade');this.checkpoint();return true;}
 };
 export const CITY_DIALOGUES={
  milo:{title:'Kaarten van Vrijhaven',intro:'Onze oude routekaarten kloppen niet meer. Bekijk de watermeter aan de kade, de daktuin en het archief bij de werkplaats. Dan hebben reizigers eindelijk een betrouwbare kaart.',active:'Bezoek de drie gemarkeerde plekken. Je tekent ze automatisch in wanneer je dichtbij komt.',ready:'Alle drie verbonden. Nu kunnen mensen door Vrijhaven reizen zonder weer op een doodlopend pad uit te komen.',reward:'100 schroot · drie ontdekkingen in de stad'},

@@ -61,7 +61,7 @@ test('Enemy walk follows actual distance, freezes when blocked and yields to att
 test('Hero feet alternate contact and lift; blocked movement does not run the gait',()=>{
  for(const phase of [0,.1,.25,.5,.75]){const [a,b]=footCycle(phase);assert(!(a.planted&&b.planted));}assert(footCycle((1+FOOT_STANCE)/2)[0].lift>.99);assert(footCycle((1+FOOT_STANCE)/2-.5)[1].lift>.99);
  // A planted boot stays at the same world position as the hips move forward.
- for(const phase of [FOOT_STANCE*.1,FOOT_STANCE*.3,FOOT_STANCE*.7]){const next=phase+.03;near(phase*WALK_CYCLE_DISTANCE+footCycle(phase)[0].advance*WALK_STRIDE,next*WALK_CYCLE_DISTANCE+footCycle(next)[0].advance*WALK_STRIDE);}
+ for(const phase of [.05,.15,.3]){const next=phase+.03;near(phase*WALK_CYCLE_DISTANCE+footCycle(phase)[0].advance*WALK_STRIDE,next*WALK_CYCLE_DISTANCE+footCycle(next)[0].advance*WALK_STRIDE);}
  const p=arena().state.player;updateHeroMotion(p,20,0,.1,200);const distance=p.walkDistance;assert(p.moving);updateHeroMotion(p,0,0,.1,200);assert.equal(p.walkDistance,distance);assert(!p.moving);p.dashDir={x:1,y:0};updateHeroMotion(p,80,0,.1,200,true);assert.equal(p.walkDistance,distance);
 });
 test('Two optional regions unlock after a core and never change the twenty-four chapter story',()=>{

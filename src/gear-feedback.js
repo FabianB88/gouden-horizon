@@ -1,4 +1,4 @@
-import {effectText} from './legendary.js?v=33';
+import {effectText} from './legendary.js?v=32';
 
 const labels={poisonResist:'gifweerstand',fireResist:'vuurweerstand',stormResist:'bliksemweerstand',waterResist:'waterweerstand',power:'spreukschade',hp:'leven',mana:'mana',regen:'mana/sec',speed:'loopsnelheid',dash:'ontwijkherstel',crit:'kritieke kans',armor:'bescherming',tide:'getijdenschade',storm:'stormschade',ember:'zonneschade',wetTime:'natduur',chain:'kettingdoelen',comboCharge:'kernpulsopbouw',recovery:'leven/sec',leech:'leven per kill',waterproof:'waterbestendig',heatGuard:'hittebescherming',burnTime:'brandduur'};
 const percentages=new Set(['poisonResist','fireResist','stormResist','waterResist','power','speed','dash','crit','armor','tide','storm','ember','comboCharge','heatGuard','burnTime']);

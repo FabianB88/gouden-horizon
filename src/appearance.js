@@ -22,5 +22,5 @@ export function equipmentAppearance(p){
  const focusStyle=weapon?.appearance||focus[weapon?.art||weapon?.id]||(weapon?.stats?.ember?'solar':weapon?.stats?.storm?'storm':'tidal');
  const helmetStyle=head&&!head.empty?(head.appearance||({ 'field-cap':'field','sentinel-helm':'heavy','filter-hood':'filter','storm-crown':'storm'}[head.id])||'field'):null;
  const legendary=suit?.rarity==='legendary'||weapon?.rarity==='legendary'||head?.rarity==='legendary';
- const identity=characterClass(p),gender=['male','female'].includes(p.heroGender)?p.heroGender:identity==='builder'?'male':'female';return {identity,gender,visualKey:identity+'-'+gender,armor:armorStyle,focus:focusStyle,helmet:helmetStyle,legendary,key:[identity,gender,armorStyle,focusStyle,helmetStyle||'bare',legendary?1:0].join(':')};
+ const identity=characterClass(p);return {identity,armor:armorStyle,focus:focusStyle,helmet:helmetStyle,legendary,key:[identity,armorStyle,focusStyle,helmetStyle||'bare',legendary?1:0].join(':')};
 }
