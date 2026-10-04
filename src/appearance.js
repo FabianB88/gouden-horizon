@@ -1,4 +1,6 @@
 // Visual families are independent of random affixes and stat rolls.
+export const CHARACTER_CLASSES=['elementalist','builder','hunter'];
+export function characterClass(p){return [p.characterClass,p.preferredSpecialization,p.specialization].find(id=>CHARACTER_CLASSES.includes(id))||'hunter';}
 export const ARMOR_STYLES=['light','heavy','filter','storm'];
 export const FOCUS_STYLES=['tidal','solar','storm','crystal'];
 export const HELMET_STYLES=['field','heavy','filter','storm'];
@@ -20,5 +22,5 @@ export function equipmentAppearance(p){
  const focusStyle=weapon?.appearance||focus[weapon?.art||weapon?.id]||(weapon?.stats?.ember?'solar':weapon?.stats?.storm?'storm':'tidal');
  const helmetStyle=head&&!head.empty?(head.appearance||({ 'field-cap':'field','sentinel-helm':'heavy','filter-hood':'filter','storm-crown':'storm'}[head.id])||'field'):null;
  const legendary=suit?.rarity==='legendary'||weapon?.rarity==='legendary'||head?.rarity==='legendary';
- return {armor:armorStyle,focus:focusStyle,helmet:helmetStyle,legendary,key:[armorStyle,focusStyle,helmetStyle||'bare',legendary?1:0].join(':')};
+ const identity=characterClass(p);return {identity,armor:armorStyle,focus:focusStyle,helmet:helmetStyle,legendary,key:[identity,armorStyle,focusStyle,helmetStyle||'bare',legendary?1:0].join(':')};
 }

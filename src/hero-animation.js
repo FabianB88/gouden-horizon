@@ -1,8 +1,8 @@
-import {drawRiggedHero,heroRigPose,heroBodyMotion,gearFocusPoint} from './hero-rig.js?v=30';
+import {drawRiggedHero,heroRigPose,heroBodyMotion,gearFocusPoint} from './hero-rig.js?v=32';
 
 export function heroFocus(renderer,p,time=0){
  const atlas=renderer.heroDirectionalCrop;
- if(!atlas)return null;
+ if(!atlas&&!renderer.heroClassCrop)return null;
  const point=index=>{
   const {mirrored,rig,frame,scale,index:bindIndex}=heroRigPose(renderer,index,p),focus=gearFocusPoint(renderer,p,index),motion=heroBodyMotion(p,bindIndex),dx=focus[0]-rig.h[0]*frame.bounds[2],dy=focus[1]-rig.h[1]*frame.bounds[3],a=motion.rotation;
   return {x:p.x+((dx*Math.cos(a)-dy*Math.sin(a))*scale+motion.x)*(mirrored?-1:1),y:p.y+(rig.h[1]-frame.anchor[1])*frame.bounds[3]*scale+(dx*Math.sin(a)+dy*Math.cos(a))*scale+motion.y};
@@ -14,7 +14,7 @@ export function heroFocus(renderer,p,time=0){
 
 export function drawDirectionalHero(renderer,p,time=0){
  const art=renderer.assets.heroDirectional,atlas=renderer.heroDirectionalCrop;
- if(!art||!atlas)return false;
+ if((!art||!atlas)&&!renderer.heroClassCrop)return false;
  const direction=p.poseDirection??0;
  const draw=(index,alpha=1)=>{
   drawRiggedHero(renderer,p,index,alpha);

@@ -1,7 +1,8 @@
-import {AREAS,AREA_BY_ID,WORLD} from './data.js?v=30';
-import {regionalService} from './markets.js?v=30';
-import {HUB_LAYOUTS} from './hub-layouts.js?v=30';
-import {wanderingScrap} from './hub-wandering-content.js?v=30';
+import {OUTDOOR_REGIONS,inOutdoorWild} from './outdoor-content.js?v=32';
+import {AREAS,AREA_BY_ID,WORLD} from './data.js?v=32';
+import {regionalService} from './markets.js?v=32';
+import {HUB_LAYOUTS} from './hub-layouts.js?v=32';
+import {wanderingScrap} from './hub-wandering-content.js?v=32';
 export const SAFE_HUBS=['canal','highway','forest','skybridge','metro-refuge','cooling-refuge','groenkloof','lanternwood'];
 export const SERVICE_INFO={
  smith:{name:'Mara · Focusmaker',title:'Focusmaker',slots:['weapon','relic','gloves'],text:'Precisie of elementkracht? Kies een focus die bij je spreuken past.',file:'smith'},
@@ -32,7 +33,7 @@ export const HubRules={
   if(w.shop&&w.shop.marketVersion!==2){w.shop.stock=this.makeStock(area.zone,area.id).filter(i=>!w.shop.purchasedSpecials?.includes(i.investment));w.shop.marketVersion=2;}
   if(w.shop&&w.shop.antidoteStock===undefined)w.shop.antidoteStock=2;
   if(!SAFE_HUBS.includes(area.id))return;
-  w.safeHub=true;w.enemies=w.enemies.filter(e=>e.dead);w.hazards=[];w.threats=[];w.camp.services=hubMerchants(area.id);
+  w.safeHub=true;this.prepareOutdoors(w,area);w.enemies=w.enemies.filter(e=>e.dead||e.outdoor);w.hazards=w.hazards.filter(h=>h.outdoor);w.threats=w.threats.filter(t=>w.enemies.some(e=>e.outdoor&&e.id===t.source));w.camp.services=hubMerchants(area.id);
   if(!w.wanderingVersion){w.wanderingVersion=1;w.pickups||=[];w.pickups.push(...wanderingScrap(this.state.seed,area));}
   const layout=HUB_LAYOUTS[area.id];
   if(w.shop.antidoteStock===undefined)w.shop.antidoteStock=2;
@@ -53,7 +54,7 @@ export const HubRules={
    w.quayLayoutVersion=2;
   }
  },
- inCamp(point=this.state.player){if(AREA_BY_ID[this.state.area]?.safeExplore)return true;if(SAFE_HUBS.includes(this.state.area))return true;const camp=this.state.world?.camp;return Boolean(camp&&(Math.hypot(camp.x-point.x,(camp.y-point.y)*1.15)<camp.radius||Math.hypot(camp.merchant.x-point.x,(camp.merchant.y-point.y)*1.15)<125));},
+ inCamp(point=this.state.player){if(AREA_BY_ID[this.state.area]?.safeExplore)return true;if(SAFE_HUBS.includes(this.state.area))return !inOutdoorWild(this.state.area,point);const camp=this.state.world?.camp;return Boolean(camp&&(Math.hypot(camp.x-point.x,(camp.y-point.y)*1.15)<camp.radius||Math.hypot(camp.merchant.x-point.x,(camp.merchant.y-point.y)*1.15)<125));},
  hubMerchants(id=this.state.area){return SAFE_HUBS.includes(id)?hubMerchants(id):this.state.world?.camp?[{id:'smith',service:'smith',...this.state.world.camp.merchant,...SERVICE_INFO.smith,...regionalService(id,SERVICE_INFO.smith),name:(id==='rooftops'?'Noor':'Bo')+' · '+this.state.world.camp.name,title:'Veldkaravaan',slots:['weapon','suit','relic','boots','gloves','belt'],supplies:true,forge:true}]:[];},
  nearbyMerchant(){return this.hubMerchants().filter(m=>Math.hypot(m.x-this.state.player.x,(m.y-this.state.player.y)*1.15)<115).sort((a,b)=>Math.hypot(a.x-this.state.player.x,a.y-this.state.player.y)-Math.hypot(b.x-this.state.player.x,b.y-this.state.player.y))[0]||null;},
  service(){return this.state.pending?.service||this.nearbyMerchant()?.service||'smith';},
@@ -62,6 +63,6 @@ export const HubRules={
  currentService(){return this.hubMerchants().find(m=>m.id===this.state.pending?.service)||this.nearbyService()||null;},
  serviceStock(){const service=this.currentService();return service?this.shopItems(service.id):this.state.world.shop.stock;},
  migrateHubs(){
-  const s=this.state;for(const worlds of [s.areas,s.checkpoint?.areas])for(const [id,w]of Object.entries(worlds||{})){if(!SAFE_HUBS.includes(id))continue;w.safeHub=true;w.enemies=w.enemies.filter(e=>e.dead);w.hazards=[];w.threats=[];w.merchants=hubMerchants(id);}
+  const s=this.state;for(const worlds of [s.areas,s.checkpoint?.areas])for(const [id,w]of Object.entries(worlds||{})){if(!SAFE_HUBS.includes(id))continue;w.safeHub=true;w.enemies=w.enemies.filter(e=>e.dead||e.outdoor);w.hazards=w.hazards.filter(h=>h.outdoor);w.threats=w.threats.filter(t=>w.enemies.some(e=>e.outdoor&&e.id===t.source));w.merchants=hubMerchants(id);}
  }
 };

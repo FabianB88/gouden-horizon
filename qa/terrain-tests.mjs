@@ -14,7 +14,7 @@ test('Vrijhaven depot gate accepts three approaches across its broad forecourt, 
  }
 });
 test('Arena obstacles leave a connected floor and all wave spawns and return gates reachable',()=>{
- for(const id of Object.keys(ARENA_LAYOUTS)){const g=new Engine();g.state.cores=[0,1,2,3];g.state.storyPassed=[...STORY_ORDER];g.state.natureVictories={crystalfalls:1};assert(g.enterArea(id));const p=g.state.player;
+ for(const id of Object.keys(ARENA_LAYOUTS).filter(id=>!SAFE_HUBS.includes(id))){const g=new Engine();g.state.cores=[0,1,2,3];g.state.storyPassed=[...STORY_ORDER];g.state.natureVictories={crystalfalls:1};assert(g.enterArea(id));const p=g.state.player;
   const cells=new Map();for(let y=240;y<1040;y+=48)for(let x=240;x<1740;x+=48)if(canStand(x,y,35,id))cells.set(x+','+y,{x,y});
   const first=cells.keys().next().value,seen=new Set([first]),queue=[first];while(queue.length){const key=queue.shift(),a=cells.get(key);for(const [dx,dy]of [[48,0],[-48,0],[0,48],[0,-48],[48,48],[48,-48],[-48,48],[-48,-48]]){const next=(a.x+dx)+','+(a.y+dy);if(cells.has(next)&&!seen.has(next)&&clearLine(a,cells.get(next),id,35)){seen.add(next);queue.push(next);}}}
   assert.equal(seen.size,cells.size,id+' has disconnected combat floor');

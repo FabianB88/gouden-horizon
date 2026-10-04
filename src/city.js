@@ -1,7 +1,8 @@
-import {UNIQUE_ITEMS} from './unique-items.js?v=30';
-import {AREA_BY_ID} from './data.js?v=30';
-import {makeItem,makeUniqueItem} from './loot.js?v=30';
-import {spaciousPoint} from './hub-space.js?v=30';
+import {cityExtensionPoint} from './city-extension.js?v=32';
+import {UNIQUE_ITEMS} from './unique-items.js?v=32';
+import {AREA_BY_ID} from './data.js?v=32';
+import {makeItem,makeUniqueItem} from './loot.js?v=32';
+import {spaciousPoint} from './hub-space.js?v=32';
 export const CITY_NPCS=[
  {id:'ilya',name:'Ilya · Levenshoeder',title:'Het levende verbond',x:1560,y:540,art:0},
  {id:'milo',name:'Milo · Cartograaf',title:'Kaarten van Vrijhaven',x:350,y:290,art:1},
@@ -14,6 +15,8 @@ Object.assign(CONTRACT_NPCS.skybridge,{x:1030,y:640});
 Object.assign(CITY_NPCS.find(n=>n.id==='milo'),{x:300,y:150});
 Object.assign(CITY_NPCS.find(n=>n.id==='sera'),{x:1280,y:920});
 for(const point of [...CITY_NPCS,...CITY_LANDMARKS])Object.assign(point,spaciousPoint(point,'highway'));
+for(const [id,point]of Object.entries({milo:[200*1.75,240*1.75],ilya:cityExtensionPoint([1330,440]),sera:cityExtensionPoint([970,800])})){const npc=CITY_NPCS.find(n=>n.id===id);[npc.x,npc.y]=point;}
+for(const [id,point]of Object.entries({garden:[400,228],harbor:[220,573],workshop:[970,500]})){const landmark=CITY_LANDMARKS.find(n=>n.id===id);[landmark.x,landmark.y]=point.map(v=>v*1.75);}
 for(const id of Object.keys(CONTRACT_NPCS))CONTRACT_NPCS[id]=spaciousPoint(CONTRACT_NPCS[id],id);
 const near=(a,b,r=110)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15)<r;
 export const CityRules={

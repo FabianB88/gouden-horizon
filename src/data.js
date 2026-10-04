@@ -1,18 +1,21 @@
-import {WANDERING_FLOORS,WANDERING_EXTENSIONS} from './hub-wandering-content.js?v=30';
-import {HUB_SCALES} from './hub-space.js?v=30';
-import {QUARTER_AREAS,QUARTER_GATES} from './safe-exploration-content.js?v=30';
-import {NATURE_AREAS,NATURE_ENEMIES} from './nature-content.js?v=30';
-import {CREATURE_ENEMIES} from './creature-content.js?v=30';
-import {BIOME_AREAS,BIOME_ENEMIES,BIOME_HUB_LAYOUTS} from './biome-content.js?v=30';
-import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=30';
-import {V8_AREAS,V8_ZONES,V8_ENEMIES} from './v8-content.js?v=30';
-import {HUB_LAYOUTS} from './hub-layouts.js?v=30';
+import {OUTDOOR_REGIONS} from './outdoor-content.js?v=32';
+import {WANDERING_FLOORS,WANDERING_EXTENSIONS} from './hub-wandering-content.js?v=32';
+import {CITY_EXTENSION_FLOORS,CITY_JOIN_FLOOR} from './city-extension.js?v=32';
+import {TOWN_FLOORS,TOWN_EXTRA_FLOORS} from './town-floors.js?v=32';
+import {HUB_SCALES} from './hub-space.js?v=32';
+import {QUARTER_AREAS,QUARTER_GATES} from './safe-exploration-content.js?v=32';
+import {NATURE_AREAS,NATURE_ENEMIES} from './nature-content.js?v=32';
+import {CREATURE_ENEMIES} from './creature-content.js?v=32';
+import {BIOME_AREAS,BIOME_ENEMIES,BIOME_HUB_LAYOUTS} from './biome-content.js?v=32';
+import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=32';
+import {V8_AREAS,V8_ZONES,V8_ENEMIES} from './v8-content.js?v=32';
+import {HUB_LAYOUTS} from './hub-layouts.js?v=32';
 export const WORLD = { width: 1920, height: 1280 };
 export const SPELLS = {
   tide: { name: 'Getijdenwaaier', short: 'GETIJ', color: '#73e2e5', dark: '#126c8b', key: '1', damage: 13, cost: 4, interval: .22, speed: 780, radius: 11, status: 'wet', description: 'Drie waterbogen waaieren uit en maken doelen NAT. Wissel naar storm voor kettingbliksem.' },
   storm: { name: 'Boogbliksem', short: 'STORM', color: '#ceb2ff', dark: '#7958ca', key: '2', damage: 20, cost: 8, interval: .4, speed: 1000, radius: 9, status: 'shock', description: 'Natte doelen geven +70% schade en leiden bliksem door naar twee vijanden.' },
   ember: { name: 'Zonnebom', short: 'ZON', color: '#ffbc66', dark: '#b74c27', key: '3', damage: 30, cost: 12, interval: .7, speed: 620, radius: 15, status: 'burn', description: 'Een gebogen vuurbom ontploft op de grond en laat brandschade achter. NAT + ZON veroorzaakt een stoomgolf.' },
-  prism:{name:'Prismaboog',short:'PRISMA',color:'#ffe49a',dark:'#c18340',damage:70,cost:18,interval:1.2,speed:960,radius:12,unlockLevel:5,shopOnly:true,description:'Een gerichte prismalans springt na een treffer naar drie andere doelen. Sprongen behouden 88% schade. 70 beginschade, 18 mana, 1,2s. Bij Mara vanaf Vrijhaven · 650 schroot.'},
+  prism:{name:'Prismaboog',short:'PRISMA',color:'#ffe49a',dark:'#c18340',damage:70,cost:18,interval:1.2,speed:960,radius:12,unlockLevel:5,shopOnly:true,description:'Een gerichte prismalans springt na een treffer naar drie andere doelen. Sprongen behouden 88% schade. 70 beginschade, 18 mana, 1,2s. Bij de focusmaker vanaf Vrijhaven · 650 schroot.'},
   frost: {name:'IJslans',short:'IJS',color:'#a9edff',dark:'#468ca7',damage:28,cost:11,interval:.55,speed:1080,radius:10,unlockLevel:2,status:'slow',description:'Een scherpe lans doorboort de hele rij. Vertraagt; natte doelen bevriezen kort.'},
   gale: {name:'Windboemerang',short:'WIND',color:'#b7f1bd',dark:'#428c75',damage:19,cost:9,interval:.65,speed:590,radius:24,unlockLevel:3,status:'push',description:'Een draaiende windschijf raakt op de heen- én terugweg en duwt vijanden weg.'},
   gravity: {name:'Zwaartekern',short:'KERN',color:'#e3a7ff',dark:'#8652a0',damage:42,cost:20,interval:1.3,speed:240,radius:22,unlockLevel:4,status:'pull',description:'Een trage kern trekt vijanden samen en implodeert. Volg op met een zonnebom.'}
@@ -22,10 +25,10 @@ export const SPELLS = {
   orbital:{name:'Zonneval',short:'VAL',color:'#ffbc66',dark:'#b74c27',damage:70,cost:38,interval:7,radius:220,unlockLevel:6,element:'ember',area:true,duration:2.5,description:'Drie afzonderlijk aangekondigde zonne-inslagen, na 0,6 / 1,35 / 2,1 seconden. Elke krater verbrandt vijanden en ruimt sporen op.'}
 };
 export const ZONES = [
-  { id:'flood', name:'De Verdronken Ring', subtitle:'Rotterdam · de laatste droge perrons', file:'flood-arena.webp', accent:'#73d7d8', ambient:[21,60,70], core:'Atmosferische lens', story:'De ringweg is een rivier geworden. Herstel de twee meetstations en berg de lens die de stormlaag kan lezen.', rule:'Water vertraagt en maakt iedereen nat. Geleid storm door vijandgroepen.', hazard:'water', enemies:['crawler','drone','raider','sniper','turret'], biomeText:'Een stad op de waterlijn', log:'De lens leest wolken, aerosolen en vocht. Het klimaat sturen begint met begrijpen wat er al beweegt.' },
-  { id:'heat', name:'De Rode Kilometer', subtitle:'Brabant · onder de hittekoepel', file:'heat-arena.webp', accent:'#efaf6d', ambient:[106,53,24], core:'Oceaanverdeler', story:'De energieroute staat in brand. Kalibreer de koelpunten; de oceaanverdeler wacht achter het oude transportnet.', rule:'Hittescheuren bouwen hitte op. Koel jezelf met de getijdenstraal of de bron bij het station.', hazard:'heat', enemies:['raider','sniper','sentinel','crawler','turret'], biomeText:'Waar schaduw levens redt', log:'De verdeler koppelt oceaanstroming aan lokale koeling. Een ingreep zonder terugkoppeling verplaatst het probleem.' },
-  { id:'grove', name:'Het Zoutwoud', subtitle:'Veluwe · het levende kennispark', file:'grove-arena.webp', accent:'#a6dc8d', ambient:[34,74,43], core:'Biosfeersleutel', story:'Wortels en glasvezel delen één netwerk. Herstel de bioarchieven om de sleutel uit dit levende laboratorium te halen.', rule:'Sporenvelden vergiftigen. Verbrand de bloei met zonnevlam, of ontwijk de groei.', hazard:'spore', enemies:['beast','sporecaster','stormling','crawler','sniper'], biomeText:'Niet alles wat terugkeert is veilig', log:'De biosfeersleutel bewaart duizenden mogelijke reacties. Herstel werkt alleen als het systeem mag antwoorden.' },
-  { id:'aurelia', name:'De Aurelia-spits', subtitle:'Noordzee · boven de stormlaag', file:'aurelia-arena.webp', accent:'#f2d58b', ambient:[35,50,61], core:'De Gouden Kern', story:'Drie kalibraties zijn gekoppeld. De Gouden Wachter toetst wie de correctie mag beginnen — en wie haar weer kan stoppen.', rule:'Gouden velden wisselen van polariteit. Lees de waarschuwingsringen van de Wachter.', hazard:'polarity', enemies:['siege','stormling','sentinel','sporecaster','turret'], biomeText:'De horizon is nog van ons', log:'Een oplossing die niemand kan stoppen is geen oplossing. Aurelia koppelt elke ingreep aan lokale meting en een regionaal veto.' }
+  { id:'flood', name:'De Verdronken Ring', subtitle:'De Waterlijn · de laatste droge perrons', file:'flood-arena.webp', accent:'#73d7d8', ambient:[21,60,70], core:'Atmosferische lens', story:'De ringweg is een rivier geworden. Herstel de twee meetstations en berg de lens die de stormlaag kan lezen.', rule:'Water vertraagt en maakt iedereen nat. Geleid storm door vijandgroepen.', hazard:'water', enemies:['crawler','drone','raider','sniper','turret'], biomeText:'Een stad op de waterlijn', log:'De lens leest wolken, aerosolen en vocht. Het klimaat sturen begint met begrijpen wat er al beweegt.' },
+  { id:'heat', name:'De Rode Kilometer', subtitle:'Het Brandland · onder de hittekoepel', file:'heat-arena.webp', accent:'#efaf6d', ambient:[106,53,24], core:'Oceaanverdeler', story:'De energieroute staat in brand. Kalibreer de koelpunten; de oceaanverdeler wacht achter het oude transportnet.', rule:'Hittescheuren bouwen hitte op. Koel jezelf met de getijdenstraal of de bron bij het station.', hazard:'heat', enemies:['raider','sniper','sentinel','crawler','turret'], biomeText:'Waar schaduw levens redt', log:'De verdeler koppelt oceaanstroming aan lokale koeling. Een ingreep zonder terugkoppeling verplaatst het probleem.' },
+  { id:'grove', name:'Het Zoutwoud', subtitle:'Het Wortelrijk · het levende kennispark', file:'grove-arena.webp', accent:'#a6dc8d', ambient:[34,74,43], core:'Biosfeersleutel', story:'Wortels en glasvezel delen één netwerk. Herstel de bioarchieven om de sleutel uit dit levende laboratorium te halen.', rule:'Sporenvelden vergiftigen. Verbrand de bloei met zonnevlam, of ontwijk de groei.', hazard:'spore', enemies:['beast','sporecaster','stormling','crawler','sniper'], biomeText:'Niet alles wat terugkeert is veilig', log:'De biosfeersleutel bewaart duizenden mogelijke reacties. Herstel werkt alleen als het systeem mag antwoorden.' },
+  { id:'aurelia', name:'De Aurelia-spits', subtitle:'De Buitenzee · boven de stormlaag', file:'aurelia-arena.webp', accent:'#f2d58b', ambient:[35,50,61], core:'De Gouden Kern', story:'Drie kalibraties zijn gekoppeld. De Gouden Wachter toetst wie de correctie mag beginnen — en wie haar weer kan stoppen.', rule:'Gouden velden wisselen van polariteit. Lees de waarschuwingsringen van de Wachter.', hazard:'polarity', enemies:['siege','stormling','sentinel','sporecaster','turret'], biomeText:'De horizon is nog van ons', log:'Een oplossing die niemand kan stoppen is geen oplossing. Aurelia koppelt elke ingreep aan lokale meting en een regionaal veto.' }
 ];
 export const ENEMIES = {
   drone:{name:'Inspectiedrone',sprite:0,hp:82,damage:9,speed:118,radius:22,size:76,range:380,xp:10,color:'#e69368'},
@@ -410,7 +413,7 @@ export const AREAS = [
       43,
       64
     ],
-    "story": "De route naar Brabant ligt open. Zoek verkoeling en volg het asfalt naar de Rode Kilometer.",
+    "story": "De route naar Brandland ligt open. Zoek verkoeling en volg het asfalt naar de Rode Kilometer.",
     "unlockCore": 1,
     "portalPoints": [
       [
@@ -702,7 +705,7 @@ export const AREAS = [
   },
   {
     "id": "skybridge",
-    "name": "De Noordzeebrug",
+    "name": "De Buitenzeebrug",
     "file": "skybridge-route.webp",
     "zone": 3,
     "kind": "route",
@@ -975,8 +978,8 @@ const cityPixels=[
 ];
 const cityArea=AREA_BY_ID.highway;cityArea.name='Vrijhaven · Het Transportnet';cityArea.file='city-v6.webp';cityArea.nav=cityPixels.map(poly=>poly.map(([x,y])=>[x/1536,y/1024]));cityArea.spawn=[.46,.64];cityArea.exit=[.77,.79];
 
-SPELLS.volt={name:'Donderlans',short:'LANS',color:'#d5c4ff',dark:'#7860bb',damage:90,cost:24,interval:1.65,speed:1250,radius:12,element:'storm',shopOnly:true,unlockLevel:8,description:'Een snelle, gerichte bliksemlans door drie doelen. 90 schade; natte doelen krijgen de stormcombinatie. 24 mana, 1,65s. Bij Mara vanaf de Groene Corridor · 1200 schroot.'};
-SPELLS.cryo={name:'Winterkroon',short:'KROON',color:'#c1f1ff',dark:'#498eac',damage:95,cost:30,interval:5.5,radius:155,area:true,duration:1.8,element:'frost',shopOnly:true,unlockLevel:11,description:'Plaats een vorstexplosie: 95 schade plus twee nasplinterpulsen van 16. Vertraagt en bevriest natte doelen kort. 30 mana, 5,5s. Bij Mara in Horizonpost · 1800 schroot.'};
+SPELLS.volt={name:'Donderlans',short:'LANS',color:'#d5c4ff',dark:'#7860bb',damage:90,cost:24,interval:1.65,speed:1250,radius:12,element:'storm',shopOnly:true,unlockLevel:8,description:'Een snelle, gerichte bliksemlans door drie doelen. 90 schade; natte doelen krijgen de stormcombinatie. 24 mana, 1,65s. Bij de focusmaker vanaf de Groene Corridor · 1200 schroot.'};
+SPELLS.cryo={name:'Winterkroon',short:'KROON',color:'#c1f1ff',dark:'#498eac',damage:95,cost:30,interval:5.5,radius:155,area:true,duration:1.8,element:'frost',shopOnly:true,unlockLevel:11,description:'Plaats een vorstexplosie: 95 schade plus twee nasplinterpulsen van 16. Vertraagt en bevriest natte doelen kort. 30 mana, 5,5s. Bij de focusmaker in Horizonpost · 1800 schroot.'};
 
 // Short, repeatable adventures leave the sixteen main arenas untouched.
 const adventureAreas=[
@@ -1003,6 +1006,8 @@ AREAS.push(...QUARTER_AREAS);Object.assign(AREA_BY_ID,Object.fromEntries(QUARTER
 const nativeFloor=poly=>poly.map(([x,y])=>[x/1536,y/1024]);
 for(const [id,polygons]of Object.entries(WANDERING_FLOORS)){AREA_BY_ID[id].file=id+'-route-wandering-v86.webp';AREA_BY_ID[id].nav=polygons.map(nativeFloor);}
 for(const [id,polygons]of Object.entries(WANDERING_EXTENSIONS))AREA_BY_ID[id].nav.push(...polygons.map(nativeFloor));
+for(const [id,polygons]of Object.entries(TOWN_FLOORS))AREA_BY_ID[id].nav=polygons.map(nativeFloor);
+for(const [id,polygons]of Object.entries(TOWN_EXTRA_FLOORS))AREA_BY_ID[id].nav.push(...polygons.map(nativeFloor));
 for(const [id,scale]of Object.entries(HUB_SCALES))if(id!=='canal'){
  const area=AREA_BY_ID[id];area.bounds={width:WORLD.width*scale,height:WORLD.height*scale};
  area.nav=area.nav.map(poly=>poly.map(([x,y])=>[x*scale,y*scale]));
@@ -1028,3 +1033,15 @@ const gardenFloors=[
 extendedQuay.nav.push(...gardenFloors.map(poly=>poly.map(([x,y])=>[(tileW+x*1.75)/WORLD.width,y*1.75/WORLD.height])));
 export function worldBounds(id){return AREA_BY_ID[id]?.bounds||WORLD;}
 export const QUAY_GATE={x:tileW,y:164,halfWidth:33,halfHeight:112};
+
+const extendedCity=AREA_BY_ID.highway;extendedCity.bounds={width:5376,height:1792};extendedCity.tiles=[{file:extendedCity.file,x:0,y:0,width:2688,height:1792},{file:'vrijhaven-east-v871.webp',asset:'cityEast',x:2688,y:0,width:2688,height:1792}];
+extendedCity.nav.push(...CITY_EXTENSION_FLOORS.map(poly=>poly.map(([x,y])=>[(2688+x*1.75)/WORLD.width,y*1.75/WORLD.height])),CITY_JOIN_FLOOR.map(([x,y])=>[x*1.75/WORLD.width,y*1.75/WORLD.height]));
+
+// Added native artwork, not enlarged old backgrounds.
+for(const [id,r]of Object.entries(OUTDOOR_REGIONS)){
+ const area=AREA_BY_ID[id],scale=r.scale,w=1536*scale,h=1024*scale;
+ area.bounds={width:w*2,height:h};area.tiles=[{file:area.file,x:0,y:0,width:w,height:h},{file:r.file,asset:r.asset,x:w,y:0,width:w,height:h}];
+ area.joins=[{asset:'regionCauseway',x:r.join.x*scale,y:r.join.y*scale,width:r.join.width*scale,height:r.join.height*scale}];
+ area.nav.push(...r.floors.map(poly=>poly.map(([x,y])=>[(w+x*scale)/WORLD.width,y*scale/WORLD.height])));
+ const join=r.join;area.nav.push([[60,207],[239,109],[1480,814],[1300,922]].map(([x,y])=>[(join.x+x/1536*join.width)*scale/WORLD.width,(join.y+y/1024*join.height)*scale/WORLD.height]));
+}

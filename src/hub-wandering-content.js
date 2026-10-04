@@ -1,4 +1,4 @@
-import {hubScale} from './hub-space.js?v=30';
+import {hubScale} from './hub-space.js?v=32';
 // Native painted pixels (1536 × 1024). Floors overlap at stairs and junctions.
 export const WANDERING_FLOORS={
  canal:[
@@ -56,7 +56,7 @@ export const WANDERING_EXTENSIONS={
 // Small off-road finds: each expedition chooses 2–4 of these positions.
 export const WANDERING_SPOTS={
  canal:[[197,157],[202,410],[695,280],[756,330],[435,981],[1415,399]],
- highway:[[283,150],[395,165],[1455,947],[150,235],[265,589],[1285,429]],
+ highway:[[283,210],[395,220],[1455,947],[300,590],[1536+640,510],[1536+440,270],[1536+950,805],[1536+1300,445]],
  forest:[[354,173],[617,198],[864,275],[802,777],[977,785],[1213,798]],
  skybridge:[[172,300],[206,437],[112,906],[1380,531],[1430,125],[999,721]],
  'metro-refuge':[[1325,278],[279,785],[291,167],[877,325],[1162,660],[1385,798]],

@@ -1,44 +1,47 @@
-import {registerHit} from './combat-feedback.js?v=30';
-import {QuarterRules} from './safe-exploration.js?v=30';
-import {NatureRules,tuneNatureEnemy} from './nature-region.js?v=30';
-import {CompanionUpgradeRules} from './companion-upgrades.js?v=30';
-import {summonAvailable,summonUnlockLevel} from './summon-progression.js?v=30';
-import {CreatureRules} from './creatures.js?v=30';
-import {V8ExpeditionRules,tuneV8Enemy} from './v8-expedition.js?v=30';
-import {tacticalMovement,smoothEnemyVelocity,engagementGoal,EnemyCrowd,separationVector} from './enemy-ai.js?v=30';
-import {BiomeRules,tuneBiomeEnemy} from './biomes.js?v=30';
-import {rollChaseItem,chaseRandom} from './chase-loot.js?v=30';
-import {AdventureRules} from './adventures.js?v=30';
-import {itemFitsSlot} from './equipment-slots.js?v=30';
-import {BossTerrainRules} from './boss-terrain.js?v=30';
-import {SpecializationRules,specializationStats} from './specializations.js?v=30';
-import {PremiumSpellRules} from './premium-spells.js?v=30';
-import {damageResistance} from './resistances.js?v=30';
-import {ItemMarkRules,protectedItem} from './item-marks.js?v=30';
-import {VariantRules,spellProfile,variantChoices} from './spell-variants.js?v=30';
-import {SummonRules} from './summons.js?v=30';
-import {UniqueRules} from './unique-items.js?v=30';
-import {V6EnemyRules} from './v6-enemies.js?v=30';
-import {CityRules} from './city.js?v=30';
-import {BountyRules} from './bounties.js?v=30';
-import { worldBounds, QUAY_GATE, WORLD, SPELLS, ZONES, ENEMIES, EQUIPMENT, START_EQUIPMENT, UPGRADES, DISCIPLINES, POSITIONS, AREAS, AREA_BY_ID, HUB_IDS } from './data.js?v=30';
-import {StoryRules} from './story.js?v=30';
-import {planNewAttack,executeNewAttack,updateNewThreats} from './enemy-variety.js?v=30';
-import {scaleEnemy} from './balance.js?v=30';
-import {ExpeditionRules,REGION_CAMPS} from './expedition.js?v=30';
-import {makeItem,normalizePlayer,DROP_TABLES,dropProfile,salvageValue} from './loot.js?v=30';
-import {HubRules,SAFE_HUBS} from './hubs.js?v=30';
-import {REGIONAL_BOSSES,updateBossPhase,updateEncounterState} from './encounters.js?v=30';
-import {legendaryCast,legendaryDash,legendaryHit,legendaryKill,triggerLegendary,updateLegendary} from './legendary.js?v=30';
-import {updateHeroMotion,heroDirection,heroFrame} from './hero-motion.js?v=30';
-import {SurvivalRules,HEAL_COOLDOWN} from './survival.js?v=30';
-import {updateEnemyMotion} from './enemy-motion.js?v=30';
-import {GambleRules} from './gamble.js?v=30';
-import {presentEnemyAttack,launchEnemyLob,updateEnemyLob} from './enemy-combat.js?v=30';
-import {EndgameRules} from './endgame.js?v=30';
-import {MarketRules} from './markets.js?v=30';
-import {QuestRules} from './quests.js?v=30';
-import {arenaObstacles,blockedByObstacle,coverHit} from './arena-layouts.js?v=30';
+import {OutdoorRules} from './outdoors.js?v=32';
+import {ARRIVAL_LORE} from './lore.js?v=32';
+import {TestModeRules} from './test-mode.js?v=32';
+import {registerHit} from './combat-feedback.js?v=32';
+import {QuarterRules} from './safe-exploration.js?v=32';
+import {NatureRules,tuneNatureEnemy} from './nature-region.js?v=32';
+import {CompanionUpgradeRules} from './companion-upgrades.js?v=32';
+import {summonAvailable,summonUnlockLevel} from './summon-progression.js?v=32';
+import {CreatureRules} from './creatures.js?v=32';
+import {V8ExpeditionRules,tuneV8Enemy} from './v8-expedition.js?v=32';
+import {tacticalMovement,smoothEnemyVelocity,engagementGoal,EnemyCrowd,separationVector} from './enemy-ai.js?v=32';
+import {BiomeRules,tuneBiomeEnemy} from './biomes.js?v=32';
+import {rollChaseItem,chaseRandom} from './chase-loot.js?v=32';
+import {AdventureRules} from './adventures.js?v=32';
+import {itemFitsSlot} from './equipment-slots.js?v=32';
+import {BossTerrainRules} from './boss-terrain.js?v=32';
+import {SpecializationRules,specializationStats} from './specializations.js?v=32';
+import {PremiumSpellRules} from './premium-spells.js?v=32';
+import {damageResistance} from './resistances.js?v=32';
+import {ItemMarkRules,protectedItem} from './item-marks.js?v=32';
+import {VariantRules,spellProfile,variantChoices} from './spell-variants.js?v=32';
+import {SummonRules} from './summons.js?v=32';
+import {UniqueRules} from './unique-items.js?v=32';
+import {V6EnemyRules} from './v6-enemies.js?v=32';
+import {CityRules} from './city.js?v=32';
+import {BountyRules} from './bounties.js?v=32';
+import { worldBounds, QUAY_GATE, WORLD, SPELLS, ZONES, ENEMIES, EQUIPMENT, START_EQUIPMENT, UPGRADES, DISCIPLINES, POSITIONS, AREAS, AREA_BY_ID, HUB_IDS } from './data.js?v=32';
+import {StoryRules} from './story.js?v=32';
+import {planNewAttack,executeNewAttack,updateNewThreats} from './enemy-variety.js?v=32';
+import {scaleEnemy,tuneChapterEnemy} from './balance.js?v=32';
+import {ExpeditionRules,REGION_CAMPS} from './expedition.js?v=32';
+import {makeItem,normalizePlayer,DROP_TABLES,dropProfile,salvageValue} from './loot.js?v=32';
+import {HubRules,SAFE_HUBS} from './hubs.js?v=32';
+import {REGIONAL_BOSSES,updateBossPhase,updateEncounterState} from './encounters.js?v=32';
+import {legendaryCast,legendaryDash,legendaryHit,legendaryKill,triggerLegendary,updateLegendary} from './legendary.js?v=32';
+import {updateHeroMotion,heroDirection,heroFrame} from './hero-motion.js?v=32';
+import {SurvivalRules,HEAL_COOLDOWN} from './survival.js?v=32';
+import {updateEnemyMotion} from './enemy-motion.js?v=32';
+import {GambleRules} from './gamble.js?v=32';
+import {presentEnemyAttack,launchEnemyLob,updateEnemyLob} from './enemy-combat.js?v=32';
+import {EndgameRules} from './endgame.js?v=32';
+import {MarketRules} from './markets.js?v=32';
+import {QuestRules} from './quests.js?v=32';
+import {arenaObstacles,blockedByObstacle,coverHit} from './arena-layouts.js?v=32';
 export const clamp = (n,a,b) => Math.max(a,Math.min(b,n));
 export const distance = (a,b) => Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 export const normal = (x,y) => { const d=Math.hypot(x,y)||1;return {x:x/d,y:y/d}; };
@@ -91,7 +94,7 @@ export class Engine {
   makeEnemy(type,x,y,elite=false,awake=false) {
     const base=ENEMIES[type],scale=1+this.state.zone*.16;
     const hp=Math.round(base.hp*scale*(elite?1.7:1));
-    return tuneNatureEnemy(tuneBiomeEnemy(tuneV8Enemy(scaleEnemy({id:++this.idCounter,level:1+this.state.zone*2+(elite?2:0),home:{x,y},type,x,y,hp,maxHp:hp,radius:base.radius,elite,awake,dead:false,cd:1.1+this.rng(),windup:null,wet:0,burn:0,stun:0,hurt:0,poison:0,phase:1,prevPhase:1,angle:0,anim:this.rng()*6,move:false},this.state.zone,this.state.player.level),AREA_BY_ID[this.state.area]),AREA_BY_ID[this.state.area],this.state.player.level),AREA_BY_ID[this.state.area],this.state.player.level);
+    return tuneNatureEnemy(tuneBiomeEnemy(tuneV8Enemy(tuneChapterEnemy(scaleEnemy({id:++this.idCounter,level:1+this.state.zone*2+(elite?2:0),home:{x,y},type,x,y,hp,maxHp:hp,radius:base.radius,elite,awake,dead:false,cd:1.1+this.rng(),windup:null,wet:0,burn:0,stun:0,hurt:0,poison:0,phase:1,prevPhase:1,angle:0,anim:this.rng()*6,move:false},this.state.zone,this.state.player.level),AREA_BY_ID[this.state.area]),AREA_BY_ID[this.state.area]),AREA_BY_ID[this.state.area],this.state.player.level),AREA_BY_ID[this.state.area],this.state.player.level);
   }
   placeSummon(e){if(canStand(e.x,e.y,e.radius,this.state.area))return e;const wanted={x:e.x,y:e.y};for(let r=24;r<700;r+=24)for(let i=0;i<16;i++){const x=wanted.x+Math.cos(i*Math.PI/8)*r,y=wanted.y+Math.sin(i*Math.PI/8)*r;if(canStand(x,y,e.radius,this.state.area)){Object.assign(e,{x,y,home:{x,y}});return e;}}Object.assign(e,{x:960,y:640,home:{x:960,y:640}});return e;}
   createWorld(area) {
@@ -129,7 +132,7 @@ export class Engine {
   checkpoint() {const s=this.state;s.checkpoint={area:s.area,zone:s.zone,player:copy(s.player),areas:copy(s.areas),visited:copy(s.visited),kills:s.kills,combos:s.combos,cores:copy(s.cores),codex:copy(s.codex),storyPassed:copy(s.storyPassed||[]),quests:copy(s.quests||{}),natureVictories:copy(s.natureVictories||{}),natureDiscoveries:copy(s.natureDiscoveries||[]),biomeVictories:copy(s.biomeVictories||{}),natureAnnounced:s.natureAnnounced,campaignVersion:s.campaignVersion};}
   enterZone(zone) {return this.enterArea(HUB_IDS[zone]);}
   enterArea(id,from=null) {
-    const area=AREA_BY_ID[id];if(!area)return false;if(!this.isUnlocked(id)){this.notice('Deze route komt vrij na de volgende kalibratiekern');return false;}
+    const area=AREA_BY_ID[id],firstVisit=!this.state.visited.includes(id);if(!area)return false;if(!this.isUnlocked(id)){this.notice('Deze route komt vrij na de volgende kalibratiekern');return false;}
     const s=this.state,p=s.player;if(s.world)s.areas[s.area]=s.world;if(area.endgame||area.optional&&s.areas[id]?.sideDone)delete s.areas[id];s.area=id;s.zone=area.zone;s.mode='playing';s.pending=null;s.projectiles=[];s.fields=[];s.ultimateWave=null;s.effects=[];s.numbers=[];s.summons=[];
     s.world=s.areas[id]||this.createWorld(area);s.world.portals=this.portalDefinitions(id);s.world.camp=this.campFor(area);if(s.world.camp&&!s.world.shop)s.world.shop={stock:this.makeStock(area.zone,area.id),marketVersion:2};s.areas[id]=s.world;if(!s.visited.includes(id))s.visited.push(id);
     this.prepareHub(s.world,area);s.world.threats||=[];this.syncStoryPortals();
@@ -138,7 +141,7 @@ export class Engine {
     this.reconcileArena();
     if(s.destination===id)s.destination=null;
     const announceNature=id==='cooling-refuge'&&this.isUnlocked('lanternwood')&&!s.natureAnnounced;if(announceNature)s.natureAnnounced=true;
-    this.checkpoint();this.notice(area.name+(s.world.camp?' · veilige handelspost':''),ZONES[area.zone].accent);this.emit('zone',{zone:area.zone,area:id});if(announceNature)this.emit('natureregion');return true;
+    this.checkpoint();this.notice(area.name+(s.world.camp?' · veilige handelspost':''),ZONES[area.zone].accent);this.emit('zone',{zone:area.zone,area:id});if(firstVisit&&ARRIVAL_LORE[id])this.notice(ARRIVAL_LORE[id],'#eddbad');if(firstVisit&&this.outdoorNPC())this.notice('Nieuwe zijwijk · zoek '+this.outdoorNPC().name+' op de oostelijke paden · optioneel avontuur','#eddbad');if(announceNature)this.emit('natureregion');return true;
   }
   notice(text,color='#ead8a5') {this.state.notices.unshift({text,color,life:4.5});this.state.notices=this.state.notices.slice(0,4);}
   selectSpell(spell) {return this.setMainAttack(spell);}
@@ -207,9 +210,9 @@ export class Engine {
   townGateBlocks(x,y,radius=18){const gate=QUAY_GATE;return this.state.area==='canal'&&!this.state.world.gardenOpen&&Math.abs(x-gate.x)<gate.halfWidth+radius&&Math.abs(y-gate.y)<gate.halfHeight+radius;}
   moveEntity(entity,dx,dy) {
     const nx=entity.x+dx,ny=entity.y+dy;if(entity.type&&this.inCamp({x:nx,y:ny}))return;
-    if(canStand(nx,ny,entity.radius||18,this.state.area)&&!this.townGateBlocks(nx,ny,entity.radius||18)&&!this.blockedByBossTerrain(nx,ny,entity.radius||18,entity)){entity.x=nx;entity.y=ny;return;}
-    if(canStand(nx,entity.y,entity.radius||18,this.state.area)&&!this.townGateBlocks(nx,entity.y,entity.radius||18)&&!this.blockedByBossTerrain(nx,entity.y,entity.radius||18,entity))entity.x=nx;
-    if(canStand(entity.x,ny,entity.radius||18,this.state.area)&&!this.townGateBlocks(entity.x,ny,entity.radius||18)&&!this.blockedByBossTerrain(entity.x,ny,entity.radius||18,entity))entity.y=ny;
+    if(canStand(nx,ny,entity.radius||18,this.state.area)&&!this.townGateBlocks(nx,ny,entity.radius||18)&&!this.outdoorGateBlocks(nx,ny,entity.radius||18)&&!this.blockedByBossTerrain(nx,ny,entity.radius||18,entity)){entity.x=nx;entity.y=ny;return;}
+    if(canStand(nx,entity.y,entity.radius||18,this.state.area)&&!this.townGateBlocks(nx,entity.y,entity.radius||18)&&!this.outdoorGateBlocks(nx,entity.y,entity.radius||18)&&!this.blockedByBossTerrain(nx,entity.y,entity.radius||18,entity))entity.x=nx;
+    if(canStand(entity.x,ny,entity.radius||18,this.state.area)&&!this.townGateBlocks(entity.x,ny,entity.radius||18)&&!this.outdoorGateBlocks(entity.x,ny,entity.radius||18)&&!this.blockedByBossTerrain(entity.x,ny,entity.radius||18,entity))entity.y=ny;
   }
   moveCompanionToward(u,desired,dt) {
     u.pathCd=Math.max(0,(u.pathCd||0)-dt);
@@ -220,7 +223,7 @@ export class Engine {
   }
   interaction() {
     const s=this.state,p=s.player,w=s.world;
-    if(s.mode!=='playing')return null;this.syncStoryPortals();const explorationAction=this.quarterInteraction();if(explorationAction)return explorationAction;const expeditionAction=this.adventureInteraction();if(expeditionAction)return expeditionAction;
+    if(s.mode!=='playing')return null;this.syncStoryPortals();const outdoorAction=this.outdoorInteraction();if(outdoorAction)return outdoorAction;const explorationAction=this.quarterInteraction();if(explorationAction)return explorationAction;const expeditionAction=this.adventureInteraction();if(expeditionAction)return expeditionAction;
     const npc=this.nearbyQuestNPC(),otherTargets=[...(this.portalReady()?w.portals.filter(t=>distance(p,t)<85):[]),...(w.camp?.services||[]).filter(t=>distance(p,t)<115),...w.loot.filter(t=>distance(p,t)<100&&(!t.guarded||!w.enemies.some(e=>!e.dead&&e.cacheGuard)))];if(npc&&!otherTargets.some(t=>distance(p,t)<distance(p,npc)))return {type:'quest',entity:npc,label:npc.name+' · '+(npc.title||'Noodstroom'),key:'F'};
     const service=this.nearbyService(),nearLoot=w.loot.find(item=>distance(p,item)<100&&(!item.guarded||!w.enemies.some(e=>!e.dead&&e.cacheGuard)));if(service&&(!nearLoot||distance(p,service)<distance(p,nearLoot)))return {type:'shop',entity:service,label:service.name+' · '+service.title,key:'F'};
     if(w.camp&&!w.camp.services&&distance(p,w.camp.merchant)<115)return {type:'shop',entity:w.camp,label:'Handelen & versterken',key:'F'};
@@ -236,6 +239,10 @@ export class Engine {
   }
   interact() {
     const s=this.state,action=this.interaction();if(!action)return false;
+    if(action.type==='outdoorDoor')return this.openOutdoorDoor();
+    if(action.type==='outdoorNPC')return this.talkOutdoorNPC();
+    if(action.type==='outdoorPoint')return this.inspectOutdoorPoint(action.entity.id);
+    if(action.type==='outdoorGuard'){this.notice('Versla eerst de bewakers bij deze plant');return false;}
     if(action.type==='quarterDiscovery')return this.inspectQuarterPoint(action.entity.id);
     if(action.type==='ritual')return this.startCreatureRitual();
     if(action.type==='adventureGuard'){this.notice('Versla eerst de bewakers bij dit bergingspunt');return false;}
@@ -318,7 +325,7 @@ export class Engine {
     this.creatureDeath(enemy);legendaryKill(this,enemy);this.uniqueKill(enemy);if(enemy.noReward){if(s.world.trial){s.world.trial.kills++;if(enemy.trialEnemy)p.hp=Math.min(this.stats().maxHp,p.hp+this.stats().leech);}this.emit('kill');return;}
     const drop=this.dropGround(enemy);
     if(this.rng()<.10)s.world.pickups.push({id:++this.idCounter,x:drop.x,y:drop.y,type:'health',amount:15});
-    const profile=dropProfile(enemy),table=DROP_TABLES[profile]||DROP_TABLES.raider;const loose=s.world.loot.filter(i=>i.item).length,major=['guardian','boss'].includes(profile),chance=major?table.chance:loose>=7?0:table.chance*Math.max(.35,1-loose*.1);if(this.rng()<chance){const uid=++this.idCounter,item=rollChaseItem(enemy,chaseRandom(s.seed,uid),enemy.level||1+s.zone*2,uid)||makeItem({rng:this.rng,level:enemy.level||1+s.zone*2,profile,rarity:major&&(p.majorDryStreak||0)>=7?'legendary':null,uid});if(major)p.majorDryStreak=item.rarity==='legendary'?0:(p.majorDryStreak||0)+1;s.world.loot.push({id:++this.idCounter,x:drop.x,y:drop.y,type:'loot',item,source:enemy.type});if(['rare','epic','legendary'].includes(item.rarity)){this.effect('loot-reveal',drop.x,drop.y,{rarity:item.rarity,radius:85,life:1.1});if(item.chase)this.notice('UITZONDERLIJKE VONDST · '+item.name,'#ffdc8c');this.emit('discovery',{item,found:true});}}
+    const profile=dropProfile(enemy),table=DROP_TABLES[profile]||DROP_TABLES.raider;const loose=s.world.loot.filter(i=>i.item).length,major=['guardian','boss'].includes(profile),chance=major?table.chance:loose>=7?0:table.chance*Math.max(.35,1-loose*.1)*(enemy.outdoor?.45:1);if(this.rng()<chance){const uid=++this.idCounter,item=rollChaseItem(enemy,chaseRandom(s.seed,uid),enemy.level||1+s.zone*2,uid)||makeItem({rng:this.rng,level:enemy.level||1+s.zone*2,profile,rarity:major&&(p.majorDryStreak||0)>=7?'legendary':null,uid});if(major)p.majorDryStreak=item.rarity==='legendary'?0:(p.majorDryStreak||0)+1;s.world.loot.push({id:++this.idCounter,x:drop.x,y:drop.y,type:'loot',item,source:enemy.type});if(['rare','epic','legendary'].includes(item.rarity)){this.effect('loot-reveal',drop.x,drop.y,{rarity:item.rarity,radius:85,life:1.1});if(item.chase)this.notice('UITZONDERLIJKE VONDST · '+item.name,'#ffdc8c');this.emit('discovery',{item,found:true});}}
     if(base.boss&&enemy.type!=='boss'){this.notice(base.name+(AREA_BY_ID[this.state.area].biomeArena?' verslagen · de terugpoort opent':' verslagen · de kern ligt klaar'),'#ffe4a0');this.emit('bossdead');}
     if(enemy.type==='boss'){s.world.bossDefeated=true;s.world.gate.open=true;s.world.coreAvailable=true;this.notice('De Gouden Kern is vrij · activeer de hoofdconsole','#ffe4a0');this.emit('bossdead');}
     this.emit('kill');
@@ -361,7 +368,7 @@ export class Engine {
       if(d<120){const v=normal(p.x-pickup.x,p.y-pickup.y);pickup.x+=v.x*210*dt;pickup.y+=v.y*170*dt;}if(d<30){pickup.collected=true;p.hp=Math.min(stats.maxHp,p.hp+pickup.amount);this.number(p.x,p.y,'+'+pickup.amount,'#b3edaa');}}
     s.world.pickups=s.world.pickups.filter(item=>!item.collected);
   }
-  updateWorldProgress(dt){const s=this.state,p=s.player;
+  updateWorldProgress(dt){this.updateOutdoorProgress();const s=this.state,p=s.player;
     for(const r of s.world.relays){if(r.status==='defending'&&!s.world.enemies.some(e=>!e.dead&&e.relayId===r.id)){if(r.wave<2){r.wave++;this.spawnRelayWave(r);continue;}r.status='online';this.effect('relay',r.x,r.y,{color:'#96eedc',radius:180,life:1.4});this.notice('Station '+r.id+' online · bron hersteld','#a2ebd9');this.emit('relaydone');s.world.loot.push({id:++this.idCounter,x:r.x+75,y:r.y+65,type:'loot',profile:'station'});
       const local=s.world.hazards.filter(h=>h.life===undefined&&!h.cleared).sort((a,b)=>distance(a,r)-distance(b,r))[0];if(local){local.cleared=true;this.effect('relay',local.x,local.y,{color:'#96eedc',radius:local.r,life:1.2});}
     }}
@@ -384,7 +391,7 @@ export class Engine {
   updateActor(dt,input={}) {
     const s=this.state;
     const p=s.player,stats=this.stats();
-    this.updateSurvival(dt);if(s.mode!=='playing')return;
+    this.updateSurvival(dt);this.updateOutdoorActor(dt);if(s.mode!=='playing')return;
     updateLegendary(p,dt);p.rootSlow=Math.max(0,(p.rootSlow||0)-dt);
     for(const key of Object.keys(p.spellCd))p.spellCd[key]=Math.max(0,p.spellCd[key]-dt);
     for(const key of ['attackCd','skillCd','ultimateCooldown','invincible','hurt','cast','wet','poison'])p[key]=Math.max(0,(p[key]||0)-dt);
@@ -415,7 +422,7 @@ export class Engine {
       for(const e of s.world.enemies.filter(e=>!e.dead&&distance(e,h)<h.r)){if(h.type==='water')e.wet=Math.max(e.wet,2);}
       if(distance(p,h)>h.r)continue;
       if(h.type==='water')p.wet=Math.max(p.wet,1.5);
-      if(h.type==='heat'){p.heat=Math.min(5,p.heat+dt*(1-Math.min(.8,stats.heatGuard)));if(p.heat>3.3){terrainDamage=5;terrainType='heat';}}
+      if(h.type==='heat'){p.heat=Math.min(5,p.heat+dt*(1-Math.min(.8,stats.heatGuard)));if(p.heat>3.3){terrainDamage=h.damage||5;terrainType='heat';}}
       if(h.type==='spore'&&!(p.venomGuard>0)){this.applyVenom();}
       if(h.type==='polarity'&&Math.floor(s.time/3+h.phase)%2===1){terrainDamage=6;terrainType='electric';}
     }
@@ -511,7 +518,7 @@ export class Engine {
       const impact=coverHit({x:old.x,y:old.y+20},{x:bolt.x,y:bolt.y+20},s.area,bolt.radius);
       if(impact){bolt.life=0;this.effect('impact',impact.x,impact.y-20,{element:bolt.team==='enemy'?bolt.element:undefined,color:bolt.color||SPELLS[bolt.type]?.color,radius:26,life:.25});continue;}
       if(bolt.team==='player'&&bolt.type==='gravity'){for(const e of s.world.enemies.filter(e=>!e.dead&&!ENEMIES[e.type].boss&&distance(e,bolt)<(bolt.pullRadius||180))){const dir=normal(bolt.x-e.x,bolt.y+18-e.y);this.moveEntity(e,dir.x*145*(bolt.pullSpeed||1)*dt,dir.y*110*(bolt.pullSpeed||1)*dt);e.awake=true;}if(bolt.life<=0)this.detonate(bolt,bolt.blastRadius||180);continue;}
-      if(bolt.x<30||bolt.x>WORLD.width-30||bolt.y<30||bolt.y>WORLD.height-30)bolt.life=0;
+      const bounds=worldBounds(s.area);if(bolt.x<30||bolt.x>bounds.width-30||bolt.y<30||bolt.y>bounds.height-30)bolt.life=0;
       if(bolt.team==='player'){
         for(const hit of s.world.enemies.filter(e=>!e.dead&&!bolt.hitIds.includes(e.id)&&segmentDistance(old,bolt,{x:e.x,y:e.y-22})<e.radius+bolt.radius)){
           bolt.hitIds.push(hit.id);if(bolt.type==='tide'&&hit.tideGroup===bolt.group||bolt.onePerGroup&&hit.castGroup===bolt.group)continue;if(bolt.type==='tide')hit.tideGroup=bolt.group;if(bolt.onePerGroup)hit.castGroup=bolt.group;this.hitEnemy(hit,bolt.damage,bolt.element||bolt.type,Boolean(bolt.companion||bolt.uniqueSecondary));
@@ -522,7 +529,7 @@ export class Engine {
     }
     s.projectiles=s.projectiles.filter(b=>b.life>0);
   }
-  serialize() {const s=copy(this.state);s.areas[s.area]=s.world;delete s.world;s.projectiles=[];s.fields=[];s.ultimateWave=null;s.effects=[];s.numbers=[];s.notices=[];s.summons=[];if(s.mode==='dead'||s.mode==='won')return null;return JSON.stringify({state:s,idCounter:this.idCounter,rngState:this.rng.getState()});}
+  serialize() {if(this.testModeEnabled())return null;const s=copy(this.state);s.areas[s.area]=s.world;delete s.world;s.projectiles=[];s.fields=[];s.ultimateWave=null;s.effects=[];s.numbers=[];s.notices=[];s.summons=[];if(s.mode==='dead'||s.mode==='won')return null;return JSON.stringify({state:s,idCounter:this.idCounter,rngState:this.rng.getState()});}
   static restore(json) {
     const payload=JSON.parse(json),s=payload.state;if(![3,4,5].includes(s?.version)||!s.player)throw new Error('save-version');const engine=new Engine(s.player.discipline,s.seed);engine.state=s;engine.idCounter=payload.idCounter||1000;engine.rng=seeded(payload.rngState??s.seed);engine.events=[];
     if(s.version===3){s.version=4;s.area=HUB_IDS[s.zone];s.areas={};s.visited=[s.area];s.destination=null;const p=s.player;p.inventory=[];p.skills=['tide','storm','ember'];p.hotbar=['tide','storm','ember',null,null,null];p.spellCd={};p.skillPoints=Math.max(0,p.level-1);p.perks={};s.world.portals=engine.portalDefinitions(s.area);s.world.coreCollected=s.cores.includes(s.zone);s.areas[s.area]=s.world;if(s.pending?.type==='upgrade')s.pending.choices=engine.upgradeChoices();engine.checkpoint();}
@@ -530,7 +537,7 @@ export class Engine {
   }
 
 }
-Object.assign(Engine.prototype,ExpeditionRules,StoryRules,HubRules,SurvivalRules,GambleRules,QuestRules,MarketRules,EndgameRules,ItemMarkRules,VariantRules,BountyRules,SummonRules,UniqueRules,V6EnemyRules,CityRules);
+Object.assign(Engine.prototype,OutdoorRules,ExpeditionRules,StoryRules,HubRules,SurvivalRules,GambleRules,QuestRules,MarketRules,EndgameRules,ItemMarkRules,VariantRules,BountyRules,SummonRules,UniqueRules,V6EnemyRules,CityRules);
 function segmentDistance(a,b,p) {const dx=b.x-a.x,dy=b.y-a.y,length=dx*dx+dy*dy;const t=clamp(length?((p.x-a.x)*dx+(p.y-a.y)*dy)/length:0,0,1);return Math.hypot(p.x-a.x-t*dx,p.y-a.y-t*dy);}
 
 Object.assign(Engine.prototype,SpecializationRules,PremiumSpellRules);
@@ -547,4 +554,4 @@ Object.assign(Engine.prototype,CompanionUpgradeRules);
 
 Object.assign(Engine.prototype,NatureRules);
 
-Object.assign(Engine.prototype,QuarterRules);
+Object.assign(Engine.prototype,QuarterRules,TestModeRules);

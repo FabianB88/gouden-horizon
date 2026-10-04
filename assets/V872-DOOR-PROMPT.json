@@ -1,0 +1,17 @@
+{
+  "tool": "built-in imagegen",
+  "asset": "assets/expedition/outdoor-door-v872.webp",
+  "transparent": true,
+  "prompt": "Create ONE production game sprite: an isolated closed portcullis gate panel for a richly hand-painted magical/futuristic action RPG. True transparent background with holes between the iron bars also transparent. No scenery, no ground, no stone arch or wall: only the removable gate panel. Tarnished dark teal wrought iron with aged warm brass edges, delicate flowing botanical scrollwork, a small restrained cyan crystal at its centre, realistic painted highlights and subtle patina. Art should feel like a high-quality painterly fantasy RPG prop, detailed yet readable when 120 pixels tall, no thick cartoon outlines. Isometric view: vertical bars stay vertical, the horizontal crossbars slope downward to the RIGHT at approximately 29 degrees. The left bottom corner is higher on screen than the right bottom corner. The plane spans a width of 150 units, with a downward rightward displacement of 84 units, and vertical bars height 170 units. Thus left and right side edges are vertical and parallel; viewed as a single angled gate plane, not a V-shaped fence or frontal rectangle. Include a solid top brass beam and lower brass crossbar with fine iron vertical rods and elegant irregular foliage ornaments contained in the panel. Panel must fill most of a portrait canvas with a small transparent margin. No text, no letters, no logos, no people, no aura, no glow cloud.",
+  "anchors": {
+    "leftFoot": [
+      86,
+      848
+    ],
+    "rightFoot": [
+      1074,
+      1310
+    ],
+    "verticalHeight": 710
+  }
+}

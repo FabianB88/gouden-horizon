@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {Engine,copy,canStand,findPath,clearLine,distance} from '../src/engine.js';
-import {WORLD,ENEMIES} from '../src/data.js';
+import {WORLD,ENEMIES,worldBounds} from '../src/data.js';
 import {CITY_LANDMARKS,CITY_NPCS} from '../src/city.js';
 import {NORA} from '../src/quests.js';
 import {enemyMuzzle,enemyAttackMotion} from '../src/enemy-combat.js';
@@ -9,12 +9,12 @@ import {enemyMuzzle,enemyAttackMotion} from '../src/enemy-combat.js';
 let passed=0;const test=(name,run)=>{run();passed++;console.log('PASS '+name);};
 function arena(){const g=new Engine('tide',183);g.enterArea('ring');g.state.world.enemies=[];g.state.world.hazards=[];Object.assign(g.state.player,{x:850,y:640,invincible:0});return g;}
 function nora(){const g=new Engine('tide',72);g.state.cores=[0];g.enterArea('highway');Object.assign(g.state.player,{x:NORA.x,y:NORA.y});return g;}
-function walk(g,target){const p=g.state.player,path=findPath(p,target,g.state.area,26).length?findPath(p,target,g.state.area,26):findPath(p,target,g.state.area,18);assert(path.length);for(const point of path){let n=0;while(distance(p,point)>6&&n++<2400){const a=Math.round(Math.atan2((point.y-p.y)/.78,point.x-p.x)/(Math.PI/4))*Math.PI/4;g.update(1/60,{x:Math.round(Math.cos(a)),y:Math.round(Math.sin(a))});}assert(n<2400,JSON.stringify({target,point,position:{x:p.x,y:p.y},distance:distance(p,point)}));}assert(distance(p,target)<8);}
+function walk(g,target){const p=g.state.player,path=findPath(p,target,g.state.area,26).length?findPath(p,target,g.state.area,26):findPath(p,target,g.state.area,18);assert(path.length);let from={x:p.x,y:p.y};const dense=[];for(const end of path){const count=Math.ceil(distance(from,end)/50);for(let i=1;i<=count;i++)dense.push({x:from.x+(end.x-from.x)*i/count,y:from.y+(end.y-from.y)*i/count});from=end;}for(const point of dense){let n=0;while(distance(p,point)>6&&n++<2400){const a=Math.round(Math.atan2((point.y-p.y)/.78,point.x-p.x)/(Math.PI/4))*Math.PI/4;g.update(1/60,{x:Math.round(Math.cos(a)),y:Math.round(Math.sin(a))});}assert(n<2400,JSON.stringify({target,point,position:{x:p.x,y:p.y},distance:distance(p,point)}));}assert(distance(p,target)<8);}
 function clearDepot(g){g.enterArea('depot');for(let round=0;round<2;round++){for(const e of g.state.world.enemies.filter(e=>!e.dead))g.killEnemy(e);g.state.player.xp=0;g.update(.01);}assert(g.state.world.sideDone);return g.state.world.loot.find(i=>i.quest);}
 function flights(g,seconds){for(let i=0;i<Math.round(seconds*60);i++)g.updateProjectiles(1/60);}
 
 test('All Transportnet walking cells connect to arrival; new plazas and Nora accept actual keyboard approaches',()=>{
- const g=nora();g.enterArea('highway');const cells=new Map();for(let y=24;y<WORLD.height;y+=24)for(let x=24;x<WORLD.width;x+=24)if(canStand(x,y,18,'highway'))cells.set(x+','+y,{x,y});
+ const g=nora();g.enterArea('highway');const cells=new Map();for(let y=24;y<worldBounds('highway').height;y+=24)for(let x=24;x<worldBounds('highway').width;x+=24)if(canStand(x,y,18,'highway'))cells.set(x+','+y,{x,y});
  const start=[...cells].sort((a,b)=>distance(a[1],g.state.player)-distance(b[1],g.state.player))[0][0],seen=new Set([start]),queue=[start];
  while(queue.length){const key=queue.shift(),p=cells.get(key);for(const [dx,dy]of [[24,0],[-24,0],[0,24],[0,-24],[24,24],[24,-24],[-24,24],[-24,-24]]){const k=(p.x+dx)+','+(p.y+dy);if(cells.has(k)&&!seen.has(k)&&clearLine(p,cells.get(k),'highway',18)){seen.add(k);queue.push(k);}}}
  // The v6 painting has three plazas, connecting bridges and a dock. Its

@@ -1,5 +1,6 @@
-import {SPELLS,AREA_BY_ID,RARITIES} from './data.js?v=30';
-import {EncounterVisuals} from './encounter-visuals.js?v=30';
+import {PORTAL_PURPOSE} from './lore.js?v=32';
+import {SPELLS,AREA_BY_ID,RARITIES} from './data.js?v=32';
+import {EncounterVisuals} from './encounter-visuals.js?v=32';
 const centered=source=>({...source,anchor:[.5,.5]});
 const distance=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 export const ExpeditionVisuals={
@@ -31,9 +32,9 @@ export const ExpeditionVisuals={
   if(portal.category)this.text(portal.category==='explore'?'VERKENNING':portal.category==='bonus'?'OPTIONELE BERGING':portal.category==='arena'?'ARENA':portal.category==='generator'?'MEETSTATIONS':'DOORREIS',portal.x,portal.y-(portal.category==='explore'?106:144),locked?'#c9ccb9':portal.category==='arena'?'#a5efed':'#f8d991',13);
   const hub=Boolean(s.world.safeHub);
   if(portal.category==='explore'?distance(s.player,portal)<235:hub||distance(s.player,portal)<235){
-   const label=AREA_BY_ID[s.area].kind==='hub'?'TERUG NAAR HANDELSKAMP':AREA_BY_ID[portal.to].name;
+   const label=hub||portal.category?AREA_BY_ID[portal.to].name:AREA_BY_ID[s.area].kind==='hub'?'TERUG NAAR HANDELSKAMP':AREA_BY_ID[portal.to].name;
    this.text(label,portal.x,portal.y-(portal.category==='explore'?126:164),locked?'#c9ccb9':'#f7e4ae',14);
-   if(distance(s.player,portal)<235)this.text(locked?'GEBLOKKEERD':'F · VOLG DE ROUTE',portal.x,portal.y+26,locked?'#d3b19a':'#d9ead5',11);
+   if(distance(s.player,portal)<235){this.text(locked?'GEBLOKKEERD':'F · VOLG DE ROUTE',portal.x,portal.y+26,locked?'#d3b19a':'#d9ead5',12);const purpose=locked?portal.reason:PORTAL_PURPOSE[portal.to]||(portal.category==='bonus'?'Optionele uitdaging · extra schroot en buit':portal.category==='explore'?'Veilig verkennen · vondsten en verhalen':null);if(purpose)this.text(purpose.length>66?purpose.slice(0,63)+'…':purpose,portal.x,portal.y+47,locked?'#d3b19a':'#ead9ad',12);}
   }
  },
  drawCampFloor(camp,s){

@@ -30,15 +30,25 @@ const temp=await fs.mkdtemp(resolve(tmpdir(),'gouden-horizon-ui-'));
 try{
  await fs.writeFile(resolve(temp,'mocks.mjs'),`export class Renderer{constructor(){this.renderCalls=0;this.camera={x:0,y:0};this.zoom=1;}load(){return Promise.resolve();}resize(){}reset(){}render(){this.renderCalls++;}noteFrame(){}kick(){}}
 export class Soundscape{setVolumes(){}start(){}pause(){}setZone(){}setTension(){}event(){}toggle(){return false;}}`);
- const source=(await fs.readFile(resolve(root,'src/main.js'),'utf8')).replace(/from '(\.\/[^']+)'/g,(_,path)=>"from '"+new URL(path.includes('render.js')||path.includes('sound.js')?'file://'+resolve(temp,'mocks.mjs'):path,new URL('src/main.js','file://'+root)).href+"'")+"\nexport {start,hideModal,engine,showShop,showEquipment,showSkills,showAtlas,showSettings,pendingModal,updateHUD,closeJournal,frame,renderer,frameTelemetry,showLan,connectLan,updateCoopHUD};\n";
+ const source=(await fs.readFile(resolve(root,'src/main.js'),'utf8')).replace(/from '(\.\/[^']+)'/g,(_,path)=>"from '"+new URL(path.includes('render.js')||path.includes('sound.js')?'file://'+resolve(temp,'mocks.mjs'):path,new URL('src/main.js','file://'+root)).href+"'")+"\nexport {start,hideModal,engine,showShop,showEquipment,showSkills,showAtlas,showSettings,pendingModal,updateHUD,closeJournal,frame,renderer,frameTelemetry,showLan,connectLan,updateCoopHUD,showTestMode,showPrologue,chooseDiscipline};\n";
  await fs.writeFile(resolve(temp,'main.mjs'),source);
  const ui=await import('file://'+resolve(temp,'main.mjs'));
- await new Promise(r=>setTimeout(r,0));ui.frame(1000);assert.equal(ui.renderer.renderCalls,0);ui.start('tide');ui.frame(1020);assert.equal(ui.renderer.renderCalls,1);ui.frame(1040);assert.equal(ui.renderer.renderCalls,1);ui.hideModal();ui.frame(1060);assert.equal(ui.renderer.renderCalls,2);
+ await new Promise(r=>setTimeout(r,0));ui.frame(1000);assert.equal(ui.renderer.renderCalls,0);ui.start('tide');ui.frame(1020);assert.equal(ui.renderer.renderCalls,1);ui.frame(1040);assert.equal(ui.renderer.renderCalls,1);for(let i=0;i<3;i++)doc.getElementById('modal-actions').children[0].click();ui.frame(1060);assert.equal(ui.renderer.renderCalls,2);
  const {makeItem,sellValue}=await import(new URL('../src/loot.js',import.meta.url));
  const g=ui.engine,p=g.state.player,trader=g.state.world.camp.services.find(m=>m.id==='outfitter');Object.assign(p,{x:trader.x,y:trader.y,scrap:600});
  for(let i=0;i<40;i++)p.inventory.push(makeItem({rng:g.rng,slot:['weapon','boots','suit','relic','gloves','belt'][i%6],rarity:['common','uncommon','rare','epic'][i%4],level:i%8+1,uid:++g.idCounter}));
  const $=id=>doc.getElementById(id),flush=()=>new Promise(r=>queueMicrotask(r));
  let n=0;const test=async(name,run)=>{await run();n++;console.log('PASS '+name);};
+ await test('The three illustrated lore pages require progression and finish on a concrete first goal',async()=>{
+  g.state.prologueComplete=false;g.state.prologueStep=0;ui.showPrologue();assert($('modal-close').hidden);assert.equal($('modal-layer').dataset.kind,'prologue');press('Escape');assert(!$('modal-layer').hidden);ui.closeJournal();assert(!$('modal-layer').hidden);
+  for(let i=0;i<3;i++){assert($('modal-kicker').textContent.includes((i+1)+' / 3'));assert($('modal-body').querySelector('img'));if(i===2)assert($('modal-body').textContent.includes('Rietdelta'));$('modal-actions').children[0].click();await flush();}
+  assert(g.state.prologueComplete);assert($('modal-layer').hidden);
+ });
+ await test('F8 requires the exact code, lists every area, travels repeatedly and leaves the normal save untouched',async()=>{
+  const {AREAS}=await import(new URL('../src/data.js',import.meta.url));const saved=localStorage.getItem('gouden-horizon-action-v3');press('F8');assert.equal($('modal-layer').dataset.kind,'test');$('test-code').value='wrong';$('modal-actions').children[0].click();assert($('test-error').textContent.includes('Onjuiste'));assert(!g.testModeEnabled());$('test-code').value='fabian1';$('modal-actions').children[0].click();assert(g.testModeEnabled());assert.equal($('test-area').children.length,AREAS.length);
+  for(const id of ['highway','rooftops','canal']){if($('modal-layer').hidden)press('F8');$('test-area').value=id;$('modal-actions').children[0].click();assert.equal(g.state.area,id);ui.frame(1080);}
+  assert.equal(localStorage.getItem('gouden-horizon-action-v3'),saved);press('F8');$('modal-actions').children[1].click();assert(!g.testModeEnabled());Object.assign(p,{x:trader.x,y:trader.y});
+ });
  $('shop-button').focus();ui.showShop('sell');await flush();
  const modal=$('modal-layer').querySelector('.modal');
  await test('Selling selections keep the same rows, scroll position and keyboard focus',async()=>{

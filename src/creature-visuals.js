@@ -1,5 +1,5 @@
-import {drawAnimatedEnemy} from './enemy-motion.js?v=30';
-import {NATURE_LANDMARKS} from './nature-content.js?v=30';
+import {drawAnimatedEnemy} from './enemy-motion.js?v=32';
+import {NATURE_LANDMARKS} from './nature-content.js?v=32';
 export const CreatureVisuals={
  drawAnimalCompanion(u,time){const f=this.companionCrop?.[u.profile];if(!f)return false;const size=u.profile==='guardian'?92:u.profile==='mender'?65:u.spirit?84:u.early?53:65,bob=u.profile==='mender'?Math.sin(time*3+u.id)*2-14:0;
   this.ellipse(u.x,u.y+3,u.profile==='guardian'?28:18,u.profile==='guardian'?12:8,'#092c3455','#96e4d044',1);

@@ -1,6 +1,6 @@
-import {AREA_BY_ID,ENEMIES,WORLD} from './data.js?v=30';
-import {NATURE_ENEMIES,NATURE_LANDMARKS} from './nature-content.js?v=30';
-import {launchEnemyLob} from './enemy-combat.js?v=30';
+import {AREA_BY_ID,ENEMIES,WORLD} from './data.js?v=32';
+import {NATURE_ENEMIES,NATURE_LANDMARKS} from './nature-content.js?v=32';
+import {launchEnemyLob} from './enemy-combat.js?v=32';
 const dist=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 const unit=(x,y)=>{const n=Math.hypot(x,y)||1;return {x:x/n,y:y/n};};
 export function tuneNatureEnemy(e,area,playerLevel){if(!area?.natureArena)return e;const base=ENEMIES[e.type],growth=1+Math.min(6,Math.max(0,playerLevel-14))*.045;e.level=area.itemLevel;e.hp=e.maxHp=Math.round(base.hp*(base.boss?3.05:4.25)*growth);e.damageMultiplier=(area.natureBoss?2.25:2.15)*Math.sqrt(growth);e.speedMultiplier=1.06;e.cooldownMultiplier=.79;e.balanceVersion=83;return e;}

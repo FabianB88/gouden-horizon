@@ -12,7 +12,7 @@ const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=
 export function createLanServer({port=Number(process.env.PORT||8080),host='0.0.0.0',persist=true,savePath=resolve(root,'.lan-saves/last-expedition.json')}={}){
  const session=new CoopSession(),peers=new Map();let dirty=false,closed=false;
  const server=createServer(async(req,res)=>{try{let pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
-  if(pathname==='/lan/info'){res.writeHead(200,{'Content-Type':'application/json','Cache-Control':'no-store'});res.end(JSON.stringify({lan:true,version:'8.7.0',players:session.actors.length}));return;}
+  if(pathname==='/lan/info'){res.writeHead(200,{'Content-Type':'application/json','Cache-Control':'no-store'});res.end(JSON.stringify({lan:true,version:'8.7.2',players:session.actors.length}));return;}
   if(pathname.split('/').some(p=>p.startsWith('.'))||pathname.startsWith('/node_modules')||pathname.startsWith('/scripts')||pathname.startsWith('/qa')){res.writeHead(403);res.end('Forbidden');return;}
   if(pathname.endsWith('/'))pathname+='index.html';const filename=resolve(root,'.'+pathname);if(!filename.startsWith(root+sep)||!(await stat(filename)).isFile()){res.writeHead(404);res.end('Not found');return;}
   const file=await readFile(filename);res.writeHead(200,{'Content-Type':types[extname(filename)]||'application/octet-stream','X-Content-Type-Options':'nosniff','Cache-Control':'no-cache'});res.end(req.method==='HEAD'?undefined:file);

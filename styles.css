@@ -142,3 +142,8 @@
 .controller-active button:focus,.controller-active input:focus,.controller-active select:focus,.controller-active a:focus{outline:3px solid #edce81;outline-offset:3px;box-shadow:0 0 18px #edce813b}
 #cover-settings{margin-right:18px}.controller-active #world{cursor:none}
 @media(max-width:900px){.controller-status{top:62px;font-size:10px;padding:6px 9px}}
+
+.specialization-options .class-portrait{width:90px;height:112px;object-fit:contain;filter:drop-shadow(0 6px 8px #061b26aa)}
+[data-kind="discipline"] .specialization-options .class-portrait{width:170px;height:200px;max-width:100%}
+
+[data-kind="prologue"] .modal{max-width:780px} .prologue-scene img{display:block;width:100%;height:clamp(150px,28vh,280px);object-fit:cover;object-position:50% 45%;border-radius:12px;border:1px solid #c4a77066;margin-bottom:20px} .prologue-scene p{font-size:1.1rem;line-height:1.65;color:#304d49}.prologue-goal{padding:16px 20px;background:#244248;color:#f0e2c4;border-left:3px solid #e0bf77}.prologue-goal strong{display:block;color:#f6d990;margin-bottom:6px}

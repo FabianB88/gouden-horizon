@@ -25,8 +25,8 @@ Het eerste handelsgebied is 40% groter in iedere richting en heeft een aansluite
 
 ## Ruimere steden en desktopbeeld
 
-**Vrijhaven**, de eerste handelsstad na de getijdenarena’s, en de **Groene Corridor** zijn nu 40% groter in iedere richting. NPC’s staan verder van marktkramen en doorgangen; verkenningspoorten blijven in de verhaalvolgorde beschikbaar. Het tegelpad naast de middentrap in de Groene Corridor is doorlopend gemaakt.
+**Vrijhaven** en de **Groene Corridor** meten elk 5376 × 1792. Horizonpost en Koelhof meten elk 3840 × 1280. De nieuwe ruimte komt uit aansluitende schilderingen; het bestaande artwork behoudt zijn schaal. NPC’s staan op verspreide pleinen. Corridor, Horizonpost en Koelhof hebben daarnaast fysieke deuren naar optionele gevaarlijke zijwijken. Openen gebeurt met F in hetzelfde gebied; in LAN delen jullie de deur en de voortgang. Beide spelers ontvangen de schrootbeloning en ieder een eigen regionale vondst, één keer per expeditie.
 
-Via Instellingen → Beeldkwaliteit → **Hoog** krijg je meer renderdetail op grote schermen. Cameraafstand → **Dichterbij** toont personages en artwork 20% groter. Automatische kwaliteit past de interne tekenresolutie aan en herstelt deze na langdurig soepel spel.
+Via Instellingen → Beeldkwaliteit → **Hoog** krijg je meer renderdetail op grote schermen. Cameraafstand biedt **85%, 100%, 115%, 120%, 130% en 150%**; de standaard is 115%. Automatische kwaliteit past de interne tekenresolutie aan en herstelt deze na langdurig soepel spel.
 
 **Controller/Xbox:** controllerbediening is toegevoegd voor gevechten, de zes skillslots en alle menu’s. Kies Automatisch of Controller bij Instellingen. Zie [CONTROLLER.md](CONTROLLER.md) voor de knoppen en console-teststappen. De LAN-server blijft op één computer draaien. Twee Xboxes met Edge zijn nog niet op fysieke consoles getest.

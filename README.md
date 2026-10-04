@@ -1,24 +1,43 @@
-# Gouden Horizon v8.7.0 — Samen op expeditie
+# Gouden Horizon v8.7.2 — De open poorten
 
-Gratis LAN-co-op voor twee spelers, ruimere handelssteden en betere spaarstukken. Dit is de volledige bronversie voor lokale LAN en online solo via GitHub Pages of Render.
+De volledige bronversie voor online solo via GitHub Pages of Render en gratis LAN-co-op. Drie doorreisgebieden krijgen nieuwe aansluitende wijken met eigen artwork, regionale NPC’s en optioneel avontuur. Het bestaande artwork behoudt zijn formaat en schaal.
 
-**Samen spelen:** installeer Node.js 22 of nieuwer op één computer, pak de ZIP uit en start `start-lan.bat` (Windows) of `bash start-lan.sh` (Mac/Linux). Of voer `npm ci` en `npm run lan` uit. De server toont de lokale link voor beide browsers. Iedereen kiest een naam en een speelstijl; beiden klikken Klaar. De andere computer heeft alleen een browser nodig. Zie [LAN-START.md](LAN-START.md) voor herstarten, opgeslagen expeditie en alle regels.
+## Nieuw in deze versie
 
-Iedereen heeft eigen gear, spreuken, dieren en camera. Namen verschijnen boven de helden. De drie startstijlen hebben verschillende geschilderde mantels en foci; gevonden uitrusting blijft je uiterlijk veranderen. Samen reizen vraagt twee bevestigingen. Gewone drops wisselen van eigenaar; kisten en baasvondsten geven ieder een eigen beloning. XP en schroot worden gedeeld. Bij een verbroken verbinding wacht de expeditie. Reanimatie kost één verband en twee seconden stilstaan.
+- **Groene Corridor → De Wilde Serre:** loop over de nieuwe brug naar Seya. Open de fysieke Serrepoort met F, versla de bewakers en berg drie kiemmonsters. Advies: niveau 10. Beloning: 140 schroot en één regionale vondst.
+- **Horizonpost / Buitenzee → Stormwacht:** zoek Orin op het nieuwe oostelijke plein. Achter de Stormwachtpoort staan drie bakens. Blijf twee seconden stil om elk baken af te stemmen; lopen, casten of schade onderbreekt dit. Advies: niveau 13. Beloning: 210 schroot en één regionale vondst.
+- **Koelhof → De Sintelhoven:** Tess wijst de werkpoort aan. Drie koelventielen doven elk een eigen hitteveld. Kies je route tussen vuurwezens, schutters en prismahoorns. Advies: niveau 19. Beloning: 320 schroot en één regionale vondst.
+- **Deuren op de kaart:** de nieuwe poorten openen waar je staat. Je loopt door naar de andere kant in hetzelfde gebied. De stad en handelaren blijven veilig; verderop zijn normale gevechten mogelijk. De zijactiviteiten zijn optioneel. Vijanden, geopende deuren en vondsten blijven bewaard; terugkomen vult ze niet opnieuw aan. Beloningen gelden één keer per expeditie.
+- **Nieuwe ruimte:** Corridor meet nu 5376 × 1792; Horizonpost en Koelhof elk 3840 × 1280. Brede bruggen, zijpleinen en trappen verbinden de oorspronkelijke en nieuwe kaarttegel. Iedere toevoeging heeft eigen artwork, zonder het bestaande beeld uit te rekken.
+- **Lopen:** de drie klassepersonages gebruiken afzonderlijke geschilderde benen. De voeten behouden hun vorm tijdens de pas; de romp beweegt mee. Kleine gecachete uitsneden houden de animatie lichter.
+- **Uitdaging:** vanaf de latere glasgebieden groeien leven, schade en aanvalstempo verder met het gebied. Ook een level-one adminreiziger krijgt in het Wolkenarchief duidelijke schade. Goede bescherming en elementweerstand blijven waardevol; de eerste gebieden behouden hun bestaande gevechtsbalans.
+- **Lore en identiteit:** de verhaalopening is weer leesbaar op perkament. Drie nieuwe verkenners en regionale namen voor handelaren geven de latere posten meer eigenheid. Elementalist, Natuurhoeder en Veldjager houden hun eigen uiterlijk in het veld, de rugzak en LAN.
 
-Co-op-vijanden krijgen 70% extra leven en 8% extra schade. Normale groepen krijgen ongeveer 30% extra vijanden, geen tweede baas. De sterkte staat vast tijdens het gebied. De server verwerkt gevechten 60 keer per seconde, browsers krijgen 20 snapshots per seconde. De camera en beweging worden lokaal vloeiend getekend. Dit verplaatst de gevechtssimulatie bij LAN naar de hostcomputer; het is geen garantie voor een bepaalde browser-FPS.
+De bestaande Vrijhaven-uitbreiding, drie geïllustreerde lorepagina’s, adminreizen en zes zoomkeuzes blijven beschikbaar. De standaardzoom is 115%; Hoog verbetert de interne resolutie binnen het bestaande pixelbudget.
 
-**Getijdenkade:** het oude deel is 40% groter in beide richtingen. De oostelijke tuinwijk sluit fysiek aan op dezelfde kaart. Milo opent de tuinpoort via zijn gesprek; daarna loop je erdoor. Brede paden verbinden het plein, de kas en het uitzichtpunt. Twee kleine schrootvondsten zijn eenmalig. Verhaalpoorten blijven in hun bestaande volgorde werken. **Vrijhaven en de Groene Corridor** zijn eveneens 40% groter in beide richtingen (bijna twee keer zoveel kaartoppervlak). In Vrijhaven staat Milo op het noordelijke tuinplein, Sera langs de zuidelijke route en Ilya in het oosten. Handelaren, kisten en verkenningspoorten hebben meer onderlinge ruimte. In de Groene Corridor staan Milo en het baascontract op aparte pleinen. Alle NPC’s en verkenningspoorten zijn met gewone beweging heen en terug gecontroleerd. Vrijhavens aparte verkenningswijken behouden hun eigen kaarten.
+## Alle gebieden testen
 
-**Spaarstukken:** vroegere meesterwerken krijgen betere centrale stats en hogere prijzen (de eerste regio: 750–1050 schroot). De prijzen stijgen per regio; de gewone legendarische winkelvondst bij Horizonpost kost 4200 schroot. Betaalde stukken belanden in de rugzak en worden niet automatisch uitgerust. Zeldzame drops en lootkansen blijven intact.
+Druk tijdens het spel op **F8**, of kies **Instellingen → Gebieden testen**, en voer exact **fabian1** in. Kies vervolgens een bestemming. Deze sessiemodus opent alle gebieden en de tuinpoort; gevechten en uitrustingsregels blijven actief. Reizen herstelt je leven maar geeft geen gratis levels, items of overwinningen. Bij LAN controleert de host de code en stemmen beide spelers voor reizen.
 
-**Groene Corridor en desktop:** het zichtbare tegelpad rechts naast de middentrap sluit nu doorlopend aan; de traplanding en de noordwestelijke terrasroute hebben ruimere loopgrenzen. Automatische kwaliteit herstelt de resolutie na aanhoudend soepel spel op 60 Hz. Hoog gebruikt maximaal vier miljoen renderpixels op grote schermen; Cameraafstand → Dichterbij toont het artwork 20% groter. Deze opties staan onder Instellingen.
+Tijdens deze modus worden normale saves niet overschreven. De ontgrendeling wordt niet opgeslagen. Sluit de modus via de knop in het testmenu om normaal verder te spelen. Het is een ontwikkelcode in een openbare browserclient, geen accountbeveiliging.
 
-**Online solo:** `npm start` opent http://localhost:8080. `npm run site:build` zet de statische versie in `dist/`, klaar voor GitHub Pages. De bestaande testsite is niet bijgewerkt. Voor LAN gebruik je de lokale server; GitHub Pages draait geen WebSocket-server.
+## Solo en online
 
-Controles: `npm test`, `npm run test:lan` en `npm run site:build`. Artworkherkomst: `assets/V87-ART-PROMPTS.json`. **Controller:** kies Automatisch of Controller bij Instellingen. Beide sticks, triggers, alle zes skillslots en alle menu’s worden ondersteund. Zie [CONTROLLER.md](CONTROLLER.md) voor de knoppen en de teststappen voor twee Xboxes. Die consoles zijn nog niet fysiek getest.
+Pak de ZIP uit. Met Node.js 22 of nieuwer: `npm start`, daarna **http://localhost:8080**. Alleen dubbelklikken op `index.html` werkt niet met de JavaScript-modules.
 
-Details en grenzen van de verificatie: `qa/V87-VALIDATION.md`.
+`npm run site:build` maakt `dist/` met alle statische spelbestanden. Publiceer de inhoud van die map op GitHub Pages of als statische site op Render. Hiervoor zijn geen betaalde spelserver of account nodig. De bestaande ChatGPT-testsite is deze ronde niet bijgewerkt.
+
+## Samen spelen
+
+Installeer Node.js 22+ op één computer en start `start-lan.bat` (Windows) of `bash start-lan.sh` (Mac/Linux). Of voer `npm ci` en `npm run lan` uit. De host toont de link die beide spelers openen. Andere apparaten hebben alleen een browser nodig. Zie [LAN-START.md](LAN-START.md).
+
+Iedereen heeft eigen gear, spreuken, dieren, camera en een naam boven het hoofd. Samen reizen vraagt twee bevestigingen. Normale drops wisselen van eigenaar; kisten en baasvondsten geven ieder een eigen beloning. XP en schroot worden gedeeld. Co-op-vijanden krijgen 70% extra leven en 8% extra schade; gewone groepen krijgen ongeveer 30% meer vijanden, geen tweede baas. GitHub Pages kan de statische spelpagina hosten maar draait geen LAN-WebSocket-server.
+
+Controllerinstellingen en knoppen staan in [CONTROLLER.md](CONTROLLER.md). Een Xbox hoeft geen Node.js of spelbestanden te installeren: hij opent de LAN-link van de hostcomputer. Fysieke Xbox/Edge-compatibiliteit is nog niet getest.
+
+## Controle en artwork
+
+`npm test` controleert gameplay, routes, menu’s, LAN, controllerlogica en volledige campagne- en endgame-runs. `npm run site:build` maakt de online versie. Nieuwe artworkprompts staan in `assets/V872-ART-PROMPTS.json` en `assets/V872-DOOR-PROMPT.json`; de bijgewerkte personage-uitsneden staan in `assets/painted/hero-classes-v872.json`. De vaste afspraak over uitbreiden staat in [ART-DIRECTION.md](ART-DIRECTION.md). Verificatieresultaten en praktische beperkingen staan in [qa/V872-VALIDATION.md](qa/V872-VALIDATION.md).
 
 ---
 
@@ -31,7 +50,7 @@ Getijdenkade en de Groene Corridor hebben nieuwe geschilderde kaarten met brede,
 
 Ook Vrijhaven, Horizonpost, Onderstation, Koelhof en Lantaarnwoud hebben extra beloopbare zijruimtes. In alle acht veilige handelsposten liggen per expeditie twee tot vier kleine hoopjes schroot. Loop eroverheen om ze op te pakken, ook met een volle rugzak. De vroege posten betalen samen maximaal 24 schroot per post; latere maximaal 28 of 36. De posities verschillen per nieuwe expeditie. Opnieuw bezoeken, laden of een checkpoint gebruiken vult gevonden hoopjes niet opnieuw aan. Vondsten geven geen gratis leven, XP of uitrusting.
 
-Deze ZIP bevat de volledige zelfstandige bronversie, inclusief artwork, geluidscode, tests en hostingbestanden. Pak hem uit en voer `npm start` uit met Node.js; open daarna **http://localhost:8080**. Voor GitHub Pages of Render staan de stappen verderop. De bron-ZIP is v8.7.0; de bestaande testsite is deze ronde niet bijgewerkt.
+Deze ZIP bevat de volledige zelfstandige bronversie, inclusief artwork, geluidscode, tests en hostingbestanden. Pak hem uit en voer `npm start` uit met Node.js; open daarna **http://localhost:8080**. Voor GitHub Pages of Render staan de stappen verderop. De bron-ZIP is v8.7.2; de bestaande testsite is deze ronde niet bijgewerkt.
 
 Looproutes worden gecontroleerd met gewone acht-richtingstoetsen, ook terug vanaf de zijpaden. De nieuwe artprompts staan in `assets/V86-ART-PROMPTS.json`; controles staan in `qa/wandering-tests.mjs` en `qa/V86-VALIDATION.md`.
 
@@ -163,7 +182,7 @@ De Rietdelta heeft centrale pompruïnes, de Spiegelvelden twee versprongen spieg
 
 ![Geschilderde expeditiewereld](preview.webp)
 
-Een zelfstandig **2.5D action RPG** in een door klimaatontwrichting opgebroken Nederland. Volg 24 hoofdstukken, verken optionele bergingen, nevenroutes en twee baascontracten, bouw je veldpak en verbind de kalibratiekernen en regionale regelaars met Aurelia.
+Een zelfstandig **2.5D action RPG** in een door de Wereldbreuk ontregelde magische wereld. Volg 24 hoofdstukken, verken optionele bergingen, nevenroutes en twee baascontracten, bouw je veldpak en verbind de kalibratiekernen en regionale regelaars met Aurelia.
 
 **Versie 5.6** herstelt de winkel-freeze bij Waterlijnhandel en de Zaadkluis. De hele handelsaanloop valt nu binnen de veilige post; de winkel en het spel kunnen niet meer ongemerkt in verschillende standen belanden. Het noordelijke terras, de zuidoostelijke tuinplaza en de zuidelijke trap in de Zonnetuinen zijn bereikbaar met gewone beweging. Op het noordelijke terras ligt een eenmalige extra veldkist.
 

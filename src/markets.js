@@ -1,5 +1,5 @@
-import {SPELLS,AREA_BY_ID} from './data.js?v=30';
-import {makeItem,makeUniqueItem,statsText} from './loot.js?v=30';
+import {SPELLS,AREA_BY_ID} from './data.js?v=32';
+import {makeItem,makeUniqueItem,statsText} from './loot.js?v=32';
 export const MARKET_REGIONS=[
  {name:'Waterlijnhandel',specialty:'Getijdenfoci, waterbestendige veldpakken en snelle laarzen.',level:1,bases:['tidal-fork','tide-coat','reservoir','runner-boots','field-gloves','field-belt','storm-staff','cobalt-coat'],qualities:['common','common','uncommon','uncommon','uncommon','uncommon','rare','rare']},
  {name:'Schrootstation',specialty:'Zonnefoci, hittewerende kleding en condensortechniek.',level:4,bases:['amber-prism','cinder-coat','sun-compass','ash-boots','copper-gauntlets','solar-belt','prism','brass-jacket'],qualities:['uncommon','uncommon','uncommon','uncommon','uncommon','uncommon','rare','rare']},
@@ -11,7 +11,7 @@ MARKET_REGIONS.push(
  {name:'Koelhof',specialty:'Thermische foci, koeltorenmantels en het sterkste veldwerk van de expeditie.',level:18,bases:['thermal-prism','cooling-jacket','cooling-core','thermal-boots','thermal-gloves','valve-belt','storm-staff','storm-crown'],qualities:['rare','rare','rare','rare','rare','rare','epic','epic']}
 );
 const routeBases={rooftops:['tide-staff','utility-coat','field-compass','field-boots','copper-gauntlets','field-belt','tidal-fork','runner-boots'],vault:['fork-focus','ranger-coat','seed-heart','quickstep-boots','thorn-gloves','medtech-belt','seed','bloom-coat']};
-export const SPELL_OFFERS={prism:{id:'prism',price:650,minZone:1,level:5,location:'Mara vanaf Vrijhaven',role:'Mobiele kettingaanval · vier verschillende doelen',numbers:'70 beginschade · 18 mana · 1,2s · sprongen behouden 88% schade'},volt:{id:'volt',price:1200,minZone:2,level:8,location:'Mara vanaf de Groene Corridor',role:'Gerichte lans · tot drie doelen op één lijn',numbers:'90 schade · 24 mana · 1,65s · natte doelen geleiden'},cryo:{id:'cryo',price:1800,minZone:3,level:11,location:'Mara bij Horizonpost',role:'Gebiedscontrole · zware vorstexplosie met nasplinters',numbers:'95 schade + 2 × 16 naschade · 30 mana · 5,5s'}};
+export const SPELL_OFFERS={prism:{id:'prism',price:650,minZone:1,level:5,location:'Focusmaker vanaf Vrijhaven',role:'Mobiele kettingaanval · vier verschillende doelen',numbers:'70 beginschade · 18 mana · 1,2s · sprongen behouden 88% schade'},volt:{id:'volt',price:1200,minZone:2,level:8,location:'Focusmaker vanaf de Groene Corridor',role:'Gerichte lans · tot drie doelen op één lijn',numbers:'90 schade · 24 mana · 1,65s · natte doelen geleiden'},cryo:{id:'cryo',price:1800,minZone:3,level:11,location:'Focusmaker bij Horizonpost',role:'Gebiedscontrole · zware vorstexplosie met nasplinters',numbers:'95 schade + 2 × 16 naschade · 30 mana · 5,5s'}};
 // Fixed premium pieces: the price buys a known build upgrade, never a reroll.
 export const INVESTMENTS=[
  [{id:'canal-focus',base:'tidal-fork',name:'Focus van de Hoge Kade',slot:'weapon',price:360,level:4,stats:{power:.12,tide:.18,regen:1}}, {id:'canal-coat',base:'cobalt-coat',name:'Versterkt Waterlijnpak',slot:'suit',price:420,level:4,stats:{hp:32,armor:.06,poisonResist:.08}}, {id:'canal-lens',base:'reservoir',name:'Diep Condenshart',slot:'relic',price:340,level:4,stats:{mana:30,regen:3}}, {id:'canal-boots',base:'runner-boots',name:'Kadepatrouillelaarzen',slot:'boots',price:320,level:4,stats:{speed:.16,dash:.12}}, {id:'canal-gloves',base:'storm-gloves',name:'Precisiegeleiders',slot:'gloves',price:300,level:4,stats:{power:.08,crit:.055}}, {id:'canal-belt',base:'field-belt',name:'Gordel van de Dijkwacht',slot:'belt',price:330,level:4,stats:{hp:18,mana:18,armor:.035}}],
@@ -42,7 +42,8 @@ export function marketStock(g,zone,areaId){
  if(areaId==='groenkloof'){const item=makeUniqueItem('horizonDiadem',20,++g.idCounter);item.price=8500;item.chase=true;item.signature=true;item.investment='horizon-diadem';stock.push(item);}
  return stock;
 }
-export function regionalService(areaId,service){const area=AREA_BY_ID[areaId],r=MARKET_REGIONS[area.zone];return {region:r.name,text:r.specialty+' '+service.text};}
+const REGIONAL_NAMES=[['Mara','Jules','Inez'],['Ravi','Ada','Bo'],['Elow','Nils','Sanne'],['Veyra','Daan','Rook'],['Nami','Omar','Vika'],['Lyra','Sem','Edda']];
+export function regionalService(areaId,service){const area=AREA_BY_ID[areaId],r=MARKET_REGIONS[area.zone],role=service.file==='smith'?0:service.file==='outfitter'?1:2;return {name:REGIONAL_NAMES[area.zone][role]+' · '+service.title,region:r.name,text:r.specialty+' '+service.text};}
 export const MarketRules={
  spellOffers(){const service=this.currentService();return service?.id==='smith'?Object.values(SPELL_OFFERS).filter(o=>this.state.zone>=o.minZone):[];},
  buySpell(id){const offer=this.spellOffers().find(o=>o.id===id),p=this.state.player;if(!this.canTrade()||!offer||p.skills.includes(id)||p.level<offer.level||p.scrap<offer.price)return false;

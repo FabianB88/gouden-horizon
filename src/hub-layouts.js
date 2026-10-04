@@ -1,8 +1,9 @@
-import {BIOME_HUB_LAYOUTS} from './biome-content.js?v=30';
-import {NATURE_HUB_LAYOUT} from './nature-content.js?v=30';
-import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=30';
-import {QUARTER_GATES} from './safe-exploration-content.js?v=30';
-import {HUB_SCALES} from './hub-space.js?v=30';
+import {cityExtensionPoint} from './city-extension.js?v=32';
+import {BIOME_HUB_LAYOUTS} from './biome-content.js?v=32';
+import {NATURE_HUB_LAYOUT} from './nature-content.js?v=32';
+import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=32';
+import {QUARTER_GATES} from './safe-exploration-content.js?v=32';
+import {HUB_SCALES} from './hub-space.js?v=32';
 // World-pixel placements on the painted floors. Gates keep their destinations
 // while the story controls their locks; no hub uses a single portal queue.
 export const HUB_LAYOUTS={
@@ -84,3 +85,7 @@ for(const [id,scale]of Object.entries(HUB_SCALES)){
  for(const group of ['portals','services'])for(const key of Object.keys(HUB_LAYOUTS[id][group]))HUB_LAYOUTS[id][group][key]=HUB_LAYOUTS[id][group][key].map(v=>v*scale);
  for(const key of ['cache','supply'])HUB_LAYOUTS[id][key]=HUB_LAYOUTS[id][key].map(v=>v*scale);
 }
+
+Object.assign(HUB_LAYOUTS.highway.services,{smith:[340*1.75,580*1.75],workshop:[1120*1.75,350*1.75],outfitter:cityExtensionPoint([800,550])});
+HUB_LAYOUTS.highway.supply=cityExtensionPoint([430,520]);
+Object.assign(HUB_LAYOUTS.highway.portals,{kilometer:cityExtensionPoint([390,220]),forest:cityExtensionPoint([980,480]),'quiet-apartments':cityExtensionPoint([1160,420]),'rain-garden':[740*1.75,410*1.75],'hidden-atelier':[725*1.75,710*1.75]});

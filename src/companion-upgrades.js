@@ -1,5 +1,5 @@
-import {COMPANIONS} from './summons.js?v=30';
-import {summonAvailable} from './summon-progression.js?v=30';
+import {COMPANIONS} from './summons.js?v=32';
+import {summonAvailable} from './summon-progression.js?v=32';
 export const COMPANION_TRAINING={vitality:{name:'Vitaliteit',text:'+15% basisleven per rang',ranks:3},potency:{name:'Verbondskracht',text:'+12% aanvalskracht per rang; lichtmot: +4 totaal herstel',ranks:3},guard:{name:'Weerbaarheid',text:'10% minder ontvangen schade per rang',ranks:2}};
 export const TRAINING_PRICES=[180,420,900];
 export const TRAINING_LEVELS=[4,8,12];

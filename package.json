@@ -1,12 +1,12 @@
 {
   "name": "gouden-horizon",
-  "version": "8.7.0",
+  "version": "8.7.2",
   "private": true,
   "type": "module",
-  "description": "Een geschilderde 2.5D action RPG over een klimaat-expeditie in Nederland.",
+  "description": "Een geschilderde 2.5D mage RPG over een magische wereld na de Wereldbreuk.",
   "scripts": {
     "start": "node scripts/serve.mjs",
-    "test": "node qa/engine-tests.mjs && node qa/expedition-tests.mjs && node qa/balance-tests.mjs && node qa/story-tests.mjs && node qa/upgrades-tests.mjs && node qa/survival-tests.mjs && node qa/combat-quest-tests.mjs && node qa/market-endgame-tests.mjs && node qa/terrain-tests.mjs && node qa/presentation-tests.mjs && node qa/progression-tests.mjs && node qa/ui-tests.mjs && node qa/render-budget-tests.mjs && node qa/sound-tests.mjs && node qa/v6-tests.mjs && node qa/v7-tests.mjs && node qa/v8-tests.mjs && node qa/biome-tests.mjs && node qa/creature-tests.mjs && node qa/nature-tests.mjs && node qa/safe-exploration-tests.mjs && node qa/polish-tests.mjs && node qa/wandering-tests.mjs && node qa/quay-v87-tests.mjs && node qa/town-space-v87-tests.mjs && node qa/market-v87-tests.mjs && node qa/lan-tests.mjs && node qa/lan-client-tests.mjs && node qa/controller-tests.mjs && node qa/simulate-run.mjs && node qa/trial-run.mjs",
+    "test": "node qa/engine-tests.mjs && node qa/expedition-tests.mjs && node qa/balance-tests.mjs && node qa/story-tests.mjs && node qa/upgrades-tests.mjs && node qa/survival-tests.mjs && node qa/combat-quest-tests.mjs && node qa/market-endgame-tests.mjs && node qa/terrain-tests.mjs && node qa/presentation-tests.mjs && node qa/progression-tests.mjs && node qa/ui-tests.mjs && node qa/render-budget-tests.mjs && node qa/sound-tests.mjs && node qa/v6-tests.mjs && node qa/v7-tests.mjs && node qa/v8-tests.mjs && node qa/biome-tests.mjs && node qa/creature-tests.mjs && node qa/nature-tests.mjs && node qa/safe-exploration-tests.mjs && node qa/polish-tests.mjs && node qa/wandering-tests.mjs && node qa/quay-v87-tests.mjs && node qa/town-space-v87-tests.mjs && node qa/navigation-v871-tests.mjs && node qa/outdoor-v872-tests.mjs && node qa/market-v87-tests.mjs && node qa/lan-tests.mjs && node qa/lan-client-tests.mjs && node qa/controller-tests.mjs && node qa/simulate-run.mjs && node qa/trial-run.mjs",
     "site:build": "node scripts/build-static.mjs",
     "lan": "node scripts/lan-server.mjs",
     "test:lan": "node qa/lan-tests.mjs && node qa/lan-client-tests.mjs"

@@ -6,7 +6,7 @@ import {arenaObstacles,coverHit} from '../src/arena-layouts.js';
 import {pathToFileURL} from 'node:url';
 import {ENEMIES,AREA_BY_ID,AREAS} from '../src/data.js';
 const dt=1/60;
-function gearValue(item,zone=0){const s=item.stats||{};return (s.poisonResist||0)*95+(s.fireResist||0)*(zone>=5?160:40)+(s.stormResist||0)*40+(s.waterResist||0)*(zone===4?140:30)+(s.leech||0)*12+(s.power||0)*90+(s.armor||0)*60+(s.hp||0)+(s.regen||0)*3+(s.storm||0)*80+(s.tide||0)*45+(s.mana||0)*.3+(s.recovery||0)*12+(s.speed||0)*20;}
+function gearValue(item,zone=0){const s=item.stats||{};return (s.poisonResist||0)*95+(s.fireResist||0)*(zone>=5?160:40)+(s.stormResist||0)*(zone>=3?140:40)+(s.waterResist||0)*(zone===4?140:30)+(s.leech||0)*12+(s.power||0)*90+(s.armor||0)*(zone>=3?180:60)+(s.hp||0)+(s.regen||0)*3+(s.storm||0)*80+(s.tide||0)*45+(s.mana||0)*.3+(s.recovery||0)*12+(s.speed||0)*20;}
 function gearSlot(p,item){return item.slot==='relic'&&(p.equipment.relic2.empty||gearValue(p.equipment.relic2)<gearValue(p.equipment.relic))?'relic2':item.slot;}
 export function simulate(seed=48,discipline='tide',maxSeconds=1800,options={}){
  const g=options.engine||new Engine(discipline,seed),history=[],traded=new Set(),prepared=new Set();let buys=0,sales=0,forges=0,retries=0,lastPosition=null,stalled=0,lastZone=null,path=[],pathGoal=null,pathAge=0,attacks=0,hits=0,dashes=0,heals=0,phases=new Set(),step=0;
@@ -32,7 +32,7 @@ export function simulate(seed=48,discipline='tide',maxSeconds=1800,options={}){
    for(const item of [...p.inventory])if(value(item)<=value(p.equipment[gearSlot(p,item)])){if(g.sellItem(item.uid))sales++;}
    const offers=w.shop.stock.filter(item=>p.level>=item.requiredLevel&&p.scrap>=item.price&&value(item)>value(p.equipment[gearSlot(p,item)])+3).sort((a,b)=>(value(b)-value(p.equipment[gearSlot(p,b)]))-(value(a)-value(p.equipment[gearSlot(p,a)])));
    if(offers[0]){const uid=g.buyItem(offers[0].uid);if(uid){buys++;g.equipItem(uid,gearSlot(p,p.inventory.find(i=>i.uid===uid)));}}
-   while(p.potions<3&&g.buySupply()){}
+   while(p.potions<(s.zone>=3?5:3)&&g.buySupply()){}
    while(p.antidotes<2&&g.buyAntidote()){}
    if(s.zone>=2)while((p.equipment.suit.stats.poisonResist||0)<.24&&g.reinforce('suit','poisonResist'))forges++;if(g.reinforce('boots'))forges++;
    // Read the new region's stated element and use the ordinary paid forge.
@@ -55,7 +55,9 @@ export function simulate(seed=48,discipline='tide',maxSeconds=1800,options={}){
    g.selectSpell(enemy.wet>.4&&p.mana>12?'storm':'tide');
    const aim={x:enemy.x,y:enemy.y};
    if(p.skills.includes('frost')&&enemy.wet>.4&&(p.spellCd.storm||0)>.05&&p.mana>30)g.cast('frost',aim);
-   for(const id of ['orbital','tempest','glacier','cyclone','gravity'])if(p.skills.includes(id)&&nearby.length>1&&p.mana>65&&(p.spellCd[id]||0)<=0){g.cast(id,aim);break;}
+   // The fire build spends its learned area spells on bosses too. The other
+   // profiles reserve mana for their wet/bolt combo against a single target.
+   for(const id of ['orbital','tempest','glacier','cyclone','gravity'])if(p.skills.includes(id)&&(nearby.length>1||ENEMIES[enemy.type].boss&&discipline==='ember')&&p.mana>65&&(p.spellCd[id]||0)<=0){g.cast(id,aim);break;}
    if(p.skills.includes('gale')&&d<180&&p.mana>30)g.cast('gale',aim);
    if(p.mana>45)g.castRight({x:enemy.x,y:enemy.y});
    if(p.ultimate>=100&&(nearby.filter(e=>distance(p,e)<410).length>2||ENEMIES[enemy.type].boss))g.ultimate();

@@ -1,5 +1,6 @@
-import {AREAS,AREA_BY_ID,WORLD,POSITIONS} from './data.js?v=30';
-import {SAFE_HUBS,hubPortals} from './hubs.js?v=30';
+import {OUTDOOR_REGIONS,inOutdoorWild} from './outdoor-content.js?v=32';
+import {AREAS,AREA_BY_ID,WORLD,POSITIONS} from './data.js?v=32';
+import {SAFE_HUBS,hubPortals} from './hubs.js?v=32';
 
 // Chronological journey with fixed arena/generator gates in regional hubs.
 export const STORY_ORDER=['canal','delta','ring','rooftops','highway','mirrors','brine','kilometer','forest','glass','saltwood','vault','skybridge','harbor','clouds','aurelia','metro-refuge','sluice','railworks','deepwater','cooling-refuge','heatworks','condensers','tower'];
@@ -7,7 +8,7 @@ export const STORY_BEATS={
  canal:'Volg de kade. De Rietdelta bewaart de pomp waarmee de meetstations weer kunnen werken.',
  delta:'Bevrijd de getijdenpomp van de schrootbewakers. Daarmee kun je de Verdronken Ring kalibreren.',
  ring:'Kalibreer de twee meetstations en berg de Atmosferische lens.',
- rooftops:'Berg de bewaakte routekaart in de Zonnetuinen. Die wijst een droge weg naar Brabant.',
+ rooftops:'Berg de bewaakte routekaart in de Zonnetuinen. Die wijst de vergeten lichtbruggen naar Vrijhaven.',
  highway:'Vrijhaven verbindt tuin, kade en werkplaats. Handel en verken de wijken, of volg de poort naar de Spiegelvelden.',
  mirrors:'Maak de zonnecollectoren vrij. Hun energie opent de weg naar de Zoutcentrale.',
  brine:'Schakel de pekelmachines uit en herstel de watervoorraad voor de Rode Kilometer.',
@@ -19,7 +20,15 @@ export const STORY_BEATS={
  skybridge:'Drie kernen zijn gekoppeld. Bevoorrading in de Stormhaven maakt de laatste oversteek mogelijk.',
  harbor:'Bevrijd het stormplatform en berg de uplink voor het Wolkenarchief.',
  clouds:'Herstel de laatste weermeting. Daarna kan Aurelia de correctie veilig toetsen.',
- aurelia:'Versla de Gouden Wachter en activeer de omkeerbare klimaatcorrectie.'
+ aurelia:'Versla de Gouden Wachter. Verbind zon, getij en leven om de gebroken Kern te herstellen.',
+ 'metro-refuge':'Aurelia heeft gereageerd, maar het diepe netwerk blijft donker. Zoek de sluisroute vanuit deze schuilplaats.',
+ sluice:'Bevrijd de sluis. Haar lichtbrug geeft toegang tot de verlaten spoorwerkplaats.',
+ railworks:'Versla de spoorbewakers en herstel de verbinding naar het diepe pompnet.',
+ deepwater:'Herstel beide dieptestations en berg de kern onder de verdronken stad.',
+ 'cooling-refuge':'Het diepe netwerk werkt. Versterk je uitrusting in Koelhof en volg de route naar de Warmtewisselaar.',
+ heatworks:'Bevrijd de Warmtewisselaar. Zonder haar koeling bereikt geen reiziger de condensatorvelden.',
+ condensers:'Herstel de condensatorstations en berg de thermische kern voor de laatste verbinding.',
+ tower:'Versla de Torenwachter en verbind de laatste kern. Daarna blijven de tijdproeven en oude routes beschikbaar.'
 };
 const camps=['canal','highway','forest','skybridge','metro-refuge','cooling-refuge'];
 const cacheChapters=new Set(['rooftops','vault']);
@@ -34,7 +43,7 @@ export const StoryRules={
   return Boolean(s.cores.includes(a?.zone));
  },
  recommendedArea(){return STORY_ORDER.find(id=>!this.chapterComplete(id))||'tower';},
- canSelectDestination(id){return this.isUnlocked(id)&&(AREA_BY_ID[id]?.endgame||AREA_BY_ID[id]?.optional||this.state.visited.includes(id)||this.state.storyPassed?.includes(id)||id===this.recommendedArea());},
+ canSelectDestination(id){if(this.testModeEnabled()&&AREA_BY_ID[id])return true;return this.isUnlocked(id)&&(AREA_BY_ID[id]?.endgame||AREA_BY_ID[id]?.optional||this.state.visited.includes(id)||this.state.storyPassed?.includes(id)||id===this.recommendedArea());},
  selectDestination(id){if(!this.canSelectDestination(id))return false;if(AREA_BY_ID[id]?.safeExplore&&this.inCamp())return this.enterArea(id);if(AREA_BY_ID[id].natureRegion&&this.inCamp()){if(id==='lanternwood')return this.enterArea(id);if(this.state.area!=='lanternwood'&&!this.enterArea('lanternwood'))return false;this.state.destination=id;this.syncStoryPortals();return true;}if(AREA_BY_ID[id].biomeRegion&&this.inCamp()){if(id==='groenkloof')return this.enterArea(id);if(this.state.area!=='groenkloof'&&!this.enterArea('groenkloof'))return false;this.state.destination=id;this.syncStoryPortals();return true;}if(SAFE_HUBS.includes(this.state.area)&&this.chapterComplete(id)&&id!==this.state.area)return this.enterArea(id);this.state.destination=id===this.state.area?null:id;this.syncStoryPortals();return true;},
  portalDefinitions(id){
   const a=AREA_BY_ID[id];if(!a)return [];
@@ -73,7 +82,7 @@ export const StoryRules={
   if(cacheChapters.has(a.id)&&!this.chapterComplete(a.id))return w.enemies.find(e=>!e.dead&&e.cacheGuard)||w.loot.find(i=>!i.item);
   return w.portals.find(p=>!p.locked&&p.to===(s.destination||this.recommendedArea()))||w.portals.find(p=>!p.locked);
  },
- storyText(){if(AREA_BY_ID[this.state.area]?.safeExplore)return AREA_BY_ID[this.state.area].story;if(this.state.world?.nature)return AREA_BY_ID[this.state.area].story;if(this.state.area==='lanternwood')return AREA_BY_ID.lanternwood.story;if(this.state.world?.biome)return 'Duinexpeditie · '+(this.state.world.sideDone?'voltooid · terug naar Groenkloof':this.state.world.biome.wave===3?'versla de Duinbreker':'groep '+this.state.world.biome.wave+'/2 · daarna de Duinbreker');if(this.state.area==='groenkloof')return AREA_BY_ID.groenkloof.story;if(this.state.world?.adventure)return 'Berging · verken drie punten, versla hun bewakers en pak de onderdelen met F. De terugpoort opent na alle drie.';if(this.state.world?.trial)return 'Tijdproef · versla vier golven. De terugpoort opent na de eindbaas.';if(this.chapterComplete('tower'))return 'Aurelia is verbonden. Via M kun je bij een handelspost drie endgame-tijdproeven starten, of terugreizen naar eerdere hoofdstukken.';const id=this.recommendedArea();return STORY_BEATS[id]||AREA_BY_ID[id].story;},
+ storyText(){const r=OUTDOOR_REGIONS[this.state.area],o=this.state.world?.outdoor;if(r&&o&&inOutdoorWild(this.state.area,this.state.player))return r.name+' · '+(o.rewarded?'verkend · terug naar de veilige stad':r.goal+' · '+o.done.length+'/3 · '+this.state.world.enemies.filter(e=>e.outdoor&&!e.dead).length+' wezens over');if(AREA_BY_ID[this.state.area]?.safeExplore)return AREA_BY_ID[this.state.area].story;if(this.state.world?.nature)return AREA_BY_ID[this.state.area].story;if(this.state.area==='lanternwood')return AREA_BY_ID.lanternwood.story;if(this.state.world?.biome)return 'Duinexpeditie · '+(this.state.world.sideDone?'voltooid · terug naar Groenkloof':this.state.world.biome.wave===3?'versla de Duinbreker':'groep '+this.state.world.biome.wave+'/2 · daarna de Duinbreker');if(this.state.area==='groenkloof')return AREA_BY_ID.groenkloof.story;if(this.state.world?.adventure)return 'Berging · verken drie punten, versla hun bewakers en pak de onderdelen met F. De terugpoort opent na alle drie.';if(this.state.world?.trial)return 'Tijdproef · versla vier golven. De terugpoort opent na de eindbaas.';if(this.chapterComplete('tower'))return 'Aurelia is verbonden. Via M kun je bij een handelspost drie endgame-tijdproeven starten, of terugreizen naar eerdere hoofdstukken.';const id=this.recommendedArea();return STORY_BEATS[id]||AREA_BY_ID[id].story;},
  markStoryCache(loot){if(cacheChapters.has(this.state.area)&&!loot.item&&!loot.exploration){this.state.world.storyCacheClaimed=true;this.notice('Protocol geborgen · de volgende verhaalroute is open');}},
  migrateStory(){
   const s=this.state;if(s.campaignVersion===1)return;
