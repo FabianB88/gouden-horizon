@@ -1,4 +1,4 @@
-import {hubScale} from './hub-space.js?v=36';
+import {hubScale} from './hub-space.js?v=37';
 // Native painted pixels (1536 × 1024). Floors overlap at stairs and junctions.
 export const WANDERING_FLOORS={
  canal:[
@@ -57,7 +57,7 @@ export const WANDERING_EXTENSIONS={
 export const WANDERING_SPOTS={
  canal:[[197,157],[202,410],[695,280],[756,330],[435,981],[1415,399]],
  highway:[[283,210],[395,220],[1455,947],[300,590],[1536+640,510],[1536+440,270],[1536+950,805],[1536+1300,445]],
- forest:[[354,173],[617,198],[864,275],[802,777],[977,785],[1213,798]],
+ forest:[[354,155],[617,198],[864,295],[802,777],[977,785],[1213,798]],
  skybridge:[[172,300],[206,437],[112,906],[1380,531],[1430,125],[999,721]],
  'metro-refuge':[[1325,278],[279,785],[291,167],[877,325],[1162,660],[1385,798]],
  'cooling-refuge':[[141,914],[261,938],[349,329],[876,250],[1232,752],[726,440]],

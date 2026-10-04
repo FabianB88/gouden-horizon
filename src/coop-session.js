@@ -1,9 +1,9 @@
 // Authoritative two-player simulation. Rendering and menus remain browser-side.
-import {Engine,copy,distance,canStand,seeded} from './engine.js?v=36';
-import {EnemyCrowd} from './enemy-ai.js?v=36';
-import {updateEnemyMotion} from './enemy-motion.js?v=36';
-import {AREA_BY_ID,ENEMIES} from './data.js?v=36';
-import {START_BUILDS} from './specializations.js?v=36';
+import {Engine,copy,distance,canStand,seeded} from './engine.js?v=37';
+import {EnemyCrowd} from './enemy-ai.js?v=37';
+import {updateEnemyMotion} from './enemy-motion.js?v=37';
+import {AREA_BY_ID,ENEMIES} from './data.js?v=37';
+import {START_BUILDS} from './specializations.js?v=37';
 const PERSONAL=['player','mode','pending','notices','summons','ultimateWave'];
 export const COOP_HP=1.7,COOP_DAMAGE=1.08;
 export const RPC_METHODS=new Set(['unlockTestMode','lockTestMode','testTravel','interact','castSlot','castRight','dash','heal','useAntidote','ultimate','commandCompanions','closeModal','chooseUpgrade','purchaseUpgrade','chooseLoot','equipItem','recycleItem','sellItem','sellItems','buyItem','buySupply','buyAntidote','reinforce','buySpell','setMainAttack','selectSpell','assignRight','assignSkill','clearSkillSlot','setItemMark','learnSpellVariant','selectSpellVariant','selectCompanion','upgradeCompanion','chooseSpecialization','chooseTalent','resetSpecialization','gambleLoot','buyUniqueRecipe','acceptQuest','claimQuest','acceptCityQuest','claimCityQuest','acceptQuarterQuest','claimQuarterQuest','inspectQuarterPoint','craftRune','startAdventure','startBounty','startChallenge','restartChallenge','enterArea','setDestination','openQuayGarden','acceptSalvageQuest','claimSalvageReward','deferUpgrade','recycleLoot','selectDestination','returnFromChallenge','weaveRune','craftAtelierItem']);

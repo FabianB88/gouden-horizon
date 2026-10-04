@@ -1,6 +1,10 @@
-# Gouden Horizon v8.8.3 — Looproutes en voorbereiding op de PC
+# Gouden Horizon v8.8.4 — Groene Corridor
 
 De volledige bronversie voor desktop en Android in de browser, online solo via GitHub Pages of Render, en gratis LAN-co-op. Upload de inhoud van `dist/` na `npm run site:build`, of publiceer deze bronmap rechtstreeks: `index.html`, `src/`, `assets/`, de vier CSS-bestanden en `.nojekyll` moeten bij elkaar blijven. Er is geen Android-app of betaalde server nodig voor solo.
+
+## Nieuw in v8.8.4
+
+De Groene Corridor gebruikt opnieuw afgetekende loopvlakken over de volle breedte van de geschilderde paden. De trappen en kruisingen bij het zaadplateau, het kristalterras en de serre sluiten nu zonder onzichtbare gaten aan. Ook de eerdere trappen en het bovenste terras in deze area zijn gecontroleerd. Het gesloten hek blijft fysiek blokkeren; de voorbereide navigatie is opnieuw opgebouwd.
 
 ## Nieuw in v8.8.3
 

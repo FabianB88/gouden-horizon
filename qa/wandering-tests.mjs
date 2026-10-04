@@ -63,7 +63,7 @@ test('Groene Corridor follows the visible ramp and stair landings directly, with
  for(const native of routes){const points=native.map(([x,y])=>({x:x*1.75,y:y*1.75}));for(const route of [points,[...points].reverse()]){
   Object.assign(g.state.player,route[0],{velocity:{x:0,y:0}});
   for(const [i,target]of route.entries()){assert(canStand(target.x,target.y,35,'forest'),'Cramped stair landing');if(!i)continue;
-   assert(clearLine(route[i-1],target,'forest',35),'A visible tiled route requires an unnecessary detour');
+   assert(clearLine(route[i-1],target,'forest',35),'A visible tiled route requires an unnecessary detour: '+JSON.stringify([native[i-1],native[i]]));
    let frames=0;while(distance(g.state.player,target)>6&&frames++<180){const p=g.state.player,a=Math.round(Math.atan2((target.y-p.y)/.78,target.x-p.x)/(Math.PI/4))*Math.PI/4;g.update(1/60,{x:Math.round(Math.cos(a)),y:Math.round(Math.sin(a))});}assert(frames<180,'Ordinary keys hit an invisible wall');
   }
  }}

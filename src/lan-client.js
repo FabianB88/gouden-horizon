@@ -1,7 +1,7 @@
-import {Engine,normal} from './engine.js?v=36';
-import {updateHeroMotion} from './hero-motion.js?v=36';
+import {Engine,normal} from './engine.js?v=37';
+import {updateHeroMotion} from './hero-motion.js?v=37';
 // The RPC surface is shared with the server; no client-supplied positions or damage.
-import {RPC_METHODS,cleanInput} from './coop-session.js?v=36';
+import {RPC_METHODS,cleanInput} from './coop-session.js?v=37';
 const REMOTE_ONLY=new Set(['unlockTestMode','lockTestMode','testTravel','interact','castSlot','castRight','dash','heal','useAntidote','ultimate','commandCompanions','enterArea','startAdventure','startBounty','startChallenge','restartChallenge','returnFromChallenge','openQuayGarden','retry','acceptTravel','buyItem','buySupply','buyAntidote','buySpell','buyUniqueRecipe','gambleLoot','reinforce','upgradeCompanion','weaveRune','craftAtelierItem']);
 export class LanClient extends Engine {
  constructor({onLobby,onStart,onResult,onStatus}={}){super('tide',879);this.isLan=true;this.connected=false;this.running=false;this.events=[];this.callbacks={onLobby,onStart,onResult,onStatus};this.sequence=0;this.requests=new Map();this.inputClock=0;this.receivedAt=0;this.peerTargets=new Map();this.visualTargets=new Map();
