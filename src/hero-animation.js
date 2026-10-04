@@ -1,4 +1,4 @@
-import {drawRiggedHero,heroRigPose,heroBodyMotion,gearFocusPoint} from './hero-rig.js?v=32';
+import {drawRiggedHero,heroRigPose,heroBodyMotion,gearFocusPoint} from './hero-rig.js?v=33';
 
 export function heroFocus(renderer,p,time=0){
  const atlas=renderer.heroDirectionalCrop;

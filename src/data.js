@@ -1,15 +1,15 @@
-import {OUTDOOR_REGIONS} from './outdoor-content.js?v=32';
-import {WANDERING_FLOORS,WANDERING_EXTENSIONS} from './hub-wandering-content.js?v=32';
-import {CITY_EXTENSION_FLOORS,CITY_JOIN_FLOOR} from './city-extension.js?v=32';
-import {TOWN_FLOORS,TOWN_EXTRA_FLOORS} from './town-floors.js?v=32';
-import {HUB_SCALES} from './hub-space.js?v=32';
-import {QUARTER_AREAS,QUARTER_GATES} from './safe-exploration-content.js?v=32';
-import {NATURE_AREAS,NATURE_ENEMIES} from './nature-content.js?v=32';
-import {CREATURE_ENEMIES} from './creature-content.js?v=32';
-import {BIOME_AREAS,BIOME_ENEMIES,BIOME_HUB_LAYOUTS} from './biome-content.js?v=32';
-import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=32';
-import {V8_AREAS,V8_ZONES,V8_ENEMIES} from './v8-content.js?v=32';
-import {HUB_LAYOUTS} from './hub-layouts.js?v=32';
+import {OUTDOOR_REGIONS} from './outdoor-content.js?v=33';
+import {WANDERING_FLOORS,WANDERING_EXTENSIONS} from './hub-wandering-content.js?v=33';
+import {CITY_EXTENSION_FLOORS,CITY_JOIN_FLOOR} from './city-extension.js?v=33';
+import {TOWN_FLOORS,TOWN_EXTRA_FLOORS} from './town-floors.js?v=33';
+import {HUB_SCALES} from './hub-space.js?v=33';
+import {QUARTER_AREAS,QUARTER_GATES} from './safe-exploration-content.js?v=33';
+import {NATURE_AREAS,NATURE_ENEMIES} from './nature-content.js?v=33';
+import {CREATURE_ENEMIES} from './creature-content.js?v=33';
+import {BIOME_AREAS,BIOME_ENEMIES,BIOME_HUB_LAYOUTS} from './biome-content.js?v=33';
+import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=33';
+import {V8_AREAS,V8_ZONES,V8_ENEMIES} from './v8-content.js?v=33';
+import {HUB_LAYOUTS} from './hub-layouts.js?v=33';
 export const WORLD = { width: 1920, height: 1280 };
 export const SPELLS = {
   tide: { name: 'Getijdenwaaier', short: 'GETIJ', color: '#73e2e5', dark: '#126c8b', key: '1', damage: 13, cost: 4, interval: .22, speed: 780, radius: 11, status: 'wet', description: 'Drie waterbogen waaieren uit en maken doelen NAT. Wissel naar storm voor kettingbliksem.' },

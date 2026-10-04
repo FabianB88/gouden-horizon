@@ -1,9 +1,9 @@
 // Authoritative two-player simulation. Rendering and menus remain browser-side.
-import {Engine,copy,distance,canStand,seeded} from './engine.js?v=32';
-import {EnemyCrowd} from './enemy-ai.js?v=32';
-import {updateEnemyMotion} from './enemy-motion.js?v=32';
-import {AREA_BY_ID,ENEMIES} from './data.js?v=32';
-import {START_BUILDS} from './specializations.js?v=32';
+import {Engine,copy,distance,canStand,seeded} from './engine.js?v=33';
+import {EnemyCrowd} from './enemy-ai.js?v=33';
+import {updateEnemyMotion} from './enemy-motion.js?v=33';
+import {AREA_BY_ID,ENEMIES} from './data.js?v=33';
+import {START_BUILDS} from './specializations.js?v=33';
 const PERSONAL=['player','mode','pending','notices','summons','ultimateWave'];
 export const COOP_HP=1.7,COOP_DAMAGE=1.08;
 export const RPC_METHODS=new Set(['unlockTestMode','lockTestMode','testTravel','interact','castSlot','castRight','dash','heal','useAntidote','ultimate','commandCompanions','closeModal','chooseUpgrade','purchaseUpgrade','chooseLoot','equipItem','recycleItem','sellItem','sellItems','buyItem','buySupply','buyAntidote','reinforce','buySpell','setMainAttack','selectSpell','assignRight','assignSkill','clearSkillSlot','setItemMark','learnSpellVariant','selectSpellVariant','selectCompanion','upgradeCompanion','chooseSpecialization','chooseTalent','resetSpecialization','gambleLoot','buyUniqueRecipe','acceptQuest','claimQuest','acceptCityQuest','claimCityQuest','acceptQuarterQuest','claimQuarterQuest','inspectQuarterPoint','craftRune','startAdventure','startBounty','startChallenge','restartChallenge','enterArea','setDestination','openQuayGarden','acceptSalvageQuest','claimSalvageReward','deferUpgrade','recycleLoot','selectDestination','returnFromChallenge','weaveRune','craftAtelierItem']);
@@ -11,12 +11,12 @@ export function heroIdentity(p,name,build){p.name=String(name||'Reiziger').repla
 export function cleanInput(input={}){const finite=(n,min,max)=>Number.isFinite(n)?Math.max(min,Math.min(max,n)):0;return {x:finite(input.x,-1,1),y:finite(input.y,-1,1),shoot:input.shoot===true,right:input.right===true,paused:input.paused===true,aim:input.aim&&Number.isFinite(input.aim.x)&&Number.isFinite(input.aim.y)?{x:finite(input.aim.x,0,6000),y:finite(input.aim.y,0,2500)}:null,slots:[...new Set((Array.isArray(input.slots)?input.slots:[]).slice(0,6).filter(n=>Number.isInteger(n)&&n>=0&&n<6))]};}
 export class CoopSession {
  constructor(seed=Date.now()%1000000){this.seed=seed;this.actors=[];this.started=false;this.time=0;this.rotation=0;this.travel=null;this.checkpoint=null;}
- join({token,name,build='elementalist'}={}){let actor=token&&this.actors.find(a=>a.token===token);if(actor){actor.connected=true;actor.input={};return actor;}if(this.started||this.actors.length>=2)throw Error('Deze expeditie heeft al twee spelers. Gebruik je eigen tab om opnieuw te verbinden.');if(!START_BUILDS.some(b=>b.id===build))build='elementalist';actor={id:['hero-1','hero-2'].find(id=>!this.actors.some(a=>a.id===id)),token,name,build,ready:false,connected:true,input:{},inputAt:0,events:[],threatHits:{},summons:[],notices:[],mode:'playing',pending:null,ultimateWave:null};actor.name=String(name||'Reiziger').replace(/[^\p{L}\p{N} _.-]/gu,'').trim().slice(0,18)||'Reiziger';if(this.actors.some(a=>a.name===actor.name))actor.name=actor.name.slice(0,16)+' 2';this.actors.push(actor);return actor;}
+ join({token,name,build='elementalist',gender='male'}={}){let actor=token&&this.actors.find(a=>a.token===token);if(actor){actor.connected=true;actor.input={};return actor;}if(this.started||this.actors.length>=2)throw Error('Deze expeditie heeft al twee spelers. Gebruik je eigen tab om opnieuw te verbinden.');if(!START_BUILDS.some(b=>b.id===build))build='elementalist';actor={id:['hero-1','hero-2'].find(id=>!this.actors.some(a=>a.id===id)),token,name,build,gender:gender==='female'?'female':'male',ready:false,connected:true,input:{},inputAt:0,events:[],threatHits:{},summons:[],notices:[],mode:'playing',pending:null,ultimateWave:null};actor.name=String(name||'Reiziger').replace(/[^\p{L}\p{N} _.-]/gu,'').trim().slice(0,18)||'Reiziger';if(this.actors.some(a=>a.name===actor.name))actor.name=actor.name.slice(0,16)+' 2';this.actors.push(actor);return actor;}
  leave(id){const a=this.actor(id);if(a){a.connected=false;a.input={};}if(!this.started)this.actors=this.actors.filter(a=>a.id!==id);}
  actor(id){return this.actors.find(a=>a.id===id);}
  ready(id){const a=this.actor(id);if(a)a.ready=true;if(this.actors.length===2&&this.actors.every(a=>a.ready&&a.connected))this.start();}
  start(){this.engine=new Engine(START_BUILDS.find(b=>b.id===this.actors[0].build).discipline,this.seed);const g=this.engine;
-  for(const [i,a] of this.actors.entries()){const base=i===0?g:new Engine(START_BUILDS.find(b=>b.id===a.build).discipline,this.seed+i);a.player=heroIdentity(copy(base.state.player),a.name,a.build);a.player.heroId=a.id;a.player.y+=i*55;for(const item of [...Object.values(a.player.equipment),...a.player.inventory])item.uid=++g.idCounter;}
+  for(const [i,a] of this.actors.entries()){const base=i===0?g:new Engine(START_BUILDS.find(b=>b.id===a.build).discipline,this.seed+i);a.player=heroIdentity(copy(base.state.player),a.name,a.build);a.player.heroId=a.id;a.player.heroGender=a.gender||'male';a.player.y+=i*55;for(const item of [...Object.values(a.player.equipment),...a.player.inventory])item.uid=++g.idCounter;}
   this.started=true;this.encounterLevel=1;this.engine.state.world.partyPrepared=true;this.install();this.distributeCaches(g.state.world);this.partyCheckpoint();
  }
  withActor(a,fn,physics=false){const g=this.engine,s=g.state,previous={};for(const k of PERSONAL){previous[k]=s[k];s[k]=a[k];}const active=this.active;this.active=a;const beforeMode=a.mode;if(physics&&a.player.hp>0)s.mode='playing';const ids=new Set(s.projectiles.map(b=>b.id)),fields=new Set(s.fields.map(b=>b.id)),hazards=new Set(s.world.hazards.map(b=>b.id));let result;

@@ -1,4 +1,20 @@
-# Gouden Horizon v8.7.2 — De open poorten
+# Gouden Horizon v8.8.0 — Magie onder je vingers
+
+De volledige bronversie voor desktop en Android in de browser, online solo via GitHub Pages of Render, en gratis LAN-co-op. Upload de inhoud van `dist/` na `npm run site:build`, of publiceer deze bronmap rechtstreeks: `index.html`, `src/`, `assets/`, de drie CSS-bestanden en `.nojekyll` moeten bij elkaar blijven. Er is geen Android-app of betaalde server nodig voor solo.
+
+## Nieuw in v8.8.0
+
+- **Aanraakbediening:** een linker bewegingsstick en rechter richtstick. Houd de richtstick vast om je hoofdaanval te schieten. Alle zes spreukslots en de toegewezen rechter ability werken met een tik, of met slepen en loslaten voor eigen richting. Ontwijken, verband, antidotum, kernpuls, kaart, dierencommando's en menu's hebben hun eigen knoppen. Lopen en casten kunnen tegelijk; mana en cooldowns blijven gelden.
+- **Telefoon-UI:** compactere knoppen en menu's, ruimte voor het speelveld en een standaard ingeklapt gebiedspaneel. Liggend geeft het meeste zicht; staand blijft speelbaar. Touch wordt automatisch herkend en is ook expliciet te kiezen in Instellingen. Toetsenbord/muis en controller blijven beschikbaar.
+- **Eén keer laden:** alle gebiedsbestanden downloaden vóór het spelen. Alleen de huidige kaart en enkele recente kaarten blijven uitgepakt in de grafische cache. Reizen gebruikt de al geladen bytes. Dit verlaagt het geheugen voor grote kaartbeelden zonder downloads bij iedere overgang. Vernieuwen start de laadfase opnieuw; deze versie is geen offline-app.
+- **Duidelijke aankopen:** een melding boven het handelsmenu toont aantal, item, betaald schroot en voorraad of bestemming. Ook training en betaald smeden krijgen feedback. Bij LAN komt de bevestiging na betaling op de host.
+- **Itemdetails:** klik een item in je rugzak voor zijn eigen stats, vereiste level, affixen, uniek effect, versterking en verkoopwaarde. Vanuit die details kun je uitrusten of naar de bestaande vergelijking gaan. Sleepbediening en behouden scrollpositie blijven beschikbaar.
+- **Mannelijk/vrouwelijk:** een uiterlijkkeuze voor dezelfde Elementalist, Natuurhoeder en Veldjager, ook in LAN. Drie aanvullende geschilderde atlassen en portretten geven elke klasse beide opties. De vrouwelijke Natuurhoeder heeft een slanker silhouet en natuurlijke lichaamsvorm onder haar kleding. Uiterlijk verandert geen stats.
+- **Beweging en hoofdgear:** benen bewegen als vaste geschilderde vormen in plaats van uitgerekte gewrichten. Voeten behouden hun vorm; hoofddeksels gebruiken een bevestiging per aanzicht. De bestaande romp-, mantel- en castbeweging blijft aanwezig.
+
+Zie [ANDROID.md](ANDROID.md) voor de telefoonbediening en [qa/V88-VALIDATION.md](qa/V88-VALIDATION.md) voor controles en hun praktische grenzen. Artworkprompts staan in `assets/painted/CHARACTER-V88-PROMPTS.json`; ankers en uitsneden in `assets/painted/hero-classes-v88.json`.
+
+## Uit v8.7.2 — De open poorten
 
 De volledige bronversie voor online solo via GitHub Pages of Render en gratis LAN-co-op. Drie doorreisgebieden krijgen nieuwe aansluitende wijken met eigen artwork, regionale NPC’s en optioneel avontuur. Het bestaande artwork behoudt zijn formaat en schaal.
 
@@ -50,7 +66,7 @@ Getijdenkade en de Groene Corridor hebben nieuwe geschilderde kaarten met brede,
 
 Ook Vrijhaven, Horizonpost, Onderstation, Koelhof en Lantaarnwoud hebben extra beloopbare zijruimtes. In alle acht veilige handelsposten liggen per expeditie twee tot vier kleine hoopjes schroot. Loop eroverheen om ze op te pakken, ook met een volle rugzak. De vroege posten betalen samen maximaal 24 schroot per post; latere maximaal 28 of 36. De posities verschillen per nieuwe expeditie. Opnieuw bezoeken, laden of een checkpoint gebruiken vult gevonden hoopjes niet opnieuw aan. Vondsten geven geen gratis leven, XP of uitrusting.
 
-Deze ZIP bevat de volledige zelfstandige bronversie, inclusief artwork, geluidscode, tests en hostingbestanden. Pak hem uit en voer `npm start` uit met Node.js; open daarna **http://localhost:8080**. Voor GitHub Pages of Render staan de stappen verderop. De bron-ZIP is v8.7.2; de bestaande testsite is deze ronde niet bijgewerkt.
+Deze ZIP bevat de volledige zelfstandige bronversie, inclusief artwork, geluidscode, tests en hostingbestanden. Pak hem uit en voer `npm start` uit met Node.js; open daarna **http://localhost:8080**. Voor GitHub Pages of Render staan de stappen verderop. De bron-ZIP is v8.8.0; de bestaande testsite is deze ronde niet bijgewerkt.
 
 Looproutes worden gecontroleerd met gewone acht-richtingstoetsen, ook terug vanaf de zijpaden. De nieuwe artprompts staan in `assets/V86-ART-PROMPTS.json`; controles staan in `qa/wandering-tests.mjs` en `qa/V86-VALIDATION.md`.
 

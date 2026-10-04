@@ -16,7 +16,7 @@ export class ControllerInput{
   try{pads=Array.from(navigator?.getGamepads?.()||[]);}catch{result.reason='Browser geeft geen controllertoegang';}
   const candidates=pads.filter(p=>p?.connected!==false&&p?.mapping==='standard'&&p.axes?.length>=4&&p.buttons?.length>=16);
   const pad=candidates.find(p=>p.index===this.index)||candidates[0];this.available=!!pad;
-  if(!pad||controls==='keyboard'){
+  if(!pad||controls==='keyboard'||controls==='touch'){
    result.lost=wasAvailable&&wasActive&&!pad;this.index=null;this.previous=[];this.active=false;this.blocked=true;this.navDirection=null;
    result.reason||=pads.some(Boolean)?'Controller heeft geen standaard knopindeling':'Druk op een controllerknop om te verbinden';return result;
   }
