@@ -1,7 +1,7 @@
-import {ENEMIES} from './data.js?v=34';
-import {planEncounterAttack,executeEncounterAttack,updateEncounterThreat} from './encounters.js?v=34';
-import {planToxicAttack,executeToxicAttack,updateToxicPool} from './toxic-enemies.js?v=34';
-import {coverHit} from './arena-layouts.js?v=34';
+import {ENEMIES} from './data.js?v=35';
+import {planEncounterAttack,executeEncounterAttack,updateEncounterThreat} from './encounters.js?v=35';
+import {planToxicAttack,executeToxicAttack,updateToxicPool} from './toxic-enemies.js?v=35';
+import {coverHit} from './arena-layouts.js?v=35';
 const distance=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 const direction=(x,y)=>{const d=Math.hypot(x,y)||1;return {x:x/d,y:y/d};};
 export function planNewAttack(g,e){

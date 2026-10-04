@@ -1,7 +1,7 @@
-import {AREA_BY_ID,POSITIONS,SPELLS,START_EQUIPMENT} from './data.js?v=34';
-import {SAFE_HUBS} from './hubs.js?v=34';
-import {makeItem,weighted} from './loot.js?v=34';
-import {rollChaseItem,chaseRandom} from './chase-loot.js?v=34';
+import {AREA_BY_ID,POSITIONS,SPELLS,START_EQUIPMENT} from './data.js?v=35';
+import {SAFE_HUBS} from './hubs.js?v=35';
+import {makeItem,weighted} from './loot.js?v=35';
+import {rollChaseItem,chaseRandom} from './chase-loot.js?v=35';
 export const BOUNTIES={
  'bounty-spore':{boss:'tideleviathan',name:'De Sporenregent',hp:2.4,damage:1.08,scrap:65,cash:120,xp:75,level:8,weights:[0,52,36,11,1]},
  'bounty-solar':{boss:'solararchitect',name:'De Zonnebeul',hp:2.3,damage:1.12,scrap:110,cash:190,xp:105,level:11,weights:[0,25,51,21,3]}

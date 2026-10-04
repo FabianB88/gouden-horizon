@@ -1,8 +1,20 @@
-# Gouden Horizon v8.8.1 — Rechtop, automatisch richten
+# Gouden Horizon v8.8.2 — Verhaal, poorten en vrije paden
 
-De volledige bronversie voor desktop en Android in de browser, online solo via GitHub Pages of Render, en gratis LAN-co-op. Upload de inhoud van `dist/` na `npm run site:build`, of publiceer deze bronmap rechtstreeks: `index.html`, `src/`, `assets/`, de drie CSS-bestanden en `.nojekyll` moeten bij elkaar blijven. Er is geen Android-app of betaalde server nodig voor solo.
+De volledige bronversie voor desktop en Android in de browser, online solo via GitHub Pages of Render, en gratis LAN-co-op. Upload de inhoud van `dist/` na `npm run site:build`, of publiceer deze bronmap rechtstreeks: `index.html`, `src/`, `assets/`, de vier CSS-bestanden en `.nojekyll` moeten bij elkaar blijven. Er is geen Android-app of betaalde server nodig voor solo.
 
-## Nieuw in v8.8.1
+## Nieuw in v8.8.2
+
+- Alle 42 bestemmingen hebben een korte avontuurlijke introductie, een reden voor je bezoek en een concreet doel. De drie sleutels, Aurelia en de latere regionale regelaars vormen samen de zoektocht.
+- Het eerste bezoek toont een geïllustreerde verhaalpagina. Sluit met ×, Escape of Op pad. Herhaalbezoeken onderbreken het spel niet. `L`, de knop bij de gebiedstekst of het pauzemenu opent Verhaal & doel opnieuw.
+- Instellingen → Verhaal onderweg → Uit schakelt de introductie en alle automatische verhaalpagina’s uit. De instelling blijft in de browser bewaard. Je gewone missiedoelen en NPC-interacties blijven beschikbaar.
+- Vier nieuwe geschilderde poorten: amberkristallen voor arena’s, een sterrenwijzer voor meetstations, een kompas voor bergingen/baascontracten en een lantaarn voor terugkeer naar de handelspost. Bazen zonder kalibraties heten nu correct arena’s.
+- Android: bewegingsstick en aanval staan hoger, op gelijke duimhoogte. Verband, antidotum, ontwijking, rechter spreuk en kernpuls staan in een aparte onderste rij. Ontwijken en consumpties reageren direct op aanraken, ook terwijl je de bewegingsstick vasthoudt.
+- Vrijhaven: ontbrekende loopruimte op meerdere trappen en bruglandingen is opnieuw getraceerd. Stadsbrug en regionale oversteek hebben nieuw artwork met zichtbare trappen. Navigatie houdt rekening met gesloten fysieke deuren.
+- Solo pauzeert tijdens een verhaalpagina. LAN pauzeert je partner niet; in gevaarlijke gebieden verschijnt een wegklikbare kaart die je zelf kunt openen. Gelezen pagina’s blijven persoonlijk per browser/speler.
+
+De beeldprompts en assetlocaties staan in `assets/expedition/v882-art-manifest.json`. Validatie: `qa/V882-VALIDATION.md`.
+
+## Ook opgenomen uit v8.8.0 en v8.8.1
 
 - **Aanraakbediening:** de eenvoudige linker bewegingsstick en een grote aanvalsknop. Houd Aanval vast om vanzelf op een nabije vijand te schieten. Alle zes spreukslots en de toegewezen rechter ability werken met een tik voor automatische plaatsing, of met slepen en loslaten voor eigen richting. Ontwijken, verband, antidotum, kernpuls, kaart, dierencommando's en menu's hebben hun eigen knoppen. Lopen en casten kunnen tegelijk; mana en cooldowns blijven gelden.
 - **Telefoon-UI:** compactere knoppen en menu's, ruimte voor het speelveld en een standaard ingeklapt gebiedspaneel. Rechtop is de gewone telefoonindeling, met drie spreuken links en drie rechts. Er is geen draaitip. Liggend blijft beschikbaar. Android en touch worden automatisch herkend en is ook expliciet te kiezen in Instellingen. Toetsenbord/muis en controller blijven beschikbaar.
@@ -66,7 +78,7 @@ Getijdenkade en de Groene Corridor hebben nieuwe geschilderde kaarten met brede,
 
 Ook Vrijhaven, Horizonpost, Onderstation, Koelhof en Lantaarnwoud hebben extra beloopbare zijruimtes. In alle acht veilige handelsposten liggen per expeditie twee tot vier kleine hoopjes schroot. Loop eroverheen om ze op te pakken, ook met een volle rugzak. De vroege posten betalen samen maximaal 24 schroot per post; latere maximaal 28 of 36. De posities verschillen per nieuwe expeditie. Opnieuw bezoeken, laden of een checkpoint gebruiken vult gevonden hoopjes niet opnieuw aan. Vondsten geven geen gratis leven, XP of uitrusting.
 
-Deze ZIP bevat de volledige zelfstandige bronversie, inclusief artwork, geluidscode, tests en hostingbestanden. Pak hem uit en voer `npm start` uit met Node.js; open daarna **http://localhost:8080**. Voor GitHub Pages of Render staan de stappen verderop. De bron-ZIP is v8.8.1; de bestaande testsite is deze ronde niet bijgewerkt.
+Deze ZIP bevat de volledige zelfstandige bronversie, inclusief artwork, geluidscode, tests en hostingbestanden. Pak hem uit en voer `npm start` uit met Node.js; open daarna **http://localhost:8080**. Voor GitHub Pages of Render staan de stappen verderop. De bron-ZIP is v8.8.2; de bestaande testsite is deze ronde niet bijgewerkt.
 
 Looproutes worden gecontroleerd met gewone acht-richtingstoetsen, ook terug vanaf de zijpaden. De nieuwe artprompts staan in `assets/V86-ART-PROMPTS.json`; controles staan in `qa/wandering-tests.mjs` en `qa/V86-VALIDATION.md`.
 

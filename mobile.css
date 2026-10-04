@@ -40,7 +40,7 @@
 .touch-active .hotbar{display:contents;border:0;background:none;box-shadow:none}
 .touch-active .hotbar:before,.touch-active .bar-divider{display:none}
 .touch-active .element-slots{display:contents}
-.touch-active .element-slots button{position:absolute;bottom:calc(144px + var(--touch-bottom));z-index:14}
+.touch-active .element-slots button{position:absolute;bottom:calc(180px + var(--touch-bottom));z-index:14}
 .touch-active .element-slots [data-slot="0"]{left:var(--touch-left);right:auto}
 .touch-active .element-slots [data-slot="1"]{left:calc(62px + var(--touch-left));right:auto}
 .touch-active .element-slots [data-slot="2"]{left:calc(124px + var(--touch-left));right:auto}
@@ -65,8 +65,8 @@
 .touch-active.touch-playing .touch-ui{display:block!important;position:absolute;inset:0;z-index:13;pointer-events:none}
 .touch-active .touch-ui .touch-stick{position:absolute;width:112px;height:112px;display:grid;place-items:center;border:2px solid #d8bb7cb5;border-radius:50%;background:radial-gradient(circle,#527b7666 0 32%,#173a3b75 33% 66%,#bba06b24 67%);box-shadow:inset 0 0 0 5px #112c3544,0 3px 16px #10283555;pointer-events:auto;touch-action:none;overflow:visible}
 .touch-active .touch-ui #joystick,.touch-active .touch-ui #touch-fire{width:112px;height:112px;background:radial-gradient(circle,#527b7666 0 32%,#173a3b75 33% 66%,#bba06b24 67%);border-color:#d8bb7cb5;box-shadow:inset 0 0 0 5px #112c3544,0 3px 16px #10283555}
-.touch-active .touch-ui #joystick{left:var(--touch-left);bottom:var(--touch-bottom)}
-.touch-active .touch-ui #touch-fire{right:calc(12px + var(--touch-right));bottom:var(--touch-bottom);padding:0}
+.touch-active .touch-ui #joystick{left:var(--touch-left);bottom:calc(var(--touch-bottom) + 38px)}
+.touch-active .touch-ui #touch-fire{right:calc(12px + var(--touch-right));bottom:calc(var(--touch-bottom) + 38px);padding:0}
 .touch-active .touch-ui .touch-stick>i{display:grid;place-items:center;width:49px;height:49px;border:1px solid #f3dfad;border-radius:50%;background:radial-gradient(circle at 40% 30%,#799e87d9,#305b55dd);box-shadow:0 3px 7px #071a2750,inset 0 0 0 3px #193d4166;pointer-events:none;font-style:normal}
 .touch-active .touch-ui #touch-fire>i{width:60px;height:60px;border:0;background:none;box-shadow:none}
 .touch-active .touch-ui #touch-fire{background:radial-gradient(circle at 40% 30%,#a89461d9,#3e5d49e6);border-color:#e4c787}
@@ -124,6 +124,14 @@
  .touch-active .trial-hud{top:calc(58px + var(--touch-top));width:106px}
  .touch-active .touch-ui #joystick,.touch-active .touch-ui #touch-fire{width:96px;height:96px}
  .touch-active .touch-ui #touch-fire{right:var(--touch-right)}
+ .touch-active{--touch-pad-lift:clamp(72px,12vh,108px);--touch-utility-size:clamp(44px,13.3vw,56px);--touch-utility-step:calc((100vw - var(--touch-left) - var(--touch-right) - var(--touch-utility-size))/4)}
+ .touch-active .touch-ui #joystick,.touch-active .touch-ui #touch-fire{bottom:calc(var(--touch-bottom) + var(--touch-pad-lift))}
+ .touch-active .hotbar>#dash-button,.touch-active .hotbar>#heal-button,.touch-active .hotbar>#antidote-button,.touch-active .hotbar>#special-button,.touch-active .hotbar>#ultimate-button{width:var(--touch-utility-size);height:64px;bottom:var(--touch-bottom);right:auto}
+ .touch-active .hotbar>#heal-button{left:var(--touch-left)}
+ .touch-active .hotbar>#antidote-button{left:calc(var(--touch-left) + var(--touch-utility-step))}
+ .touch-active .hotbar>#dash-button{left:calc(var(--touch-left) + var(--touch-utility-step)*2)}
+ .touch-active .hotbar>#special-button{left:calc(var(--touch-left) + var(--touch-utility-step)*3)}
+ .touch-active .hotbar>#ultimate-button{left:calc(var(--touch-left) + var(--touch-utility-step)*4)}
  .touch-active .hotbar button,.touch-active .hotbar .element-slots button{width:56px;height:64px}
  .touch-active .element-slots [data-slot="0"],.touch-active .element-slots [data-slot="1"],.touch-active .element-slots [data-slot="2"]{left:var(--touch-left);right:auto}
  .touch-active .element-slots [data-slot="3"],.touch-active .element-slots [data-slot="4"],.touch-active .element-slots [data-slot="5"]{right:var(--touch-right);left:auto}

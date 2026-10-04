@@ -1,0 +1,54 @@
+{
+  "version": "8.8.2",
+  "mode": "built-in imagegen",
+  "assets": [
+    {
+      "file": "assets/expedition/portal-station-v882.webp",
+      "prompt": "Create ONE standalone production game prop sprite for Gouden Horizon, an elegant hand-painted 2.5D magical/futuristic action RPG with lost cities, weather magic and beautiful adventurous ruins. The attached atlas is a STYLE reference only, not an edit target: keep the painterly carved weathered stone, teal, bronze and gold materials with beautiful readable highlights, but give this ONE prop a completely new unique silhouette. Three-quarter isometric-ish camera looking slightly down, front opening and floor ellipse visible, game prop upright, anchored at ground bottom center. Detailed painted texture, crisp sophisticated edges, NOT pixel art, NOT flat vector, NOT cartoon toy. Full prop entirely within the image with clear transparent margin on every side. True transparent background, including inside the opening. No scenery, no people, no text, no UI, no letters, no flat colored background, no broad glow clouds. Only this one gateway and a modest attached stone doorstep. A tall elegant observatory gateway for a MEASUREMENT STATION route. A split crescent frame of aged ivory stone and brass supports a magnificent tilted astronomical armillary/orrery above an open passage. Small sapphire crystal star hangs within the upper orrery, engraved tick marks, two narrow elegant instrument pillars. Cyan and silver accents. Scientific magical observatory, unmistakable celestial surveying instrument, asymmetrical orbit rings as its silhouette. A generous clear doorway below the orrery. Height greater than width.",
+      "reference": "assets/expedition/travel-camp-atlas.webp",
+      "referenceRole": "style only",
+      "transparent_background": true,
+      "postprocess": "Alpha-bound crop, proportional thumbnail up to 768px plus 12px transparent padding; WebP quality 93. Ground anchor [.5,.94]."
+    },
+    {
+      "file": "assets/expedition/portal-arena-v882.webp",
+      "prompt": "Create ONE standalone production game prop sprite for Gouden Horizon, an elegant hand-painted 2.5D magical/futuristic action RPG with lost cities, weather magic and beautiful adventurous ruins. The attached atlas is a STYLE reference only, not an edit target: keep the painterly carved weathered stone, teal, bronze and gold materials with beautiful readable highlights, but give this ONE prop a completely new unique silhouette. Three-quarter isometric-ish camera looking slightly down, front opening and floor ellipse visible, game prop upright, anchored at ground bottom center. Detailed painted texture, crisp sophisticated edges, NOT pixel art, NOT flat vector, NOT cartoon toy. Full prop entirely within the image with clear transparent margin on every side. True transparent background, including inside the opening. No scenery, no people, no text, no UI, no letters, no flat colored background, no broad glow clouds. Only this one gateway and a modest attached stone doorstep. An imposing broad ARENA combat gateway. Two weathered dark slate angular pylons, each crowned with large faceted warm amber crystals angled inward, support a sharp crown-like broken triangular arch over an empty doorway. Bronze bands and engraved elemental marks, small hanging crimson cloth strips to either side, two warm amber lanterns. Looks like a challenging guardian arena entrance, strong wide triangular silhouette, no spikes that look like weapons. Passage clear and fully transparent. Broad width and low strong footing.",
+      "reference": "assets/expedition/travel-camp-atlas.webp",
+      "referenceRole": "style only",
+      "transparent_background": true,
+      "postprocess": "Alpha-bound crop, proportional thumbnail up to 768px plus 12px transparent padding; WebP quality 93. Ground anchor [.5,.94]."
+    },
+    {
+      "file": "assets/expedition/portal-salvage-v882.webp",
+      "prompt": "Create ONE standalone production game prop sprite for Gouden Horizon, an elegant hand-painted 2.5D magical/futuristic action RPG with lost cities, weather magic and beautiful adventurous ruins. The attached atlas is a STYLE reference only, not an edit target: keep the painterly carved weathered stone, teal, bronze and gold materials with beautiful readable highlights, but give this ONE prop a completely new unique silhouette. Three-quarter isometric-ish camera looking slightly down, front opening and floor ellipse visible, game prop upright, anchored at ground bottom center. Detailed painted texture, crisp sophisticated edges, NOT pixel art, NOT flat vector, NOT cartoon toy. Full prop entirely within the image with clear transparent margin on every side. True transparent background, including inside the opening. No scenery, no people, no text, no UI, no letters, no flat colored background, no broad glow clouds. Only this one gateway and a modest attached stone doorstep. An adventurous OPTIONAL SALVAGE / BOSS CONTRACT gateway. A rugged compact rounded horseshoe bronze frame with green oxidized copper, a prominent sculpted compass-rose medallion above the doorway, two small warm golden lamps, rolled expedition ropes and one closed supply satchel attached outside the left pillar. No people. Deep verdigris and warm gold; an inviting but dangerous treasure-expedition threshold. Distinct curved frame silhouette and compass badge. Passage fully clear and transparent.",
+      "reference": "assets/expedition/travel-camp-atlas.webp",
+      "referenceRole": "style only",
+      "transparent_background": true,
+      "postprocess": "Alpha-bound crop, proportional thumbnail up to 768px plus 12px transparent padding; WebP quality 93. Ground anchor [.5,.94]."
+    },
+    {
+      "file": "assets/expedition/portal-return-v882.webp",
+      "prompt": "Create ONE standalone production game prop sprite for Gouden Horizon, an elegant hand-painted 2.5D magical/futuristic action RPG with lost cities, weather magic and beautiful adventurous ruins. The attached atlas is a STYLE reference only, not an edit target: keep the painterly carved weathered stone, teal, bronze and gold materials with beautiful readable highlights, but give this ONE prop a completely new unique silhouette. Three-quarter isometric-ish camera looking slightly down, front opening and floor ellipse visible, game prop upright, anchored at ground bottom center. Detailed painted texture, crisp sophisticated edges, NOT pixel art, NOT flat vector, NOT cartoon toy. Full prop entirely within the image with clear transparent margin on every side. True transparent background, including inside the opening. No scenery, no people, no text, no UI, no letters, no flat colored background, no broad glow clouds. Only this one gateway and a modest attached stone doorstep. A peaceful RETURN TO TOWN gateway. An airy arched pale stone threshold, curved crossbar crowned by a small luminous turquoise HOME-LANTERN with a stylized roof-shaped cap, leafy vines hugging only the outside of the frame and small blue pennants on side poles. Welcoming safe haven design with calm mint glow restricted to the lantern glass, carved pale stone, deep teal and soft gold. A clearly different graceful shelter-like arch silhouette. Passage clear and transparent.",
+      "reference": "assets/expedition/travel-camp-atlas.webp",
+      "referenceRole": "style only",
+      "transparent_background": true,
+      "postprocess": "Alpha-bound crop, proportional thumbnail up to 768px plus 12px transparent padding; WebP quality 93. Ground anchor [.5,.94]."
+    },
+    {
+      "file": "assets/painted/region-causeway-v882.webp",
+      "prompt": "EDIT the attached game bridge prop. Preserve the exact camera angle, screen orientation from upper left to lower right, length, width, placement, hand-painted pale stone, turquoise crystal lamps and gold railings. It must remain aligned to the same transparent canvas. Improve only its TWO entry/exit ends: add short broad, clearly readable stone stair flights of 6 shallow steps at BOTH ends, meeting the bridge deck naturally, with a small grounded flat landing at the bottom of each flight. The stairs should continue along the long axis of the bridge, forming a gentle rise from ground to deck, and gentle descent back to ground. This is a 2.5D action RPG transition prop, players need to visibly WALK UP onto the bridge and DOWN off it. The step treads must be very clear at small game scale, warm ivory with subtle teal and bronze edges. Keep the central 80 percent of the bridge unchanged. True transparent background and transparent beneath the arches and outside the bridge. No horizon, no backdrop, no figures, no extra scenery, no text, no broad colored glows. Full prop within the image with a transparent margin; never crop off the stair entrances. Retain the original aspect ratio and composition as closely as possible.",
+      "reference": "assets/painted/region-causeway-v872.webp",
+      "referenceRole": "edit target",
+      "transparent_background": true,
+      "postprocess": "WebP quality 93; original 1536x1024 canvas preserved."
+    },
+    {
+      "file": "assets/painted/vrijhaven-join-v882.webp",
+      "prompt": "EDIT this exact game bridge prop to fix its two entries. Preserve the bridge's exact camera angle, dimensions, orientation from lower left to upper right, golden stone, turquoise floor inlays and gold railings. Keep the central 80 percent unchanged. Add short broad stone stair flights with six clearly visible shallow steps at BOTH ends along the bridge's long axis: walk UP six steps from the lower-left ground landing onto its deck, then DOWN six steps to the upper-right ground landing. The step treads must be visible from the same slightly top-down game camera and read at small game scale. Keep both stair flights and small end landings inside the existing canvas, don't extend the bridge or enlarge or stretch its central part. No figures, no scenery, no text, no backdrop. True transparent background including underneath arches and around railings. Keep the full prop, clean painted alpha edge, no big glow or shadow fields. This is an aligned 2.5D action RPG map-join prop.",
+      "reference": "assets/painted/vrijhaven-join-v871.webp",
+      "referenceRole": "edit target",
+      "transparent_background": true,
+      "postprocess": "WebP quality 93; original 1536x1024 canvas preserved."
+    }
+  ]
+}

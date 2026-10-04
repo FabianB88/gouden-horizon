@@ -31,6 +31,11 @@ export const TOWN_FLOORS={
  ]
 };
 export const TOWN_EXTRA_FLOORS={
+ highway:[
+  // Re-traced stair and bridge landings; only clear paving, no water or planted beds.
+  [[952,455],[986,427],[1037,406],[1080,422],[1045,450],[992,493],[967,496]],
+  [[438,291],[484,296],[534,318],[551,351],[512,375],[453,346],[432,319]]
+ ],
  'cooling-refuge':[
   [[860,570],[928,533],[1009,562],[1088,615],[1165,654],[1144,712],[1058,721],[1000,676],[931,637],[888,618]]
  ]

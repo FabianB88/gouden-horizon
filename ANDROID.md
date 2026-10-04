@@ -41,3 +41,6 @@ Een telefoon kan ook de LAN-link van de hostcomputer openen. Alleen de hostcompu
 ## Controle
 
 Layout, echte browser-pointerevents, gelijktijdig bewegen/casten, alle zes spellslots, aankoopmelding en itemdetails zijn gecontroleerd in Chromium met Android-achtige viewport, hoge schermdichtheid en touchsimulatie. Er was geen fysiek Android-apparaat beschikbaar om apparaat-FPS, browserbalken of audio via speakers te meten. Zie qa/V881-VALIDATION.md.
+
+
+v8.8.2: beide grote duimcontrols staan hoger op dezelfde hoogte; de vijf hulpacties hebben een aparte onderste rij. Ontwijken werkt direct op touch-down, inclusief bij een vastgehouden bewegingsstick. De compatibiliteitsklik verbruikt geen tweede dash. Portret en landschap blijven automatisch schakelen.

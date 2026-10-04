@@ -1,0 +1,37 @@
+/* Painted expedition journal: dark ink on parchment, with a clear actionable objective. */
+[data-kind="journey"] .modal{max-width:860px}
+.journey-page{color:#304e47}
+.journey-scene{display:grid;grid-template-columns:36% 1fr;gap:24px;align-items:center}
+.journey-scene>img{width:100%;height:205px;object-fit:cover;border:1px solid #9f835c;border-radius:5px;box-shadow:0 5px 16px #463a2528}
+.journey-scene>p{margin:0;font:18px/1.7 Georgia,serif;color:#304e47}
+.journey-purpose{margin:24px 0 16px;padding:0 0 0 16px;border-left:2px solid #9e8050}
+.journey-purpose small,.journey-goal small{font:700 11px/1.5 system-ui,sans-serif;letter-spacing:1.5px}
+.journey-purpose p{margin:6px 0 0;line-height:1.65;color:#304e47}
+.journey-goal{padding:18px 20px;background:#213e3f;border:1px solid #9e865d;border-radius:5px;color:#f3e4c3}
+.journey-goal small{color:#f2ce84}.journey-goal p{color:#f3e4c3;margin:7px 0 12px;font-size:16px;line-height:1.6}
+.journey-goal span{display:block;font-size:12px;line-height:1.5;color:#c1d6c5}
+.journey-thread{font-size:13px;color:#46654f!important;margin:15px 0}
+.journey-gates{margin-top:18px;padding-top:12px;border-top:1px solid #9e865d55}
+.journey-gates summary{cursor:pointer;color:#395b50;font-size:13px;padding:6px 0}
+.journey-gates>div{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.journey-gates figure{margin:0;display:grid;justify-items:center;padding:10px 4px;background:#c6bb9970;border-radius:5px}
+.journey-gates img{width:100%;height:90px;object-fit:contain}.journey-gates figcaption{font:700 10px/1.4 system-ui,sans-serif;letter-spacing:.7px;color:#355b50;text-align:center}
+.quest .quest-purpose{font:italic 12px/1.5 Georgia,serif;color:#416952;margin:6px 0 12px}
+.journey-link{display:block;padding:6px 0;margin:9px 0 6px;border:0;border-bottom:1px solid #809b7755;background:transparent;color:#3c6854;font-size:12px;cursor:pointer;pointer-events:auto}
+.journey-link:hover{color:#163d35;border-color:#3c6854}
+.journey-peek{position:absolute;right:28px;top:245px;width:290px;padding:18px;z-index:16;color:#304e47;pointer-events:auto}
+.journey-peek strong{display:block;margin-right:22px;font:18px/1.4 Georgia,serif}
+.journey-peek p{font-size:13px;line-height:1.5;margin:10px 0}
+.journey-peek>button:last-child{background:#244648;color:#f1dfba;padding:9px 12px;border:1px solid #927752;border-radius:3px}
+#journey-peek-close{position:absolute;right:6px;top:6px;width:32px;height:32px;border:0;background:transparent;color:#36594e;font-size:24px}
+.touch-active .journey-link{min-height:40px;width:100%;text-align:left}
+.touch-active .journey-peek{left:50%;right:auto;top:160px;transform:translateX(-50%);width:min(310px,calc(100vw - 100px))}
+@media(max-width:600px){
+ .journey-scene{grid-template-columns:1fr;gap:14px}.journey-scene>img{height:130px}.journey-scene>p{font-size:16px;line-height:1.6}
+ .journey-purpose{margin-top:18px}.journey-goal{padding:14px}.journey-goal p{font-size:14px}.journey-gates img{height:65px}.journey-gates figcaption{font-size:9px}
+}
+@media(max-height:500px) and (orientation:landscape){
+ .journey-scene{grid-template-columns:30% 1fr;gap:16px}.journey-scene>img{height:125px}.journey-scene>p{font-size:15px;line-height:1.5}
+ .journey-purpose{margin-top:14px}.journey-goal{padding:12px 16px}.journey-goal p{font-size:14px}
+ .touch-active .journey-peek{top:70px;left:auto;right:20px;transform:none}
+}

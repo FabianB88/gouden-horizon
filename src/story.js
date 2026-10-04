@@ -1,6 +1,6 @@
-import {OUTDOOR_REGIONS,inOutdoorWild} from './outdoor-content.js?v=34';
-import {AREAS,AREA_BY_ID,WORLD,POSITIONS} from './data.js?v=34';
-import {SAFE_HUBS,hubPortals} from './hubs.js?v=34';
+import {OUTDOOR_REGIONS,inOutdoorWild} from './outdoor-content.js?v=35';
+import {AREAS,AREA_BY_ID,WORLD,POSITIONS} from './data.js?v=35';
+import {SAFE_HUBS,hubPortals} from './hubs.js?v=35';
 
 // Chronological journey with fixed arena/generator gates in regional hubs.
 export const STORY_ORDER=['canal','delta','ring','rooftops','highway','mirrors','brine','kilometer','forest','glass','saltwood','vault','skybridge','harbor','clouds','aurelia','metro-refuge','sluice','railworks','deepwater','cooling-refuge','heatworks','condensers','tower'];
@@ -24,10 +24,10 @@ export const STORY_BEATS={
  'metro-refuge':'Aurelia heeft gereageerd, maar het diepe netwerk blijft donker. Zoek de sluisroute vanuit deze schuilplaats.',
  sluice:'Bevrijd de sluis. Haar lichtbrug geeft toegang tot de verlaten spoorwerkplaats.',
  railworks:'Versla de spoorbewakers en herstel de verbinding naar het diepe pompnet.',
- deepwater:'Herstel beide dieptestations en berg de kern onder de verdronken stad.',
+ deepwater:'Versla de Diepwaterwacht en bevrijd de oceaanregelaar onder de verdronken stad.',
  'cooling-refuge':'Het diepe netwerk werkt. Versterk je uitrusting in Koelhof en volg de route naar de Warmtewisselaar.',
  heatworks:'Bevrijd de Warmtewisselaar. Zonder haar koeling bereikt geen reiziger de condensatorvelden.',
- condensers:'Herstel de condensatorstations en berg de thermische kern voor de laatste verbinding.',
+ condensers:'Bevrijd het condensatorveld van zijn bewakers en open de route naar de laatste regelaar.',
  tower:'Versla de Torenwachter en verbind de laatste kern. Daarna blijven de tijdproeven en oude routes beschikbaar.'
 };
 const camps=['canal','highway','forest','skybridge','metro-refuge','cooling-refuge'];

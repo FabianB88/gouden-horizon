@@ -13,3 +13,6 @@ De uitbreidingen van v8.7.2 houden dit ook aan: Corridor, Horizonpost en Koelhof
 In v8.8.0 heeft iedere klasse een mannelijk en vrouwelijk uiterlijk. Houd het gezicht en silhouet herkenbaar in vijf geschilderde aanzichten, gespiegeld naar acht richtingen. Het vrouwelijke model heeft natuurlijke lichaamsvorm onder dezelfde kleding; het verschil is visueel, zonder statbonus. Variantprompts staan in assets/painted/CHARACTER-V88-PROMPTS.json.
 
 De normale heldenanimatie roteert een vaste geschilderde bovenbeen/onderbeen-vorm en verplaatst de bijbehorende voet. Rek knieën of voeten niet uit. Houd de pas klein en laat romp, mantel en casting de beweging dragen. Helmmodellen gebruiken een passend horizontaal anker per aanzicht en volgen hetzelfde hoofd als de romp. Telefoonoptimalisatie verandert de resolutie van kaartartwork niet; alleen menuthumbnails zijn verkleind.
+
+
+V8.8.2 voegt vier doelgebonden poortsilhouetten toe: brede amber arena, hoge cyan sterrenwijzer, verdigris bergingskompas en lichte veilige lantaarn. Twee bestaande bruggen hebben nieuwe, geschilderde traplandingen. Alle nieuwe beelden hebben echte alfa; kaarttegels behouden hun bestaande afmetingen. Exacte prompts staan in assets/expedition/v882-art-manifest.json.
