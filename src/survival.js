@@ -1,4 +1,4 @@
-import {resistance} from './resistances.js?v=32';
+import {resistance} from './resistances.js?v=34';
 export const HEAL_COOLDOWN=10;
 export const ANTIDOTE_COOLDOWN=30;
 export const ANTIDOTE_PRICE=45;
@@ -28,6 +28,6 @@ export const SurvivalRules={
  },
  buyAntidote(){
   const p=this.state.player,w=this.state.world;if(!this.canTrade()||p.scrap<ANTIDOTE_PRICE||p.antidotes>=ANTIDOTE_CAP||!(w.shop.antidoteStock>0))return false;
-  p.scrap-=ANTIDOTE_PRICE;p.antidotes++;w.shop.antidoteStock--;this.emit('trade');this.checkpoint();return true;
+  p.scrap-=ANTIDOTE_PRICE;p.antidotes++;w.shop.antidoteStock--;this.emit('purchase',{name:'antidotum',quantity:1,cost:ANTIDOTE_PRICE,icon:'antidote',detail:p.antidotes+' / 3 in voorraad'});this.emit('trade');this.checkpoint();return true;
  }
 };

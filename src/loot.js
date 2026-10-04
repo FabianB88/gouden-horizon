@@ -1,10 +1,10 @@
-import {EQUIPMENT,START_EQUIPMENT,RARITIES,SPELLS} from './data.js?v=32';
-import {LEGENDARY_EFFECTS,effectText,effectForSlot} from './legendary.js?v=32';
+import {EQUIPMENT,START_EQUIPMENT,RARITIES,SPELLS} from './data.js?v=34';
+import {LEGENDARY_EFFECTS,effectText,effectForSlot} from './legendary.js?v=34';
 
-import {UNIQUE_ITEMS,uniqueForSlot} from './unique-items.js?v=32';
-import {normalizeVariants} from './spell-variants.js?v=32';
-import {V8_ITEMS} from './v8-content.js?v=32';
-import {emptyHead,emptyRelic} from './equipment-slots.js?v=32';
+import {UNIQUE_ITEMS,uniqueForSlot} from './unique-items.js?v=34';
+import {normalizeVariants} from './spell-variants.js?v=34';
+import {V8_ITEMS} from './v8-content.js?v=34';
+import {emptyHead,emptyRelic} from './equipment-slots.js?v=34';
 export const EXTRA_EQUIPMENT=[
  {id:'tidal-fork',slot:'weapon',name:'Getijdenstemvork',stats:{power:.07,tide:.10}},
  {id:'amber-prism',slot:'weapon',name:'Amberprisma',stats:{power:.08,ember:.11}},

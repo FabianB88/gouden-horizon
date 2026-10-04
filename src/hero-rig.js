@@ -1,5 +1,5 @@
-import {equipmentAppearance} from './appearance.js?v=32';
-import {freezeSurface} from './render-cache.js?v=32';
+import {equipmentAppearance} from './appearance.js?v=34';
+import {freezeSurface} from './render-cache.js?v=34';
 // Painted bind poses retain the eight camera directions. Both legs are driven
 // by opposite foot contacts. Traced cloth masks remove the bind-pose legs,
 // while preserving the coat. Short, forward knee paths avoid lateral IK bends.
@@ -36,21 +36,21 @@ function rasterParts(r,name,frame,leg,other,image=r.assets.heroDirectional,rig=s
   const original=make(),oc=original.getContext('2d');oc.drawImage(image,sx,sy,w,h,0,0,w,h);const source=oc.getImageData(0,0,w,h),cut=frame.limbRig.h[1]+10;
   const bodyPixels=c.getImageData(0,0,w,h);for(let y=cut;y<h;y++)for(let x=0;x<w;x++)if(!coatMask[y*w+x]&&(inside(x,y,leg)||inside(x,y,other)||y>h*.83))bodyPixels.data[(y*w+x)*4+3]=0;c.putImageData(bodyPixels,0,0);result.body=freezeSurface(body);
   result.legs=frame.legs.map((limb,i)=>{const lc=make(),ctx=lc.getContext('2d'),data=ctx.createImageData(w,h),poly=limb.copy?leg:i?other:leg;for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(!coatMask[y*w+x]&&inside(x,y,poly)){const at=(y*w+x)*4;data.data.set(source.data.subarray(at,at+4),at);}ctx.putImageData(data,0,0);
-   const ankle=limb.f[1]-42,x=Math.floor(Math.min(...poly.map(p=>p[0])))-2,width=Math.ceil(Math.max(...poly.map(p=>p[0])))-x+2,minY=Math.floor(Math.min(...poly.map(p=>p[1]))),maxY=Math.ceil(Math.max(...poly.map(p=>p[1]))),ranges=[[minY,limb.k[1]+4],[limb.k[1]-4,ankle+4],[ankle-3,maxY+2]],layers=ranges.map(([y,end])=>{const part=make();part.width=width;part.height=Math.max(1,Math.ceil(end-y));part.getContext('2d').drawImage(lc,x,y,width,part.height,0,0,width,part.height);return {image:freezeSurface(part),x,y};});return {rig:limb,ankle:[limb.k[0],ankle],thigh:layers[0],shin:layers[1],foot:layers[2]};
+   const ankle=limb.f[1]-42,x=Math.floor(Math.min(...poly.map(p=>p[0])))-2,width=Math.ceil(Math.max(...poly.map(p=>p[0])))-x+2,minY=Math.floor(Math.min(...poly.map(p=>p[1]))),maxY=Math.ceil(Math.max(...poly.map(p=>p[1]))),ranges=[[minY,ankle+6],[ankle-3,maxY+2]],layers=ranges.map(([y,end])=>{const part=make();part.width=width;part.height=Math.max(1,Math.ceil(end-y));part.getContext('2d').drawImage(lc,x,y,width,part.height,0,0,width,part.height);return {image:freezeSurface(part),x,y};});return {rig:limb,ankle:[limb.k[0],ankle],upper:layers[0],foot:layers[1]};
   });
  }
  if(!frame.classBaseStyle)result.body=freezeSurface(body);
- cache.set(cacheKey,result);while(cache.size>10){const key=cache.keys().next().value,old=cache.get(key);for(const value of Object.values(old))value.close?.();for(const limb of old.legs||[])for(const key of ['thigh','shin','foot'])limb[key].image.close?.();cache.delete(key);}return result;
+ cache.set(cacheKey,result);while(cache.size>10){const key=cache.keys().next().value,old=cache.get(key);for(const value of Object.values(old))value.close?.();for(const limb of old.legs||[])for(const key of ['upper','foot'])limb[key].image.close?.();cache.delete(key);}return result;
 }
 const polygon=(c,points)=>{c.moveTo(...points[0]);for(const p of points.slice(1))c.lineTo(...p);c.closePath();};
 export const WALK_CYCLE_DISTANCE=96;
-export const WALK_STRIDE=18;
-export const FOOT_STANCE=.375;
+export const WALK_STRIDE=12;
+export const FOOT_STANCE=.25;
 export function footCycle(phase){return [0,1].map(i=>{const t=((phase+i*.5)%1+1)%1;if(t<FOOT_STANCE)return {advance:1-t*2/FOOT_STANCE,lift:0,planted:true};const u=(t-FOOT_STANCE)/(1-FOOT_STANCE),s=u*u*(3-2*u);return {advance:-1+2*s,lift:Math.sin(u*Math.PI),planted:false};});}
-export function heroRigPose(r,direction,p={}){const mirrored=direction>=5,index=mirrored?8-direction:direction,name=directions[index],appearance=equipmentAppearance(p),classes=r.heroClassCrop?.classes[appearance.identity],gear=r.heroGearCrop?.styles[appearance.armor],frame=classes?{...classes[index],clothStyle:appearance.armor}:gear?gear[index]:r.heroDirectionalCrop.directions[name][2],rig=frame.rig||spec[name];return {mirrored,index,name,rig,frame,appearance,scale:frame.scale||(gear?r.heroGearCrop.scale:r.heroDirectionalCrop.scale),image:classes?r.assets['hero-class-'+appearance.identity]:gear?r.assets['hero-'+appearance.armor]:r.assets.heroDirectional};}
+export function heroRigPose(r,direction,p={}){const mirrored=direction>=5,index=mirrored?8-direction:direction,name=directions[index],appearance=equipmentAppearance(p),classes=r.heroClassCrop?.classes[appearance.visualKey]||r.heroClassCrop?.classes[appearance.identity],gear=r.heroGearCrop?.styles[appearance.armor],frame=classes?{...classes[index],clothStyle:appearance.armor}:gear?gear[index]:r.heroDirectionalCrop.directions[name][2],rig=frame.rig||spec[name];return {mirrored,index,name,rig,frame,appearance,scale:frame.scale||(gear?r.heroGearCrop.scale:r.heroDirectionalCrop.scale),image:classes?(r.assets['hero-class-'+appearance.visualKey]||r.assets['hero-class-'+appearance.identity]):gear?r.assets['hero-'+appearance.armor]:r.assets.heroDirectional};}
 export async function prepareHeroRig(r){
- const costumes=r.heroClassCrop?Object.entries({elementalist:'storm',builder:'filter',hunter:'light'}):['light','heavy','filter','storm'].map(a=>[null,a]);
- for(const [characterClass,armor]of costumes){for(let d=0;d<5;d++){const {name,rig,frame,image}=heroRigPose(r,d,{characterClass,equipment:{suit:{appearance:armor}}}),[,,w,h]=frame.bounds,px=q=>[q[0]*w,q[1]*h];rasterParts(r,name,frame,frame.leg||rig.leg.map(px),frame.other||rig.other.map(px),image,rig);}await new Promise(resolve=>setTimeout(resolve,0));}
+ const costumes=r.heroClassCrop?Object.entries({elementalist:'storm',builder:'filter',hunter:'light'}).flatMap(([id,armor])=>['male','female'].map(gender=>[id,armor,gender])):['light','heavy','filter','storm'].map(a=>[null,a,null]);
+ for(const [characterClass,armor,heroGender]of costumes){for(let d=0;d<5;d++){const {name,rig,frame,image}=heroRigPose(r,d,{characterClass,heroGender,equipment:{suit:{appearance:armor}}}),[,,w,h]=frame.bounds,px=q=>[q[0]*w,q[1]*h];rasterParts(r,name,frame,frame.leg||rig.leg.map(px),frame.other||rig.other.map(px),image,rig);}await new Promise(resolve=>setTimeout(resolve,0));}
 }
 export function heroBodyMotion(p,index){
  const phase=(p.walkDistance||0)/WALK_CYCLE_DISTANCE*2*Math.PI,blend=p.visualMotionBlend??(p.moving?(p.walkBlend??1):0),angle=index*Math.PI/4+Math.PI/2,dx=Math.cos(angle),dy=Math.sin(angle)*.78;
@@ -67,8 +67,13 @@ export function drawRiggedHero(r,p,direction,alpha=1){
  c.save();c.globalAlpha*=alpha;c.translate(p.x,p.y);c.scale(mirrored?-scale:scale,scale);c.translate(-H[0],-frame.anchor[1]*h);
  for(const i of [1,0]){
   const contact=cycle[i];
-  if(parts.legs){const limb=parts.legs[i],lr=limb.rig,offset=lr.offset||[0,0],hip=[lr.h[0]+offset[0]+bodyMotion.x/scale,lr.h[1]+offset[1]+bob/scale],dx=dir[0]*contact.advance*WALK_STRIDE/scale*blend,dy=dir[1]*contact.advance*WALK_STRIDE/scale*blend-contact.lift*4/scale*blend,ankle=[limb.ankle[0]+offset[0]+dx,limb.ankle[1]+offset[1]+dy],joint=[lr.k[0]+offset[0]+dx*.45,lr.k[1]+offset[1]+dy*.36-contact.lift*5/scale*blend];c.save();if(i)c.globalAlpha*=.96;segment(lr.h,lr.k,hip,joint,limb.thigh);segment(lr.k,limb.ankle,joint,ankle,limb.shin);c.translate(offset[0]+dx,offset[1]+dy);stamp(limb.foot);c.restore();
-  }else{const side=(i?-1:1)*5/scale,hip=[H[0]+side,H[1]+bob/scale],foot=[H[0]+side+(F[0]-H[0])*.28+dir[0]*contact.advance*WALK_STRIDE/scale*blend,frame.anchor[1]*h+dir[1]*contact.advance*WALK_STRIDE/scale*blend-contact.lift*4/scale*blend],joint=[hip[0]+(foot[0]-hip[0])*.48+dir[0]*contact.lift*3/scale*blend,hip[1]+(foot[1]-hip[1])*.48-contact.lift*1.5/scale*blend];c.save();if(i)c.globalAlpha*=.88;segment(frame.limbRig?.h||H,frame.limbRig?.k||K,hip,joint,parts.thigh);segment(frame.limbRig?.k||K,frame.limbRig?.f||F,joint,foot,parts.calf);c.restore();}
+  if(parts.legs){
+   // A single rigid painted leg replaces the stretchy knee/shin transforms.
+   // Small depth shifts tuck under the coat; boot soles never rotate or scale.
+   const limb=parts.legs[i],lr=limb.rig,offset=lr.offset||[0,0],motion=paintedLegMotion(lr.h,limb.ankle,contact,dir,blend,scale);
+   c.save();if(i)c.globalAlpha*=.96;c.translate(offset[0],offset[1]+motion.depth);c.translate(...lr.h);c.rotate(motion.angle);c.translate(-lr.h[0],-lr.h[1]);stamp(limb.upper);c.restore();
+   c.save();if(i)c.globalAlpha*=.96;c.translate(offset[0]+motion.footX,offset[1]+motion.footY);stamp(limb.foot);c.restore();
+  }else{const side=(i?-1:1)*5/scale,hip=[H[0]+side,H[1]+bob/scale],foot=[H[0]+side+(F[0]-H[0])*.28+dir[0]*contact.advance*WALK_STRIDE/scale*blend,frame.anchor[1]*h+dir[1]*contact.advance*WALK_STRIDE/scale*blend-contact.lift*3/scale*blend],joint=[hip[0]+(foot[0]-hip[0])*.48+dir[0]*contact.lift*3/scale*blend,hip[1]+(foot[1]-hip[1])*.48-contact.lift*1.5/scale*blend];c.save();if(i)c.globalAlpha*=.88;segment(frame.limbRig?.h||H,frame.limbRig?.k||K,hip,joint,parts.thigh);segment(frame.limbRig?.k||K,frame.limbRig?.f||F,joint,foot,parts.calf);c.restore();}
  }
  c.save();c.translate(bodyMotion.x/scale,bodyMotion.y/scale);c.translate(...H);c.rotate(bodyMotion.rotation);c.translate(-H[0],-H[1]);c.drawImage(parts.body,0,0);if(frame.grip){drawEquipmentParts(r,p,index,frame,appearance,'weapon');drawWeaponHand(c,parts.body,frame);}if(frame.head)drawEquipmentParts(r,p,index,frame,appearance,'helmet');c.restore();c.restore();
 }
@@ -80,8 +85,16 @@ function focusTransform(r,index,frame,appearance){
  return {crop,grip:frame.grip,scale:118.42/(frame.scale||r.heroGearCrop?.scale||.382)/crop.bounds[3],angle:frame.weaponLean||0};
 }
 function drawWeaponHand(c,body,frame){const [x,y]=frame.grip;c.save();c.beginPath();c.ellipse(x,y-3,8,12,0,0,Math.PI*2);c.clip();c.drawImage(body,0,0);c.restore();}
+export function paintedLegMotion(hip,ankle,contact,dir,blend,scale){
+ const angle=-dir[0]*contact.advance*.17*blend,depth=(dir[1]*contact.advance*3.2-contact.lift*2.4)/scale*blend,dx=ankle[0]-hip[0],dy=ankle[1]-hip[1];
+ return {angle,depth,footX:dx*Math.cos(angle)-dy*Math.sin(angle)-dx,footY:dx*Math.sin(angle)+dy*Math.cos(angle)-dy+depth};
+}
+export function helmetTransform(frame,crop,index){
+ const [,,w,h]=crop.bounds,scale=frame.headWidth*1.32/w,anchorX=[.5,.59,.63,.53,.5][index];
+ return {x:frame.head[0]-w*anchorX*scale,y:frame.head[1]+36-h*.58*scale,width:w*scale,height:h*scale};
+}
 function drawEquipmentParts(r,p,index,frame,a,layer){
  const c=r.ctx;if(layer==='weapon'){const transform=focusTransform(r,index,frame,a);if(!transform)return;const {crop:f,grip,scale:s,angle}=transform,[x,y,w,h]=f.bounds;c.save();c.translate(...grip);c.rotate(angle);c.scale(s*.6,s);c.drawImage(r.assets.focusV8,x,y,w,h,-w*f.anchor[0],-h*f.anchor[1],w,h);if(a.legendary){c.strokeStyle='#f6d891';c.lineWidth=1.3/s;c.beginPath();c.ellipse(0,-h*.45,w*.34,7,0,0,Math.PI*2);c.stroke();}c.restore();
- }else if(a.helmet){const f=r.helmetV8Crop?.[a.helmet]?.[index];if(!f)return;const[x,y,w,h]=f.bounds,s=frame.headWidth/w;c.drawImage(r.assets.helmetsV8,x,y,w,h,frame.head[0]-w*f.anchor[0]*s,frame.head[1]-h*f.anchor[1]*s,w*s,h*s);}
+ }else if(a.helmet){const f=r.helmetV8Crop?.[a.helmet]?.[index];if(!f)return;const[x,y,w,h]=f.bounds,t=helmetTransform(frame,f,index);c.drawImage(r.assets.helmetsV8,x,y,w,h,t.x,t.y,t.width,t.height);}
 }
 export function gearFocusPoint(r,p,direction){const pose=heroRigPose(r,direction,p),transform=focusTransform(r,pose.index,pose.frame,pose.appearance);if(!transform)return pose.frame.focus;const {crop:f,grip,scale,angle}=transform,[,,w,h]=f.bounds,dx=(f.tip[0]-w*f.anchor[0])*scale*.6,dy=(f.tip[1]-h*f.anchor[1])*scale;return [grip[0]+dx*Math.cos(angle)-dy*Math.sin(angle),grip[1]+dx*Math.sin(angle)+dy*Math.cos(angle)];}

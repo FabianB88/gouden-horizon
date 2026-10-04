@@ -1,5 +1,5 @@
-import {ENEMIES} from './data.js?v=32';
-import {launchEnemyLob} from './enemy-combat.js?v=32';
+import {ENEMIES} from './data.js?v=34';
+import {launchEnemyLob} from './enemy-combat.js?v=34';
 const dist=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 const unit=(x,y)=>{const n=Math.hypot(x,y)||1;return {x:x/n,y:y/n};};
 export const V6_ENEMIES=['bulwark','plaguewright','hunter','repairer','tideleviathan','solararchitect','pressurediver','rimedrone','furnacegunner','deepwarden','towerwarden'];

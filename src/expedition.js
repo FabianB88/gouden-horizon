@@ -1,11 +1,11 @@
-import {RESISTANCES,resistance} from './resistances.js?v=32';
-import {protectedItem} from './item-marks.js?v=32';
-import {spellProfile} from './spell-variants.js?v=32';
-import {WORLD,SPELLS,AREAS,AREA_BY_ID,ENEMIES,START_EQUIPMENT,RARITIES} from './data.js?v=32';
-import {marketStock} from './markets.js?v=32';
-import {HUB_LAYOUTS} from './hub-layouts.js?v=32';
-import {scaleEnemy,tuneChapterEnemy} from './balance.js?v=32';
-import {makeItem,normalizePlayer,normalizeItem,DROP_TABLES,dropProfile,sellValue,salvageValue} from './loot.js?v=32';
+import {RESISTANCES,resistance} from './resistances.js?v=34';
+import {protectedItem} from './item-marks.js?v=34';
+import {spellProfile} from './spell-variants.js?v=34';
+import {WORLD,SPELLS,AREAS,AREA_BY_ID,ENEMIES,START_EQUIPMENT,RARITIES} from './data.js?v=34';
+import {marketStock} from './markets.js?v=34';
+import {HUB_LAYOUTS} from './hub-layouts.js?v=34';
+import {scaleEnemy,tuneChapterEnemy} from './balance.js?v=34';
+import {makeItem,normalizePlayer,normalizeItem,DROP_TABLES,dropProfile,sellValue,salvageValue} from './loot.js?v=34';
 const dist=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 const clone=value=>JSON.parse(JSON.stringify(value));
 const unit=(x,y)=>{const n=Math.hypot(x,y)||1;return {x:x/n,y:y/n};};
@@ -19,7 +19,7 @@ export const ExpeditionRules={
  campFor(area){if(area.kind!=='route')return null;return {x:area.spawn[0]*WORLD.width+(area.extension||area.biomeRegion?0:55),y:area.spawn[1]*WORLD.height-(area.extension||area.biomeRegion?0:37),radius:180,merchant:{x:area.spawn[0]*WORLD.width+190,y:area.spawn[1]*WORLD.height-110},name:area.id==='lanternwood'?'Lantaarnwoud':area.id==='groenkloof'?'Groenkloof':['Waterlijnhandel','Schrootstation','Veldmakers','Horizonpost','Onderstation','Koelhof'][area.zone]};},
  makeStock(zone,areaId){return marketStock(this,zone,areaId);},
  buyItem(uid){if(!this.canTrade())return false;const w=this.state.world,p=this.state.player,index=w.shop.stock.findIndex(i=>i.uid===uid);if(index<0)return false;const item=w.shop.stock[index];if(p.scrap<item.price||p.inventory.length>=48)return false;
-  p.scrap-=item.price;if(item.investment){w.shop.purchasedSpecials||=[];w.shop.purchasedSpecials.push(item.investment);}w.shop.stock.splice(index,1);p.inventory.push(item);this.notice(item.name+' gekocht · in rugzak');this.emit('loot');this.checkpoint();return item.uid;
+  p.scrap-=item.price;if(item.investment){w.shop.purchasedSpecials||=[];w.shop.purchasedSpecials.push(item.investment);}w.shop.stock.splice(index,1);p.inventory.push(item);this.notice(item.name+' gekocht · in rugzak');this.emit('purchase',{name:item.name,cost:item.price,item,detail:'In je rugzak · rust het zelf uit'});this.emit('loot');this.checkpoint();return item.uid;
  },
  sellItem(uid){return Boolean(this.sellItems([uid]));},
  sellItems(uids){
@@ -35,9 +35,9 @@ export const ExpeditionRules={
   const bonus=mode==='base'?{weapon:{power:.06},suit:{hp:10},head:{hp:7},relic:{regen:1.4},boots:{speed:.045},gloves:{crit:.03},belt:{armor:.035}}[item.slot]:{[mode]:Math.min(.08,.24-(item.stats[mode]||0))};
   for(const [key,value]of Object.entries(bonus))item.stats[key]=Number(((item.stats[key]||0)+value).toFixed(3));
   if(mode!=='base'){item.affixes||=[];if(!item.affixes.includes(RESISTANCES[mode].name))item.affixes.push(RESISTANCES[mode].name);}
-  p.hp=this.stats().maxHp*hp;p.mana=this.stats().maxMana*mana;this.notice(item.name+' versterkt · +'+item.enhance);this.emit('level');this.checkpoint();return true;
+  p.hp=this.stats().maxHp*hp;p.mana=this.stats().maxMana*mana;this.notice(item.name+' versterkt · +'+item.enhance);this.emit('purchase',{title:item.name+' versterkt tot +'+item.enhance,cost,item,detail:mode==='base'?'Basisstats verbeterd':'Weerstand toegevoegd'});this.emit('level');this.checkpoint();return true;
  },
- buySupply(){if(!this.canTrade()||this.state.player.scrap<15||this.state.player.potions>=8)return false;this.state.player.scrap-=15;this.state.player.potions++;this.checkpoint();return true;},
+ buySupply(){if(!this.canTrade()||this.state.player.scrap<15||this.state.player.potions>=8)return false;this.state.player.scrap-=15;this.state.player.potions++;this.emit('purchase',{name:'verband',cost:15,icon:'heal',quantity:1,detail:this.state.player.potions+' / 8 in voorraad'});this.emit('trade');this.checkpoint();return true;},
  collectDrop(loot){const p=this.state.player;if(!loot.item)return false;if(!this.state.world.loot.some(i=>i.id===loot.id))return false;if(p.inventory.length>=48){this.notice('Rugzak vol · verkoop of recycle uitrusting');return false;}p.inventory.push(loot.item);this.state.world.loot=this.state.world.loot.filter(i=>i.id!==loot.id);this.notice(RARITIES[loot.item.rarity].name+' · '+loot.item.name+' → rugzak',RARITIES[loot.item.rarity].color);this.emit('loot');this.emit('discovery',{item:loot.item,collected:true});return loot.item.uid;},
  setMainAttack(id){if(!SPELLS[id]||!this.state.player.skills.includes(id))return false;this.state.player.mainAttack=id;this.state.player.spell=id;this.emit('switch',{spell:id});return true;},
  assignRight(id){if(this.challengeBuildLocked())return false;if(!SPELLS[id]||!this.state.player.skills.includes(id))return false;this.state.player.rightAbility=id;this.notice(SPELLS[id].name+' op rechts');return true;},

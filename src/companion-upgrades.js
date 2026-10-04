@@ -1,12 +1,12 @@
-import {COMPANIONS} from './summons.js?v=32';
-import {summonAvailable} from './summon-progression.js?v=32';
+import {COMPANIONS} from './summons.js?v=34';
+import {summonAvailable} from './summon-progression.js?v=34';
 export const COMPANION_TRAINING={vitality:{name:'Vitaliteit',text:'+15% basisleven per rang',ranks:3},potency:{name:'Verbondskracht',text:'+12% aanvalskracht per rang; lichtmot: +4 totaal herstel',ranks:3},guard:{name:'Weerbaarheid',text:'10% minder ontvangen schade per rang',ranks:2}};
 export const TRAINING_PRICES=[180,420,900];
 export const TRAINING_LEVELS=[4,8,12];
 export const companionTraining=(p,id)=>p.companionUpgrades?.[id]||{};
 export const CompanionUpgradeRules={
  upgradeCompanion(profile,kind){const s=this.state,p=s.player,c=COMPANION_TRAINING[kind],rank=companionTraining(p,profile)[kind]||0;if(!COMPANIONS[profile]||!c||rank>=c.ranks||!summonAvailable(p)||!p.skills.includes('summon')||p.level<10&&profile!=='scout'||profile==='mender'&&!p.menderUnlocked||p.level<TRAINING_LEVELS[rank]||!this.canTrade()||this.service()!=='workshop'||p.scrap<TRAINING_PRICES[rank]||this.challengeBuildLocked())return false;
-  p.scrap-=TRAINING_PRICES[rank];p.companionUpgrades||={};p.companionUpgrades[profile]||={};p.companionUpgrades[profile][kind]=rank+1;this.notice(COMPANIONS[profile].name+' · '+c.name+' '+(rank+1)+' · geldt bij je volgende oproep');this.emit('trade');this.checkpoint();return true;
+  p.scrap-=TRAINING_PRICES[rank];p.companionUpgrades||={};p.companionUpgrades[profile]||={};p.companionUpgrades[profile][kind]=rank+1;this.notice(COMPANIONS[profile].name+' · '+c.name+' '+(rank+1)+' · geldt bij je volgende oproep');this.emit('purchase',{title:COMPANIONS[profile].name+' · '+c.name+' rang '+(rank+1),cost:TRAINING_PRICES[rank],icon:'leaf',detail:'Training gekocht · geldt bij je volgende oproep'});this.emit('trade');this.checkpoint();return true;
  },
  companionDamage(u,damage){const rank=companionTraining(this.state.player,u.profile).guard||0;u.hp-=damage*(1-rank*.1)*(1-(u.profile==='guardian'?this.stats().guardianGuard||0:0));if(u.hp<=0&&!u.deathAnnounced){u.deathAnnounced=true;this.effect('death',u.x,u.y,{color:'#a1e6d7',radius:42,life:.45});this.notice(COMPANIONS[u.profile].name+' gevallen · roep opnieuw op','#cae6d5');}return damage;},
  hurtCompanions(point,radius,damage,hitSet=null){for(const u of this.state.summons||[]){if(u.hp<=0||hitSet?.includes(u.id)||Math.hypot(u.x-point.x,(u.y-point.y)*1.15)>radius+u.radius)continue;this.companionDamage(u,damage);hitSet?.push(u.id);}},

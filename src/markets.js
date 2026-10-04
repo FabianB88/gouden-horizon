@@ -1,5 +1,5 @@
-import {SPELLS,AREA_BY_ID} from './data.js?v=32';
-import {makeItem,makeUniqueItem,statsText} from './loot.js?v=32';
+import {SPELLS,AREA_BY_ID} from './data.js?v=34';
+import {makeItem,makeUniqueItem,statsText} from './loot.js?v=34';
 export const MARKET_REGIONS=[
  {name:'Waterlijnhandel',specialty:'Getijdenfoci, waterbestendige veldpakken en snelle laarzen.',level:1,bases:['tidal-fork','tide-coat','reservoir','runner-boots','field-gloves','field-belt','storm-staff','cobalt-coat'],qualities:['common','common','uncommon','uncommon','uncommon','uncommon','rare','rare']},
  {name:'Schrootstation',specialty:'Zonnefoci, hittewerende kleding en condensortechniek.',level:4,bases:['amber-prism','cinder-coat','sun-compass','ash-boots','copper-gauntlets','solar-belt','prism','brass-jacket'],qualities:['uncommon','uncommon','uncommon','uncommon','uncommon','uncommon','rare','rare']},
@@ -47,6 +47,6 @@ export function regionalService(areaId,service){const area=AREA_BY_ID[areaId],r=
 export const MarketRules={
  spellOffers(){const service=this.currentService();return service?.id==='smith'?Object.values(SPELL_OFFERS).filter(o=>this.state.zone>=o.minZone):[];},
  buySpell(id){const offer=this.spellOffers().find(o=>o.id===id),p=this.state.player;if(!this.canTrade()||!offer||p.skills.includes(id)||p.level<offer.level||p.scrap<offer.price)return false;
-  p.scrap-=offer.price;p.skills.push(id);this.notice(SPELLS[id].name+' geleerd · plaats zelf via K',SPELLS[id].color);this.emit('level');this.checkpoint();return true;
+  p.scrap-=offer.price;p.skills.push(id);this.notice(SPELLS[id].name+' geleerd · plaats zelf via K',SPELLS[id].color);this.emit('purchase',{name:SPELLS[id].name,cost:offer.price,icon:id,detail:'Geleerd · plaats de spreuk in je skillsmenu'});this.emit('level');this.checkpoint();return true;
  }
 };

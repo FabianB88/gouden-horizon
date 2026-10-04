@@ -1,4 +1,4 @@
-import {AREA_BY_ID} from './data.js?v=32';
+import {AREA_BY_ID} from './data.js?v=34';
 
 // A convenience code for development builds, never account authentication.
 export const TestModeRules={
