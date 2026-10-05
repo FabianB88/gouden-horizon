@@ -1,29 +1,29 @@
-import {PORTAL_ART} from './portal-art.js?v=39';
-import {MapTextures,downloadMaps} from './map-textures.js?v=39';
-import {OutdoorVisuals} from './outdoor-visuals.js?v=39';
-import {OUTDOOR_REGIONS,outdoorPoint} from './outdoor-content.js?v=39';
-import {CITY_JOIN} from './city-extension.js?v=39';
-import {FeedbackVisuals} from './combat-feedback.js?v=39';
-import {effectParticles,trailStep} from './frame-performance.js?v=39';
-import {QuarterVisuals} from './safe-exploration.js?v=39';
-import {QUARTER_POINTS} from './safe-exploration-content.js?v=39';
-import {CreatureVisuals} from './creature-visuals.js?v=39';
-import {drawRiggedHero} from './hero-rig.js?v=39';
-import {equipmentAppearance} from './appearance.js?v=39';
-import {V6Visuals} from './v6-visuals.js?v=39';
-import {UNIQUE_ITEMS} from './unique-items.js?v=39';
-import {worldBounds,QUAY_GATE,WORLD,ZONES,AREAS,AREA_BY_ID,SPELLS,ENEMIES,POSITIONS,START_EQUIPMENT} from './data.js?v=39';
-import {clamp,distance,findPath} from './engine.js?v=39';
-import {ITEM_BASES} from './loot.js?v=39';
-import {ExpeditionVisuals} from './visuals.js?v=39';
-import {drawAnimatedEnemy} from './enemy-motion.js?v=39';
-import {drawWalkingHero,drawDirectionalHero,heroFocus} from './hero-animation.js?v=39';
-import {EnemyCombatVisuals,enemyAttackMotion} from './enemy-combat.js?v=39';
-import {QuestVisuals,NORA} from './quests.js?v=39';
-import {arenaObstacles} from './arena-layouts.js?v=39';
-import {EnemyAreaVisuals} from './enemy-area-visuals.js?v=39';
-import {prepareHeroRig} from './hero-rig.js?v=39';
-import {RenderCache,renderRatio,surface,freezeSurface} from './render-cache.js?v=39';
+import {sectionIndex,sectionBounds,sameSection} from './area-sections.js?v=40';
+import {PORTAL_ART} from './portal-art.js?v=40';
+import {MapTextures,downloadMaps} from './map-textures.js?v=40';
+import {OutdoorVisuals} from './outdoor-visuals.js?v=40';
+import {OUTDOOR_REGIONS,outdoorPoint} from './outdoor-content.js?v=40';
+import {FeedbackVisuals} from './combat-feedback.js?v=40';
+import {effectParticles,trailStep} from './frame-performance.js?v=40';
+import {QuarterVisuals} from './safe-exploration.js?v=40';
+import {QUARTER_POINTS} from './safe-exploration-content.js?v=40';
+import {CreatureVisuals} from './creature-visuals.js?v=40';
+import {drawRiggedHero} from './hero-rig.js?v=40';
+import {equipmentAppearance} from './appearance.js?v=40';
+import {V6Visuals} from './v6-visuals.js?v=40';
+import {UNIQUE_ITEMS} from './unique-items.js?v=40';
+import {QUAY_GATE,WORLD,ZONES,AREAS,AREA_BY_ID,SPELLS,ENEMIES,POSITIONS,START_EQUIPMENT} from './data.js?v=40';
+import {clamp,distance,findPath} from './engine.js?v=40';
+import {ITEM_BASES} from './loot.js?v=40';
+import {ExpeditionVisuals} from './visuals.js?v=40';
+import {drawAnimatedEnemy} from './enemy-motion.js?v=40';
+import {drawWalkingHero,drawDirectionalHero,heroFocus} from './hero-animation.js?v=40';
+import {EnemyCombatVisuals,enemyAttackMotion} from './enemy-combat.js?v=40';
+import {QuestVisuals,NORA} from './quests.js?v=40';
+import {arenaObstacles} from './arena-layouts.js?v=40';
+import {EnemyAreaVisuals} from './enemy-area-visuals.js?v=40';
+import {prepareHeroRig} from './hero-rig.js?v=40';
+import {RenderCache,renderRatio,surface,freezeSurface} from './render-cache.js?v=40';
 const TAU=Math.PI*2;
 export class Renderer {
   constructor(canvas,minimap){this.canvas=canvas;this.ctx=canvas.getContext('2d');this.minimap=minimap;this.mctx=minimap.getContext('2d');this.assets={};this.camera={x:0,y:0};this.shake=0;this.flash=0;this.ready=false;this.crop=null;this.time=0;this.quality=1;this.cache=new RenderCache();}
@@ -42,7 +42,7 @@ export class Renderer {
     const decoded=new Map(),loadImage=file=>{if(!decoded.has(file))decoded.set(file,new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(new Error('Asset ontbreekt: '+file));image.src=file;}));return decoded.get(file);};
     const mapKeys=[...AREAS.map(a=>a.id),...Object.values(OUTDOOR_REGIONS).map(r=>r.asset),'regionCauseway','cityEast','cityJoin','quayGarden','quayJoin'];
     const mapFiles=Object.fromEntries(mapKeys.map(key=>[key,files[key]]));
-    const navigationReady=fetch('assets/navigation/walkways-v886.json').then(r=>{if(!r.ok)throw Error('Looproutes konden niet laden');return r.json();}).then(async records=>{findPath.install(records);this.navigationRecords=records;const mobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);for(const record of records)if(!mobile||record.area==='canal'){findPath.prepare(record.area,record.radius);await new Promise(resolve=>setTimeout(resolve,0));}});
+    const navigationReady=fetch('assets/navigation/walkways-v890.json').then(r=>{if(!r.ok)throw Error('Looproutes konden niet laden');return r.json();}).then(async records=>{findPath.install(records);this.navigationRecords=records;const mobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);for(const record of records)if(!mobile||record.area==='canal'){findPath.prepare(record.area,record.radius);await new Promise(resolve=>setTimeout(resolve,0));}});
     const mapBytes=await downloadMaps(mapFiles,globalThis.fetch,(done,total)=>onProgress('Kaarten laden · '+done+' / '+total));
     this.maps=new MapTextures(mapFiles,this.assets,file=>new Promise((resolve,reject)=>{const image=new Image(),url=URL.createObjectURL(mapBytes.get(file));image.onload=async()=>{try{await image.decode();URL.revokeObjectURL(url);resolve(image);}catch(error){URL.revokeObjectURL(url);reject(error);}};image.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Kaart kon niet laden: '+file));};image.src=url;}));
     const mobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
@@ -59,22 +59,24 @@ export class Renderer {
   areaReady(id){return !this.maps||this.maps.ready(AREA_BY_ID[id]);}
   async ensureArea(id){if(this.maps&&!this.areaReady(id)){await this.maps.ensure(AREA_BY_ID[id]);for(const record of this.navigationRecords||[])if(record.area===id)findPath.prepare(id,record.radius);this.sceneDirty=true;}}
   drawEquipmentPortrait(canvas,p){if(!canvas||!this.ready)return;const key=equipmentAppearance(p).key;this.portraits||=new Map();let tile=this.portraits.get(key);if(!tile){tile=typeof OffscreenCanvas!=='undefined'?new OffscreenCanvas(320,420):document.createElement('canvas');tile.width=320;tile.height=420;const ctx=tile.getContext('2d'),old=this.ctx;this.ctx=ctx;ctx.save();ctx.translate(160,375);ctx.scale(2.6,2.6);drawRiggedHero(this,{...p,x:0,y:0,moving:false,walkBlend:0,visualMotionBlend:0,cast:0,poseTurn:0},0);ctx.restore();this.ctx=old;this.portraits.set(key,tile);while(this.portraits.size>12)this.portraits.delete(this.portraits.keys().next().value);}const ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(tile,0,0,canvas.width,canvas.height);}
-  resize(){const rect=this.canvas.getBoundingClientRect(),ratio=renderRatio(rect.width,rect.height,window.devicePixelRatio||1,this.settings?.quality)*(this.performanceScale||1);this.canvas.width=Math.round(rect.width*ratio);this.canvas.height=Math.round(rect.height*ratio);this.width=rect.width;this.height=rect.height;this.pixelRatio=ratio;this.updateZoom();this.ctx.imageSmoothingEnabled=true;this.ctx.imageSmoothingQuality=this.settings?.quality==='high'?'high':'medium';const bounds=worldBounds(this.renderArea);this.camera.x=clamp(this.camera.x,0,Math.max(0,bounds.width-this.viewWidth));this.camera.y=clamp(this.camera.y,0,Math.max(0,bounds.height-this.viewHeight));this.cache.clearViewport();this.sceneDirty=true;}
-  updateZoom(){const b=worldBounds(this.renderArea),base=Math.max(this.width<=720?.78:1,this.width/WORLD.width,this.height/WORLD.height),fit=Math.max(this.width/b.width,this.height/b.height);this.zoom=Math.max(fit,base*(this.settings?.camera||1.15));this.viewWidth=this.width/this.zoom;this.viewHeight=this.height/this.zoom;}
+  resize(){const rect=this.canvas.getBoundingClientRect(),ratio=renderRatio(rect.width,rect.height,window.devicePixelRatio||1,this.settings?.quality)*(this.performanceScale||1);this.canvas.width=Math.round(rect.width*ratio);this.canvas.height=Math.round(rect.height*ratio);this.width=rect.width;this.height=rect.height;this.pixelRatio=ratio;this.updateZoom();this.ctx.imageSmoothingEnabled=true;this.ctx.imageSmoothingQuality=this.settings?.quality==='high'?'high':'medium';const bounds=sectionBounds(this.renderArea,this.renderPlayer);this.camera.x=clamp(this.camera.x,bounds.x,Math.max(bounds.x,bounds.x+bounds.width-this.viewWidth));this.camera.y=clamp(this.camera.y,0,Math.max(0,bounds.height-this.viewHeight));this.cache.clearViewport();this.sceneDirty=true;}
+  updateZoom(){const b=sectionBounds(this.renderArea,this.renderPlayer),base=Math.max(this.width<=720?.78:1,this.width/WORLD.width,this.height/WORLD.height),fit=Math.max(this.width/b.width,this.height/b.height);this.zoom=Math.max(fit,base*(this.settings?.camera||1.15));this.viewWidth=this.width/this.zoom;this.viewHeight=this.height/this.zoom;}
   noteFrame(delta){if(this.settings?.quality&&this.settings.quality!=='auto')return;if(!Number.isFinite(delta)||delta<.004||delta>.1)return;this.frameSamples||=[];this.frameSamples.push(delta);if(this.frameSamples.length<90)return;const samples=this.frameSamples;this.frameSamples=[];const slow=samples.filter(d=>d>.023).length,healthy=samples.filter(d=>d<.0195).length,scale=this.performanceScale||1;let next=scale;if(slow>67){this.healthyWindows=0;next=Math.max(.65,scale*.88);}else if(healthy>80){this.healthyWindows=(this.healthyWindows||0)+1;if(this.healthyWindows>=2){next=Math.min(1,scale+.04);this.healthyWindows=0;}}else this.healthyWindows=0;if(Math.abs(next-scale)>.01){this.performanceScale=next;this.resize();}}
-  reset(player,area=this.renderArea){this.renderArea=area;this.updateZoom();const bounds=worldBounds(area);this.sceneDirty=true;this.camera.x=clamp(player.x-this.viewWidth/2,0,Math.max(0,bounds.width-this.viewWidth));this.camera.y=clamp(player.y-this.viewHeight*.57,0,Math.max(0,bounds.height-this.viewHeight));}
+  reset(player,area=this.renderArea){this.renderArea=area;this.renderPlayer=player;this.renderSection=sectionIndex(area,player);this.updateZoom();const bounds=sectionBounds(area,player);this.sceneDirty=true;this.camera.x=clamp(player.x-this.viewWidth/2,bounds.x,Math.max(bounds.x,bounds.x+bounds.width-this.viewWidth));this.camera.y=clamp(player.y-this.viewHeight*.57,0,Math.max(0,bounds.height-this.viewHeight));}
   screenToWorld(x,y){return {x:x/this.zoom+this.camera.x,y:y/this.zoom+this.camera.y};}
   kick(amount=5){this.shake=Math.max(this.shake,amount*(this.settings?.shake??.6));}
   ellipse(x,y,rx,ry,color,stroke=null,width=1){const c=this.ctx;c.beginPath();c.ellipse(x,y,Math.max(0,rx),Math.max(0,ry),0,0,TAU);if(color){c.fillStyle=color;c.fill();}if(stroke){c.strokeStyle=stroke;c.lineWidth=width;c.stroke();}}
   line(a,b,color,width=2){const c=this.ctx;c.beginPath();c.moveTo(a.x,a.y);c.lineTo(b.x,b.y);c.strokeStyle=color;c.lineWidth=width;c.lineCap='round';c.stroke();}
   text(text,x,y,color='#fff3d5',size=15){const label=this.cache.label(text,color,size,Math.min(2,this.pixelRatio*this.zoom));this.ctx.drawImage(label.canvas,x-label.width/2,y-label.anchor,label.width,label.height);}
   inView(x,y,r=80,above=r,below=r){return x+r>this.camera.x-40&&x-r<this.camera.x+this.viewWidth+40&&y+below>this.camera.y-40&&y-above<this.camera.y+this.viewHeight+40;}
-  render(engine,time,delta){if(!this.ready||!this.areaReady(engine.state.area))return;const s=engine.state,p=s.player,zone=AREA_BY_ID[s.area],c=this.ctx;this.time=time;this.renderPlayer=p;if(this.renderArea!==s.area)this.reset(p,s.area);
-    const bounds=worldBounds(s.area);this.bounds=bounds;const targetX=clamp(p.x-this.viewWidth*.5,0,Math.max(0,bounds.width-this.viewWidth));const targetY=clamp(p.y-this.viewHeight*.57,0,Math.max(0,bounds.height-this.viewHeight));
+  render(engine,time,delta){if(!this.ready||!this.areaReady(engine.state.area))return;const s=engine.state,p=s.player,zone=AREA_BY_ID[s.area],c=this.ctx;this.time=time;this.renderPlayer=p;if(this.renderArea!==s.area||this.renderSection!==sectionIndex(s.area,p))this.reset(p,s.area);
+    const bounds=sectionBounds(s.area,p);this.bounds=bounds;const targetX=clamp(p.x-this.viewWidth*.5,bounds.x,Math.max(bounds.x,bounds.x+bounds.width-this.viewWidth));const targetY=clamp(p.y-this.viewHeight*.57,0,Math.max(0,bounds.height-this.viewHeight));
     const smooth=1-Math.exp(-delta*6);this.camera.x+=(targetX-this.camera.x)*smooth;this.camera.y+=(targetY-this.camera.y)*smooth;
     const shakeX=(Math.sin(time*67)*this.shake),shakeY=(Math.cos(time*83)*this.shake*.6);this.shake=Math.max(0,this.shake-delta*24);
     c.setTransform(this.pixelRatio,0,0,this.pixelRatio,0,0);c.clearRect(0,0,this.width,this.height);c.save();c.scale(this.zoom,this.zoom);c.translate(-this.camera.x+shakeX,-this.camera.y+shakeY);
-    if(zone.tiles){for(const [i,tile] of zone.tiles.entries())if(this.inView(tile.x+tile.width/2,tile.y+tile.height/2,tile.width/2,tile.height/2,tile.height/2))c.drawImage(tile.asset?this.assets[tile.asset]:i?this.assets.quayGarden:this.assets[zone.id],tile.x,tile.y,tile.width,tile.height);}else c.drawImage(this.assets[zone.id],0,0,bounds.width,bounds.height);if(s.area==='highway'&&this.inView(CITY_JOIN.x+CITY_JOIN.width/2,CITY_JOIN.y+CITY_JOIN.height/2,CITY_JOIN.width/2,CITY_JOIN.height/2,CITY_JOIN.height/2))c.drawImage(this.assets.cityJoin,CITY_JOIN.x,CITY_JOIN.y,CITY_JOIN.width,CITY_JOIN.height);if(s.area==='canal'&&this.inView(QUAY_GATE.x,896,100,896,896))c.drawImage(this.assets.quayJoin,QUAY_GATE.x-74.375,0,148.75,1792);for(const j of zone.joins||[])if(this.inView(j.x+j.width/2,j.y+j.height/2,j.width/2,j.height/2,j.height/2))c.drawImage(this.assets[j.asset],j.x,j.y,j.width,j.height);c.fillStyle='rgba(9,26,36,.035)';c.fillRect(0,0,bounds.width,bounds.height);
+    c.beginPath();c.rect(bounds.x,bounds.y,bounds.width,bounds.height);c.clip();
+    if(zone.tiles){const tile=zone.tiles[bounds.index];c.drawImage(tile.asset?this.assets[tile.asset]:bounds.index?this.assets.quayGarden:this.assets[zone.id],tile.x,tile.y,tile.width,tile.height);}else c.drawImage(this.assets[zone.id],0,0,bounds.width,bounds.height);
+    c.fillStyle='rgba(9,26,36,.035)';c.fillRect(bounds.x,bounds.y,bounds.width,bounds.height);
     this.visualLoad=s.effects.length+s.projectiles.length*.5+s.fields.length*3;
     this.drawHazards(s);this.drawNewThreats(s);this.drawV6Ground(s);this.drawCreatureGround(s);for(const field of s.fields)this.drawAreaField(field);if(s.world.camp)this.drawCampFloor(s.world.camp,s);this.drawTelegraphs(s);this.drawEnemyLanding(s);
     for(const relay of s.world.relays)this.drawRelay(relay,s);
@@ -82,7 +84,6 @@ export class Renderer {
     for(const pickup of s.world.pickups){if(!this.inView(pickup.x,pickup.y,65))continue;if(pickup.type==='scrap'){this.drawGroundScrap(pickup,p);continue;}this.ellipse(pickup.x,pickup.y,20,11,'#71ca9870');this.ellipse(pickup.x,pickup.y-12,8,8,'#b7f5bf','#fff4c7',2);}
     const ordered=[...this.visiblePortals.map(entity=>({kind:'portal',entity})),...(s.world.camp?.services?s.world.camp.services.map(entity=>({kind:'service',entity})):s.world.camp?[{kind:'merchant',entity:s.world.camp.merchant}]:[]),...s.world.loot.map(entity=>({kind:'loot',entity})),...s.world.enemies.filter(e=>!e.dead||e.deathVisualLife>0).map(entity=>({kind:'enemy',entity})),...(s.summons||[]).map(entity=>({kind:'companion',entity})),{kind:'player',entity:p}];
     for(const peer of s.coop?.players||[])if(peer.player){ordered.push({kind:'player',entity:peer.player});for(const u of peer.summons||[])ordered.push({kind:'companion',entity:u});}
-    if(s.area==='canal')ordered.push({kind:'townGate',entity:QUAY_GATE});
     const outdoor=OUTDOOR_REGIONS[s.area];if(outdoor){const npc=engine.outdoorNPC();ordered.push({kind:'outdoorNPC',entity:npc});ordered.push({kind:'outdoorDoor',entity:outdoorPoint(s.area,outdoor.door[1])});for(const q of outdoor.points)ordered.push({kind:'outdoorPoint',entity:{...outdoorPoint(s.area,q.point),point:q}});}
     if(s.world.ritual)ordered.push({kind:'ritual',entity:s.world.ritual});
     for(const obstacle of arenaObstacles(s.area))ordered.push({kind:'obstacle',entity:obstacle});
@@ -181,16 +182,16 @@ export class Renderer {
       this.glow(e.x,e.y-20,r*(.4+progress*.4),color,.4*(1-progress));
       for(let i=0;i<effectParticles(this.visualLoad,e.type==='ultimate');i++){const a=i*2.399;const radius=r*progress*(.5+(i%5)*.13);const x=e.x+Math.cos(a)*radius,y=e.y+Math.sin(a)*radius*.65-(e.type==='eruption'?Math.sin(progress*Math.PI)*50:0);this.ellipse(x,y,3+(1-progress)*4,3+(1-progress)*7,color+(e.type==='steam'?'60':'bb'));}
     }c.restore();}
-  drawWaypoint(engine){const s=engine.state,p=s.player,target=engine.nextWaypoint();if(!target)return;
+  drawWaypoint(engine){const s=engine.state,p=s.player,target=engine.nextWaypoint();if(!target||!sameSection(s.area,p,target))return;
     const d=distance(p,target);if(d<100)return;const x=target.x-this.camera.x,y=target.y-this.camera.y;
     if(x>60&&x<this.viewWidth-60&&y>90&&y<this.viewHeight-160)return;
     const dir=Math.atan2(target.y-p.y,target.x-p.x),cx=clamp(x,70,this.viewWidth-70)+this.camera.x,cy=clamp(y,95,this.viewHeight-155)+this.camera.y,c=this.ctx;c.save();c.translate(cx,cy);c.rotate(dir);c.beginPath();c.moveTo(16,0);c.lineTo(-8,-9);c.lineTo(-8,9);c.closePath();c.fillStyle='#f9d98e';c.shadowColor='#132a30';c.shadowBlur=10;c.fill();c.restore();}
   drawAtmosphere(s,time){const c=this.ctx;c.save();const danger=s.player.hp<30;if(this.cache.vignette?.danger!==danger){const scale=256/this.width,canvas=surface(256,this.height*scale),ctx=canvas.getContext('2d');ctx.scale(scale,scale);const gradient=ctx.createRadialGradient(this.width*.5,this.height*.45,this.height*.25,this.width*.5,this.height*.45,this.height*.85);gradient.addColorStop(0,'#06192700');gradient.addColorStop(1,danger?'#70140e88':'#071b294f');ctx.fillStyle=gradient;ctx.fillRect(0,0,this.width,this.height);this.cache.vignette?.canvas.close?.();this.cache.vignette={canvas:freezeSurface(canvas),danger};}c.drawImage(this.cache.vignette.canvas,0,0,this.width,this.height);
     for(let i=0;i<22;i++){const x=(i*137.3+Math.sin(time*.1+i)*45)%this.width,y=(i*79.1-time*8)%this.height;c.globalAlpha=.12+(i%3)*.04;this.ellipse(x,y,1.8,2,s.zone===0?'#d3edf0':s.zone===1?'#ffd9a1':s.zone===2?'#d6efaf':'#f8e8bd');}c.restore();}
-  drawMinimap(s){const c=this.mctx,w=this.minimap.width,h=this.minimap.height,scaleX=w/worldBounds(s.area).width,scaleY=h/worldBounds(s.area).height;c.clearRect(0,0,w,h);if(this.cache.mini?.area!==s.area||this.cache.mini?.canvas.width!==w||this.cache.mini?.canvas.height!==h){const canvas=surface(w,h),ctx=canvas.getContext('2d');const area=AREA_BY_ID[s.area];if(area.tiles){for(const [i,t]of area.tiles.entries())ctx.drawImage(t.asset?this.assets[t.asset]:i?this.assets.quayGarden:this.assets[s.area],t.x*scaleX,t.y*scaleY,t.width*scaleX,t.height*scaleY);}else ctx.drawImage(this.assets[s.area],0,0,w,h);if(s.area==='highway')ctx.drawImage(this.assets.cityJoin,CITY_JOIN.x*scaleX,CITY_JOIN.y*scaleY,CITY_JOIN.width*scaleX,CITY_JOIN.height*scaleY);for(const j of area.joins||[])ctx.drawImage(this.assets[j.asset],j.x*scaleX,j.y*scaleY,j.width*scaleX,j.height*scaleY);ctx.fillStyle='#071b3077';ctx.fillRect(0,0,w,h);for(const o of arenaObstacles(s.area)){ctx.beginPath();ctx.ellipse(o.x*scaleX,o.y*scaleY,o.rx*scaleX,o.ry*scaleY,0,0,TAU);ctx.fillStyle='#1c3028cc';ctx.fill();ctx.strokeStyle='#e4ca9580';ctx.lineWidth=.8;ctx.stroke();}this.cache.mini?.canvas.close?.();this.cache.mini={canvas:freezeSurface(canvas),area:s.area};}c.drawImage(this.cache.mini.canvas,0,0);
-    const marker=(point,color,r=3)=>{c.beginPath();c.arc(point.x*scaleX,point.y*scaleY,r,0,TAU);c.fillStyle=color;c.fill();c.strokeStyle='#071b25';c.lineWidth=1;c.stroke();};
+  drawMinimap(s){const c=this.mctx,w=this.minimap.width,h=this.minimap.height,bounds=sectionBounds(s.area,s.player),scaleX=w/bounds.width,scaleY=h/bounds.height;c.clearRect(0,0,w,h);const piece=s.area+':'+bounds.index;if(this.cache.mini?.area!==piece||this.cache.mini?.canvas.width!==w||this.cache.mini?.canvas.height!==h){const canvas=surface(w,h),ctx=canvas.getContext('2d');const area=AREA_BY_ID[s.area];if(area.tiles){const t=area.tiles[bounds.index];ctx.drawImage(t.asset?this.assets[t.asset]:bounds.index?this.assets.quayGarden:this.assets[s.area],0,0,w,h);}else ctx.drawImage(this.assets[s.area],0,0,w,h);ctx.fillStyle='#071b3077';ctx.fillRect(0,0,w,h);ctx.translate(-bounds.x*scaleX,-bounds.y*scaleY);for(const o of arenaObstacles(s.area)){ctx.beginPath();ctx.ellipse(o.x*scaleX,o.y*scaleY,o.rx*scaleX,o.ry*scaleY,0,0,TAU);ctx.fillStyle='#1c3028cc';ctx.fill();ctx.strokeStyle='#e4ca9580';ctx.lineWidth=.8;ctx.stroke();}this.cache.mini?.canvas.close?.();this.cache.mini={canvas:freezeSurface(canvas),area:piece};}c.drawImage(this.cache.mini.canvas,0,0);
+    const marker=(point,color,r=3)=>{if(!sameSection(s.area,s.player,point))return;c.beginPath();c.arc((point.x-bounds.x)*scaleX,(point.y-bounds.y)*scaleY,r,0,TAU);c.fillStyle=color;c.fill();c.strokeStyle='#071b25';c.lineWidth=1;c.stroke();};
     for(const r of s.world.relays)marker(r,r.status==='online'?'#b9e8c2':'#e8c682',4);for(const e of s.world.enemies.filter(e=>!e.dead&&e.awake))marker(e,ENEMIES[e.type].boss?'#ffdb82':'#ed8a72',ENEMIES[e.type].boss?5:2);if(s.world.gate)marker(s.world.gate,s.world.gate.open?'#ffedba':'#8b9ca2',4);if(s.world.camp)marker(s.world.camp,'#9ddec6',5);for(const m of s.world.camp?.services||[])marker(m,'#eccc92',3);for(const portal of this.visiblePortals||[])marker(portal,'#f1d08c',4);for(const loot of s.world.loot)marker(loot,'#d8b2ef',3);if(s.area==='highway')marker(NORA,s.quests?.noodstroom?.status==='ready'?'#fff1ab':'#e7c783',4);for(const point of QUARTER_POINTS[s.area]||[])if(!s.quests?.quarters?.seen.includes(point.id))marker(point,point.required?'#fff0aa':'#b5e2c5',point.required?3:2);const outdoor=OUTDOOR_REGIONS[s.area];if(outdoor){marker(outdoorPoint(s.area,outdoor.npcPoint),'#d4f0ad',4);marker(outdoorPoint(s.area,outdoor.door[1]),s.world.outdoor?.open?'#9be5ca':'#d39964',3);if(s.world.outdoor?.open)for(const q of outdoor.points)if(!s.world.outdoor.done.includes(q.id))marker(outdoorPoint(s.area,q.point),outdoor.color,3);}marker(s.player,'#e4fbfa',4);for(const peer of s.coop?.players||[])if(peer.player)marker(peer.player,'#ffe098',4);
-    c.strokeStyle='#ecedbc66';c.lineWidth=1;c.strokeRect(this.camera.x*scaleX,this.camera.y*scaleY,this.viewWidth*scaleX,this.viewHeight*scaleY);
+    c.strokeStyle='#ecedbc66';c.lineWidth=1;c.strokeRect((this.camera.x-bounds.x)*scaleX,(this.camera.y-bounds.y)*scaleY,this.viewWidth*scaleX,this.viewHeight*scaleY);
   }
 }
 

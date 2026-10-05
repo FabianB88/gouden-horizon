@@ -41,13 +41,9 @@ export const CONSERVATORY_PAVING=[
  [[1108,751],[1143,715],[1200,694],[1294,698],[1332,727],[1324,770],[1267,803],[1192,827],[1141,803],[1098,779]],
  [[977,756],[1042,715],[1086,703],[1115,748],[1109,778],[1202,816],[1252,851],[1318,892],[1405,932],[1536,999],[1536,1024],[1339,1024],[1234,971],[1140,918],[1048,868],[973,811],[949,788]],
 ];
-// Source pixels of the separate bridge painting, including both stair flights.
-// The old four-point strip cut into the north half of the visible stone.
-export const FOREST_CAUSEWAY_PAVING=[[12,145],[150,87],[206,104],[230,144],[280,147],[515,276],[825,449],[1127,635],[1348,768],[1425,853],[1513,888],[1488,937],[1348,982],[1240,875],[910,710],[600,520],[300,350],[134,255]];
 export function installForestNavigation(area,world){
- const scale=1.75,join=area.joins[0];
+ const scale=1.75;
  const project=(polys,offset=0)=>polys.map(poly=>poly.map(([x,y])=>[(offset+x)*scale/world.width,y*scale/world.height]));
  area.nav=[...project(FOREST_PAVING),...project(CONSERVATORY_PAVING,1536)];
- // The separate causeway painting connects the two native map tiles.
- area.nav.push(FOREST_CAUSEWAY_PAVING.map(([x,y])=>[(join.x+x/1536*join.width)/world.width,(join.y+y/1024*join.height)/world.height]));
+ // Screen-edge travel replaces the former causeway overlay and collision strip.
 }

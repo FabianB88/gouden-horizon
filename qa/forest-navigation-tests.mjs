@@ -34,12 +34,12 @@ for(const [name,tile,width,points]of PAINTED_LANES){
 }
 assert.deepEqual(failures,[],'Visible routes must work without detours');
 {
- const g=game(),before=PAINTED_JOURNEY.beforeGate.map(p=>point(0,p)),after=PAINTED_JOURNEY.afterGate.map(p=>point(0,p));
- assert(!g.state.world.outdoor.open);walk(g,before,'continuous approach from actual forest spawn',false);
+ const g=game(),market=PAINTED_JOURNEY.market.map(p=>point(0,p)),before=PAINTED_JOURNEY.beforeGate.map(p=>point(0,p)),after=PAINTED_JOURNEY.afterGate.map(p=>point(0,p));
+ assert(!g.state.world.outdoor.open);walk(g,market,'market paving from actual spawn',false);assert(g.switchAreaSection(1));walk(g,before,'continuous approach from actual forest spawn',false);
  assert.equal(g.interaction().type,'outdoorDoor');assert(g.interact());assert(g.state.world.outdoor.open);g.state.world.enemies=[];
  walk(g,after,'continuous seed, crystal and southern roads',false);
- walk(g,[...before,...after].toReversed(),'same complete trip in reverse',false);
- console.log('PASS continuous painted journey from spawn, through the actual gate, to activities and back; no teleportation or alternative route');count++;
+ walk(g,[...before,...after].toReversed(),'same conservatory roads in reverse',false);assert(g.switchAreaSection(0));walk(g,market,'same market roads after return',false);
+ console.log('PASS painted roads within both screens, explicit travel, physical gate, activities and return');count++;
 }
 {
  const g=game(),r=OUTDOOR_REGIONS.forest,mid=r.door[0].map((v,i)=>(v+r.door[1][i])/2),p=g.state.player;

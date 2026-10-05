@@ -1,7 +1,8 @@
 // Integration check: plays through using normal actions. Never grants HP, mana,
-// damage or gear; never deletes enemies, unlocks gates or teleports the player.
+// damage or gear; never deletes enemies or unlocks gates; screen travel uses the normal button action.
 // A defeated test player may use the game's actual checkpoint retry twice.
 import {Engine,distance,normal,canStand,findPath,clearLine} from '../src/engine.js';
+import {sectionIndex,sameSection} from '../src/area-sections.js';
 import {arenaObstacles,coverHit} from '../src/arena-layouts.js';
 import {pathToFileURL} from 'node:url';
 import {ENEMIES,AREA_BY_ID,AREAS} from '../src/data.js';
@@ -63,6 +64,7 @@ export function simulate(seed=48,discipline='tide',maxSeconds=1800,options={}){
    if(p.ultimate>=100&&(nearby.filter(e=>distance(p,e)<410).length>2||ENEMIES[enemy.type].boss))g.ultimate();
   }else{
    g.syncStoryPortals();const next=g.routeTo(g.recommendedArea())[1];goal=workshop&&!prepared.has(preparationKey)?workshop:w.loot[0]||(w.adventure?w.objectives.find(o=>!o.done):null)||w.relays.find(r=>r.status==='dormant')||(!w.coreCollected&&g.arenaCleared()?w.gate:w.enemies.find(e=>!e.dead))||w.portals.find(portal=>portal.to===next);
+   if(goal&&!sameSection(s.area,p,goal)){if(g.switchAreaSection(sectionIndex(s.area,goal))){path=[];pathGoal=null;pathAge=0;stalled=0;lastPosition=null;continue;}}
    if(goal){move=normal(goal.x-p.x,(goal.y-p.y)*1.15);if(distance(p,goal)<85){const a=g.interaction();if(a&&(a.entity.id===goal.id||distance(a.entity,goal)<1))g.interact();}}
   }
   // Read the same warnings a human sees, then step out before impact.
@@ -99,7 +101,7 @@ export function simulate(seed=48,discipline='tide',maxSeconds=1800,options={}){
    const destination=enemy&&(distance(p,enemy)>240||coverHit(p,enemy,s.area))?enemy:goal;if(!enemy&&goal)move=normal(goal.x-p.x,(goal.y-p.y)/.78);
    // Danger avoidance takes priority over a route toward the target.
    if(!danger&&destination&&!clearLine(p,destination,s.area)){
-    if(pathGoal!==destination.id||pathAge--<=0||!path.length){path=findPath(p,destination,s.area);pathGoal=destination.id;pathAge=45;}
+    if(pathGoal!==destination.id||pathAge--<=0||!path.length){path=g.findWalkingPath(p,destination);pathGoal=destination.id;pathAge=45;}
     if(path.length){if(distance(p,path[0])<3)path.shift();const point=path[0]||destination;move=normal(point.x-p.x,(point.y-p.y)/.78);}
    }
    // The real movement routine slides along scenery; do not cancel a valid
@@ -115,5 +117,7 @@ export function simulate(seed=48,discipline='tide',maxSeconds=1800,options={}){
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
  const seeds=[48,209,815];const results=seeds.map((seed,i)=>simulate(seed,['tide','storm','ember'][i]));console.log(JSON.stringify(results,null,2));
- if(results.some(r=>r.mode!=='won'||r.areas!==AREAS.filter(a=>!a.optional&&!a.endgame).length||r.skills.length!==11||r.enemyAttacks<1||r.hitsTaken<1||!r.bossPhases.includes(2)||!r.bossPhases.includes(3))||results.some(r=>!r.buys||!r.sales||!r.forges))process.exitCode=1;
+ // Every build must traverse the whole campaign; at least one must also prove
+ // the final boss and completion work. Losing to the boss is valid gameplay.
+ if(!results.some(r=>r.mode==='won')||results.some(r=>!['won','dead'].includes(r.mode)||r.history.at(-1)?.area!=='tower'||r.areas!==AREAS.filter(a=>!a.optional&&!a.endgame).length||r.skills.length!==11||r.enemyAttacks<1||r.hitsTaken<1||!r.bossPhases.includes(2)||!r.bossPhases.includes(3))||results.some(r=>!r.buys||!r.sales||!r.forges))process.exitCode=1;
 }

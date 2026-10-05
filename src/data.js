@@ -1,17 +1,18 @@
-import {addWorldWalkways} from './world-walkways.js?v=39';
-import {installForestNavigation} from './forest-navigation.js?v=39';
-import {OUTDOOR_REGIONS} from './outdoor-content.js?v=39';
-import {WANDERING_FLOORS,WANDERING_EXTENSIONS} from './hub-wandering-content.js?v=39';
-import {CITY_EXTENSION_FLOORS,CITY_JOIN_FLOOR} from './city-extension.js?v=39';
-import {TOWN_FLOORS,TOWN_EXTRA_FLOORS} from './town-floors.js?v=39';
-import {HUB_SCALES} from './hub-space.js?v=39';
-import {QUARTER_AREAS,QUARTER_GATES} from './safe-exploration-content.js?v=39';
-import {NATURE_AREAS,NATURE_ENEMIES} from './nature-content.js?v=39';
-import {CREATURE_ENEMIES} from './creature-content.js?v=39';
-import {BIOME_AREAS,BIOME_ENEMIES,BIOME_HUB_LAYOUTS} from './biome-content.js?v=39';
-import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=39';
-import {V8_AREAS,V8_ZONES,V8_ENEMIES} from './v8-content.js?v=39';
-import {HUB_LAYOUTS} from './hub-layouts.js?v=39';
+import {installPaintedArenaFloors} from './painted-arena-floors.js?v=40';
+import {addWorldWalkways} from './world-walkways.js?v=40';
+import {installForestNavigation} from './forest-navigation.js?v=40';
+import {OUTDOOR_REGIONS} from './outdoor-content.js?v=40';
+import {WANDERING_FLOORS,WANDERING_EXTENSIONS} from './hub-wandering-content.js?v=40';
+import {CITY_EXTENSION_FLOORS} from './city-extension.js?v=40';
+import {TOWN_FLOORS,TOWN_EXTRA_FLOORS} from './town-floors.js?v=40';
+import {HUB_SCALES} from './hub-space.js?v=40';
+import {QUARTER_AREAS,QUARTER_GATES} from './safe-exploration-content.js?v=40';
+import {NATURE_AREAS,NATURE_ENEMIES} from './nature-content.js?v=40';
+import {CREATURE_ENEMIES} from './creature-content.js?v=40';
+import {BIOME_AREAS,BIOME_ENEMIES,BIOME_HUB_LAYOUTS} from './biome-content.js?v=40';
+import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=40';
+import {V8_AREAS,V8_ZONES,V8_ENEMIES} from './v8-content.js?v=40';
+import {HUB_LAYOUTS} from './hub-layouts.js?v=40';
 export const WORLD = { width: 1920, height: 1280 };
 export const SPELLS = {
   tide: { name: 'Getijdenwaaier', short: 'GETIJ', color: '#73e2e5', dark: '#126c8b', key: '1', damage: 13, cost: 4, interval: .22, speed: 780, radius: 11, status: 'wet', description: 'Drie waterbogen waaieren uit en maken doelen NAT. Wissel naar storm voor kettingbliksem.' },
@@ -1037,7 +1038,7 @@ export function worldBounds(id){return AREA_BY_ID[id]?.bounds||WORLD;}
 export const QUAY_GATE={x:tileW,y:164,halfWidth:33,halfHeight:112};
 
 const extendedCity=AREA_BY_ID.highway;extendedCity.bounds={width:5376,height:1792};extendedCity.tiles=[{file:extendedCity.file,x:0,y:0,width:2688,height:1792},{file:'vrijhaven-east-v871.webp',asset:'cityEast',x:2688,y:0,width:2688,height:1792}];
-extendedCity.nav.push(...CITY_EXTENSION_FLOORS.map(poly=>poly.map(([x,y])=>[(2688+x*1.75)/WORLD.width,y*1.75/WORLD.height])),CITY_JOIN_FLOOR.map(([x,y])=>[x*1.75/WORLD.width,y*1.75/WORLD.height]));
+extendedCity.nav.push(...CITY_EXTENSION_FLOORS.map(poly=>poly.map(([x,y])=>[(2688+x*1.75)/WORLD.width,y*1.75/WORLD.height])));
 
 // Added native artwork, not enlarged old backgrounds.
 for(const [id,r]of Object.entries(OUTDOOR_REGIONS)){
@@ -1045,8 +1046,10 @@ for(const [id,r]of Object.entries(OUTDOOR_REGIONS)){
  area.bounds={width:w*2,height:h};area.tiles=[{file:area.file,x:0,y:0,width:w,height:h},{file:r.file,asset:r.asset,x:w,y:0,width:w,height:h}];
  area.joins=[{asset:'regionCauseway',x:r.join.x*scale,y:r.join.y*scale,width:r.join.width*scale,height:r.join.height*scale}];
  area.nav.push(...r.floors.map(poly=>poly.map(([x,y])=>[(w+x*scale)/WORLD.width,y*scale/WORLD.height])));
- const join=r.join;area.nav.push([[24,183],[166,105],[1488,890],[1348,958]].map(([x,y])=>[(join.x+x/1536*join.width)*scale/WORLD.width,(join.y+y/1024*join.height)*scale/WORLD.height]));
+
 }
 
 addWorldWalkways(AREA_BY_ID,WORLD);
 installForestNavigation(AREA_BY_ID.forest,WORLD);
+
+installPaintedArenaFloors(AREAS);

@@ -1,0 +1,11 @@
+<!doctype html><meta charset="utf-8"><title>Painted paving review</title>
+<style>body{margin:0;background:#142a31}canvas{display:block}</style><canvas width="1536" height="1024"></canvas>
+<script type="module">
+import {AREA_BY_ID} from '../src/data.js';
+import {floors,canStand} from '../src/engine.js';
+const args=new URLSearchParams(location.search),area=AREA_BY_ID[args.get('area')||'ring'],c=document.querySelector('canvas').getContext('2d'),img=new Image();const tile=area.tiles?.[Number(args.get('tile')||0)];img.src='../assets/painted/'+(tile?.file||area.file);await img.decode();c.drawImage(img,0,0,1536,1024);
+if(!args.has('plain'))for(const poly of floors(area.id)){c.beginPath();poly.forEach((p,i)=>i?c.lineTo((p.x-(tile?.x||0))*1536/(tile?.width||1920),p.y*1024/(tile?.height||1280)):c.moveTo((p.x-(tile?.x||0))*1536/(tile?.width||1920),p.y*1024/(tile?.height||1280)));c.closePath();c.strokeStyle='#ff388c';c.lineWidth=4;c.stroke();}
+c.fillStyle='#10282bdf';c.fillRect(0,0,1536,38);c.fillStyle='white';c.font='24px sans-serif';c.fillText(area.id+' · '+area.name,15,28);
+if(args.has('grid')){c.font='15px sans-serif';c.strokeStyle='black';c.lineWidth=3;for(let y=100;y<1024;y+=100)for(let x=100;x<1536;x+=100){const label=x+','+y;c.strokeText(label,x,y);c.fillText(label,x,y);}}
+document.body.dataset.ready='true';
+</script>

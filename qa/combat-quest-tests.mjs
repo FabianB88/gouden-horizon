@@ -1,3 +1,4 @@
+import {enterTargetSection} from './walk-section.js';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {Engine,copy,canStand,findPath,clearLine,distance} from '../src/engine.js';
@@ -9,7 +10,7 @@ import {enemyMuzzle,enemyAttackMotion} from '../src/enemy-combat.js';
 let passed=0;const test=(name,run)=>{run();passed++;console.log('PASS '+name);};
 function arena(){const g=new Engine('tide',183);g.enterArea('ring');g.state.world.enemies=[];g.state.world.hazards=[];Object.assign(g.state.player,{x:850,y:640,invincible:0});return g;}
 function nora(){const g=new Engine('tide',72);g.state.cores=[0];g.enterArea('highway');Object.assign(g.state.player,{x:NORA.x,y:NORA.y});return g;}
-function walk(g,target){const p=g.state.player,path=findPath(p,target,g.state.area,26).length?findPath(p,target,g.state.area,26):findPath(p,target,g.state.area,18);assert(path.length);let from={x:p.x,y:p.y};const dense=[];for(const end of path){const count=Math.ceil(distance(from,end)/50);for(let i=1;i<=count;i++)dense.push({x:from.x+(end.x-from.x)*i/count,y:from.y+(end.y-from.y)*i/count});from=end;}for(const point of dense){let n=0;while(distance(p,point)>6&&n++<2400){const a=Math.round(Math.atan2((point.y-p.y)/.78,point.x-p.x)/(Math.PI/4))*Math.PI/4;g.update(1/60,{x:Math.round(Math.cos(a)),y:Math.round(Math.sin(a))});}assert(n<2400,JSON.stringify({target,point,position:{x:p.x,y:p.y},distance:distance(p,point)}));}assert(distance(p,target)<8);}
+function walk(g,target){enterTargetSection(g,target);const p=g.state.player,path=findPath(p,target,g.state.area,26).length?findPath(p,target,g.state.area,26):findPath(p,target,g.state.area,18);assert(path.length);let from={x:p.x,y:p.y};const dense=[];for(const end of path){const count=Math.ceil(distance(from,end)/50);for(let i=1;i<=count;i++)dense.push({x:from.x+(end.x-from.x)*i/count,y:from.y+(end.y-from.y)*i/count});from=end;}for(const point of dense){let n=0;while(distance(p,point)>6&&n++<2400){const a=Math.round(Math.atan2((point.y-p.y)/.78,point.x-p.x)/(Math.PI/4))*Math.PI/4;g.update(1/60,{x:Math.round(Math.cos(a)),y:Math.round(Math.sin(a))});}assert(n<2400,JSON.stringify({target,point,position:{x:p.x,y:p.y},distance:distance(p,point)}));}assert(distance(p,target)<8);}
 function clearDepot(g){g.enterArea('depot');for(let round=0;round<2;round++){for(const e of g.state.world.enemies.filter(e=>!e.dead))g.killEnemy(e);g.state.player.xp=0;g.update(.01);}assert(g.state.world.sideDone);return g.state.world.loot.find(i=>i.quest);}
 function flights(g,seconds){for(let i=0;i<Math.round(seconds*60);i++)g.updateProjectiles(1/60);}
 

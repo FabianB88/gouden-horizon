@@ -1,44 +1,45 @@
-import {TouchInput,bindTouchControl,touchCombatTarget,detectTouchDevice} from './touch-input.js?v=39';
-import {PROLOGUE} from './lore.js?v=39';
-import {journeyEntry,campaignAim} from './journey-content.js?v=39';
-import {JourneyLog} from './journey-log.js?v=39';
-import {PORTAL_ART} from './portal-art.js?v=39';
-import {ControllerInput,menuControls,focusMenu,confirmMenu,controllerTarget} from './gamepad.js?v=39';
-import {LanClient} from './lan-client.js?v=39';
-import {heroIdentity} from './coop-session.js?v=39';
-import {FrameTelemetry,needsSceneFrame} from './frame-performance.js?v=39';
-import {buildComparison} from './build-insights.js?v=39';
-import {quarterQuestBody,atelierBody,runeLabel} from './safe-exploration-ui.js?v=39';
-import {QUARTER_POINTS,LINDE} from './safe-exploration-content.js?v=39';
-import {companionUpgradeMenu} from './companion-upgrades.js?v=39';
-import {summonUnlockLevel} from './summon-progression.js?v=39';
-import {EQUIPMENT_SLOT_NAMES,itemFitsSlot,comparisonSlot} from './equipment-slots.js?v=39';
-import {adventureBoard,ADVENTURES} from './adventures.js?v=39';
-import {equipmentBody} from './equipment-ui.js?v=39';
-import {specializationMenu,SPECIALIZATIONS,START_BUILDS} from './specializations.js?v=39';
-import {CITY_NPCS,CITY_DIALOGUES} from './city.js?v=39';
-import {UNIQUE_ITEMS} from './unique-items.js?v=39';
-import {companionMenu} from './summons.js?v=39';
-import {normalizeSettings,SETTINGS_KEY,CAMERA_ZOOMS} from './settings.js?v=39';
-import {RESISTANCES,resistance} from './resistances.js?v=39';
-import {BOUNTIES} from './bounties.js?v=39';
-import {itemMark,protectedItem,markActions} from './item-marks.js?v=39';
-import {spellProfile,SPELL_VARIANTS} from './spell-variants.js?v=39';
-import {Engine,clamp,distance,normal} from './engine.js?v=39';
-import {TRIALS,TRIAL_TIERS,trialTime,recordText} from './endgame.js?v=39';
-import {SAFE_HUBS} from './hubs.js?v=39';
-import {STORY_ORDER,STORY_BEATS} from './story.js?v=39';
-import {assistedSkill,hotbarTarget} from './aim.js?v=39';
-import {Renderer} from './render.js?v=39';
-import {SPELLS,ZONES,AREAS,AREA_BY_ID,UPGRADES,DISCIPLINES,RARITIES,SLOT_NAMES} from './data.js?v=39';
-import {Soundscape} from './sound.js?v=39';
+import {TouchInput,bindTouchControl,touchCombatTarget,detectTouchDevice} from './touch-input.js?v=40';
+import {sectionBounds} from './area-sections.js?v=40';
+import {PROLOGUE} from './lore.js?v=40';
+import {journeyEntry,campaignAim} from './journey-content.js?v=40';
+import {JourneyLog} from './journey-log.js?v=40';
+import {PORTAL_ART} from './portal-art.js?v=40';
+import {ControllerInput,menuControls,focusMenu,confirmMenu,controllerTarget} from './gamepad.js?v=40';
+import {LanClient} from './lan-client.js?v=40';
+import {heroIdentity} from './coop-session.js?v=40';
+import {FrameTelemetry,needsSceneFrame} from './frame-performance.js?v=40';
+import {buildComparison} from './build-insights.js?v=40';
+import {quarterQuestBody,atelierBody,runeLabel} from './safe-exploration-ui.js?v=40';
+import {QUARTER_POINTS,LINDE} from './safe-exploration-content.js?v=40';
+import {companionUpgradeMenu} from './companion-upgrades.js?v=40';
+import {summonUnlockLevel} from './summon-progression.js?v=40';
+import {EQUIPMENT_SLOT_NAMES,itemFitsSlot,comparisonSlot} from './equipment-slots.js?v=40';
+import {adventureBoard,ADVENTURES} from './adventures.js?v=40';
+import {equipmentBody} from './equipment-ui.js?v=40';
+import {specializationMenu,SPECIALIZATIONS,START_BUILDS} from './specializations.js?v=40';
+import {CITY_NPCS,CITY_DIALOGUES} from './city.js?v=40';
+import {UNIQUE_ITEMS} from './unique-items.js?v=40';
+import {companionMenu} from './summons.js?v=40';
+import {normalizeSettings,SETTINGS_KEY,CAMERA_ZOOMS} from './settings.js?v=40';
+import {RESISTANCES,resistance} from './resistances.js?v=40';
+import {BOUNTIES} from './bounties.js?v=40';
+import {itemMark,protectedItem,markActions} from './item-marks.js?v=40';
+import {spellProfile,SPELL_VARIANTS} from './spell-variants.js?v=40';
+import {Engine,clamp,distance,normal} from './engine.js?v=40';
+import {TRIALS,TRIAL_TIERS,trialTime,recordText} from './endgame.js?v=40';
+import {SAFE_HUBS} from './hubs.js?v=40';
+import {STORY_ORDER,STORY_BEATS} from './story.js?v=40';
+import {assistedSkill,hotbarTarget} from './aim.js?v=40';
+import {Renderer} from './render.js?v=40';
+import {SPELLS,ZONES,AREAS,AREA_BY_ID,UPGRADES,DISCIPLINES,RARITIES,SLOT_NAMES} from './data.js?v=40';
+import {Soundscape} from './sound.js?v=40';
 
-import {statsText,sellValue,salvageValue} from './loot.js?v=39';
-import {loadoutBody,bindingLabel} from './loadout-ui.js?v=39';
-import {shopBody,visibleSellItems,sellableItems,updateSellSelection} from './shop-ui.js?v=39';
-import {effectText} from './legendary.js?v=39';
-import {ANTIDOTE_PRICE} from './survival.js?v=39';
-import {gearFeedback} from './gear-feedback.js?v=39';
+import {statsText,sellValue,salvageValue} from './loot.js?v=40';
+import {loadoutBody,bindingLabel} from './loadout-ui.js?v=40';
+import {shopBody,visibleSellItems,sellableItems,updateSellSelection} from './shop-ui.js?v=40';
+import {effectText} from './legendary.js?v=40';
+import {ANTIDOTE_PRICE} from './survival.js?v=40';
+import {gearFeedback} from './gear-feedback.js?v=40';
 
 const $=id=>document.getElementById(id),SAVE_KEY='gouden-horizon-action-v3';
 const RECORD_KEY='gouden-horizon-trial-records-v56';
@@ -80,6 +81,7 @@ function saved(){try{return localStorage.getItem(SAVE_KEY);}catch{return null;}}
 function save(){if(!started||engine.isLan||engine.testModeEnabled())return;try{const json=engine.serialize();if(json)localStorage.setItem(SAVE_KEY,json);}catch{ /* Private browsing may disable storage. The run remains playable. */ }}
 function refreshContinue(){$('continue-game').hidden=!saved();}
 function clearInput(){keys.clear();pointer.shoot=false;pointer.right=false;touchInput.reset();document.querySelectorAll('.touch-held').forEach(el=>el.classList.remove('touch-held'));updateTouchSticks();}
+function updateSectionTravel(){const button=$('section-travel'),route=engine.sectionTransition();button.hidden=!playable()||!route;if(!route)return;button.disabled=route.locked;button.dataset.side=route.side;setText($('section-travel-name'),'Naar '+route.name);setText($('section-travel-hint'),route.locked?route.reason:'GEBIEDSWISSEL');setText($('section-travel-arrow'),route.side==='right'?'→':'←');button.title=route.reason||'Ga naar het begin van '+route.name;}
 function playable(){return started&&!paused&&!modalKind&&engine.state.mode==='playing'&&renderer.areaReady?.(engine.state.area)!==false;}
 function showModal(kind,kicker,title,body,actions=[],view=null){
  if(!modalKind)previousFocus=document.activeElement;clearInput();modalKind=kind;$('modal-layer').dataset.kind=kind;$('modal-close').hidden=['loot','dead','won'].includes(kind);$('modal-kicker').textContent=kicker;$('modal-title').textContent=title;$('modal-body').innerHTML=body;$('modal-actions').replaceChildren();
@@ -311,7 +313,7 @@ function action(name,fromHotbar=false){if(!playable())return;audio.start();let o
 }
 function trialSafeText(s){return s.world.trial?'Tijdproef · vier golven en een eindbaas. Eén verdiende vondst na voltooiing. Je build stel je in tussen pogingen.':null;}
 function updateHUD(){controllerState.active?controllerPrompts():resetControllerPrompts();const s=engine.state,p=s.player,stats=engine.stats(),z=ZONES[s.zone],area=AREA_BY_ID[s.area];
- setText($('zone-place'),z.subtitle.toUpperCase());setText($('zone-title'),area.name);setText($('zone-count'),`${String(STORY_ORDER.filter(id=>engine.chapterComplete(id)).length).padStart(2,'0')} / ${STORY_ORDER.length}`);setText($('run-time'),timeLabel(s.runTime));setText($('terrain-text'),z.rule);
+ setText($('zone-place'),z.subtitle.toUpperCase());setText($('zone-title'),sectionBounds(s.area,p).name);setText($('zone-count'),`${String(STORY_ORDER.filter(id=>engine.chapterComplete(id)).length).padStart(2,'0')} / ${STORY_ORDER.length}`);setText($('run-time'),timeLabel(s.runTime));setText($('terrain-text'),z.rule);
  const defending=s.world.relays.filter(r=>r.status==='defending'),online=s.world.relays.filter(r=>r.status==='online').length;
  const remaining=s.world.enemies.filter(e=>!e.dead).length;
  setText($('quest-purpose'),campaignAim(s));
@@ -362,6 +364,7 @@ function ensureWorld(){
 }
 window.addEventListener('pointerdown',event=>{if(event.pointerType==='touch'&&settings.controls==='auto'){lastTouch=true;controller.mouse();syncTouchMode();}},{capture:true});
 window.addEventListener('pointerdown',event=>{if(event.pointerType==='mouse'&&settings.controls==='auto'&&lastTouch){lastTouch=false;syncTouchMode();}},{capture:true});
+$('section-travel').addEventListener('click',()=>{if(!playable())return;const route=engine.sectionTransition();if(!route||route.locked)return;clearInput();if(engine.switchAreaSection(route.index)){renderer.reset(engine.state.player,engine.state.area);save();updateHUD();updateSectionTravel();}});
 $('journey-button').addEventListener('click',()=>playable()&&showJourney());$('journey-peek-read').addEventListener('click',()=>playable()&&showJourney());$('journey-peek-close').addEventListener('click',()=>{$('journey-peek').hidden=true;});
 $('quest-toggle').addEventListener('click',()=>{if(touchMode)touchQuestOpen=!touchQuestOpen;else settings.questCollapsed=!settings.questCollapsed;applyQuestPanel();persistSettings();});
 $('discipline-label').addEventListener('click',()=>playable()&&showSkills('main'));$('special-button').addEventListener('contextmenu',event=>{event.preventDefault();if(!touchMode&&playable())showSkills('right');});document.querySelectorAll('[data-slot]').forEach(b=>b.addEventListener('contextmenu',event=>{event.preventDefault();if(!touchMode&&playable())showSkills(b.dataset.slot);}));
@@ -422,8 +425,8 @@ function frame(now){ensureWorld();updateJourney();const elapsed=(now-last)/1000,
  if(playable()||started&&engine.isLan){const move=playable()?moveInput():{x:0,y:0};let aim=controllerState.active?controllerTarget(engine.state.player,controllerState.aim):touchMode?(touchInput.aiming||touchInput.shooting?target():null):pointer.active?renderer.screenToWorld(pointer.x,pointer.y):null;frameTelemetry.measure('update',()=>engine.update(delta,{...move,aim,paused:!playable(),shoot:playable()&&(controllerState.active?controllerState.shoot:pointer.shoot||touchMode&&touchInput.shooting&&!touchInput.preview),slots:controllerState.active?controllerState.slots:['1','2','3','4','5','6'].filter(k=>keys.has(k)).map(k=>Number(k)-1),right:controllerState.active?controllerState.right:pointer.right||keys.has('q')}));
   if(!controllerState.active&&!pointer.active&&!touchInput.shooting&&!touchInput.preview&&!['1','2','3','4','5','6'].some(k=>keys.has(k))&&engine.state.player.moving)engine.state.player.aim=normal(move.x,move.y);if(!touchMode&&engine.state.runTime>12&&engine.state.runTime<13){$('tutorial-text').textContent='Richt in het veld en schiet met links of 1–6. Getij maakt nat; storm geleidt. K: skills instellen.';}
  }
- for(const event of engine.takeEvents()){audio.event(event);if(event.type==='purchase')announcePurchase(event);if(event.type==='hit'&&!event.secondary&&(event.crit||event.heavy))renderer.kick(event.crit?1.1:.55);if(event.type==='trialrecord'){try{localStorage.setItem(engine.isLan?'gouden-horizon-lan-records-v87':RECORD_KEY,JSON.stringify(event.records));}catch{}}if(event.type==='discovery'&&event.item)announceLoot(event);if(event.type==='contractunlocked'){$('tutorial-text').textContent='BAASCONTRACT VRIJ · Sera staat in deze handelspost. Kies schroot of gerichte uitrusting. F bij Sera, of M voor de kaart.';$('tutorial').hidden=false;}if(event.type==='natureregion'){$('tutorial-text').textContent='NIEUWE ROUTE · De groene poort in Koelhof leidt naar het Lantaarnwoud. Verken de stad, versla de Kristalwaterval en daag daarna de Kroonbeer uit. M: kaart.';$('tutorial').hidden=false;}if(event.type==='levelready'){announceLevel(event.level);renderer.kick(3);}if(event.type==='zone'){$('journey-peek').hidden=true;if(engine.isLan){hideModal();paused=false;renderer.renderArea=engine.state.area;}renderer.reset(engine.state.player,engine.state.area);audio.setZone(engine.state.zone,engine.state.area);$('tutorial-text').textContent=touchMode?'Tik bij een doorgang of vondst · kaart, spreuken en rugzak staan bovenaan':'F: doorgang of vondst · M: wereldkaart · K: vaardigheden · I: rugzak';}if(['special','combo'].includes(event.type))renderer.kick(2);if(event.type==='hurt'){renderer.kick(6);$('damage-flash').classList.add('hit');setTimeout(()=>$('damage-flash').classList.remove('hit'),180);}if(event.type==='ultimate')renderer.kick(5);if(event.type==='ultimpact')renderer.kick(13);}
+ for(const event of engine.takeEvents()){audio.event(event);if(event.type==='purchase')announcePurchase(event);if(event.type==='hit'&&!event.secondary&&(event.crit||event.heavy))renderer.kick(event.crit?1.1:.55);if(event.type==='trialrecord'){try{localStorage.setItem(engine.isLan?'gouden-horizon-lan-records-v87':RECORD_KEY,JSON.stringify(event.records));}catch{}}if(event.type==='discovery'&&event.item)announceLoot(event);if(event.type==='contractunlocked'){$('tutorial-text').textContent='BAASCONTRACT VRIJ · Sera staat in deze handelspost. Kies schroot of gerichte uitrusting. F bij Sera, of M voor de kaart.';$('tutorial').hidden=false;}if(event.type==='natureregion'){$('tutorial-text').textContent='NIEUWE ROUTE · De groene poort in Koelhof leidt naar het Lantaarnwoud. Verken de stad, versla de Kristalwaterval en daag daarna de Kroonbeer uit. M: kaart.';$('tutorial').hidden=false;}if(event.type==='levelready'){announceLevel(event.level);renderer.kick(3);}if(['zone','section'].includes(event.type)){$('journey-peek').hidden=true;if(engine.isLan){hideModal();paused=false;renderer.renderArea=engine.state.area;}renderer.reset(engine.state.player,engine.state.area);audio.setZone(engine.state.zone,engine.state.area);$('tutorial-text').textContent=touchMode?'Tik bij een doorgang of vondst · kaart, spreuken en rugzak staan bovenaan':'F: doorgang of vondst · M: wereldkaart · K: vaardigheden · I: rugzak';}if(['special','combo'].includes(event.type))renderer.kick(2);if(event.type==='hurt'){renderer.kick(6);$('damage-flash').classList.add('hit');setTimeout(()=>$('damage-flash').classList.remove('hit'),180);}if(event.type==='ultimate')renderer.kick(5);if(event.type==='ultimpact')renderer.kick(13);}
  audio.setTension(started&&playable()&&!engine.inCamp()?engine.state.world.enemies.filter(e=>!e.dead&&e.awake).length>0?1:0:0);const draw=started&&engine.isLan||needsSceneFrame(started,playable(),renderer,engine.state.mode);if(draw){frameTelemetry.measure('render',()=>renderer.render(engine,now/1000,delta));renderer.lastSceneMode=engine.state.mode;renderer.sceneDirty=false;}if(started){if(modalKind==='test'&&engine.testModeEnabled()&&$('test-code'))showTestMode();updateCoopHUD();pendingModal();if(playable()||draw)hudTick+=delta;if(hudTick>.08){frameTelemetry.measure('hud',updateHUD);hudTick=0;}if(now-lastSave>8000){save();lastSave=now;}}
- }positionControllerAim();requestAnimationFrame(frame);}
+ }updateSectionTravel();positionControllerAim();requestAnimationFrame(frame);}
 applySettings();refreshContinue();renderer.resize();requestAnimationFrame(frame);
 renderer.load(message=>setText($('load-status'),message)).then(()=>{loaded=true;renderer.reset(engine.state.player,engine.state.area);$('new-game').disabled=false;$('load-status').hidden=true;if(new URLSearchParams(location.search).has('lan'))showLan();}).catch(error=>{console.error(error);$('load-status').hidden=false;$('load-status').textContent='De spelbeelden konden niet laden. Vernieuw de pagina en probeer opnieuw.';});

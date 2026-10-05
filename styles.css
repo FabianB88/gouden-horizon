@@ -147,3 +147,14 @@
 [data-kind="discipline"] .specialization-options .class-portrait{width:170px;height:200px;max-width:100%}
 
 [data-kind="prologue"] .modal{max-width:780px} .prologue-scene img{display:block;width:100%;height:clamp(150px,28vh,280px);object-fit:cover;object-position:50% 45%;border-radius:12px;border:1px solid #c4a77066;margin-bottom:20px} .prologue-scene p{font-size:1.1rem;line-height:1.65;color:#304d49}.prologue-goal{padding:16px 20px;background:#244248;color:#f0e2c4;border-left:3px solid #e0bf77}.prologue-goal strong{display:block;color:#f6d990;margin-bottom:6px}
+
+/* Each large painting has an explicit screen-edge destination. */
+.section-travel{position:absolute;z-index:18;right:14px;top:52%;display:grid;grid-template-columns:1fr 30px;gap:6px 14px;min-height:78px;width:224px;padding:16px 18px;text-align:left;border:1px solid #c8ac6c99;border-radius:12px;background:linear-gradient(135deg,#17383bee,#10282bed);color:#f7e7bf;box-shadow:0 6px 24px #06151b66;cursor:pointer;touch-action:manipulation;}
+.section-travel small{grid-column:1;font-size:10px;letter-spacing:.12em;color:#ccb987;}
+.section-travel strong{grid-column:1;font-size:16px;line-height:1.2;}
+.section-travel span{grid-column:2;grid-row:1/3;align-self:center;font-size:29px;}
+.section-travel[data-side="left"]{left:14px;right:auto;}
+.section-travel:disabled{cursor:default;opacity:.7;}
+.section-travel:hover:not(:disabled),.section-travel:focus-visible{background:#245457;border-color:#ffe0a0;outline:2px solid #f3d497;outline-offset:3px;}
+.section-travel[hidden]{display:none;}
+@media(max-width:720px){.section-travel{top:35%;right:8px;width:176px;min-height:66px;padding:12px;gap:4px 8px;}.section-travel[data-side="left"]{left:8px;}.section-travel strong{font-size:14px;}.section-travel small{font-size:9px;}}

@@ -1,6 +1,12 @@
-# Gouden Horizon v8.8.6 — Zichtbare wegen in de Groene Corridor
+# Gouden Horizon v8.9.0 — Losse gebiedsschermen en geschilderde loopruimte
 
 De volledige bronversie voor desktop en Android in de browser, online solo via GitHub Pages of Render, en gratis LAN-co-op. Upload de inhoud van `dist/` na `npm run site:build`, of publiceer deze bronmap rechtstreeks: `index.html`, `src/`, `assets/`, de vier CSS-bestanden en `.nojekyll` moeten bij elkaar blijven. Er is geen Android-app of betaalde server nodig voor solo.
+
+## Nieuw in v8.9.0
+
+De vijf grote uitbreidingen gebruiken nu een zichtbare knop aan de schermrand: **Naar …**. Elk stuk toont één eigen schildering, met aankomst op bestrating en een duidelijke terugknop. De verbindingsbruggen en het doorlopen van achtergronden zijn vervangen door deze schermwissel. Milo en de fysieke serre-/wijkhekken blijven hun bestaande toegang bewaken; quests, gezondheid, aankopen en opgeslagen voortgang blijven behouden. In LAN kiezen beide spelers samen voor de overgang.
+
+Alle 27 verschillende arenaschilderingen hebben een eigen loopvlak, inclusief de zuidelijke bestrating, trappen en plateaus. De controles volgen vaste geschilderde wegen, meten afwijking per bewegingsstap en controleren de volledige voetruimte. Zie `qa/SCREEN-V890-VALIDATION.md`.
 
 ## Nieuw in v8.8.6
 

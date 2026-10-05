@@ -16,15 +16,15 @@ export const PAINTED_LANES=[
  ['western greenhouse balcony',0,10,[[1180,770],[1225,795],[1257,813],[1248,834],[1215,824]]],
  ['conservatory entry stairs',1,12,[[35,244],[90,271],[135,318],[220,369],[315,414],[400,450],[440,445]]],
  ['Seya forecourt loop',1,12,[[50,586],[140,536],[205,505],[285,534],[380,551],[466,579],[525,569],[475,534],[400,505],[365,480],[365,448],[400,440],[440,445]]],
- ['continuous market bridge to physical gate',0,10,[[350,620],[580,496],[900,342],[1180,220],[1278,168],[1314,128],[1319,107],[1341,110],[1391,128],[1474,178],[1570,231],[1661,288],[1714,328],[1732,334],[1814,380],[1890,415],[1976,445]]],
+
 ];
-// One continuous trip, with the physical gate opened between the two stages.
-// Coordinates use the combined painting, so crossing the tile boundary never
-// places the hero elsewhere. The return uses the same roads in reverse.
+// Independent legs within each screen; travel between them uses the edge button.
+// The physical conservatory gate still opens through the usual interaction.
 const east=points=>points.map(([x,y])=>[x+1536,y]);
 const crystal=PAINTED_LANES[6][3].slice(0,10);
 export const PAINTED_JOURNEY={
- beforeGate:PAINTED_LANES[15][3],
+ market:PAINTED_LANES[9][3],
+ beforeGate:east([[205,505],[285,534],[380,551],[400,505],[365,480],[365,448],[400,440],[440,445]]),
  afterGate:east([
   [440,445],[485,445],...PAINTED_LANES[4][3],
   [800,515],[835,573],[905,548],[977,522],

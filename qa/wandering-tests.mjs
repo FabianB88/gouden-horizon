@@ -1,3 +1,4 @@
+import {enterTargetSection} from './walk-section.js';
 import assert from 'node:assert/strict';
 import {statSync} from 'node:fs';
 import {Engine,canStand,clearLine,findPath,distance,copy} from '../src/engine.js';
@@ -8,7 +9,7 @@ import {STORY_ORDER} from '../src/story.js';
 import {ADVENTURE_NPCS} from '../src/adventures.js';
 let n=0;const test=(name,fn)=>{fn();console.log('PASS '+name);n++;};
 function game(seed=860){const g=new Engine('tide',seed);g.state.cores=[0,1,2,3];g.state.storyPassed=[...STORY_ORDER];g.state.natureVictories={crystalfalls:1};return g;}
-function walk(g,target){
+function walk(g,target){enterTargetSection(g,target);
  const p=g.state.player,id=g.state.area,route=findPath(p,target,id,35);assert(route.length,id+' unreachable '+JSON.stringify(target));
  const path=[];let from={x:p.x,y:p.y};for(const end of route){const count=Math.ceil(distance(from,end)/70);for(let i=1;i<=count;i++)path.push({x:from.x+(end.x-from.x)*i/count,y:from.y+(end.y-from.y)*i/count});from=end;}
  for(const point of path){let frames=0;while(distance(p,point)>5&&frames++<1800){const a=Math.round(Math.atan2((point.y-p.y)/.78,point.x-p.x)/(Math.PI/4))*Math.PI/4;g.update(1/60,{x:Math.round(Math.cos(a)),y:Math.round(Math.sin(a))});}assert(frames<1800,id+' blocked keyboard route');}

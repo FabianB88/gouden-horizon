@@ -1,3 +1,4 @@
+import {enterTargetSection} from './walk-section.js';
 import assert from 'node:assert/strict';
 import {Engine,copy,canStand,findPath,distance} from '../src/engine.js';
 import {ENEMIES,START_EQUIPMENT,WORLD,AREAS,worldBounds} from '../src/data.js';
@@ -12,7 +13,7 @@ let n=0;const test=(name,fn)=>{fn();console.log('PASS '+name);n++;};
 function arena(){const g=new Engine('tide',421);g.enterArea('ring');g.state.world.enemies=[];g.state.world.hazards=[];Object.assign(g.state.player,{x:850,y:640,invincible:0});g.state.player.stats.crit=-.07;return g;}
 function equip(g,slot){const item=makeItem({rng:g.rng,rarity:'legendary',slot,level:1,uid:999});item.stats={};g.state.player.equipment[slot]=item;return item;}
 function dummy(g,x=1100,y=640){const e=g.makeEnemy('raider',x,y);e.hp=e.maxHp=10000;e.cd=e.stun=99;g.state.world.enemies.push(e);return e;}
-function walkWithKeys(g,target){
+function walkWithKeys(g,target){enterTargetSection(g,target);
  const p=g.state.player,id=g.state.area;
  // Plan with extra body clearance. Reach each bend before turning instead of
  // cutting it early; input remains ordinary discrete eight-direction keys.
@@ -22,7 +23,7 @@ function walkWithKeys(g,target){
  assert(distance(p,target)<8);
 }
 test('Safe hubs have fixed distinct arena and generator doors that cannot bypass progression',()=>{const g=new Engine();const before=copy(g.state.world.portals);assert.equal(g.state.world.portals.filter(p=>!p.locked).length,1);const gate=g.state.world.portals.find(p=>p.to==='ring');Object.assign(g.state.player,gate);assert.equal(g.interaction().type,'lockedPortal');assert(!g.interact());g.state.storyPassed=['canal','delta'];g.syncStoryPortals();assert(!g.state.world.portals.find(p=>p.to==='ring').locked);assert.deepEqual(g.state.world.portals.map(({x,y,to})=>({x,y,to})),before.map(({x,y,to})=>({x,y,to})));});
-test('All three merchants, fixed gates and exploration caches can be walked to in each hub',()=>{for(const id of SAFE_HUBS){const g=new Engine();g.state.cores=[0,1,2,3];g.state.storyPassed=[...STORY_ORDER];assert(g.enterArea(id));assert.equal(g.state.world.enemies.length,0);assert.equal(g.state.world.hazards.length,0);assert.equal(g.state.world.camp.services.length,3);for(const point of [...g.state.world.camp.services,...g.state.world.portals,...g.state.world.loot]){const p=g.state.player;assert(canStand(point.x,point.y,18,id));const path=findPath(p,point,id);assert(path.length,id+' inaccessible service');for(const step of path){let i=0;while(distance(p,step)>1&&i++<3000){const d=Math.hypot(step.x-p.x,step.y-p.y),r=Math.min(2,d);g.moveEntity(p,(step.x-p.x)/d*r,(step.y-p.y)/d*r);}assert(distance(p,step)<1.1,JSON.stringify({id,target:point,step,x:p.x,y:p.y}));}}}});
+test('All three merchants, fixed gates and exploration caches can be walked to in each hub',()=>{for(const id of SAFE_HUBS){const g=new Engine();g.state.cores=[0,1,2,3];g.state.storyPassed=[...STORY_ORDER];assert(g.enterArea(id));assert.equal(g.state.world.enemies.length,0);assert.equal(g.state.world.hazards.length,0);assert.equal(g.state.world.camp.services.length,3);for(const point of [...g.state.world.camp.services,...g.state.world.portals,...g.state.world.loot]){enterTargetSection(g,point);const p=g.state.player;assert(canStand(point.x,point.y,18,id));const path=findPath(p,point,id);assert(path.length,id+' inaccessible service');for(const step of path){let i=0;while(distance(p,step)>1&&i++<3000){const d=Math.hypot(step.x-p.x,step.y-p.y),r=Math.min(2,d);g.moveEntity(p,(step.x-p.x)/d*r,(step.y-p.y)/d*r);}assert(distance(p,step)<1.1,JSON.stringify({id,target:point,step,x:p.x,y:p.y}));}}}});
 test('Expanded hubs provide more walking room and gates occupy separate plazas instead of a row',()=>{
  const previous={canal:409,highway:461,forest:258,skybridge:424};
  for(const id of SAFE_HUBS){const g=new Engine();g.state.cores=[0,1,2,3];g.state.storyPassed=[...STORY_ORDER];assert(g.enterArea(id));let floor=0;

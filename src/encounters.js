@@ -1,4 +1,4 @@
-import {ENEMIES} from './data.js?v=39';
+import {ENEMIES} from './data.js?v=40';
 const distance=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 const normal=(x,y)=>{const n=Math.hypot(x,y)||1;return {x:x/n,y:y/n};};
 export const NEW_ROLES=['eel','salamander','shieldguard','stormnest'];

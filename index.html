@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#142a31"><meta name="description" content="Gouden Horizon — een geschilderde action RPG. Verken vierentwintig hoofdstukken, kies je vaardigheden en herstel het klimaatnet in een magische wereld na de Wereldbreuk.">
-  <title>Gouden Horizon — Aurelia</title><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css?v=39"><link rel="stylesheet" href="mobile.css?v=39"><link rel="stylesheet" href="item-details.css?v=39"><link rel="stylesheet" href="journey.css?v=39">
+  <title>Gouden Horizon — Aurelia</title><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css?v=40"><link rel="stylesheet" href="mobile.css?v=40"><link rel="stylesheet" href="item-details.css?v=40"><link rel="stylesheet" href="journey.css?v=40">
 </head>
 <body>
   <main class="game" id="game" aria-label="Gouden Horizon">
@@ -21,6 +21,7 @@
     <div id="loot-announcement" class="loot-announcement" role="status" hidden><img id="loot-announcement-art" alt=""><div><small id="loot-announcement-meta"></small><strong id="loot-announcement-title"></strong><span id="loot-announcement-change"></span></div></div>
     <div id="level-announcement" class="level-announcement" role="status" hidden><small>LEVEL-UP</small><strong id="level-announcement-title">Niveau 2 bereikt</strong><span>+1 vaardigheidspunt</span></div>
     <div class="interaction" id="interaction" hidden><kbd>F</kbd><span>Start kalibratie</span></div>
+    <button class="section-travel" id="section-travel" type="button" hidden><small id="section-travel-hint">VOLGEND GEBIED</small><strong id="section-travel-name"></strong><span aria-hidden="true" id="section-travel-arrow">→</span></button>
     <div class="tutorial glass" id="tutorial"><span data-icon="mouse"></span><p id="tutorial-text">Beweeg met WASD. Richt met je muis en houd links ingedrukt om te vuren.</p><button id="dismiss-tutorial" aria-label="Tip sluiten">×</button></div>
     <div class="vitals glass"><div class="health-orb"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="35"/><circle id="health-ring" cx="40" cy="40" r="35"/></svg><strong id="hp-number">100</strong><small>LEVEN</small></div><div class="resource-bars"><div class="resource-title"><button id="discipline-label" title="Hoofdaanval wijzigen (K)">LINKS · GETIJ · K</button><button id="level-label" title="Levelpunten besteden (K)">NIV. 1</button></div><div class="mana"><i id="mana-bar"></i><span id="mana-number">110 / 110</span></div><div class="experience"><i id="xp-bar"></i></div><div class="resource-bottom"><span id="status-label">STABIEL</span><span id="scrap-label">0 SCHROOT</span></div></div></div>
     <nav class="hotbar glass" aria-label="Spreuken en vaardigheden">
@@ -58,5 +59,5 @@
   <aside class="controller-status glass" id="controller-status" hidden aria-live="polite"></aside>
   <aside id="purchase-toast" class="purchase-toast" role="status" aria-live="polite" hidden><span id="purchase-toast-art"></span><div><small>AANKOOP VOLTOOID</small><strong id="purchase-toast-title"></strong><p id="purchase-toast-meta"></p></div><button id="purchase-toast-close" aria-label="Aankoopmelding sluiten">×</button></aside>
   <noscript>Deze game heeft JavaScript nodig om te spelen.</noscript>
-  <script type="module" src="src/main.js?v=39"></script>
+  <script type="module" src="src/main.js?v=40"></script>
 </body></html>

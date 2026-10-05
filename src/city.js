@@ -1,8 +1,8 @@
-import {cityExtensionPoint} from './city-extension.js?v=39';
-import {UNIQUE_ITEMS} from './unique-items.js?v=39';
-import {AREA_BY_ID} from './data.js?v=39';
-import {makeItem,makeUniqueItem} from './loot.js?v=39';
-import {spaciousPoint} from './hub-space.js?v=39';
+import {cityExtensionPoint} from './city-extension.js?v=40';
+import {UNIQUE_ITEMS} from './unique-items.js?v=40';
+import {AREA_BY_ID} from './data.js?v=40';
+import {makeItem,makeUniqueItem} from './loot.js?v=40';
+import {spaciousPoint} from './hub-space.js?v=40';
 export const CITY_NPCS=[
  {id:'ilya',name:'Ilya · Levenshoeder',title:'Het levende verbond',x:1560,y:540,art:0},
  {id:'milo',name:'Milo · Cartograaf',title:'Kaarten van Vrijhaven',x:350,y:290,art:1},

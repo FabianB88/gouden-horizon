@@ -9,7 +9,7 @@ function target(g,type='raider',x=750,y=600){const e=g.makeEnemy(type,x,y);e.cd=
 function handleLevel(g){if(g.state.pending?.type==='upgrade')g.chooseUpgrade(0);}
 
 test('Every objective is reachable on the painted court; movement cannot leave it',()=>{
- const g=quiet();for(let zone=0;zone<4;zone++)for(const p of Object.values(POSITIONS))assert(canStand(p.x,p.y,18,zone),`Objective outside zone ${zone}`);advance(g,10,{x:-1});assert(canStand(g.state.player.x,g.state.player.y));assert(g.state.player.x>260);
+ const g=quiet();for(let zone=0;zone<4;zone++)for(const p of Object.values(POSITIONS))assert(canStand(p.x,p.y,18,zone),`Objective outside zone ${zone}`);advance(g,10,{x:-1});assert(canStand(g.state.player.x,g.state.player.y));assert(!canStand(100,g.state.player.y,18,'ring'),'the painted water stays outside the floor');
 });
 test('Actual projectile collision, cooldown and insufficient mana',()=>{
  const g=quiet(),p=g.state.player;p.x=500;p.y=600;const e=target(g,'turret',750,600);g.aimAt(e.x,e.y);const mana=p.mana;assert(g.cast());assert.equal(p.mana,mana-4);assert(!g.cast());advance(g,.4);assert(e.hp<e.maxHp);assert(e.wet>0);p.attackCd=0;p.mana=3;assert(!g.cast());

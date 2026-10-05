@@ -21,4 +21,10 @@ test('Removed entities leave no interpolation cache; teleports snap and paused L
 test('Changing areas resets visual positions rather than dragging old coordinates across maps',()=>{
  const {party,client,snapshot}=setup();party.rpc('hero-1','enterArea',['delta']);party.acceptTravel('hero-2');const next=snapshot();client.applySnapshot(next,[]);assert.equal(client.state.area,'delta');assert.equal(client.visualTargets.size,0);assert.deepEqual(client.correction,{x:0,y:0});
 });
+test('Screen travel snaps both LAN heroes onto the new painting without interpolating the old bridge',()=>{
+ const {party,client,snapshot}=setup();party.rpc('hero-1','unlockTestMode',['fabian1']);party.rpc('hero-1','testTravel',['forest']);party.acceptTravel('hero-2');client.applySnapshot(snapshot(),[]);
+ const oldPeer=client.state.coop.players.find(p=>p.player).player.x;
+ party.rpc('hero-1','switchAreaSection',[1]);party.acceptTravel('hero-2');const next=snapshot(),arrival=next.coop.players.find(p=>p.player).player.x;
+ client.applySnapshot(next,[]);assert(arrival>oldPeer+1000);assert.equal(client.state.coop.players.find(p=>p.player).player.x,arrival);assert.deepEqual(client.correction,{x:0,y:0});
+});
 console.log(`\n${n} LAN visual interpolation checks passed.`);
