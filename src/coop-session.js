@@ -1,5 +1,5 @@
 // Authoritative two-player simulation. Rendering and menus remain browser-side.
-import {Engine,copy,distance,canStand,seeded} from './engine.js?v=40';
+import {Engine,copy,distance,canStand,seeded} from './engine.js?v=41';
 import {EnemyCrowd} from './enemy-ai.js?v=40';
 import {updateEnemyMotion} from './enemy-motion.js?v=40';
 import {AREA_BY_ID,ENEMIES} from './data.js?v=40';
@@ -52,8 +52,14 @@ export class CoopSession {
  }
  partyCheckpoint(){const g=this.engine;if(!g)return;this.checkpoint={state:copy({...g.state,checkpoint:null,areas:{...g.state.areas,[g.state.area]:g.state.world}}),actors:copy(this.actors.map(a=>({id:a.id,player:a.player}))),rng:g.rng.getState(),counter:g.idCounter};}
  retry(){if(!this.checkpoint||!this.actors.every(a=>a.player.hp<=0))return false;const cp=copy(this.checkpoint);this.engine.state=cp.state;this.engine.state.world=this.engine.state.areas[this.engine.state.area];this.engine.idCounter=cp.counter;this.engine.rng=seeded(cp.rng);for(const a of this.actors){a.player=cp.actors.find(p=>p.id===a.id).player;a.mode='playing';a.pending=null;a.summons=[];a.ultimateWave=null;a.events=[];a.threatHits={};a.input={};}return true;}
+ respawnAtHub(){
+  if(!this.actors.every(a=>a.player.hp<=0))return false;
+  const g=this.engine,hub=this.withActor(this.actors[0],()=>g.respawnHub()),from=g.state.area;if(!hub||!this.retry())return false;
+  for(const a of this.actors)this.withActor(a,()=>{Object.assign(a.player,{hp:g.stats().maxHp,mana:g.stats().maxMana,venom:0,venomTick:0,venomDamage:0,poison:0,heat:0,wet:0,rootSlow:0});});
+  g.state.destination=null;this.travel={id:hub,from,accepted:new Set(this.actors.map(a=>a.id)),expires:this.time+20};return this.commitTravel();
+ }
  input(id,data){const a=this.actor(id);if(a){a.input=cleanInput(data);a.inputAt=this.time;}}
- rpc(id,method,args=[]){const a=this.actor(id);if(!a||!this.started||!a.connected||!this.actors.every(p=>p.connected))return false;if(method==='acceptTravel'){this.acceptTravel(id);return true;}if(method==='retry')return this.retry();if(!RPC_METHODS.has(method)||typeof this.engine[method]!=='function'||!Array.isArray(args)||args.length>4||JSON.stringify(args).length>2000||a.player.hp<=0&&!['unlockTestMode','lockTestMode','testTravel'].includes(method))return false;
+ rpc(id,method,args=[]){const a=this.actor(id);if(!a||!this.started||!a.connected||!this.actors.every(p=>p.connected))return false;if(method==='acceptTravel'){this.acceptTravel(id);return true;}if(method==='retry')return this.retry();if(method==='respawnAtHub')return this.respawnAtHub();if(!RPC_METHODS.has(method)||typeof this.engine[method]!=='function'||!Array.isArray(args)||args.length>4||JSON.stringify(args).length>2000||a.player.hp<=0&&!['unlockTestMode','lockTestMode','testTravel'].includes(method))return false;
   if(method==='restartChallenge'){const trial=this.engine.state.world.trial;if(!trial)return false;this.engine.state.challengeRequest={id:trial.id,tier:trial.tier};return this.requestTravel(a,trial.id,this.engine.state.area);}
   if(method==='interact'){const fallen=this.actors.find(p=>p!==a&&p.player.hp<=0&&distance(p.player,a.player)<95);if(fallen){if(!a.player.potions||a.player.healCooldown>0)return false;a.revive={target:fallen.id,time:0,position:{x:a.player.x,y:a.player.y},hurt:a.player.lastHurt};return true;}}
   return this.withActor(a,()=>{const xp=a.player.xp,scrap=a.player.scrap,before=a.player.inventory.length,result=this.engine[method](...args);if(result&&['claimCityQuest','claimQuarterQuest','claimSalvageReward'].includes(method))for(const other of this.actors)if(other!==a){other.player.xp+=Math.max(0,a.player.xp-xp);other.player.scrap+=Math.max(0,a.player.scrap-scrap);for(const key of ['runeWorkshopUnlocked','uniqueBlueprints','contractUnlocked'])if(a.player[key])other.player[key]=a.player[key];for(const item of a.player.inventory.slice(before)){const clone=copy(item);clone.uid=++this.engine.idCounter;if(other.player.inventory.length<48)other.player.inventory.push(clone);else this.engine.state.world.loot.push({id:++this.engine.idCounter,x:other.player.x,y:other.player.y,type:'loot',item:clone,ownerId:other.id});}}return result;});

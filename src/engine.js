@@ -132,11 +132,12 @@ export class Engine {
     }
     this.prepareHub(w,area);this.prepareCreatureWorld(w,area);return w;
   }
-  checkpoint() {const s=this.state;s.checkpoint={area:s.area,zone:s.zone,player:copy(s.player),areas:copy(s.areas),visited:copy(s.visited),kills:s.kills,combos:s.combos,cores:copy(s.cores),codex:copy(s.codex),storyPassed:copy(s.storyPassed||[]),quests:copy(s.quests||{}),natureVictories:copy(s.natureVictories||{}),natureDiscoveries:copy(s.natureDiscoveries||[]),biomeVictories:copy(s.biomeVictories||{}),natureAnnounced:s.natureAnnounced,campaignVersion:s.campaignVersion};}
+  checkpoint() {const s=this.state;s.checkpoint={area:s.area,zone:s.zone,player:copy(s.player),areas:copy(s.areas),visited:copy(s.visited),kills:s.kills,combos:s.combos,cores:copy(s.cores),codex:copy(s.codex),storyPassed:copy(s.storyPassed||[]),quests:copy(s.quests||{}),natureVictories:copy(s.natureVictories||{}),natureDiscoveries:copy(s.natureDiscoveries||[]),biomeVictories:copy(s.biomeVictories||{}),natureAnnounced:s.natureAnnounced,campaignVersion:s.campaignVersion,lastSafeArea:s.lastSafeArea};}
   enterZone(zone) {return this.enterArea(HUB_IDS[zone]);}
   enterArea(id,from=null) {
     const area=AREA_BY_ID[id],firstVisit=!this.state.visited.includes(id);if(!area)return false;if(!this.isUnlocked(id)){this.notice('Deze route komt vrij na de volgende kalibratiekern');return false;}
     const s=this.state,p=s.player;if(s.world)s.areas[s.area]=s.world;if(area.endgame||area.optional&&s.areas[id]?.sideDone)delete s.areas[id];s.area=id;s.zone=area.zone;s.mode='playing';s.pending=null;s.projectiles=[];s.fields=[];s.ultimateWave=null;s.effects=[];s.numbers=[];s.summons=[];
+    if(SAFE_HUBS.includes(id)||area.safeExplore)s.lastSafeArea=id;
     s.world=s.areas[id]||this.createWorld(area);s.world.portals=this.portalDefinitions(id);s.world.camp=this.campFor(area);if(s.world.camp&&!s.world.shop)s.world.shop={stock:this.makeStock(area.zone,area.id),marketVersion:2};s.areas[id]=s.world;if(!s.visited.includes(id))s.visited.push(id);
     this.prepareHub(s.world,area);s.world.threats||=[];this.syncStoryPortals();
     const spawn=area.safeExplore||area.natureArena||area.biomeArena||area.adventure||area.extension&&!area.safe?{x:area.spawn[0]*WORLD.width,y:area.spawn[1]*WORLD.height}:area.id==='canal'?{x:POSITIONS.start.x*1.4,y:POSITIONS.start.y*1.4}:area.kind==='route'?s.world.camp:POSITIONS.start;
@@ -316,7 +317,18 @@ export class Engine {
   closeModal() {if(this.state.mode==='modal'&&['archive','shop','quest','trialResult','exploration'].includes(this.state.pending?.type)){this.state.pending=null;this.state.mode='playing';}}
   retry() {
     const s=this.state;if(s.world?.trial)return this.restartChallenge();const c=s.checkpoint;if(!c)return;
-    s.player=copy(c.player);s.kills=c.kills;s.combos=c.combos;s.cores=copy(c.cores);s.codex=copy(c.codex);s.areas=copy(c.areas);s.visited=copy(c.visited);s.storyPassed=copy(c.storyPassed||[]);s.quests=copy(c.quests||{});s.natureVictories=copy(c.natureVictories||{});s.natureDiscoveries=copy(c.natureDiscoveries||[]);s.biomeVictories=copy(c.biomeVictories||{});s.natureAnnounced=c.natureAnnounced;s.campaignVersion=c.campaignVersion;s.area=c.area;s.world=null;s.player.hp=this.stats().maxHp;s.player.potions=Math.max(2,s.player.potions);this.enterArea(c.area);this.emit('checkpoint');
+    s.player=copy(c.player);s.kills=c.kills;s.combos=c.combos;s.cores=copy(c.cores);s.codex=copy(c.codex);s.areas=copy(c.areas);s.visited=copy(c.visited);s.storyPassed=copy(c.storyPassed||[]);s.quests=copy(c.quests||{});s.natureVictories=copy(c.natureVictories||{});s.natureDiscoveries=copy(c.natureDiscoveries||[]);s.biomeVictories=copy(c.biomeVictories||{});s.natureAnnounced=c.natureAnnounced;s.campaignVersion=c.campaignVersion;s.lastSafeArea=c.lastSafeArea||s.lastSafeArea;s.area=c.area;s.world=null;s.player.hp=this.stats().maxHp;s.player.potions=Math.max(2,s.player.potions);this.enterArea(c.area);this.emit('checkpoint');
+  }
+  respawnHub(){
+    const s=this.state,a=AREA_BY_ID[s.area],safe=id=>SAFE_HUBS.includes(id)||AREA_BY_ID[id]?.safeExplore;
+    const id=[s.lastSafeArea,s.checkpoint?.lastSafeArea,a?.returnHub,SAFE_HUBS.find(id=>AREA_BY_ID[id].zone===s.zone)].find(id=>id&&safe(id)&&this.isUnlocked(id));
+    return id&&id!==s.area?id:null;
+  }
+  respawnAtHub(){
+    const s=this.state,hub=this.respawnHub();if(s.mode!=='dead'||!s.checkpoint||!hub)return false;
+    this.retry();if(s.mode!=='playing')return false;
+    Object.assign(s.player,{hp:this.stats().maxHp,mana:this.stats().maxMana,venom:0,venomTick:0,venomDamage:0,poison:0,heat:0,wet:0,rootSlow:0});
+    s.destination=null;return this.enterArea(hub);
   }
   number(x,y,text,color='#fff1c1',size=18) {this.state.numbers.push({x,y:y-38,text:String(text),color,size,life:.85});}
   effect(type,x,y,props={}) {this.state.effects.push({type,x,y,age:0,life:props.life||.6,...props});}

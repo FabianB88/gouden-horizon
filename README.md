@@ -1,6 +1,12 @@
-# Gouden Horizon v8.9.0 — Losse gebiedsschermen en geschilderde loopruimte
+# Gouden Horizon v8.9.1 — Terug naar het tussengebied na een nederlaag
 
 De volledige bronversie voor desktop en Android in de browser, online solo via GitHub Pages of Render, en gratis LAN-co-op. Upload de inhoud van `dist/` na `npm run site:build`, of publiceer deze bronmap rechtstreeks: `index.html`, `src/`, `assets/`, de vier CSS-bestanden en `.nojekyll` moeten bij elkaar blijven. Er is geen Android-app of betaalde server nodig voor solo.
+
+## Nieuw in v8.9.1
+
+Het doodmenu biedt **Respawn in …** om naar het laatst bezochte veilige tussengebied terug te keren, met hersteld leven en mana. Je kunt daar handelen, je uitrusting aanpassen en een andere route kiezen. De optie gebruikt dezelfde aankomst-checkpointregels als herstarten; **Herstart gebied** blijft beschikbaar. Ook tijdproeven en een gezamenlijke LAN-nederlaag ondersteunen deze terugkeer. Oudere saves gebruiken het bijbehorende regionale tussengebied.
+
+Gerichte controle: `npm run test:respawn` (13 checks) en de echte doodmenuknoppen in de browser. De volledige speltest en artwork-/navigatieopbouw zijn voor deze kleine patch niet opnieuw uitgevoerd.
 
 ## Nieuw in v8.9.0
 

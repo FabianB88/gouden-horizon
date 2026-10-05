@@ -5,8 +5,8 @@ import {journeyEntry,campaignAim} from './journey-content.js?v=40';
 import {JourneyLog} from './journey-log.js?v=40';
 import {PORTAL_ART} from './portal-art.js?v=40';
 import {ControllerInput,menuControls,focusMenu,confirmMenu,controllerTarget} from './gamepad.js?v=40';
-import {LanClient} from './lan-client.js?v=40';
-import {heroIdentity} from './coop-session.js?v=40';
+import {LanClient} from './lan-client.js?v=41';
+import {heroIdentity} from './coop-session.js?v=41';
 import {FrameTelemetry,needsSceneFrame} from './frame-performance.js?v=40';
 import {buildComparison} from './build-insights.js?v=40';
 import {quarterQuestBody,atelierBody,runeLabel} from './safe-exploration-ui.js?v=40';
@@ -25,12 +25,12 @@ import {RESISTANCES,resistance} from './resistances.js?v=40';
 import {BOUNTIES} from './bounties.js?v=40';
 import {itemMark,protectedItem,markActions} from './item-marks.js?v=40';
 import {spellProfile,SPELL_VARIANTS} from './spell-variants.js?v=40';
-import {Engine,clamp,distance,normal} from './engine.js?v=40';
+import {Engine,clamp,distance,normal} from './engine.js?v=41';
 import {TRIALS,TRIAL_TIERS,trialTime,recordText} from './endgame.js?v=40';
 import {SAFE_HUBS} from './hubs.js?v=40';
 import {STORY_ORDER,STORY_BEATS} from './story.js?v=40';
 import {assistedSkill,hotbarTarget} from './aim.js?v=40';
-import {Renderer} from './render.js?v=40';
+import {Renderer} from './render.js?v=41';
 import {SPELLS,ZONES,AREAS,AREA_BY_ID,UPGRADES,DISCIPLINES,RARITIES,SLOT_NAMES} from './data.js?v=40';
 import {Soundscape} from './sound.js?v=40';
 
@@ -295,7 +295,7 @@ function pendingModal(){if(['test','prologue'].includes(modalKind))return;const 
  pendingShown=pendingToken;save();
  }
  if(s.mode==='dead'&&modalKind!=='dead'){
-  showModal('dead','SIGNALERING VERLOREN','De route is nog niet voorbij.',`<p>Je veldpak viel uit in ${escape(AREA_BY_ID[s.area].name)}. Herstart dit gebied vanaf je laatste aankomst. Andere gebieden blijven zoals ze op dat moment waren.</p><p>${s.kills} bewakers verslagen · ${s.combos} elementcombinaties · ${timeLabel(s.runTime)} onderweg</p>`,[...(s.world.trial?[{label:'Terug naar Horizonpost',secondary:true,run:()=>{engine.returnFromChallenge();hideModal();renderer.reset(engine.state.player,engine.state.area);save();}}]:[]),{label:'Herstart gebied',run:()=>{engine.retry();hideModal();renderer.reset(engine.state.player,engine.state.area);save();}},{label:'Titelmenu',secondary:true,run:()=>{engine.retry();save();if(engine.isLan)engine.disconnect();hideModal();started=false;$('cover').hidden=false;refreshContinue();audio.pause();}}]);
+  showModal('dead','SIGNALERING VERLOREN','De route is nog niet voorbij.',`<p>Je veldpak viel uit in ${escape(AREA_BY_ID[s.area].name)}. Herstart vanaf je laatste aankomst, of keer terug naar het tussengebied om je voor te bereiden.</p><p>${s.kills} bewakers verslagen · ${s.combos} elementcombinaties · ${timeLabel(s.runTime)} onderweg</p>`,[...(engine.respawnHub()?[{label:'Respawn in '+AREA_BY_ID[engine.respawnHub()].name,secondary:true,run:()=>{if(engine.respawnAtHub()){hideModal();renderer.reset(engine.state.player,engine.state.area);save();}}}]:[]),{label:'Herstart gebied',run:()=>{engine.retry();hideModal();renderer.reset(engine.state.player,engine.state.area);save();}},{label:'Titelmenu',secondary:true,run:()=>{engine.retry();save();if(engine.isLan)engine.disconnect();hideModal();started=false;$('cover').hidden=false;refreshContinue();audio.pause();}}]);
  }
  if(s.mode==='won'&&modalKind!=='won'){
   try{if(!engine.isLan)localStorage.removeItem(SAVE_KEY);}catch{}
