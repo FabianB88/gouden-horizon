@@ -1,3 +1,9 @@
+// Canvas/browser and the build runtime differ in the last bits of sin/cos.
+// A millionth of a world pixel is enough precision to identify the same floor.
+export function navigationFingerprint(geometry){
+ let h=2166136261;const value=JSON.stringify(geometry,(_,v)=>typeof v==='number'?Math.round(v*1e6)/1e6:v);
+ for(let i=0;i<value.length;i++)h=Math.imul(h^value.charCodeAt(i),16777619);return h>>>0;
+}
 // Static edges are shared by actors; closed doors remain a live constraint.
 export function createNavigator(canStand,clearLine,bounds,fingerprint=()=>0){
  const caches=new Map(),baked=new Map(),cell=24,steps=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]];

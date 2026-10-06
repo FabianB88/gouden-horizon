@@ -1,30 +1,30 @@
-import {translate} from './localization.js?v=43';
-import {sectionIndex,sectionBounds,sameSection} from './area-sections.js?v=43';
-import {PORTAL_ART} from './portal-art.js?v=43';
-import {MapTextures,downloadMaps} from './map-textures.js?v=43';
-import {OutdoorVisuals} from './outdoor-visuals.js?v=43';
-import {OUTDOOR_REGIONS,outdoorPoint} from './outdoor-content.js?v=43';
-import {FeedbackVisuals} from './combat-feedback.js?v=43';
-import {effectParticles,trailStep} from './frame-performance.js?v=43';
-import {QuarterVisuals} from './safe-exploration.js?v=43';
-import {QUARTER_POINTS} from './safe-exploration-content.js?v=43';
-import {CreatureVisuals} from './creature-visuals.js?v=43';
-import {drawRiggedHero} from './hero-rig.js?v=43';
-import {equipmentAppearance} from './appearance.js?v=43';
-import {V6Visuals} from './v6-visuals.js?v=43';
-import {UNIQUE_ITEMS} from './unique-items.js?v=43';
-import {QUAY_GATE,WORLD,ZONES,AREAS,AREA_BY_ID,SPELLS,ENEMIES,POSITIONS,START_EQUIPMENT} from './data.js?v=43';
-import {clamp,distance,findPath} from './engine.js?v=43';
-import {ITEM_BASES} from './loot.js?v=43';
-import {ExpeditionVisuals} from './visuals.js?v=43';
-import {drawAnimatedEnemy} from './enemy-motion.js?v=43';
-import {drawWalkingHero,drawDirectionalHero,heroFocus} from './hero-animation.js?v=43';
-import {EnemyCombatVisuals,enemyAttackMotion} from './enemy-combat.js?v=43';
-import {QuestVisuals,NORA} from './quests.js?v=43';
-import {arenaObstacles} from './arena-layouts.js?v=43';
-import {EnemyAreaVisuals} from './enemy-area-visuals.js?v=43';
-import {prepareHeroRig} from './hero-rig.js?v=43';
-import {RenderCache,renderRatio,surface,freezeSurface} from './render-cache.js?v=43';
+import {translate} from './localization.js?v=44';
+import {sectionIndex,sectionBounds,sameSection} from './area-sections.js?v=44';
+import {PORTAL_ART} from './portal-art.js?v=44';
+import {MapTextures,downloadMaps} from './map-textures.js?v=44';
+import {OutdoorVisuals} from './outdoor-visuals.js?v=44';
+import {OUTDOOR_REGIONS,outdoorPoint} from './outdoor-content.js?v=44';
+import {FeedbackVisuals} from './combat-feedback.js?v=44';
+import {effectParticles,trailStep} from './frame-performance.js?v=44';
+import {QuarterVisuals} from './safe-exploration.js?v=44';
+import {QUARTER_POINTS} from './safe-exploration-content.js?v=44';
+import {CreatureVisuals} from './creature-visuals.js?v=44';
+import {drawRiggedHero} from './hero-rig.js?v=44';
+import {equipmentAppearance} from './appearance.js?v=44';
+import {V6Visuals} from './v6-visuals.js?v=44';
+import {UNIQUE_ITEMS} from './unique-items.js?v=44';
+import {QUAY_GATE,WORLD,ZONES,AREAS,AREA_BY_ID,SPELLS,ENEMIES,POSITIONS,START_EQUIPMENT} from './data.js?v=44';
+import {clamp,distance,findPath} from './engine.js?v=44';
+import {ITEM_BASES} from './loot.js?v=44';
+import {ExpeditionVisuals} from './visuals.js?v=44';
+import {drawAnimatedEnemy} from './enemy-motion.js?v=44';
+import {drawWalkingHero,drawDirectionalHero,heroFocus} from './hero-animation.js?v=44';
+import {EnemyCombatVisuals,enemyAttackMotion} from './enemy-combat.js?v=44';
+import {QuestVisuals,NORA} from './quests.js?v=44';
+import {arenaObstacles} from './arena-layouts.js?v=44';
+import {EnemyAreaVisuals} from './enemy-area-visuals.js?v=44';
+import {prepareHeroRig} from './hero-rig.js?v=44';
+import {RenderCache,renderRatio,surface,freezeSurface} from './render-cache.js?v=44';
 const TAU=Math.PI*2;
 export class Renderer {
   constructor(canvas,minimap){this.canvas=canvas;this.ctx=canvas.getContext('2d');this.minimap=minimap;this.mctx=minimap.getContext('2d');this.assets={};this.camera={x:0,y:0};this.shake=0;this.flash=0;this.ready=false;this.crop=null;this.time=0;this.quality=1;this.cache=new RenderCache();}
@@ -40,10 +40,10 @@ export class Renderer {
     files.groundScrap='assets/expedition/ground-scrap-v86.webp';
     files.companionsV82='assets/expedition/companions-v82.webp';files.creaturesV82='assets/expedition/creatures-v82.webp';files.ritualClosed='assets/expedition/ritual-closed-v82.webp';files.ritualOpen='assets/expedition/ritual-open-v82.webp';
     files.enemyWalkV7='assets/expedition/enemy-walk-v7.webp';files.enemyAOE='assets/expedition/enemy-aoe-v561.webp';files.arenaProps='assets/expedition/arena-obstacles-v561.webp';
-    const decoded=new Map(),loadImage=file=>{if(!decoded.has(file))decoded.set(file,new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(new Error('Asset ontbreekt: '+file));image.src=file;}));return decoded.get(file);};
+    const decoded=new Map(),loadImage=file=>{if(!decoded.has(file))decoded.set(file,new Promise((resolve,reject)=>{const image=new Image();image.onload=async()=>{try{await image.decode();resolve(image);}catch(error){reject(error);}};image.onerror=()=>reject(new Error('Asset ontbreekt: '+file));image.src=file;}));return decoded.get(file);};
     const mapKeys=[...AREAS.map(a=>a.id),...Object.values(OUTDOOR_REGIONS).map(r=>r.asset),'regionCauseway','cityEast','cityJoin','quayGarden','quayJoin'];
     const mapFiles=Object.fromEntries(mapKeys.map(key=>[key,files[key]]));
-    const navigationReady=fetch('assets/navigation/walkways-v890.json').then(r=>{if(!r.ok)throw Error('Looproutes konden niet laden');return r.json();}).then(async records=>{findPath.install(records);this.navigationRecords=records;const mobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);for(const record of records)if(!mobile||record.area==='canal'){findPath.prepare(record.area,record.radius);await new Promise(resolve=>setTimeout(resolve,0));}});
+    const navigationReady=fetch('assets/navigation/walkways-v8101.json').then(r=>{if(!r.ok)throw Error('Looproutes konden niet laden');return r.json();}).then(async records=>{this.navigationInstalled=findPath.install(records);this.navigationRecords=records;const mobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);for(const record of records)if(!mobile||record.area==='canal'){findPath.prepare(record.area,record.radius);await new Promise(resolve=>setTimeout(resolve,0));}});
     const mapBytes=await downloadMaps(mapFiles,globalThis.fetch,(done,total)=>onProgress('Kaarten laden · '+done+' / '+total));
     this.maps=new MapTextures(mapFiles,this.assets,file=>new Promise((resolve,reject)=>{const image=new Image(),url=URL.createObjectURL(mapBytes.get(file));image.onload=async()=>{try{await image.decode();URL.revokeObjectURL(url);resolve(image);}catch(error){URL.revokeObjectURL(url);reject(error);}};image.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Kaart kon niet laden: '+file));};image.src=url;}));
     const mobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
@@ -55,7 +55,7 @@ export class Renderer {
     this.biomeEnemyCrop=await fetch('assets/expedition/enemies-biome-v81.json').then(r=>r.json());
     this.enemyWalkV7Crop=await fetch('assets/expedition/enemy-walk-v7.json').then(r=>r.json());
     this.v6Crop=await fetch('assets/expedition/v6-sprites.json').then(r=>r.json());
-    this.combatEffectsCrop=await fetch('assets/expedition/combat-effects-v551.json').then(r=>r.json());this.noraCrop=await fetch('assets/expedition/nora-v551.json').then(r=>r.json());this.enemyAnimationCrop=await fetch('assets/expedition/enemy-animation-v55.json').then(r=>r.json());this.v54Crop=await fetch('assets/expedition/v54-sprites.json').then(r=>r.json());this.newEnemyCrop=await fetch('assets/expedition/enemy-v52.json').then(r=>r.json());this.expedition=await fetch('assets/expedition/sprites.json').then(r=>r.json());this.itemCrop=await fetch('assets/items/items.json').then(r=>r.json());this.crop=await fetch('assets/painted/sprites.json').then(r=>r.json());[this.heroGearCrop,this.focusV8Crop,this.helmetV8Crop,this.v8EnemyCrop]=await Promise.all(['assets/painted/hero-gear-v8.json','assets/expedition/focus-v8.json','assets/expedition/helmets-v8.json','assets/expedition/enemies-v8.json'].map(file=>fetch(file).then(r=>r.json())));this.heroDirectionalCrop=await fetch('assets/painted/hero-eight-directions.json').then(r=>r.json());this.heroClassCrop=await fetch('assets/painted/hero-classes-v88.json').then(r=>r.json());await prepareHeroRig(this);this.ready=true;
+    this.combatEffectsCrop=await fetch('assets/expedition/combat-effects-v551.json').then(r=>r.json());this.noraCrop=await fetch('assets/expedition/nora-v551.json').then(r=>r.json());this.enemyAnimationCrop=await fetch('assets/expedition/enemy-animation-v55.json').then(r=>r.json());this.v54Crop=await fetch('assets/expedition/v54-sprites.json').then(r=>r.json());this.newEnemyCrop=await fetch('assets/expedition/enemy-v52.json').then(r=>r.json());this.expedition=await fetch('assets/expedition/sprites.json').then(r=>r.json());this.itemCrop=await fetch('assets/items/items.json').then(r=>r.json());this.crop=await fetch('assets/painted/sprites.json').then(r=>r.json());[this.heroGearCrop,this.focusV8Crop,this.helmetV8Crop,this.v8EnemyCrop]=await Promise.all(['assets/painted/hero-gear-v8.json','assets/expedition/focus-v8.json','assets/expedition/helmets-v8.json','assets/expedition/enemies-v8.json'].map(file=>fetch(file).then(r=>r.json())));this.heroDirectionalCrop=await fetch('assets/painted/hero-eight-directions.json').then(r=>r.json());this.heroClassCrop=await fetch('assets/painted/hero-classes-v88.json').then(r=>r.json());await prepareHeroRig(this,(done,total)=>onProgress('Personages voorbereiden · '+done+' / '+total));this.ready=true;
   }
   areaReady(id){return !this.maps||this.maps.ready(AREA_BY_ID[id]);}
   async ensureArea(id){if(this.maps&&!this.areaReady(id)){await this.maps.ensure(AREA_BY_ID[id]);for(const record of this.navigationRecords||[])if(record.area===id)findPath.prepare(id,record.radius);this.sceneDirty=true;}}

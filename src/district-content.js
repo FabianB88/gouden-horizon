@@ -5,7 +5,7 @@ export const DISTRICT_GUIDES=Object.fromEntries(Object.entries({canal:[780,1130]
 export const EXTRA_DISTRICT_PLACEMENTS={
  canal:{board:[600,480],salvage:[1010,470]},
  highway:{milo:[320,665],nora:[490,555],ilya:[1220,490],garden:[390,220],harbor:[920,780],workshop:[1320,455],depot:[650,460],'workshop-v6':[1330,440],'rain-garden':[430,220],'hidden-atelier':[950,480]},
- forest:{board:[250,495],contract:[330,445]},
+ forest:{board:[155,540],contract:[480,555]},
  skybridge:{board:[300,280],contract:[300,525]},
  'cooling-refuge':{groenkloof:[300,450],lanternwood:[460,435]},
 };

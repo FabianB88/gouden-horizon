@@ -1,12 +1,14 @@
-import {OUTDOOR_REGIONS,outdoorPoint,inOutdoorWild} from './outdoor-content.js?v=43';
-import {ENEMIES} from './data.js?v=43';
-import {tuneChapterEnemy} from './balance.js?v=43';
-import {makeItem} from './loot.js?v=43';
+import {OUTDOOR_REGIONS,outdoorPoint,inOutdoorWild} from './outdoor-content.js?v=44';
+import {ENEMIES} from './data.js?v=44';
+import {tuneChapterEnemy} from './balance.js?v=44';
+import {makeItem} from './loot.js?v=44';
 const distance=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 const midpoint=r=>outdoorPoint(r.id,r.door[0].map((v,i)=>(v+r.door[1][i])/2));
 export const OutdoorRules={
  prepareOutdoors(w,area){if(!OUTDOOR_REGIONS[area.id])return;w.outdoor||={version:1,open:false,done:[],rewarded:false,channel:null};},
- outdoorGateBlocks(x,y,radius=18){const id=this.state.area,r=OUTDOOR_REGIONS[id],w=this.state.world;if(!r||w?.outdoor?.open)return false;return [[0,0],[radius,0],[-radius,0],[0,radius],[0,-radius]].some(([dx,dy])=>inOutdoorWild(id,{x:x+dx,y:y+dy}));},
+ outdoorGateBlocks(x,y,radius=18){const id=this.state.area,r=OUTDOOR_REGIONS[id],w=this.state.world;if(!r||w?.outdoor?.open)return false;
+   if(id==='forest'){const a=outdoorPoint(id,r.door[0]),b=outdoorPoint(id,r.door[1]),dx=b.x-a.x,dy=b.y-a.y,t=Math.max(0,Math.min(1,((x-a.x)*dx+(y-a.y)*dy)/(dx*dx+dy*dy)));if(Math.hypot(x-a.x-t*dx,y-a.y-t*dy)<radius+5)return true;}
+   return [[0,0],[radius,0],[-radius,0],[0,radius],[0,-radius]].some(([dx,dy])=>inOutdoorWild(id,{x:x+dx,y:y+dy}));},
  outdoorNPC(){const r=OUTDOOR_REGIONS[this.state.area];return r?{id:r.npc,...outdoorPoint(this.state.area,r.npcPoint),name:r.npcName,title:r.name}:null;},
  outdoorInteraction(){const id=this.state.area,r=OUTDOOR_REGIONS[id],p=this.state.player,o=this.state.world.outdoor;if(!r||!o)return null;
   const npc=this.outdoorNPC();if(distance(p,npc)<105)return {type:'outdoorNPC',entity:npc,label:r.npcName+' · '+r.goal,key:'F'};

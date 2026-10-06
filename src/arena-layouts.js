@@ -1,4 +1,4 @@
-import {OUTDOOR_REGIONS,outdoorPoint} from './outdoor-content.js?v=43';
+import {OUTDOOR_REGIONS,outdoorPoint} from './outdoor-content.js?v=44';
 // Each footprint is the solid ground base of its painted prop, in world pixels.
 // Open courts stay open elsewhere; these three chapters have distinct lanes.
 export const ARENA_LAYOUTS={
@@ -50,3 +50,6 @@ ARENA_LAYOUTS.coppercrown=[{id:'left-masonry',paintedOnly:true,x:355*1.25,y:431*
 for(const [id,r]of Object.entries(OUTDOOR_REGIONS))for(const o of r.solids){(ARENA_LAYOUTS[id]||=[]).push({...o,...outdoorPoint(id,[o.x,o.y]),id:'outdoor-planter',rx:o.rx*r.scale,ry:o.ry*r.scale,paintedOnly:true,height:55*r.scale});}
 
 ARENA_LAYOUTS.rooftops=[{id:'south-planter',paintedOnly:true,x:635,y:1170,rx:16,ry:18,height:55}];
+
+// Station canopy pillars and the flowerbed beside its mouth stay solid.
+ARENA_LAYOUTS['metro-refuge']=[[382,758,12,9],[441,640,12,9],[433,745,21,13]].map(([x,y,rx,ry])=>({id:'metro-column',paintedOnly:true,x:x*1.25,y:y*1.25,rx:rx*1.25,ry:ry*1.25,height:110}));

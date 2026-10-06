@@ -23,7 +23,9 @@ export const OUTDOOR_REGIONS={
    [[782,500],[874,483],[961,485],[1051,516],[1025,572],[925,555],[848,567],[768,546]]
   ],
   wild:[[[503,373],[820,315],[1280,95],[1536,120],[1536,1024],[983,802],[636,567],[545,470]]],
-  solids:[],
+  // Only the opening between these posts crosses the painted wall.
+  solids:[{x:440,y:417,rx:10,ry:12},{x:507,y:447,rx:12,ry:12},
+   ...[[528,460],[549,473],[570,487],[591,500],[612,513],[633,526],[653,539]].map(([x,y])=>({x,y,rx:15,ry:12}))],
   points:[{id:'moonseed',name:'Maanbloem',point:[675,375]},{id:'crystalseed',name:'Kristalvaren',point:[1020,235]},{id:'amberseed',name:'Amberkiem',point:[1180,756]}],
   encounters:[['mossback',750,540],['sunnewt',978,611],['mistprowler',1185,400],['windowl',1100,216],['sporecaster',1230,895]],
  },

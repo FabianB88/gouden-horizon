@@ -1,8 +1,8 @@
 import {writeFileSync,mkdirSync} from 'node:fs';
 import {findPath} from '../src/engine.js';
-import {ENEMIES} from '../src/data.js';
-import {WORLD_WALKWAYS} from '../src/world-walkways.js';
-import {OUTDOOR_REGIONS} from '../src/outdoor-content.js';
+import {ENEMIES} from '../src/data.js?v=44';
+import {WORLD_WALKWAYS} from '../src/world-walkways.js?v=44';
+import {OUTDOOR_REGIONS} from '../src/outdoor-content.js?v=44';
 const records=[];
 for(const area of Object.keys(WORLD_WALKWAYS)){
  const radii=new Set([18]);
@@ -10,5 +10,5 @@ for(const area of Object.keys(WORLD_WALKWAYS)){
  for(const radius of radii){records.push(findPath.bake(area,radius));console.log('Prepared '+area+' · '+radius);}
 }
 const output=new URL('../assets/navigation/',import.meta.url);mkdirSync(output,{recursive:true});
-writeFileSync(new URL('walkways-v890.json',output),JSON.stringify(records));
+writeFileSync(new URL('walkways-v8101.json',output),JSON.stringify(records));
 console.log('Prepared '+records.length+' navigation grids.');

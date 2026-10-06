@@ -47,7 +47,7 @@ assert.deepEqual(failures,[],'Visible routes must work without detours');
  for(let i=0;i<90;i++)g.moveEntity(p,(outdoorPoint('forest',mid).x-p.x)*.15,(outdoorPoint('forest',mid).y-p.y)*.15);
  assert(!inOutdoorWild('forest',p));assert(!g.state.world.outdoor.open);
  Object.assign(p,outdoorPoint('forest',[mid[0]-45,mid[1]+20]));assert.equal(g.interaction().type,'outdoorDoor');assert(g.interact());assert(g.state.world.outdoor.open);
- const crossing=[[440,445],[485,445],[530,432],[580,408]].map(p=>point(1,p));walk(g,crossing,'opened gate');walk(g,crossing.toReversed(),'opened gate return');
+ const crossing=[[455,460],[465,442],[475,425],[493,409],[530,405],[580,408]].map(p=>point(1,p));walk(g,crossing,'opened gate');walk(g,crossing.toReversed(),'opened gate return');
  const reopened=Engine.restore(g.serialize()||(()=>{g.lockTestMode();return g.serialize();})());assert(reopened.state.world.outdoor.open);
  console.log('PASS physical gate blocks before opening and permits movement and saves afterwards');count++;
 }

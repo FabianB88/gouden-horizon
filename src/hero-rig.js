@@ -1,5 +1,5 @@
-import {equipmentAppearance} from './appearance.js?v=43';
-import {freezeSurface} from './render-cache.js?v=43';
+import {equipmentAppearance} from './appearance.js?v=44';
+import {freezeSurface} from './render-cache.js?v=44';
 // Painted bind poses retain the eight camera directions. Both legs are driven
 // by opposite foot contacts. Traced cloth masks remove the bind-pose legs,
 // while preserving the coat. Short, forward knee paths avoid lateral IK bends.
@@ -43,7 +43,7 @@ function rasterParts(r,name,frame,leg,other,image=r.assets.heroDirectional,rig=s
   });
  }
  if(!frame.classBaseStyle)result.body=freezeSurface(body);
- cache.set(cacheKey,result);while(cache.size>10){const key=cache.keys().next().value,old=cache.get(key);for(const value of Object.values(old))value.close?.();for(const limb of old.legs||[])for(const key of ['upper','foot'])limb[key].image.close?.();cache.delete(key);}return result;
+ cache.set(cacheKey,result);while(cache.size>20){const key=cache.keys().next().value,old=cache.get(key);for(const value of Object.values(old))value.close?.();for(const limb of old.legs||[])for(const key of ['upper','foot'])limb[key].image.close?.();cache.delete(key);}return result;
 }
 const polygon=(c,points)=>{c.moveTo(...points[0]);for(const p of points.slice(1))c.lineTo(...p);c.closePath();};
 export const WALK_CYCLE_DISTANCE=96;
@@ -51,9 +51,13 @@ export const WALK_STRIDE=12;
 export const FOOT_STANCE=.25;
 export function footCycle(phase){return [0,1].map(i=>{const t=((phase+i*.5)%1+1)%1;if(t<FOOT_STANCE)return {advance:1-t*2/FOOT_STANCE,lift:0,planted:true};const u=(t-FOOT_STANCE)/(1-FOOT_STANCE),s=u*u*(3-2*u);return {advance:-1+2*s,lift:Math.sin(u*Math.PI),planted:false};});}
 export function heroRigPose(r,direction,p={}){const mirrored=direction>=5,index=mirrored?8-direction:direction,name=directions[index],appearance=equipmentAppearance(p),classes=r.heroClassCrop?.classes[appearance.visualKey]||r.heroClassCrop?.classes[appearance.identity],gear=r.heroGearCrop?.styles[appearance.armor],frame=classes?{...classes[index],clothStyle:appearance.armor}:gear?gear[index]:r.heroDirectionalCrop.directions[name][2],rig=frame.rig||spec[name];return {mirrored,index,name,rig,frame,appearance,scale:frame.scale||(gear?r.heroGearCrop.scale:r.heroDirectionalCrop.scale),image:classes?(r.assets['hero-class-'+appearance.visualKey]||r.assets['hero-class-'+appearance.identity]):gear?r.assets['hero-'+appearance.armor]:r.assets.heroDirectional};}
-export async function prepareHeroRig(r){
+export async function prepareHeroRig(r,onProgress=()=>{}){
  const costumes=r.heroClassCrop?Object.entries({elementalist:'storm',builder:'filter',hunter:'light'}).flatMap(([id,armor])=>['male','female'].map(gender=>[id,armor,gender])):['light','heavy','filter','storm'].map(a=>[null,a,null]);
- for(const [characterClass,armor,heroGender]of costumes){for(let d=0;d<5;d++){const {name,rig,frame,image}=heroRigPose(r,d,{characterClass,heroGender,equipment:{suit:{appearance:armor}}}),[,,w,h]=frame.bounds,px=q=>[q[0]*w,q[1]*h];rasterParts(r,name,frame,frame.leg||rig.leg.map(px),frame.other||rig.other.map(px),image,rig);}await new Promise(resolve=>setTimeout(resolve,0));}
+ // Desktop prepares every suit material and keeps all five bind poses per
+ // material. Otherwise a suit swap/turn can trigger pixel masking mid-frame.
+ const mobile=/Android|iPhone|iPad|iPod/i.test(globalThis.navigator?.userAgent||'')||(globalThis.navigator?.platform==='MacIntel'&&globalThis.navigator?.maxTouchPoints>1);
+ const warm=mobile?costumes:costumes.flatMap(([id,,gender])=>['light','heavy','filter','storm'].map(armor=>[id,armor,gender]));
+ let done=0;for(const [characterClass,armor,heroGender]of warm){for(let d=0;d<5;d++){const {name,rig,frame,image}=heroRigPose(r,d,{characterClass,heroGender,equipment:{suit:{appearance:armor}}}),[,,w,h]=frame.bounds,px=q=>[q[0]*w,q[1]*h];rasterParts(r,name,frame,frame.leg||rig.leg.map(px),frame.other||rig.other.map(px),image,rig);}onProgress(++done,warm.length);await new Promise(resolve=>setTimeout(resolve,0));}
 }
 export function heroBodyMotion(p,index){
  const phase=(p.walkDistance||0)/WALK_CYCLE_DISTANCE*2*Math.PI,blend=p.visualMotionBlend??(p.moving?(p.walkBlend??1):0),angle=index*Math.PI/4+Math.PI/2,dx=Math.cos(angle),dy=Math.sin(angle)*.78;

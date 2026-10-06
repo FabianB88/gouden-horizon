@@ -1,6 +1,6 @@
-import {summonSpell} from './summon-progression.js?v=43';
-import {specializeSpell} from './specializations.js?v=43';
-import {SPELLS} from './data.js?v=43';
+import {summonSpell} from './summon-progression.js?v=44';
+import {specializeSpell} from './specializations.js?v=44';
+import {SPELLS} from './data.js?v=44';
 const v=(id,name,level,text,mod)=>({id,name,level,text,...mod});
 export const SPELL_VARIANTS={
  tide:[v('surf','Brede branding',8,'Vijf waterbogen, één doel per boog. Minder schade en langer herladen.',{fan:5,spread:.2,damage:.8,interval:1.15,cost:1.15,pierce:1}),v('lance','Getijdenlans',10,'Eén snelle lans door vier doelen. Smal raakvlak; geen waaier.',{fan:1,spread:0,damage:1.15,interval:1.2,cost:1.1,pierce:4,speed:1.25,radius:.8})],

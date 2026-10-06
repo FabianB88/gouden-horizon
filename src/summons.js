@@ -1,6 +1,6 @@
-import {companionTraining} from './companion-upgrades.js?v=43';
-import {summonAvailable,summonUnlockLevel} from './summon-progression.js?v=43';
-import {ENEMIES} from './data.js?v=43';
+import {companionTraining} from './companion-upgrades.js?v=44';
+import {summonAvailable,summonUnlockLevel} from './summon-progression.js?v=44';
+import {ENEMIES} from './data.js?v=44';
 const dist=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 export const COMPANIONS={
  scout:{name:'Getijvossen',art:'companion-fox-v82',element:'tide',text:'Twee kwetsbare geestvossen schieten waterlicht. Maak vijanden nat voor je stormspreuken.',count:2,hp:34,life:18,damage:8,interval:1.1},

@@ -1,5 +1,5 @@
-import {SPELLS,AREA_BY_ID} from './data.js?v=43';
-import {makeItem,makeUniqueItem,statsText} from './loot.js?v=43';
+import {SPELLS,AREA_BY_ID} from './data.js?v=44';
+import {makeItem,makeUniqueItem,statsText} from './loot.js?v=44';
 export const MARKET_REGIONS=[
  {name:'Waterlijnhandel',specialty:'Getijdenfoci, waterbestendige veldpakken en snelle laarzen.',level:1,bases:['tidal-fork','tide-coat','reservoir','runner-boots','field-gloves','field-belt','storm-staff','cobalt-coat'],qualities:['common','common','uncommon','uncommon','uncommon','uncommon','rare','rare']},
  {name:'Schrootstation',specialty:'Zonnefoci, hittewerende kleding en condensortechniek.',level:4,bases:['amber-prism','cinder-coat','sun-compass','ash-boots','copper-gauntlets','solar-belt','prism','brass-jacket'],qualities:['uncommon','uncommon','uncommon','uncommon','uncommon','uncommon','rare','rare']},

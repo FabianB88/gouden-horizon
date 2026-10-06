@@ -1,47 +1,47 @@
-import {MAIN_DISTRICT_EXPLANATION,EXTRA_DISTRICT_EXPLANATION} from './district-content.js?v=43';
-import {initializeLocalization,setLanguage,translate,setTranslatedText,setTranslatedAttribute,setNamedText} from './localization.js?v=43';
-import {TouchInput,bindTouchControl,touchCombatTarget,detectTouchDevice} from './touch-input.js?v=43';
-import {sectionBounds,SECTION_ENTRIES,sectionIndex} from './area-sections.js?v=43';
-import {PROLOGUE} from './lore.js?v=43';
-import {journeyEntry,campaignAim} from './journey-content.js?v=43';
-import {JourneyLog} from './journey-log.js?v=43';
-import {PORTAL_ART} from './portal-art.js?v=43';
-import {ControllerInput,menuControls,focusMenu,confirmMenu,controllerTarget} from './gamepad.js?v=43';
-import {LanClient} from './lan-client.js?v=43';
-import {heroIdentity} from './coop-session.js?v=43';
-import {FrameTelemetry,needsSceneFrame} from './frame-performance.js?v=43';
-import {buildComparison} from './build-insights.js?v=43';
-import {quarterQuestBody,atelierBody,runeLabel} from './safe-exploration-ui.js?v=43';
-import {QUARTER_POINTS,LINDE} from './safe-exploration-content.js?v=43';
-import {companionUpgradeMenu} from './companion-upgrades.js?v=43';
-import {summonUnlockLevel} from './summon-progression.js?v=43';
-import {EQUIPMENT_SLOT_NAMES,itemFitsSlot,comparisonSlot} from './equipment-slots.js?v=43';
-import {adventureBoard,ADVENTURES} from './adventures.js?v=43';
-import {equipmentBody} from './equipment-ui.js?v=43';
-import {specializationMenu,SPECIALIZATIONS,START_BUILDS} from './specializations.js?v=43';
-import {CITY_NPCS,CITY_DIALOGUES} from './city.js?v=43';
-import {UNIQUE_ITEMS} from './unique-items.js?v=43';
-import {companionMenu} from './summons.js?v=43';
-import {normalizeSettings,SETTINGS_KEY,CAMERA_ZOOMS} from './settings.js?v=43';
-import {RESISTANCES,resistance} from './resistances.js?v=43';
-import {BOUNTIES} from './bounties.js?v=43';
-import {itemMark,protectedItem,markActions} from './item-marks.js?v=43';
-import {spellProfile,SPELL_VARIANTS} from './spell-variants.js?v=43';
-import {Engine,clamp,distance,normal} from './engine.js?v=43';
-import {TRIALS,TRIAL_TIERS,trialTime,recordText} from './endgame.js?v=43';
-import {SAFE_HUBS} from './hubs.js?v=43';
-import {STORY_ORDER,STORY_BEATS} from './story.js?v=43';
-import {assistedSkill,hotbarTarget} from './aim.js?v=43';
-import {Renderer} from './render.js?v=43';
-import {SPELLS,ZONES,AREAS,AREA_BY_ID,UPGRADES,DISCIPLINES,RARITIES,SLOT_NAMES} from './data.js?v=43';
-import {Soundscape} from './sound.js?v=43';
+import {MAIN_DISTRICT_EXPLANATION,EXTRA_DISTRICT_EXPLANATION} from './district-content.js?v=44';
+import {initializeLocalization,setLanguage,translate,setTranslatedText,setTranslatedAttribute,setNamedText} from './localization.js?v=44';
+import {TouchInput,bindTouchControl,touchCombatTarget,detectTouchDevice} from './touch-input.js?v=44';
+import {sectionBounds,SECTION_ENTRIES,sectionIndex} from './area-sections.js?v=44';
+import {PROLOGUE} from './lore.js?v=44';
+import {journeyEntry,campaignAim} from './journey-content.js?v=44';
+import {JourneyLog} from './journey-log.js?v=44';
+import {PORTAL_ART} from './portal-art.js?v=44';
+import {ControllerInput,menuControls,focusMenu,confirmMenu,controllerTarget} from './gamepad.js?v=44';
+import {LanClient} from './lan-client.js?v=44';
+import {heroIdentity} from './coop-session.js?v=44';
+import {FrameTelemetry,needsSceneFrame} from './frame-performance.js?v=44';
+import {buildComparison} from './build-insights.js?v=44';
+import {quarterQuestBody,atelierBody,runeLabel} from './safe-exploration-ui.js?v=44';
+import {QUARTER_POINTS,LINDE} from './safe-exploration-content.js?v=44';
+import {companionUpgradeMenu} from './companion-upgrades.js?v=44';
+import {summonUnlockLevel} from './summon-progression.js?v=44';
+import {EQUIPMENT_SLOT_NAMES,itemFitsSlot,comparisonSlot} from './equipment-slots.js?v=44';
+import {adventureBoard,ADVENTURES} from './adventures.js?v=44';
+import {equipmentBody} from './equipment-ui.js?v=44';
+import {specializationMenu,SPECIALIZATIONS,START_BUILDS} from './specializations.js?v=44';
+import {CITY_NPCS,CITY_DIALOGUES} from './city.js?v=44';
+import {UNIQUE_ITEMS} from './unique-items.js?v=44';
+import {companionMenu} from './summons.js?v=44';
+import {normalizeSettings,SETTINGS_KEY,CAMERA_ZOOMS} from './settings.js?v=44';
+import {RESISTANCES,resistance} from './resistances.js?v=44';
+import {BOUNTIES} from './bounties.js?v=44';
+import {itemMark,protectedItem,markActions} from './item-marks.js?v=44';
+import {spellProfile,SPELL_VARIANTS} from './spell-variants.js?v=44';
+import {Engine,clamp,distance,normal} from './engine.js?v=44';
+import {TRIALS,TRIAL_TIERS,trialTime,recordText} from './endgame.js?v=44';
+import {SAFE_HUBS} from './hubs.js?v=44';
+import {STORY_ORDER,STORY_BEATS} from './story.js?v=44';
+import {assistedSkill,hotbarTarget} from './aim.js?v=44';
+import {Renderer} from './render.js?v=44';
+import {SPELLS,ZONES,AREAS,AREA_BY_ID,UPGRADES,DISCIPLINES,RARITIES,SLOT_NAMES} from './data.js?v=44';
+import {Soundscape} from './sound.js?v=44';
 
-import {statsText,sellValue,salvageValue} from './loot.js?v=43';
-import {loadoutBody,bindingLabel} from './loadout-ui.js?v=43';
-import {shopBody,visibleSellItems,sellableItems,updateSellSelection} from './shop-ui.js?v=43';
-import {effectText} from './legendary.js?v=43';
-import {ANTIDOTE_PRICE} from './survival.js?v=43';
-import {gearFeedback} from './gear-feedback.js?v=43';
+import {statsText,sellValue,salvageValue} from './loot.js?v=44';
+import {loadoutBody,bindingLabel} from './loadout-ui.js?v=44';
+import {shopBody,visibleSellItems,sellableItems,updateSellSelection} from './shop-ui.js?v=44';
+import {effectText} from './legendary.js?v=44';
+import {ANTIDOTE_PRICE} from './survival.js?v=44';
+import {gearFeedback} from './gear-feedback.js?v=44';
 
 const $=id=>document.getElementById(id),SAVE_KEY='gouden-horizon-action-v3';
 const RECORD_KEY='gouden-horizon-trial-records-v56';
@@ -272,9 +272,18 @@ function announceLoot(event){const item=event.item,box=$('loot-announcement'),fe
 function persistSettings(){try{localStorage.setItem(SETTINGS_KEY,JSON.stringify(settings));}catch{}}
 function applyQuestPanel(){const collapsed=touchMode?!touchQuestOpen:settings.questCollapsed,button=$('quest-toggle');$('quest-panel').classList.toggle('collapsed',collapsed);$('quest-content').hidden=collapsed;setText(button,collapsed?'Gebied':'×');button.setAttribute('aria-expanded',String(!collapsed));setTranslatedAttribute(button,'aria-label',collapsed?'Gebiedstekst tonen':'Gebiedstekst verbergen');setTranslatedAttribute(button,'title',collapsed?'Gebiedstekst tonen':'Gebiedstekst verbergen');}
 function applySettings(){setLanguage(settings.language);$('cover-language').value=settings.language;syncTouchMode();audio.setVolumes(settings.music,settings.effects);renderer.settings={...settings,touchUI:touchMode};renderer.performanceScale=settings.quality==='low'?.7:1;renderer.frameSamples=[];renderer.healthyWindows=0;if(renderer.ready)renderer.resize();document.documentElement?.style.setProperty('--aim-scale',settings.cursor);applyQuestPanel();$('journey-button').hidden=!settings.lore;$('quest-purpose').hidden=!settings.lore;if(!settings.lore){journey.disable();$('journey-peek').hidden=true;}persistSettings();}
+function testAreaType(a){
+ if(a.endgame)return 'Tijdproef · gevechtsarena';
+ if(a.bounty)return 'Herhaalbaar baascontract';
+ if(a.adventure)return 'Optionele bergingsexpeditie';
+ if(a.safeExplore)return 'Veilige verkenning · extra missie';
+ const main=STORY_ORDER.includes(a.id),safe=SAFE_HUBS.includes(a.id)||a.safe;
+ return main?(safe?'Hoofdroute · veilig tussengebied':'Hoofdroute · gevechtsarena'):(safe?'Optioneel · veilig tussengebied':'Optioneel · gevechtsgebied');
+}
 function showTestMode(){
  const open=engine.testModeEnabled();
- showModal('test','GEBIEDEN TESTEN · F8',open?'Alle routes beschikbaar':'Testmodus openen',open?`<p>Reis rechtstreeks naar elk gebied. Gevechten blijven actief. Zolang testmodus actief is, staat automatisch opslaan uit.</p><label>Gebied<select id="test-area">${AREAS.map(a=>`<option value="${a.id}" ${a.id===engine.state.area?'selected':''}>${escape(a.name)}</option>`).join('')}</select></label>`:'<label>Toegangscode<input id="test-code" type="password" autocomplete="off"></label><p id="test-error" role="status"></p>',open?[{label:'Reis naar gebied',run:()=>{if(engine.testTravel($('test-area').value)){hideModal();renderer.reset(engine.state.player,engine.state.area);}}},{label:'Testmodus sluiten',secondary:true,run:()=>{engine.lockTestMode();hideModal();}},{label:'Verder spelen',secondary:true,run:hideModal}]:[{label:'Open testmodus',run:()=>{if(engine.unlockTestMode($('test-code').value)){if(!engine.isLan)showTestMode();else setText($('test-error'),'Code wordt gecontroleerd…');}else setText($('test-error'),'Onjuiste code.');}},{label:'Terug',secondary:true,run:hideModal}]);
+ showModal('test','GEBIEDEN TESTEN · F8',open?'Alle routes beschikbaar':'Testmodus openen',open?`<p>Reis rechtstreeks naar elk gebied. Gevechten blijven actief. Zolang testmodus actief is, staat automatisch opslaan uit.</p><label>Gebied<select id="test-area">${AREAS.map(a=>`<option value="${a.id}" ${a.id===engine.state.area?'selected':''}>${escape(a.name)} · ${testAreaType(a)}</option>`).join('')}</select></label><article class="test-area-info"><img id="test-area-preview" alt=""><div><strong id="test-area-type"></strong><p id="test-area-detail"></p><small id="test-area-screens"></small></div></article>`:'<label>Toegangscode<input id="test-code" type="password" autocomplete="off"></label><p id="test-error" role="status"></p>',open?[{label:'Reis naar gebied',run:()=>{if(engine.testTravel($('test-area').value)){hideModal();renderer.reset(engine.state.player,engine.state.area);}}},{label:'Testmodus sluiten',secondary:true,run:()=>{engine.lockTestMode();hideModal();}},{label:'Verder spelen',secondary:true,run:hideModal}]:[{label:'Open testmodus',run:()=>{if(engine.unlockTestMode($('test-code').value)){if(!engine.isLan)showTestMode();else setText($('test-error'),'Code wordt gecontroleerd…');}else setText($('test-error'),'Onjuiste code.');}},{label:'Terug',secondary:true,run:hideModal}]);
+ if(open){const update=()=>{const a=AREA_BY_ID[$('test-area').value];setText($('test-area-type'),testAreaType(a));setText($('test-area-detail'),a.story);setText($('test-area-screens'),SECTION_ENTRIES[a.id]?'Je landt in het hoofdgebied. De wijkknop opent de extra wijk.':'Eén gebied · geen aparte wijk');$('test-area-preview').src='assets/painted/previews/'+a.file;};$('test-area').addEventListener('change',update);update();}
 }
 function showSettings(){
  const perf=frameTelemetry.report(),readout=perf?`${perf.fps} FPS · 95% van de frames binnen ${perf.p95Ms} ms · ${perf.slowPercent}% boven 25 ms`:'Wordt gemeten zodra je enkele seconden speelt.';

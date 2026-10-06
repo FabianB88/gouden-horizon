@@ -1,7 +1,7 @@
-import {DISTRICT_GUIDES,sideDistrictPoint,EXTRA_DISTRICT_PLACEMENTS} from './district-content.js?v=43';
-import {ADVENTURE_NPCS} from './adventures.js?v=43';
-import {makeItem} from './loot.js?v=43';
-import {spaciousPoint} from './hub-space.js?v=43';
+import {DISTRICT_GUIDES,sideDistrictPoint,EXTRA_DISTRICT_PLACEMENTS} from './district-content.js?v=44';
+import {ADVENTURE_NPCS} from './adventures.js?v=44';
+import {makeItem} from './loot.js?v=44';
+import {spaciousPoint} from './hub-space.js?v=44';
 
 export const NORA=spaciousPoint({id:'nora',x:570*1.25,y:310*1.25,name:'Nora · Bergingscoördinator',title:'Noodstroom'},'highway');
 [NORA.x,NORA.y]=sideDistrictPoint('highway',EXTRA_DISTRICT_PLACEMENTS.highway.nora);
