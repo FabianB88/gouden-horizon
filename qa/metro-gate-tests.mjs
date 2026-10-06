@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import {Engine,canStand,distance} from '../src/engine.js?v=45';
-import {outdoorPoint} from '../src/outdoor-content.js?v=45';
+import {Engine,canStand,distance} from '../src/engine.js?v=46';
+import {outdoorPoint} from '../src/outdoor-content.js?v=46';
 const g=new Engine();g.unlockTestMode('fabian1');g.testTravel('metro-refuge');
 const native=p=>({x:p[0]*1.25,y:p[1]*1.25});
 const route=[[340,755],[345,720],[370,690],[413,675],[470,690],[515,671],[555,632],[600,592],[650,553],[700,520]];

@@ -1,6 +1,6 @@
-import {AREA_BY_ID,ENEMIES,WORLD} from './data.js?v=45';
-import {BIOME_ENEMIES} from './biome-content.js?v=45';
-import {launchEnemyLob} from './enemy-combat.js?v=45';
+import {AREA_BY_ID,ENEMIES,WORLD} from './data.js?v=46';
+import {BIOME_ENEMIES} from './biome-content.js?v=46';
+import {launchEnemyLob} from './enemy-combat.js?v=46';
 const distance=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 const unit=(x,y)=>{const n=Math.hypot(x,y)||1;return {x:x/n,y:y/n};};
 export function tuneBiomeEnemy(e,area,playerLevel){

@@ -1,6 +1,6 @@
 import {readdirSync,statSync,writeFileSync} from 'node:fs';
-import {AREAS} from '../src/data.js?v=45';
-import {PROLOGUE} from '../src/lore.js?v=45';
+import {AREAS} from '../src/data.js?v=46';
+import {PROLOGUE} from '../src/lore.js?v=46';
 const items=readdirSync(new URL('../assets/items/',import.meta.url)).filter(f=>f.endsWith('.webp')).map(f=>'assets/items/'+f);
 const previews=[...new Set(AREAS.map(a=>'assets/painted/previews/'+a.file))];
 const portraits=readdirSync(new URL('../assets/painted/',import.meta.url)).filter(f=>f.startsWith('portrait-')&&f.endsWith('.webp')).map(f=>'assets/painted/'+f);

@@ -1,6 +1,6 @@
-import {QUARTER_AREAS,QUARTER_POINTS,QUARTER_REQUIRED,ELEMENT_RUNES,ATELIER_RECIPES} from './safe-exploration-content.js?v=45';
-import {statsText} from './loot.js?v=45';
-import {runeStats} from './safe-exploration.js?v=45';
+import {QUARTER_AREAS,QUARTER_POINTS,QUARTER_REQUIRED,ELEMENT_RUNES,ATELIER_RECIPES} from './safe-exploration-content.js?v=46';
+import {statsText} from './loot.js?v=46';
+import {runeStats} from './safe-exploration.js?v=46';
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const art=id=>`<img src="assets/items/${esc(id)}.webp" alt="" draggable="false">`;
 export function quarterQuestBody(g){const q=g.quarterQuest(),seen=q?.seen||[];

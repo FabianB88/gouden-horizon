@@ -1,3 +1,4 @@
+await import('./build-scenery-catalog.mjs');
 await import('./build-ui-artwork.mjs');
 import { cpSync, mkdirSync, rmSync } from "node:fs";
 import { dirname, resolve } from "node:path";
@@ -9,7 +10,7 @@ const output = resolve(root, "dist");
 rmSync(output, { recursive: true, force: true });
 mkdirSync(output, { recursive: true });
 
-for (const file of ["index.html", "styles.css", "mobile.css", "item-details.css", "journey.css", "favicon.svg", ".nojekyll"]) {
+for (const file of ["index.html", "asset-library.html", "styles.css", "mobile.css", "item-details.css", "journey.css", "favicon.svg", ".nojekyll"]) {
   cpSync(resolve(root, file), resolve(output, file));
 }
 for (const directory of ["assets", "src"]) {

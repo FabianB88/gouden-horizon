@@ -642,7 +642,7 @@ export const ENGLISH={
   "GELEIDING": "CONDUCTION",
   "GEPLAATST": "ASSIGNED",
   "GETIJ": "TIDE",
-  "GETIJ · STORM · ZON · V8.10.2": "TIDE · STORM · SUN · V8.10.2",
+  "GETIJ · STORM · ZON · V8.10.3": "TIDE · STORM · SUN · V8.10.3",
   "GETIJ · STORM · ZON · V8.8.2": "TIDE · STORM · SUN · V8.8.2",
   "GETIJ → STORM": "TIDE → STORM",
   "GETIJ → ZON": "TIDE → SUN",
@@ -2058,5 +2058,6 @@ export const ENGLISH={
   "EXTRA MISSIE · Sera wacht in Stormwacht.": "EXTRA QUEST · Sera is waiting in Stormwatch.",
   "EXTRA ROUTE · Ga naar de Sintelhoven voor de poort naar het Lantaarnwoud. M: kaart.": "EXTRA ROUTE · Visit the Cinder Courts for the gate to Lanternwood. M: map.",
   "Hoofdmissies hier · extra missies →": "Main quests here · extra quests →",
+  "Assetbibliotheek": "Asset library",
   "Extra missies · ← hoofdroute": "Extra quests · ← main story"
 };

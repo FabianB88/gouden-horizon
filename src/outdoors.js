@@ -1,7 +1,7 @@
-import {OUTDOOR_REGIONS,outdoorPoint,inOutdoorWild} from './outdoor-content.js?v=45';
-import {ENEMIES} from './data.js?v=45';
-import {tuneChapterEnemy} from './balance.js?v=45';
-import {makeItem} from './loot.js?v=45';
+import {OUTDOOR_REGIONS,outdoorPoint,inOutdoorWild} from './outdoor-content.js?v=46';
+import {ENEMIES} from './data.js?v=46';
+import {tuneChapterEnemy} from './balance.js?v=46';
+import {makeItem} from './loot.js?v=46';
 const distance=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 const midpoint=r=>outdoorPoint(r.id,r.door[0].map((v,i)=>(v+r.door[1][i])/2));
 export const OutdoorRules={
