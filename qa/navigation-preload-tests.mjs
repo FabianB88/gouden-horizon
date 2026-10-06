@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {findPath} from '../src/engine.js?v=44';
-import {navigationFingerprint} from '../src/navigation.js?v=44';
+import {findPath} from '../src/engine.js?v=45';
+import {navigationFingerprint} from '../src/navigation.js?v=45';
 const a=[[[1.123456789,2.25],[99,4]],{width:1920,height:1280}];
 const b=structuredClone(a);b[0][0][0]+=1e-10;
 assert.equal(navigationFingerprint(a),navigationFingerprint(b),'harmless cross-runtime floating precision cannot reject prepared paths');
 b[0][0][0]+=.01;assert.notEqual(navigationFingerprint(a),navigationFingerprint(b),'real floor edits invalidate stale prepared paths');
-const records=JSON.parse(readFileSync(new URL('../assets/navigation/walkways-v8101.json',import.meta.url)));
+const records=JSON.parse(readFileSync(new URL('../assets/navigation/walkways-v8102.json',import.meta.url)));
 assert.equal(findPath.install(records),records.length);for(const r of records)assert(findPath.prepare(r.area,r.radius).size>0);
 console.log('PASS stable signatures, real changes invalidate cache, all '+records.length+' prepared walking grids accepted');

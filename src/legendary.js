@@ -1,6 +1,6 @@
 // Effects have separate cooldowns, use the original cast's damage, and never
 // trigger themselves. A legendary changes a build without an unlimited chain.
-import {UNIQUE_ITEMS} from './unique-items.js?v=44';
+import {UNIQUE_ITEMS} from './unique-items.js?v=45';
 export const LEGENDARY_EFFECTS={
  resolve:{name:'Veldvast',slot:'head',title:'Kroon van de Drukgrens',text:'Na een treffer krijg je 12 schild voor 2 seconden. Herlaadt in 12 seconden.'},
  echo:{name:'Prismatische echo',slot:'weapon',title:'Echo van de Waterlijn',text:'Elke vierde directe spreuk vuurt een extra doorborende ijsstraal af voor 35% spreukschade.'},

@@ -1,18 +1,19 @@
-import {installPaintedArenaFloors} from './painted-arena-floors.js?v=44';
-import {addWorldWalkways} from './world-walkways.js?v=44';
-import {installForestNavigation} from './forest-navigation.js?v=44';
-import {OUTDOOR_REGIONS} from './outdoor-content.js?v=44';
-import {WANDERING_FLOORS,WANDERING_EXTENSIONS} from './hub-wandering-content.js?v=44';
-import {CITY_EXTENSION_FLOORS} from './city-extension.js?v=44';
-import {TOWN_FLOORS,TOWN_EXTRA_FLOORS} from './town-floors.js?v=44';
-import {HUB_SCALES} from './hub-space.js?v=44';
-import {QUARTER_AREAS,QUARTER_GATES} from './safe-exploration-content.js?v=44';
-import {NATURE_AREAS,NATURE_ENEMIES} from './nature-content.js?v=44';
-import {CREATURE_ENEMIES} from './creature-content.js?v=44';
-import {BIOME_AREAS,BIOME_ENEMIES,BIOME_HUB_LAYOUTS} from './biome-content.js?v=44';
-import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=44';
-import {V8_AREAS,V8_ZONES,V8_ENEMIES} from './v8-content.js?v=44';
-import {HUB_LAYOUTS} from './hub-layouts.js?v=44';
+import {installModuleFloors} from './scenery-modules.js?v=45';
+import {installPaintedArenaFloors} from './painted-arena-floors.js?v=45';
+import {addWorldWalkways} from './world-walkways.js?v=45';
+import {installForestNavigation} from './forest-navigation.js?v=45';
+import {OUTDOOR_REGIONS} from './outdoor-content.js?v=45';
+import {WANDERING_FLOORS,WANDERING_EXTENSIONS} from './hub-wandering-content.js?v=45';
+import {CITY_EXTENSION_FLOORS} from './city-extension.js?v=45';
+import {TOWN_FLOORS,TOWN_EXTRA_FLOORS} from './town-floors.js?v=45';
+import {HUB_SCALES} from './hub-space.js?v=45';
+import {QUARTER_AREAS,QUARTER_GATES} from './safe-exploration-content.js?v=45';
+import {NATURE_AREAS,NATURE_ENEMIES} from './nature-content.js?v=45';
+import {CREATURE_ENEMIES} from './creature-content.js?v=45';
+import {BIOME_AREAS,BIOME_ENEMIES,BIOME_HUB_LAYOUTS} from './biome-content.js?v=45';
+import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=45';
+import {V8_AREAS,V8_ZONES,V8_ENEMIES} from './v8-content.js?v=45';
+import {HUB_LAYOUTS} from './hub-layouts.js?v=45';
 export const WORLD = { width: 1920, height: 1280 };
 export const SPELLS = {
   tide: { name: 'Getijdenwaaier', short: 'GETIJ', color: '#73e2e5', dark: '#126c8b', key: '1', damage: 13, cost: 4, interval: .22, speed: 780, radius: 11, status: 'wet', description: 'Drie waterbogen waaieren uit en maken doelen NAT. Wissel naar storm voor kettingbliksem.' },
@@ -1053,3 +1054,5 @@ addWorldWalkways(AREA_BY_ID,WORLD);
 installForestNavigation(AREA_BY_ID.forest,WORLD);
 
 installPaintedArenaFloors(AREAS);
+
+installModuleFloors(AREA_BY_ID,WORLD);

@@ -1,0 +1,35 @@
+{
+  "paving": {
+    "file": "assets/modules/forest-paving-v8102.webp",
+    "size": [
+      400,
+      214
+    ],
+    "anchor": [
+      0.5,
+      0.5
+    ]
+  },
+  "planter": {
+    "file": "assets/modules/forest-planter-v8102.webp",
+    "size": [
+      256,
+      193
+    ],
+    "anchor": [
+      0.5,
+      0.88
+    ]
+  },
+  "lamp": {
+    "file": "assets/modules/forest-lamp-v8102.webp",
+    "size": [
+      97,
+      320
+    ],
+    "anchor": [
+      0.5,
+      0.935
+    ]
+  }
+}

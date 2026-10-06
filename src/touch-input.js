@@ -1,5 +1,5 @@
 // Each finger owns one control. Releasing a spell never releases the move stick.
-import {assistedTarget} from './aim.js?v=44';
+import {assistedTarget} from './aim.js?v=45';
 export function detectTouchDevice(environment=globalThis){
  return /Android|iPhone|iPad/i.test(environment.navigator?.userAgent||'')||Boolean(environment.matchMedia?.('(pointer: coarse)')?.matches);
 }

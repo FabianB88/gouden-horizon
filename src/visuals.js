@@ -1,7 +1,7 @@
-import {portalStyle} from './portal-art.js?v=44';
-import {PORTAL_PURPOSE} from './lore.js?v=44';
-import {SPELLS,AREA_BY_ID,RARITIES} from './data.js?v=44';
-import {EncounterVisuals} from './encounter-visuals.js?v=44';
+import {portalStyle} from './portal-art.js?v=45';
+import {PORTAL_PURPOSE} from './lore.js?v=45';
+import {SPELLS,AREA_BY_ID,RARITIES} from './data.js?v=45';
+import {EncounterVisuals} from './encounter-visuals.js?v=45';
 const centered=source=>({...source,anchor:[.5,.5]});
 const distance=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15);
 export const ExpeditionVisuals={

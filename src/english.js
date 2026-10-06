@@ -1,5 +1,6 @@
 // English presentation catalogue. Canonical world/save text remains Dutch.
 export const ENGLISH={
+  "Spelbeelden voorbereiden ·": "Preparing game images ·",
   "Personages voorbereiden ·": "Preparing characters ·",
   "Tijdproef · gevechtsarena": "Time trial · combat arena",
   "Herhaalbaar baascontract": "Repeatable boss contract",
@@ -641,7 +642,7 @@ export const ENGLISH={
   "GELEIDING": "CONDUCTION",
   "GEPLAATST": "ASSIGNED",
   "GETIJ": "TIDE",
-  "GETIJ · STORM · ZON · V8.10.1": "TIDE · STORM · SUN · V8.10.1",
+  "GETIJ · STORM · ZON · V8.10.2": "TIDE · STORM · SUN · V8.10.2",
   "GETIJ · STORM · ZON · V8.8.2": "TIDE · STORM · SUN · V8.8.2",
   "GETIJ → STORM": "TIDE → STORM",
   "GETIJ → ZON": "TIDE → SUN",

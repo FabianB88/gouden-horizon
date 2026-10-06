@@ -1,5 +1,5 @@
-import {surface,freezeSurface} from './render-cache.js?v=44';
-import {advanceFeedback} from './combat-feedback.js?v=44';
+import {surface,freezeSurface} from './render-cache.js?v=45';
+import {advanceFeedback} from './combat-feedback.js?v=45';
 export function updateEnemyMotion(e,dx,dy,dt){
  advanceFeedback(e,dt);
  const moved=Math.hypot(dx,dy/.78),walking=moved>dt*3&&!e.leap&&!e.rush&&!e.burrow;
