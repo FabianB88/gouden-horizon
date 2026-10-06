@@ -1,9 +1,9 @@
-import {spellInsight} from './build-insights.js?v=40';
-import {EQUIPMENT_SLOT_NAMES} from './equipment-slots.js?v=40';
-import {RESISTANCES} from './resistances.js?v=40';
-import {itemMark,protectedItem,markActions} from './item-marks.js?v=40';
-import {SLOT_NAMES,RARITIES,SPELLS} from './data.js?v=40';
-import {sellValue,statsText} from './loot.js?v=40';
+import {spellInsight} from './build-insights.js?v=43';
+import {EQUIPMENT_SLOT_NAMES} from './equipment-slots.js?v=43';
+import {RESISTANCES} from './resistances.js?v=43';
+import {itemMark,protectedItem,markActions} from './item-marks.js?v=43';
+import {SLOT_NAMES,RARITIES,SPELLS} from './data.js?v=43';
+import {sellValue,statsText} from './loot.js?v=43';
 const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const art=i=>'<img class="painted-item" src="assets/items/'+(i.art||i.id)+'.webp" alt="" draggable="false">';
 export function visibleSellItems(p,filters={}){return p.inventory.filter(i=>(!filters.slot||filters.slot==='all'||i.slot===filters.slot)&&(!filters.rarity||filters.rarity==='all'||i.rarity===filters.rarity)&&(!filters.status||filters.status==='all'||filters.status==='available'&&!protectedItem(i)||itemMark(i)===filters.status)).sort((a,b)=>RARITIES[a.rarity].rank-RARITIES[b.rarity].rank||a.slot.localeCompare(b.slot)||a.level-b.level||a.uid-b.uid);}

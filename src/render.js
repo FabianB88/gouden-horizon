@@ -1,29 +1,30 @@
-import {sectionIndex,sectionBounds,sameSection} from './area-sections.js?v=40';
-import {PORTAL_ART} from './portal-art.js?v=40';
-import {MapTextures,downloadMaps} from './map-textures.js?v=40';
-import {OutdoorVisuals} from './outdoor-visuals.js?v=40';
-import {OUTDOOR_REGIONS,outdoorPoint} from './outdoor-content.js?v=40';
-import {FeedbackVisuals} from './combat-feedback.js?v=40';
-import {effectParticles,trailStep} from './frame-performance.js?v=40';
-import {QuarterVisuals} from './safe-exploration.js?v=40';
-import {QUARTER_POINTS} from './safe-exploration-content.js?v=40';
-import {CreatureVisuals} from './creature-visuals.js?v=40';
-import {drawRiggedHero} from './hero-rig.js?v=40';
-import {equipmentAppearance} from './appearance.js?v=40';
-import {V6Visuals} from './v6-visuals.js?v=40';
-import {UNIQUE_ITEMS} from './unique-items.js?v=40';
-import {QUAY_GATE,WORLD,ZONES,AREAS,AREA_BY_ID,SPELLS,ENEMIES,POSITIONS,START_EQUIPMENT} from './data.js?v=40';
-import {clamp,distance,findPath} from './engine.js?v=41';
-import {ITEM_BASES} from './loot.js?v=40';
-import {ExpeditionVisuals} from './visuals.js?v=40';
-import {drawAnimatedEnemy} from './enemy-motion.js?v=40';
-import {drawWalkingHero,drawDirectionalHero,heroFocus} from './hero-animation.js?v=40';
-import {EnemyCombatVisuals,enemyAttackMotion} from './enemy-combat.js?v=40';
-import {QuestVisuals,NORA} from './quests.js?v=40';
-import {arenaObstacles} from './arena-layouts.js?v=40';
-import {EnemyAreaVisuals} from './enemy-area-visuals.js?v=40';
-import {prepareHeroRig} from './hero-rig.js?v=40';
-import {RenderCache,renderRatio,surface,freezeSurface} from './render-cache.js?v=40';
+import {translate} from './localization.js?v=43';
+import {sectionIndex,sectionBounds,sameSection} from './area-sections.js?v=43';
+import {PORTAL_ART} from './portal-art.js?v=43';
+import {MapTextures,downloadMaps} from './map-textures.js?v=43';
+import {OutdoorVisuals} from './outdoor-visuals.js?v=43';
+import {OUTDOOR_REGIONS,outdoorPoint} from './outdoor-content.js?v=43';
+import {FeedbackVisuals} from './combat-feedback.js?v=43';
+import {effectParticles,trailStep} from './frame-performance.js?v=43';
+import {QuarterVisuals} from './safe-exploration.js?v=43';
+import {QUARTER_POINTS} from './safe-exploration-content.js?v=43';
+import {CreatureVisuals} from './creature-visuals.js?v=43';
+import {drawRiggedHero} from './hero-rig.js?v=43';
+import {equipmentAppearance} from './appearance.js?v=43';
+import {V6Visuals} from './v6-visuals.js?v=43';
+import {UNIQUE_ITEMS} from './unique-items.js?v=43';
+import {QUAY_GATE,WORLD,ZONES,AREAS,AREA_BY_ID,SPELLS,ENEMIES,POSITIONS,START_EQUIPMENT} from './data.js?v=43';
+import {clamp,distance,findPath} from './engine.js?v=43';
+import {ITEM_BASES} from './loot.js?v=43';
+import {ExpeditionVisuals} from './visuals.js?v=43';
+import {drawAnimatedEnemy} from './enemy-motion.js?v=43';
+import {drawWalkingHero,drawDirectionalHero,heroFocus} from './hero-animation.js?v=43';
+import {EnemyCombatVisuals,enemyAttackMotion} from './enemy-combat.js?v=43';
+import {QuestVisuals,NORA} from './quests.js?v=43';
+import {arenaObstacles} from './arena-layouts.js?v=43';
+import {EnemyAreaVisuals} from './enemy-area-visuals.js?v=43';
+import {prepareHeroRig} from './hero-rig.js?v=43';
+import {RenderCache,renderRatio,surface,freezeSurface} from './render-cache.js?v=43';
 const TAU=Math.PI*2;
 export class Renderer {
   constructor(canvas,minimap){this.canvas=canvas;this.ctx=canvas.getContext('2d');this.minimap=minimap;this.mctx=minimap.getContext('2d');this.assets={};this.camera={x:0,y:0};this.shake=0;this.flash=0;this.ready=false;this.crop=null;this.time=0;this.quality=1;this.cache=new RenderCache();}
@@ -67,7 +68,7 @@ export class Renderer {
   kick(amount=5){this.shake=Math.max(this.shake,amount*(this.settings?.shake??.6));}
   ellipse(x,y,rx,ry,color,stroke=null,width=1){const c=this.ctx;c.beginPath();c.ellipse(x,y,Math.max(0,rx),Math.max(0,ry),0,0,TAU);if(color){c.fillStyle=color;c.fill();}if(stroke){c.strokeStyle=stroke;c.lineWidth=width;c.stroke();}}
   line(a,b,color,width=2){const c=this.ctx;c.beginPath();c.moveTo(a.x,a.y);c.lineTo(b.x,b.y);c.strokeStyle=color;c.lineWidth=width;c.lineCap='round';c.stroke();}
-  text(text,x,y,color='#fff3d5',size=15){const label=this.cache.label(text,color,size,Math.min(2,this.pixelRatio*this.zoom));this.ctx.drawImage(label.canvas,x-label.width/2,y-label.anchor,label.width,label.height);}
+  text(text,x,y,color='#fff3d5',size=15,localize=true){const label=this.cache.label(localize?translate(text):text,color,size,Math.min(2,this.pixelRatio*this.zoom));this.ctx.drawImage(label.canvas,x-label.width/2,y-label.anchor,label.width,label.height);}
   inView(x,y,r=80,above=r,below=r){return x+r>this.camera.x-40&&x-r<this.camera.x+this.viewWidth+40&&y+below>this.camera.y-40&&y-above<this.camera.y+this.viewHeight+40;}
   render(engine,time,delta){if(!this.ready||!this.areaReady(engine.state.area))return;const s=engine.state,p=s.player,zone=AREA_BY_ID[s.area],c=this.ctx;this.time=time;this.renderPlayer=p;if(this.renderArea!==s.area||this.renderSection!==sectionIndex(s.area,p))this.reset(p,s.area);
     const bounds=sectionBounds(s.area,p);this.bounds=bounds;const targetX=clamp(p.x-this.viewWidth*.5,bounds.x,Math.max(bounds.x,bounds.x+bounds.width-this.viewWidth));const targetY=clamp(p.y-this.viewHeight*.57,0,Math.max(0,bounds.height-this.viewHeight));
@@ -93,7 +94,7 @@ export class Renderer {
       switch(entry.kind){
        case 'discovery':this.drawQuarterDiscovery(e,s);break;case 'ritual':this.drawRitualChest(e,s);break;case 'companion':this.drawCompanion(e,time);break;case 'obstacle':this.drawArenaObstacle(e,p);break;
        case 'townGate':c.drawImage(this.assets[s.world.gardenOpen?'ritualOpen':'ritualClosed'],e.x-78,e.y-135,156,175);this.text(s.world.gardenOpen?'TUINWIJK':'MILO OPENT DE POORT',e.x,e.y+49,'#ead8a5',12);break;
-       case 'player':this.drawPlayer(e,time);if(e.name){this.ellipse(e.x,e.y-139,Math.max(43,e.name.length*4.5),13,'#10292be0');this.text(e.name+(e.downed?' · GEVALLEN':''),e.x,e.y-136,e.downed?'#ffbb9b':e.preferredSpecialization==='builder'?'#c8e7a4':e.preferredSpecialization==='hunter'?'#ffd3a3':'#b5eaf3',13);}break;
+       case 'player':this.drawPlayer(e,time);if(e.name){this.ellipse(e.x,e.y-139,Math.max(43,e.name.length*4.5),13,'#10292be0');this.text(e.name+(e.downed?' · '+translate('GEVALLEN'):''),e.x,e.y-136,e.downed?'#ffbb9b':e.preferredSpecialization==='builder'?'#c8e7a4':e.preferredSpecialization==='hunter'?'#ffd3a3':'#b5eaf3',13,false);}break;
        case 'outdoorNPC':this.drawOutdoorNPC(e,s);break;case 'outdoorDoor':this.drawOutdoorDoor(s);break;case 'outdoorPoint':this.drawOutdoorPoint(e.point,s);break;case 'quest':this.drawQuestNPC(e,s);break;case 'portal':this.drawTravel(e,s);break;case 'service':this.drawService(e,s);break;case 'merchant':this.drawMerchant(s.world.camp,s);break;case 'loot':this.drawLoot(e,time,s);break;default:this.drawEnemy(e,time);
       }
     }

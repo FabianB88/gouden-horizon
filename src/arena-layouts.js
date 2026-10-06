@@ -1,4 +1,4 @@
-import {OUTDOOR_REGIONS,outdoorPoint} from './outdoor-content.js?v=40';
+import {OUTDOOR_REGIONS,outdoorPoint} from './outdoor-content.js?v=43';
 // Each footprint is the solid ground base of its painted prop, in world pixels.
 // Open courts stay open elsewhere; these three chapters have distinct lanes.
 export const ARENA_LAYOUTS={

@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#142a31"><meta name="description" content="Gouden Horizon — een geschilderde action RPG. Verken vierentwintig hoofdstukken, kies je vaardigheden en herstel het klimaatnet in een magische wereld na de Wereldbreuk.">
-  <title>Gouden Horizon — Aurelia</title><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css?v=40"><link rel="stylesheet" href="mobile.css?v=40"><link rel="stylesheet" href="item-details.css?v=40"><link rel="stylesheet" href="journey.css?v=40">
+  <title>Gouden Horizon — Aurelia</title><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css?v=43"><link rel="stylesheet" href="mobile.css?v=43"><link rel="stylesheet" href="item-details.css?v=43"><link rel="stylesheet" href="journey.css?v=43">
 </head>
 <body>
   <main class="game" id="game" aria-label="Gouden Horizon">
     <canvas id="world" aria-label="Spelwereld: beweeg met WASD, richt met de muis en houd de linkermuisknop ingedrukt om te vuren"></canvas>
     <header class="game-top">
-      <a class="brand" id="brand" href="#" aria-label="Pauzemenu"><span class="brand-mark">◈</span><span>GOUDEN HORIZON<small>AURELIA EXPEDITIE</small></span></a>
+      <a class="brand" id="brand" href="#" aria-label="Pauzemenu"><span class="brand-mark">◈</span><span><span data-no-translate>GOUDEN HORIZON</span><small>AURELIA EXPEDITIE</small></span></a>
       <div class="top-status"><span id="zone-count">01 / 24</span><span id="run-time">00:00</span></div>
       <nav><button id="touch-map" class="touch-nav" aria-label="Wereldkaart" title="Wereldkaart"><span data-icon="map"></span></button><button id="touch-command" class="touch-nav" aria-label="Dieren naar je richtpunt sturen" title="Dieren sturen"><span data-icon="leaf"></span></button><button id="touch-fullscreen" class="touch-nav" aria-label="Volledig scherm" title="Volledig scherm"><span data-icon="fullscreen"></span></button><button id="shop-button" hidden aria-label="Handelen" title="Handelspost (B)"><span data-icon="inventory"></span></button><button id="skills-button" aria-label="Vaardigheden" title="Vaardigheden & levelpunten (K)"><span data-icon="prism"></span><em id="skill-badge" hidden></em></button><button id="equipment-button" aria-label="Uitrusting" title="Uitrusting (I)"><span data-icon="inventory"></span></button><button id="sound-button" aria-label="Geluid" title="Geluid"><span data-icon="sound"></span></button><button id="pause-button" aria-label="Pauzeren" title="Menu (Esc)"><span data-icon="pause"></span></button></nav>
     </header>
@@ -21,6 +21,7 @@
     <div id="loot-announcement" class="loot-announcement" role="status" hidden><img id="loot-announcement-art" alt=""><div><small id="loot-announcement-meta"></small><strong id="loot-announcement-title"></strong><span id="loot-announcement-change"></span></div></div>
     <div id="level-announcement" class="level-announcement" role="status" hidden><small>LEVEL-UP</small><strong id="level-announcement-title">Niveau 2 bereikt</strong><span>+1 vaardigheidspunt</span></div>
     <div class="interaction" id="interaction" hidden><kbd>F</kbd><span>Start kalibratie</span></div>
+    <p class="district-note" id="district-note" hidden></p>
     <button class="section-travel" id="section-travel" type="button" hidden><small id="section-travel-hint">VOLGEND GEBIED</small><strong id="section-travel-name"></strong><span aria-hidden="true" id="section-travel-arrow">→</span></button>
     <div class="tutorial glass" id="tutorial"><span data-icon="mouse"></span><p id="tutorial-text">Beweeg met WASD. Richt met je muis en houd links ingedrukt om te vuren.</p><button id="dismiss-tutorial" aria-label="Tip sluiten">×</button></div>
     <div class="vitals glass"><div class="health-orb"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="35"/><circle id="health-ring" cx="40" cy="40" r="35"/></svg><strong id="hp-number">100</strong><small>LEVEN</small></div><div class="resource-bars"><div class="resource-title"><button id="discipline-label" title="Hoofdaanval wijzigen (K)">LINKS · GETIJ · K</button><button id="level-label" title="Levelpunten besteden (K)">NIV. 1</button></div><div class="mana"><i id="mana-bar"></i><span id="mana-number">110 / 110</span></div><div class="experience"><i id="xp-bar"></i></div><div class="resource-bottom"><span id="status-label">STABIEL</span><span id="scrap-label">0 SCHROOT</span></div></div></div>
@@ -52,12 +53,12 @@
   </main>
   <section class="cover" id="cover">
     <div class="cover-art"></div><div class="cover-shade"></div>
-    <div class="cover-copy"><div class="eyebrow">MAGIE · VERLOREN STEDEN · AURELIA</div><h2><span>Gouden</span> Horizon</h2><p>De wereld is niet voorbij.<br>Alleen moeilijker bereikbaar.</p><div class="cover-description">Verken verloren steden. Bouw je uitrusting.<br>Herstel de laatste route naar Aurelia.</div><div class="cover-actions"><button id="new-game" class="primary">Start expeditie</button><button id="continue-game" class="secondary" hidden>Hervat expeditie</button></div><button id="lan-game" class="secondary lan-launch">Samen spelen · LAN</button><div class="load-status" id="load-status"><i></i> Spelwereld laden…</div><button class="text-button" id="cover-settings">Instellingen & besturing</button><button class="text-button" id="cover-help">Besturing & spelregels</button></div>
-    <div class="cover-footer"><span>GETIJ · STORM · ZON · V8.8.2</span><span>Een wereld om te redden</span></div>
+    <div class="cover-copy"><div class="eyebrow">MAGIE · VERLOREN STEDEN · AURELIA</div><h2 data-no-translate><span>Gouden</span> Horizon</h2><p>De wereld is niet voorbij.<br>Alleen moeilijker bereikbaar.</p><div class="cover-description">Verken verloren steden. Bouw je uitrusting.<br>Herstel de laatste route naar Aurelia.</div><label class="cover-language" data-no-translate>Taal / Language<select id="cover-language" aria-label="Taal / Language"><option value="nl">Nederlands</option><option value="en">English</option></select></label><div class="cover-actions"><button id="new-game" class="primary">Start expeditie</button><button id="continue-game" class="secondary" hidden>Hervat expeditie</button></div><button id="lan-game" class="secondary lan-launch">Samen spelen · LAN</button><div class="load-status" id="load-status"><i></i> Spelwereld laden…</div><button class="text-button" id="cover-settings">Instellingen & besturing</button><button class="text-button" id="cover-help">Besturing & spelregels</button></div>
+    <div class="cover-footer"><span>GETIJ · STORM · ZON · V8.10.0</span><span>Een wereld om te redden</span></div>
   </section>
   <div class="modal-backdrop" id="modal-layer" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><header class="journal-heading"><div class="eyebrow" id="modal-kicker"></div><h2 id="modal-title"></h2><button id="modal-close" aria-label="Menu sluiten" title="Sluiten (Esc)">×</button></header><div class="modal-body" id="modal-body"></div><div class="modal-actions" id="modal-actions"></div></section></div>
   <aside class="controller-status glass" id="controller-status" hidden aria-live="polite"></aside>
   <aside id="purchase-toast" class="purchase-toast" role="status" aria-live="polite" hidden><span id="purchase-toast-art"></span><div><small>AANKOOP VOLTOOID</small><strong id="purchase-toast-title"></strong><p id="purchase-toast-meta"></p></div><button id="purchase-toast-close" aria-label="Aankoopmelding sluiten">×</button></aside>
   <noscript>Deze game heeft JavaScript nodig om te spelen.</noscript>
-  <script type="module" src="src/main.js?v=41"></script>
+  <script type="module" src="src/main.js?v=43"></script>
 </body></html>

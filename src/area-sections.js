@@ -1,4 +1,4 @@
-import {AREA_BY_ID,worldBounds} from './data.js?v=40';
+import {AREA_BY_ID,worldBounds} from './data.js?v=43';
 
 // Pieces share their saved quests/world state, but each painting is a separate
 // screen. Coordinates remain stable so existing saves and NPCs keep their place.

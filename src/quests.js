@@ -1,11 +1,13 @@
-import {ADVENTURE_NPCS} from './adventures.js?v=40';
-import {makeItem} from './loot.js?v=40';
-import {spaciousPoint} from './hub-space.js?v=40';
+import {DISTRICT_GUIDES,sideDistrictPoint,EXTRA_DISTRICT_PLACEMENTS} from './district-content.js?v=43';
+import {ADVENTURE_NPCS} from './adventures.js?v=43';
+import {makeItem} from './loot.js?v=43';
+import {spaciousPoint} from './hub-space.js?v=43';
 
 export const NORA=spaciousPoint({id:'nora',x:570*1.25,y:310*1.25,name:'Nora · Bergingscoördinator',title:'Noodstroom'},'highway');
+[NORA.x,NORA.y]=sideDistrictPoint('highway',EXTRA_DISTRICT_PLACEMENTS.highway.nora);
 const near=(a,b)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15)<115;
 export const QuestRules={
- questNPCs(){return [...(this.state.area==='highway'?[NORA]:[]),...this.cityNPCs(),...this.quarterNPCs(),...(ADVENTURE_NPCS[this.state.area]?[ADVENTURE_NPCS[this.state.area]]:[])];},
+ questNPCs(){return [...(DISTRICT_GUIDES[this.state.area]?[DISTRICT_GUIDES[this.state.area]]:[]),...(this.state.area==='highway'?[NORA]:[]),...this.cityNPCs(),...this.quarterNPCs(),...(ADVENTURE_NPCS[this.state.area]?[ADVENTURE_NPCS[this.state.area]]:[])];},
  nearbyQuestNPC(){return this.questNPCs().filter(n=>near(this.state.player,n)).sort((a,b)=>Math.hypot(a.x-this.state.player.x,a.y-this.state.player.y)-Math.hypot(b.x-this.state.player.x,b.y-this.state.player.y))[0]||null;},
  acceptSalvageQuest(){
   const s=this.state;if(this.nearbyQuestNPC()?.id!=='nora'||s.quests?.noodstroom||!['playing','modal'].includes(s.mode))return false;
@@ -20,7 +22,7 @@ export const QuestRules={
  },
  collectQuestRecovery(loot){
   const s=this.state,q=s.quests?.noodstroom;if(loot.quest!=='noodstroom'||q?.status!=='active'||!s.world.loot.some(i=>i.id===loot.id))return false;
-  q.status='ready';s.world.loot=s.world.loot.filter(i=>i.id!==loot.id);this.notice('Meetspoel geborgen · Nora wacht op het noordelijke tuinpad','#f6d38c');this.emit('loot');return true;
+  q.status='ready';s.world.loot=s.world.loot.filter(i=>i.id!==loot.id);this.notice('Meetspoel geborgen · Nora wacht in de Oostwijk','#f6d38c');this.emit('loot');return true;
  },
  claimSalvageReward(index){
   const s=this.state,q=s.quests?.noodstroom,item=q?.choices?.[index];if(this.nearbyQuestNPC()?.id!=='nora'||q?.status!=='ready'||!item||s.player.inventory.length>=48||!['playing','modal'].includes(s.mode))return false;

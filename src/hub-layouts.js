@@ -1,9 +1,10 @@
-import {cityExtensionPoint} from './city-extension.js?v=40';
-import {BIOME_HUB_LAYOUTS} from './biome-content.js?v=40';
-import {NATURE_HUB_LAYOUT} from './nature-content.js?v=40';
-import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=40';
-import {QUARTER_GATES} from './safe-exploration-content.js?v=40';
-import {HUB_SCALES} from './hub-space.js?v=40';
+import {sideDistrictPoint,EXTRA_DISTRICT_PLACEMENTS} from './district-content.js?v=43';
+import {cityExtensionPoint} from './city-extension.js?v=43';
+import {BIOME_HUB_LAYOUTS} from './biome-content.js?v=43';
+import {NATURE_HUB_LAYOUT} from './nature-content.js?v=43';
+import {V8_HUB_LAYOUTS} from './v8-layouts.js?v=43';
+import {QUARTER_GATES} from './safe-exploration-content.js?v=43';
+import {HUB_SCALES} from './hub-space.js?v=43';
 // World-pixel placements on the painted floors. Gates keep their destinations
 // while the story controls their locks; no hub uses a single portal queue.
 export const HUB_LAYOUTS={
@@ -86,6 +87,10 @@ for(const [id,scale]of Object.entries(HUB_SCALES)){
  for(const key of ['cache','supply'])HUB_LAYOUTS[id][key]=HUB_LAYOUTS[id][key].map(v=>v*scale);
 }
 
-Object.assign(HUB_LAYOUTS.highway.services,{smith:[340*1.75,580*1.75],workshop:[1120*1.75,350*1.75],outfitter:cityExtensionPoint([800,550])});
+Object.assign(HUB_LAYOUTS.highway.services,{smith:[340*1.75,580*1.75],workshop:[1120*1.75,350*1.75],outfitter:[1456,1232]});
 HUB_LAYOUTS.highway.supply=cityExtensionPoint([430,520]);
-Object.assign(HUB_LAYOUTS.highway.portals,{kilometer:cityExtensionPoint([390,220]),forest:cityExtensionPoint([980,480]),'quiet-apartments':cityExtensionPoint([1160,420]),'rain-garden':[740*1.75,410*1.75],'hidden-atelier':[725*1.75,710*1.75]});
+Object.assign(HUB_LAYOUTS.highway.portals,{kilometer:[1596,1008],forest:[2205,504],'quiet-apartments':cityExtensionPoint([1160,420]),'rain-garden':[740*1.75,410*1.75],'hidden-atelier':[725*1.75,710*1.75]});
+
+// Main-story gates and preparation stay on the first painting.
+for(const [id,keys]of Object.entries({canal:['salvage'],highway:['depot','workshop-v6','rain-garden','hidden-atelier'],'cooling-refuge':['groenkloof','lanternwood']}))
+ for(const key of keys)HUB_LAYOUTS[id].portals[key]=sideDistrictPoint(id,EXTRA_DISTRICT_PLACEMENTS[id][key]);

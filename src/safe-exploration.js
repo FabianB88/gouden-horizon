@@ -1,6 +1,6 @@
-import {CITY_NPCS} from './city.js?v=40';
-import {makeItem} from './loot.js?v=40';
-import {QUARTER_POINTS,QUARTER_REQUIRED,QUARTER_GATES,LINDE,ELEMENT_RUNES,RUNE_RANKS,ATELIER_RECIPES} from './safe-exploration-content.js?v=40';
+import {CITY_NPCS} from './city.js?v=43';
+import {makeItem} from './loot.js?v=43';
+import {QUARTER_POINTS,QUARTER_REQUIRED,QUARTER_GATES,LINDE,ELEMENT_RUNES,RUNE_RANKS,ATELIER_RECIPES} from './safe-exploration-content.js?v=43';
 const near=(a,b,r=100)=>Math.hypot(a.x-b.x,(a.y-b.y)*1.15)<r;
 const clone=v=>JSON.parse(JSON.stringify(v));
 export function runeStats(id,rank){const rune=ELEMENT_RUNES[id],tier=RUNE_RANKS[rank-1];return rune&&tier?{[rune.resist]:tier.resist,[rune.secondary]:rune.step*tier.secondary}:null;}

@@ -1,4 +1,4 @@
-import {SLOT_NAMES} from './data.js?v=40';
+import {SLOT_NAMES} from './data.js?v=43';
 
 // Item categories stay unchanged: both relic sockets accept the same loot.
 export const EQUIPMENT_SLOT_NAMES={...SLOT_NAMES,relic:'Relikwie I',relic2:'Relikwie II'};

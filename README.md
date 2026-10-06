@@ -1,6 +1,18 @@
-# Gouden Horizon v8.9.1 — Terug naar het tussengebied na een nederlaag
+# Gouden Horizon v8.10.0 — taalkeuze en duidelijke wijkroutes
 
 De volledige bronversie voor desktop en Android in de browser, online solo via GitHub Pages of Render, en gratis LAN-co-op. Upload de inhoud van `dist/` na `npm run site:build`, of publiceer deze bronmap rechtstreeks: `index.html`, `src/`, `assets/`, de vier CSS-bestanden en `.nojekyll` moeten bij elkaar blijven. Er is geen Android-app of betaalde server nodig voor solo.
+
+## Nieuw in v8.10.0
+
+Kies **Nederlands / English** op het startscherm of bij **Instellingen**. De taalkeuze geldt ook voor verhaalkaarten, doelen, uitleg, spreuken, itemdetails, handel, meldingen en teksten in de spelwereld. De Engelse teksten zitten in de game; tijdens spelen is geen vertaaldienst nodig. Je keuze blijft in deze browser bewaard. Taalwisselen verandert geen voortgang of spelregels; zelfgekozen spelersnamen blijven behouden. Beide LAN-spelers kunnen hun eigen taal kiezen.
+
+In de vijf uitgebreide tussengebieden staan alle hoofdroutepoorten op de eerste aankomstkaart. De Tuinwijk, Oostwijk, Wilde Serre, Stormwacht en Sintelhoven concentreren de extra opdrachten en optionele gebieden. Ravi staat bij aankomst en legt die keuze uit; een korte schermtekst en de labels **Extra missies / Hoofdroute** begeleiden de wijkwissel. Jules staat weer bij de andere handelaren in Vrijhaven. Lopende opdrachten en beloningen blijven behouden.
+
+Op Android is de wijkknop smaller (116 pixels), met een bruikbaar aanraakvlak, buiten de beweging- en gevechtsknoppen. De staande weergave plaatst hem naast de gebiedsknop.
+
+Gerichte wijkcontrole: `npm run test:districts`, 39 wandelroutes over hun daadwerkelijke vloersegmenten, 9 aanspreekbare extra opdrachtgevers, bestaande questvoortgang en echte browserknoppen in de vijf wijken. Er is geen volledige campagne of nieuwe artwork-/navigatieopbouw uitgevoerd.
+
+Gerichte controle: `npm run test:language`, controle van de verhaal- en spelteksten en een browsercontrole van beide keuzelijsten, omschakelen terug naar Nederlands, bestaande saves, herladen en mobiel. Gevechten, navigatie en artwork zijn hiervoor niet opnieuw opgebouwd of doorgelopen.
 
 ## Nieuw in v8.9.1
 
